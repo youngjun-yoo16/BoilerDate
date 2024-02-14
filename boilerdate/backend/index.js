@@ -1,10 +1,10 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 
 // DO NOT SAVE YOUR PASSWORD TO GITHUB!!
-const url =
-  `mongodb+srv://boilerdate:307team5boilerdate@cluster0.qu98k3u.mongodb.net/?retryWrites=true&w=majority`
+const url = process.env.MONGODB_URI
 
 mongoose.set('strictQuery',false)
 console.log('connecting to', url)
@@ -30,7 +30,7 @@ app.get('/api/notes', (request, response) => {
   response.json(notes)
 })
 
-const PORT = 3002
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
