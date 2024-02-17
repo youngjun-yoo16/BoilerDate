@@ -1,46 +1,59 @@
-require('dotenv').config()
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
-const UserModel = require('./models/User')
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const UserModel = require("./models/User");
 
-const app = express()
-app.use(express.json())
-app.use(cors())
+const app = express();
+app.use(express.json());
+app.use(cors());
 
-const url = process.env.MONGODB_URI
+const url = process.env.MONGODB_URI;
 
-mongoose.set('strictQuery',false)
-console.log('connecting to', url)
+mongoose.set("strictQuery", false);
+console.log("connecting to", url);
 
-mongoose.connect(url)
-  .then(result => {
-    console.log('Connected to MongoDB')
+mongoose
+  .connect(url)
+  .then((result) => {
+    console.log("Connected to MongoDB");
   })
-  .catch(error => {
-    console.log('error connecting to MongoDB:', error.message)
-  })
+  .catch((error) => {
+    console.log("error connecting to MongoDB:", error.message);
+  });
 
-let notes = [
-  "Hi",
-  "Hello"
-]
+let notes = ["Hi", "Hello"];
 
-app.post('/signup', (req, res) => {
+app.post("/signup", (req, res) => {
   UserModel.create(req.body)
-    .then(users => res.json(users))
-    .catch(err => res.json(err))
-})
+    .then((users) => res.json(users))
+    .catch((err) => res.json(err));
+});
 
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  UserModel.findOne({ email: email }).then((user) => {
+    if (user) {
+      if (user.password === password) {
+        res.json("Success");
+      } else {
+        res.json("Incorrect password");
+      }
+    } else {
+      res.json("Account does not exist");
+    }
+  });
+});
 
-app.get('/api/notes', (request, response) => {
-  response.json(notes)
-})
+app.get("/", (request, response) => {
+  response.send("<h1>Hello World!</h1>");
+});
 
-const PORT = process.env.PORT
+app.get("/api/notes", (request, response) => {
+  response.json(notes);
+});
+
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+  console.log(`Server running on port ${PORT}`);
+});
