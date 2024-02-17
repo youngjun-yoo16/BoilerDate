@@ -32,7 +32,7 @@ async function sendVerificationEmail(email, verificationCode) {
         const info = await transporter.sendMail(mailOptions);
         console.log('Verification code sent: ', info.response);
     } catch (error) {
-        console.log('Error occurred while sending code: ', error);
+        console.log('Error occurred while sending code.');
     }
 }
 
@@ -48,7 +48,6 @@ function generateVerificationCode() {
 
 // Example usage
 const verificationCode = generateVerificationCode();
-const userEmail = 'youngjunyoo0916@gmail.com';
+const userEmail = '';
 
 sendVerificationEmail(userEmail, verificationCode);
-
