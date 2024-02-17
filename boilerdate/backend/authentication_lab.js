@@ -16,7 +16,7 @@ app.get("/", authentication_fn);
 
 function authentication_fn(req, res) {
   const spawn = require("child_process").spawn;
-  const process = spawn("python", ["./authentication_helper.py"]);
+  const process = spawn("python3", ["./authentication_helper.py"]);
   process.stdout.on("data", function (data) {
     res.send(data.toString());
   });
