@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Signup() {
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/signup", { email })
+      .post("http://localhost:3001/signup", {email})
       .then(result => console.log(result))
       .catch(err => console.log(err));
   };
@@ -31,7 +31,7 @@ function Signup() {
             />
           </div>
           <div>
-            <button type="button" className="btn btn-outline-primary w-100">
+            <button type="submit" className="btn btn-outline-primary w-100">
               Sign up
             </button>
           </div>
