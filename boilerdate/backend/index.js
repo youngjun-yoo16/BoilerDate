@@ -1,9 +1,13 @@
 require('dotenv').config()
 const express = require('express')
-const app = express()
 const mongoose = require('mongoose')
+const cors = require('cors')
+const UserModel = require('./models/User')
 
-// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+const app = express()
+app.use(express.json())
+app.use(cors())
+
 const url = process.env.MONGODB_URI
 
 mongoose.set('strictQuery',false)
@@ -21,6 +25,12 @@ let notes = [
   "Hi",
   "Hello"
 ]
+
+app.post('/signup', (req, res) => {
+  UserModel.create(req.body)
+    .then(users => res.json(users))
+    .catch(err => res.json(err))
+})
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')

@@ -7,9 +7,9 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("", { email })
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
+      .post("http://localhost:3001/signup", { email })
+      .then(result => console.log(result))
+      .catch(err => console.log(err));
   };
 
   return (
