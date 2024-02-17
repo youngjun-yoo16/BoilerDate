@@ -1,15 +1,11 @@
 appdirs==1.4.3
 beautifulsoup4==4.12.3
-certifi @ file:///private/tmp/python-certifi-20240201-4765-6ufe0c/certifi-2024.2.2
 charset-normalizer==3.3.2
 Click==7.0
-distlib @ file:///private/tmp/python-distlib-20231212-4938-trhlvy/distlib-0.3.8
 docutils==0.20.1
-filelock @ file:///private/tmp/python-filelock-20231112-5622-k62fq8/filelock-3.13.1/dist/filelock-3.13.1-py3-none-any.whl#sha256=57dbda9b35157b05fb3e58ee91448612eb674172fab98ee235ccb0b5bee19a1c
 idna==3.6
 lockfile==0.12.2
 luigi==2.8.2
-platformdirs @ file:///private/tmp/python-platformdirs-20240130-5151-clzyvt/platformdirs-4.2.0
 python-daemon==2.1.2
 pywatchman==1.4.1
 requests==2.31.0
