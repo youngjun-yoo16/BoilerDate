@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/signup", { email })
+      .post("http://localhost:3001/signup", { email, password })
       .then((result) => {
         console.log(result);
         navigate("/login");
@@ -33,6 +34,18 @@ function Signup() {
               name="email"
               className="form-control"
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password">Password?</label>
+            <p></p>
+            <input
+              type="password"
+              placeholder="Type Password"
+              autoComplete="off"
+              name="password"
+              className="form-control"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div>

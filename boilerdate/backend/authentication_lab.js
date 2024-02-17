@@ -2,11 +2,12 @@
 
 // index.js already creates a server. i need to use that here
 
-var express = require("express");
-var app = express();
+const express = require("express");
+const app = express();
+//const sgMail = require("@sendgrid/mail");
 
-app.listen(3000, function () {
-  console.log("server on port 3000");
+app.listen(3002, function () {
+  console.log("Server on port 3002");
 });
 
 app.get("/", authentication_fn);
@@ -14,18 +15,18 @@ app.get("/", authentication_fn);
 // api key: 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
 
 function authentication_fn(req, res) {
-  var spawn = require("child_process").spawn;
-  var process = spawn("python", ["./authentication_helper.py"]);
+  const spawn = require("child_process").spawn;
+  const process = spawn("python", ["./authentication_helper.py"]);
   process.stdout.on("data", function (data) {
     res.send(data.toString());
   });
 
   const key =
     "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";
-  const sgMail = require("@sendgrid/mail");
-  sgMail.setApiKey(key);
 
-  const message = {
+  //sgMail.setApiKey(key);
+
+ /* const message = {
     to: "dennis42702@gmail.com",
     from: "jblee1152@gmail.com",
     subject: "this is a test emial. please verify your code",
@@ -40,5 +41,5 @@ function authentication_fn(req, res) {
     })
     .catch((error) => {
       console.error(error);
-    });
+    });*/
 }
