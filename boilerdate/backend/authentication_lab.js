@@ -1,13 +1,13 @@
 // this is a temp file for testing calling python func in js
 
 // index.js already creates a server. i need to use that here
-require("dotenv").config();
+
 const express = require("express");
 const app = express();
 //const sgMail = require("@sendgrid/mail");
 
 app.listen(3002, function () {
-  console.log("Server listening at port 3002");
+  console.log("Server on port 3002");
 });
 
 app.get("/", authentication_fn);
@@ -16,8 +16,16 @@ app.get("/", authentication_fn);
 
 function authentication_fn(req, res) {
   const spawn = require("child_process").spawn;
+  let temp = "";
   const process = spawn("python3", ["./authentication_helper.py"]);
   process.stdout.on("data", function (data) {
+    temp += data.toString();
     res.send(data.toString());
+  });
+
+  // all of the output from the previous operations
+  process.on("close", (code) => {
+    console.log(temp);
+    return temp;
   });
 }
