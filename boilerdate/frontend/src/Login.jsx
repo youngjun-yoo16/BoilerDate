@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -16,6 +18,8 @@ function Login() {
         console.log(result);
         if (result.data === "Success") {
           navigate("/home");
+        } else {
+          toast.error(result.data);
         }
       })
       .catch((err) => console.log(err));
@@ -53,6 +57,7 @@ function Login() {
           <button type="submit" className="btn btn-outline-primary w-100">
             Login
           </button>
+          <ToastContainer />
           <br />
           <br />
         </form>
