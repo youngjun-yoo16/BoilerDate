@@ -9,13 +9,14 @@ function Signup() {
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
+    /*axios
       .post("http://localhost:3001/signup", { email, password })
       .then((result) => {
-        console.log(result);
-        navigate("/login");
+        //console.log(result);
+        navigate("/verfiy");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err));*/
+    navigate("/verify");
   };
 
   return (

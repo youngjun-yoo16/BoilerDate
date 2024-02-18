@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/User");
+const CodeModel = require("./models/Code")
 
 const app = express();
 app.use(express.json());
@@ -41,6 +42,17 @@ app.post("/login", (req, res) => {
       }
     } else {
       res.json("Account does not exist");
+    }
+  });
+});
+
+app.post("/verify", (req, res) => {
+  const { code } = req.body;
+  CodeModel.findOne({ verificationCode: code }).then((code) => {
+    if (code) {
+      res.json("Verification Success!");
+    } else {
+      res.json("Verification Failed");
     }
   });
 });
