@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/User");
-const CodeModel = require("./models/Code")
+const CodeModel = require("./models/Code");
 
 const app = express();
 app.use(express.json());
@@ -26,6 +26,12 @@ mongoose
 let notes = ["Hi", "Hello"];
 
 app.post("/signup", (req, res) => {
+  UserModel.create(req.body)
+    .then((users) => res.json(users))
+    .catch((err) => res.json(err));
+});
+
+app.post("/signup2", (req, res) => {
   UserModel.create(req.body)
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
@@ -55,6 +61,23 @@ app.post("/verify", (req, res) => {
       res.json("Verification Failed");
     }
   });
+});
+
+app.post("/sendVerificationCode", (req, res) => {
+  //get email
+  const { email } = req.body;
+  const code = generateVerificationCode();
+
+  CodeModel.create({ email: email, verificationCode: code })
+    .then(() => res.json("sent to database succesfully!"))
+    .catch((err) => res.json(err));
+
+  const sendEmail = sendVerificationEmail(email, code);
+  if (sendEmail) {
+    res.json({ success: true });
+  } else {
+    res.json({ success: false, message: "Failed to send verification code" });
+  }
 });
 
 app.get("/", (request, response) => {
