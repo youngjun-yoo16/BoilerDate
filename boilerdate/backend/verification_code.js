@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express')
 const nodemailer = require('nodemailer');
 const app = express()
+
+// portnumber
 const port = 3002
 
 app.listen(port, () => {
