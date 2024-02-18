@@ -1,19 +1,17 @@
 require("dotenv").config();
 
-const express = require("express");
+// const express = require("express");
 const nodemailer = require("nodemailer");
 
 // import email verification fn
 const { email_verification } = require("./authentication_lab");
 
-const app = express();
-
-// portnumber
-const port = 3002;
-
-app.listen(port, () => {
-  console.log(`Is listening at http://localhost:${port}`);
+const VerificationCodeSchema = new mongoose.Schema({
+  email: String,
+  code: String,
 });
+
+const VerificationCode = mongoose.model('VerificationCode', VerificationCodeSchema);
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -60,8 +58,7 @@ function generateVerificationCode() {
   return code;
 }
 
-// Example usage
-const verificationCode = generateVerificationCode();
-const userEmail = "jblee1152@gmail.com";
-
-sendVerificationEmail(userEmail, verificationCode);
+module.exports = {
+  sendVerificationEmail,
+  generateVerificationCode
+};

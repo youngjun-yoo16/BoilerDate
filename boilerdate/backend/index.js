@@ -3,7 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/User");
-const CodeModel = require("./models/Code")
+const CodeModel = require("./models/Code");
+const { generateVerificationCode } = require("./verification_code");
 
 const app = express();
 app.use(express.json());
@@ -56,6 +57,14 @@ app.post("/verify", (req, res) => {
     }
   });
 });
+
+app.post("/sendVerificationCode", (req, res) => {
+  const {email} = req.body;
+  const verificationCode = generateVerificationCode();
+ 
+}
+
+);
 
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
