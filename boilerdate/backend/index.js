@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/User");
-const CodeModel = require("./models/Code")
+const CodeModel = require("./models/Code");
 
 const app = express();
 app.use(express.json());
@@ -26,6 +26,12 @@ mongoose
 let notes = ["Hi", "Hello"];
 
 app.post("/signup", (req, res) => {
+  UserModel.create(req.body)
+    .then((users) => res.json(users))
+    .catch((err) => res.json(err));
+});
+
+app.post("/signup2", (req, res) => {
   UserModel.create(req.body)
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
