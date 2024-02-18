@@ -6,6 +6,7 @@ import Login from "./Login";
 import Home from "./Home";
 import Verify from "./Verify";
 import Signup2 from "./Signup2";
+import Signup3 from "./Signup3";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/home" element={<Home />}></Route>
           <Route path="/verify" element={<Verify />}></Route>
           <Route path="/signup2" element={<Signup2 />}></Route>
+          <Route path="/signup3" element={<Signup3 />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

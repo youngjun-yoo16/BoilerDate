@@ -28,13 +28,13 @@ function Signup2() {
       })
       .then((result) => {
         console.log(result);
+        navigate("/signup3");
       })
       .catch((err) => console.log(err));
-    //navigate("/home");
-    console.log(firstName);
+    /*console.log(firstName);
     console.log(lastName);
     console.log(gender);
-    console.log(dob);
+    console.log(dob);*/
   };
 
   return (
