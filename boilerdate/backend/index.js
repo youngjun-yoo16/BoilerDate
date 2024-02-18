@@ -69,7 +69,7 @@ app.post("/sendVerificationCode", (req, res) => {
   const code = generateVerificationCode();
 
   CodeModel.create({ email: email, verificationCode: code })
-    .then(() => res.json("sent to database succesfully!"))
+    .then((code) => res.json(code))
     .catch((err) => res.json(err));
 
   const sendEmail = sendVerificationEmail(email, code);
@@ -78,6 +78,8 @@ app.post("/sendVerificationCode", (req, res) => {
   } else {
     res.json({ success: false, message: "Failed to send verification code" });
   }
+
+  // if failed, make user redo sign up process
 });
 
 app.get("/", (request, response) => {
