@@ -1,20 +1,40 @@
-// this is a temp file for testing calling python func in js
+// to test this file separately
+//const express = require("express");
+// const app = express();
+//app.listen(3002, function () {
+//  console.log("Server on port 3002");
+//});
+//app.get("/", authentication_fn);
 
-// index.js already creates a server. i need to use that here
+const { spawn } = require("child_process");
 
-const express = require("express");
-const app = express();
-//const sgMail = require("@sendgrid/mail");
+function email_verification(email) {
+  return new Promise((resolve, reject) => {
+    const process = spawn("python3", ["./authentication_hepler.py", email]);
 
-app.listen(3002, function () {
-  console.log("Server on port 3002");
-});
+    let res = "";
+    process.stdout.on("data", (data) => {
+      res += data.toString();
+    });
 
-app.get("/", authentication_fn);
+    process.stderr.on("data", (data) => {
+      console.error("stderr: ${data}");
+      reject(new Error("stderr: ${data}"));
+    });
 
-// api key: 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
+    process.on("close", (flag) => {
+      if (flag === 0) {
+        resolve(res);
+      } else {
+        reject(new Error("Process existed with ${flag}"));
+      }
+    });
+  });
+}
 
-function authentication_fn(req, res) {
+module.exports = { email_verification };
+
+/*function authentication_fn(req, res) {
   const spawn = require("child_process").spawn;
   let temp = "";
   const process = spawn("python3", ["./authentication_helper.py"]);
@@ -23,9 +43,9 @@ function authentication_fn(req, res) {
     res.send(data.toString());
   });
 
-  // all of the output from the previous operations
   process.on("close", (code) => {
     console.log(temp);
     return temp;
   });
 }
+*/
