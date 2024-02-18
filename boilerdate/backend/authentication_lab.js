@@ -32,6 +32,7 @@ function email_verification(email) {
   });
 }
 
+// now this email_verification can be called in different files
 module.exports = { email_verification };
 
 /*function authentication_fn(req, res) {

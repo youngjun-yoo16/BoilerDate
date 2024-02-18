@@ -14,7 +14,7 @@ def search_email_in_directory(email):
     
     # If the get request was successful, search for the email.
     if not response.status_code == 200:
-        return f'Failed to fetch data from the directory. Status code: {response.status_code}'
+        return f'FAIL: Failed to fetch data from the directory. Status code: {response.status_code}'
     
     else:
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -26,11 +26,11 @@ def search_email_in_directory(email):
                 name = result.find('h2', class_='cn-name').text.strip()
                 email = result.find('a', href=True).text
                 # email = email_link.text if email_link else 'Email not found'
-                res = f'name: {name} email: {email}'
+                res = 'SUCCESS'
                 return res
                 
         else:
-            return 'No results found'
+            return 'FAIL: user not found in the directory'
 
 # Printing to terminal
 print(search_email_in_directory(sys.argv[1]))
