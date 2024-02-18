@@ -63,6 +63,23 @@ app.post("/verify", (req, res) => {
   });
 });
 
+app.post("/sendVerificationCode", (req, res) => {
+  //get email
+  const { email } = req.body;
+  const code = generateVerificationCode();
+
+  CodeModel.create({ email: email, verificationCode: code })
+    .then(() => res.json("sent to database succesfully!"))
+    .catch((err) => res.json(err));
+
+  const sendEmail = sendVerificationEmail(email, code);
+  if (sendEmail) {
+    res.json({ success: true });
+  } else {
+    res.json({ success: false, message: "Failed to send verification code" });
+  }
+});
+
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
