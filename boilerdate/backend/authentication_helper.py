@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import sys
 
 # WILL neeed to modify 0 1 based on result to fit the design document
 
@@ -31,5 +32,5 @@ def search_email_in_directory(email):
         else:
             return 'No results found'
 
-# Example usage
-print(search_email_in_directory(''))
+# Printing to terminal
+print(search_email_in_directory(sys.argv[1]))
