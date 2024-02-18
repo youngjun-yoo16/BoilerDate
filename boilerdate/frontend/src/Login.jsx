@@ -18,8 +18,10 @@ function Login() {
         console.log(result);
         if (result.data === "Success") {
           navigate("/home");
-        } else {
+        } else if (result.data === "Incorrect password") {
           toast.error("Incorrect password");
+        } else {
+          toast.error("Account doesn't exist");
         }
       })
       .catch((err) => console.log(err));
