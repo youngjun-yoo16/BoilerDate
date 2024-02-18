@@ -6,11 +6,6 @@ const nodemailer = require("nodemailer");
 // import email verification fn
 const { email_verification } = require("./authentication_lab");
 
-const VerificationCodeSchema = new mongoose.Schema({
-  email: String,
-  code: String,
-});
-
 const VerificationCode = mongoose.model('VerificationCode', VerificationCodeSchema);
 
 const transporter = nodemailer.createTransport({
@@ -23,6 +18,9 @@ const transporter = nodemailer.createTransport({
     refreshToken: process.env.REFRESH_TOKEN,
   },
 });
+
+
+
 
 async function sendVerificationEmail(email, verificationCode) {
   try {

@@ -59,11 +59,15 @@ app.post("/verify", (req, res) => {
 });
 
 app.post("/sendVerificationCode", (req, res) => {
+  //get email
   const {email} = req.body;
   const verificationCode = generateVerificationCode();
+
+  CodeModel.create({ email, verificationCode });
+
   const sendEmail = sendVerificationEmail(email, verificationCode);
   if (sendEmail) {
-    res.json({ success: true, verificationCode });
+    res.json({ success: true });
   } else {
     res.json({ success: false, message: 'Failed to send verification code' });
   }
