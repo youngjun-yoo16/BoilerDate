@@ -28,7 +28,7 @@ function UserConsent() {
   // may change the formatting
   return (
     <div>
-      <pre>beginningText </pre>
+      <pre>{beginningText} </pre>
       <Container className="d-flex align-items-center justify-content-center vh-100">
         <div>
           <h1 className="text-center mb-4">Rules and Guidelines</h1>
@@ -156,3 +156,5 @@ function UserConsent() {
     </div>
   );
 }
+
+export default UserConsent;
