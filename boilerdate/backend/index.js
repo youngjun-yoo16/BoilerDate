@@ -40,7 +40,7 @@ app.post("/login", (req, res) => {
         res.json("Success");
       } else {
         res.json("Incorrect password");
-      }
+      } 
     } else {
       res.json("Account does not exist");
     }
@@ -61,11 +61,15 @@ app.post("/verify", (req, res) => {
 app.post("/sendVerificationCode", (req, res) => {
   //get email
   const {email} = req.body;
-  const verificationCode = generateVerificationCode();
+  const code = generateVerificationCode();
+  
+  CodeModel.create({ email: email, verificationCode: code }) 
+  .then(() => res.json("sent to database succesfully!")) 
+  .catch((err) => res.json(err));
 
-  CodeModel.create({ email, verificationCode });
+  
 
-  const sendEmail = sendVerificationEmail(email, verificationCode);
+  const sendEmail = sendVerificationEmail(email, code);
   if (sendEmail) {
     res.json({ success: true });
   } else {
