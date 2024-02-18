@@ -29,7 +29,7 @@ async function sendVerificationEmail(email, verificationCode) {
     // if reject, fn stops right here. else it continues to mail.
     const verification_res = await email_verification(email);
     console.log(verification_res);
-    if (verification_res != "SUCCESS") {
+    if (!verification_res.includes("SUCCESS")) {
       // simply throw error message if fail
       console.error("Email verification failed: ", verification_res);
       throw new Error("Email verification failed");

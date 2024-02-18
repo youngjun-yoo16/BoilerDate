@@ -61,7 +61,9 @@ app.post("/verify", (req, res) => {
 app.post("/sendVerificationCode", (req, res) => {
   const {email} = req.body;
   const verificationCode = generateVerificationCode();
- 
+  
+  
+
 }
 
 );
