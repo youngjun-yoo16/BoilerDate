@@ -19,9 +19,9 @@ function Login() {
         if (result.data === "Success") {
           navigate("/home");
         } else if (result.data === "Incorrect password") {
-          toast.error("Incorrect password");
+          toast.error(result.data);
         } else {
-          toast.error("Account doesn't exist");
+          toast.error(result.data);
         }
       })
       .catch((err) => console.log(err));
