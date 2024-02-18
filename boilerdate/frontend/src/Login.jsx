@@ -18,8 +18,6 @@ function Login() {
         console.log(result);
         if (result.data === "Success") {
           navigate("/home");
-        } else if (result.data === "Incorrect password") {
-          toast.error(result.data);
         } else {
           toast.error(result.data);
         }
