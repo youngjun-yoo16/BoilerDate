@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/User");
 const CodeModel = require("./models/Code");
-const { generateVerificationCode } = require("./verification_code");
+const { generateVerificationCode, sendVerificationEmail } = require("./verification_code");
 
 const app = express();
 app.use(express.json());
@@ -61,8 +61,12 @@ app.post("/verify", (req, res) => {
 app.post("/sendVerificationCode", (req, res) => {
   const {email} = req.body;
   const verificationCode = generateVerificationCode();
-  
-  
+  const sendEmail = sendVerificationEmail(email, verificationCode);
+  if (sendEmail) {
+    res.json({ success: true, verificationCode });
+  } else {
+    res.json({ success: false, message: 'Failed to send verification code' });
+  }
 
 }
 
