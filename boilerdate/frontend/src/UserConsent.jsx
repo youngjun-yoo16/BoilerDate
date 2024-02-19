@@ -36,7 +36,7 @@ function UserConsent() {
           <h1 className="text-center mb-4">Rules and Guidelines</h1>
           <ul>
             <li>
-              <strong>Purdue Personnel Only</strong>
+              <strong>1. Purdue Personnel Only</strong>
               <ol>
                 <li>
                   Only Purdue students and staff are allowed to create an
@@ -45,7 +45,7 @@ function UserConsent() {
               </ol>
             </li>
             <li>
-              <strong>Adult Only</strong>
+              <strong>2. Adult Only</strong>
               <ol>
                 <li>
                   You must be at least 18 or older to use BoilerDate. Minors are
@@ -54,7 +54,7 @@ function UserConsent() {
               </ol>
             </li>
             <li>
-              <strong>Abide Laws</strong>
+              <strong>3. Abide Laws</strong>
               <ol>
                 <li>
                   We do not tolerate anything illegal such as harassment and
@@ -63,7 +63,7 @@ function UserConsent() {
               </ol>
             </li>
             <li>
-              <strong>Respect Boundaries</strong>
+              <strong>4. Respect Boundaries</strong>
               <ol>
                 <li>Do not make other people feel uncomfortable.</li>
                 <li>
@@ -73,7 +73,7 @@ function UserConsent() {
               </ol>
             </li>
             <li>
-              <strong>No More Than One Account per Person</strong>
+              <strong>5. No More Than One Account per Person</strong>
               <ol>
                 <li>
                   Each Purdue student/staff can only create one account with
@@ -82,7 +82,7 @@ function UserConsent() {
               </ol>
             </li>
             <li>
-              <strong>Inclusion and diversity</strong>
+              <strong>6. Inclusion and diversity</strong>
               <ol>
                 <li>
                   People of all genders, ethnicity, religion, sexuality, and
@@ -91,7 +91,7 @@ function UserConsent() {
               </ol>
             </li>
             <li>
-              <strong>Communicate respectfully</strong>
+              <strong>7. Communicate respectfully</strong>
               <ol>
                 <li>
                   Communication is the most important key to meeting and
@@ -100,7 +100,7 @@ function UserConsent() {
               </ol>
             </li>
             <li>
-              <strong>Be Yourself: No Impersonation</strong>
+              <strong>8. Be Yourself: No Impersonation</strong>
               <ol>
                 <li>
                   Don’t post other people’s images or pretend to be someone you
@@ -109,7 +109,7 @@ function UserConsent() {
               </ol>
             </li>
             <li>
-              <strong>Report Incidents</strong>
+              <strong>9. Report Incidents</strong>
               <ol>
                 <li>
                   If any inappropriate incidents or suspicious activity are
@@ -118,7 +118,7 @@ function UserConsent() {
               </ol>
             </li>
             <li>
-              <strong>Provide Feedback</strong>
+              <strong>10. Provide Feedback</strong>
               <ol>
                 <li>
                   Your feedback is crucial to us! Please leave your feedback so
@@ -127,7 +127,7 @@ function UserConsent() {
               </ol>
             </li>
             <li>
-              <strong>Be Honest</strong>
+              <strong>11. Be Honest</strong>
               <ol>
                 <li>Don't spread false information.</li>
                 <li>Don’t spam.</li>
@@ -151,7 +151,7 @@ function UserConsent() {
             onChange={handleCheckboxChange}
           />
           <label className="form-check-label" htmlFor="consentCheckbox">
-            I agree to the rules and safety guidelines.
+            <strong>I agree to the rules and safety guidelines.</strong>
           </label>
         </div>
 
