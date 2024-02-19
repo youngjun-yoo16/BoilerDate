@@ -159,6 +159,7 @@ function UserConsent() {
           Submit
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 }

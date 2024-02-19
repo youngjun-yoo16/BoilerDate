@@ -26,7 +26,7 @@ function Verify() {
         </div>
         <br />
         <p>
-          Didn't receive the code? <a href="#">Resend</a>
+          Didn't receive the code? <a href="/verify">Resend</a>
         </p>
         <button
           type="submit"
