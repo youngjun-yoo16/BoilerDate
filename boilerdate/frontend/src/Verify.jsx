@@ -2,14 +2,18 @@ import React from "react";
 import "./Verify.css";
 import "react-toastify/dist/ReactToastify.css";
 import VerificationInput from "react-verification-input";
+import { useLocation } from "react-router-dom";
 
 function Verify() {
+  const { state } = useLocation();
+  const { email } = state || {};
+
   return (
     <div className="otp-body">
       <div class="otp-card">
         <h1>OTP Verifcation</h1>
         <p></p>
-        <p>Code has been sent to ****@gmail.com</p>
+        <p>Code has been sent to {email}</p>
         <div>
           <VerificationInput
             length={6}

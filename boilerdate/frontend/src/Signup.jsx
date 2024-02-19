@@ -10,11 +10,11 @@ function Signup() {
     e.preventDefault();
     <Link to={{ pathname: "/signup2", state: email }}>send to signup2</Link>;
     axios
-      .post("http://localhost:3001/signup", { email })
+      .post("http://localhost:3001/sendverificationcode", { email })
       .then((result) => {
         console.log(result);
-        navigate("/signup2", { state: { email: email } });
-        //navigate("/verfiy");
+        //navigate("/signup2", { state: { email: email } });
+        navigate("/verify", { state: { email: email } });
       })
       .catch((err) => console.log(err));
     //navigate("/verify");
