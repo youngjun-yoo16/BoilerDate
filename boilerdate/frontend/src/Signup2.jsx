@@ -34,7 +34,7 @@ function Signup2() {
       })
       .then((result) => {
         console.log(result);
-        navigate("/signup3");
+        navigate("/userConsent");
       })
       .catch((err) => console.log(err));
   };
