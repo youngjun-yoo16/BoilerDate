@@ -33,26 +33,23 @@ app.post("/signup", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-app.post("/signup2", async (req, res) => {
-  /*UserModel.create(req.body)
-    .then((users) => res.json(users))
-    .catch((err) => res.json(err));*/
-  const { email, firstName, lastName, gender, dob } = req.body;
+app.post("/signup2", (req, res) => {
+  //const { email, firstName, lastName, gender, dob } = req.body;
 
-  await UserModel.findOne({ email: email }).then((user) => {
+  UserModel.create(req.body)
+    .then((users) => res.json(users))
+    .catch((err) => res.json(err));
+
+  /*UserModel.findOne({ email: email }).then((user) => {
     console.log(user);
     if (user) {
-      /*UserModel.findOneAndReplace(
-        { email: email },
-        { firstName: firstName, lastName: lastName, gender: gender, dob: dob }
-      );*/
-      UserModel.findOneAndDelete({ email: email });
+      //UserModel.findOneAndDelete({ email: email });
       UserModel.create(req.body);
-      res.json("Found and replaced");
+      res.json("User created");
     } else {
       res.json("Could not find user");
     }
-  });
+  });*/
 });
 
 app.post("/login", (req, res) => {
