@@ -1,16 +1,8 @@
-// to test this file separately
-//const express = require("express");
-// const app = express();
-//app.listen(3002, function () {
-//  console.log("Server on port 3002");
-//});
-//app.get("/", authentication_fn);
-
 const { spawn } = require("child_process");
 
 function email_verification(email) {
   return new Promise((resolve, reject) => {
-    const process = spawn("python3", ["./authentication_hepler.py", email]);
+    const process = spawn("python3", ["authentication_helper.py", email]);
 
     let res = "";
     process.stdout.on("data", (data) => {
@@ -18,15 +10,15 @@ function email_verification(email) {
     });
 
     process.stderr.on("data", (data) => {
-      console.error("stderr: ${data}");
-      reject(new Error("stderr: ${data}"));
+      console.error(`stderr: ${data}`);
+      reject(new Error(`stderr: ${data}`));
     });
 
     process.on("close", (flag) => {
       if (flag === 0) {
         resolve(res);
       } else {
-        reject(new Error("Process existed with ${flag}"));
+        reject(new Error(`Process existed with ${flag}`));
       }
     });
   });
@@ -34,19 +26,3 @@ function email_verification(email) {
 
 // now this email_verification can be called in different files
 module.exports = { email_verification };
-
-/*function authentication_fn(req, res) {
-  const spawn = require("child_process").spawn;
-  let temp = "";
-  const process = spawn("python3", ["./authentication_helper.py"]);
-  process.stdout.on("data", function (data) {
-    temp += data.toString();
-    res.send(data.toString());
-  });
-
-  process.on("close", (code) => {
-    console.log(temp);
-    return temp;
-  });
-}
-*/
