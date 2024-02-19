@@ -4,6 +4,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/User");
 const CodeModel = require("./models/Code");
+const {
+  generateVerificationCode,
+  sendVerificationEmail,
+} = require("./verification_code");
 
 const app = express();
 app.use(express.json());
@@ -22,8 +26,6 @@ mongoose
   .catch((error) => {
     console.log("error connecting to MongoDB:", error.message);
   });
-
-let notes = ["Hi", "Hello"];
 
 app.post("/signup", (req, res) => {
   UserModel.create(req.body)
@@ -79,32 +81,34 @@ app.post("/verify", (req, res) => {
   });
 });
 
-app.post("/sendVerificationCode", (req, res) => {
-  //get email
-  const { email } = req.body;
-  const code = generateVerificationCode();
+app.post("/sendverificationcode", async (req, res) => {
+  try {
+    // Get email
+    const { email } = req.body;
+    const code = generateVerificationCode();
 
-  CodeModel.create({ email: email, verificationCode: code })
-    .then(() => res.json("sent to database succesfully!"))
-    .catch((err) => res.json(err));
+    await CodeModel.create({ email: email, verificationCode: code });
 
-  const sendEmail = sendVerificationEmail(email, code);
-  if (sendEmail) {
-    res.json({ success: true });
-  } else {
-    res.json({ success: false, message: "Failed to send verification code" });
+    const sendEmail = sendVerificationEmail(email, code);
+
+    if (sendEmail) {
+      res.json({
+        success: true,
+        message: "Sent to database and email successfully!",
+      });
+    } else {
+      res.json({
+        success: false,
+        message: "Failed to send verification code email",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
 
-app.get("/", (request, response) => {
-  response.send("<h1>Hello World!</h1>");
-});
-
-app.get("/api/notes", (request, response) => {
-  response.json(notes);
-});
-
 const PORT = process.env.PORT;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

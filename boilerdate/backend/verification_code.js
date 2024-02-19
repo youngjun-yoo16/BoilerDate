@@ -2,11 +2,12 @@ require("dotenv").config();
 
 // const express = require("express");
 const nodemailer = require("nodemailer");
+const mongoose = require("mongoose");
 
 // import email verification fn
 const { email_verification } = require("./authentication_lab");
 
-const VerificationCode = mongoose.model('VerificationCode', VerificationCodeSchema);
+//const VerificationCode = mongoose.model('verifications', CodeSchema);
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -18,9 +19,6 @@ const transporter = nodemailer.createTransport({
     refreshToken: process.env.REFRESH_TOKEN,
   },
 });
-
-
-
 
 async function sendVerificationEmail(email, verificationCode) {
   try {
@@ -42,8 +40,12 @@ async function sendVerificationEmail(email, verificationCode) {
 
     const info = await transporter.sendMail(mailOptions);
     console.log("Verification code sent: ", info.response);
+
+    return true
   } catch (error) {
     console.log("Error occurred while sending code.", error);
+
+    return false
   }
 }
 
