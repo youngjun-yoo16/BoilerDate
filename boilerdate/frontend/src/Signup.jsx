@@ -8,7 +8,7 @@ function Signup() {
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    <Link to={{ pathname: "/signup2", state: email }}>send to signup2</Link>;
+    //<Link to={{ pathname: "/signup2", state: email }}>send to signup2</Link>;
     axios
       .post("http://localhost:3001/sendverificationcode", { email })
       .then((result) => {
