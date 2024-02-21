@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Radio from "@mui/material/Radio";
@@ -15,12 +15,18 @@ function Signup2() {
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState();
 
+  const { state } = useLocation();
+  const { email } = state || {};
+  //console.log(email);
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(email);
     axios
       .post("http://localhost:3001/signup", {
+        email,
         firstName,
         lastName,
         gender,
@@ -28,13 +34,9 @@ function Signup2() {
       })
       .then((result) => {
         console.log(result);
-        navigate("/signup3");
+        navigate("/userConsent");
       })
       .catch((err) => console.log(err));
-    /*console.log(firstName);
-    console.log(lastName);
-    console.log(gender);
-    console.log(dob);*/
   };
 
   return (

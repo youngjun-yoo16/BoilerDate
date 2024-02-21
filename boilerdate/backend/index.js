@@ -4,6 +4,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/User");
 const CodeModel = require("./models/Code");
+const {
+  generateVerificationCode,
+  sendVerificationEmail,
+} = require("./verification_code");
 
 const app = express();
 app.use(express.json());
@@ -23,8 +27,6 @@ mongoose
     console.log("error connecting to MongoDB:", error.message);
   });
 
-let notes = ["Hi", "Hello"];
-
 app.post("/signup", (req, res) => {
   UserModel.create(req.body)
     .then((users) => res.json(users))
@@ -32,9 +34,22 @@ app.post("/signup", (req, res) => {
 });
 
 app.post("/signup2", (req, res) => {
+  //const { email, firstName, lastName, gender, dob } = req.body;
+
   UserModel.create(req.body)
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
+
+  /*UserModel.findOne({ email: email }).then((user) => {
+    console.log(user);
+    if (user) {
+      //UserModel.findOneAndDelete({ email: email });
+      UserModel.create(req.body);
+      res.json("User created");
+    } else {
+      res.json("Could not find user");
+    }
+  });*/
 });
 
 app.post("/login", (req, res) => {
@@ -63,34 +78,34 @@ app.post("/verify", (req, res) => {
   });
 });
 
-app.post("/sendVerificationCode", (req, res) => {
-  //get email
-  const { email } = req.body;
-  const code = generateVerificationCode();
+app.post("/sendverificationcode", async (req, res) => {
+  try {
+    // Get email
+    const { email } = req.body;
+    const code = generateVerificationCode();
 
-  CodeModel.create({ email: email, verificationCode: code })
-    .then((code) => res.json(code))
-    .catch((err) => res.json(err));
+    await CodeModel.create({ email: email, verificationCode: code });
 
-  const sendEmail = sendVerificationEmail(email, code);
-  if (sendEmail) {
-    res.json({ success: true });
-  } else {
-    res.json({ success: false, message: "Failed to send verification code" });
+    const sendEmail = sendVerificationEmail(email, code);
+
+    if (sendEmail) {
+      res.json({
+        success: true,
+        message: "Sent to database and email successfully!",
+      });
+    } else {
+      res.json({
+        success: false,
+        message: "Failed to send verification code email",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
-
-  // if failed, make user redo sign up process
-});
-
-app.get("/", (request, response) => {
-  response.send("<h1>Hello World!</h1>");
-});
-
-app.get("/api/notes", (request, response) => {
-  response.json(notes);
 });
 
 const PORT = process.env.PORT;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

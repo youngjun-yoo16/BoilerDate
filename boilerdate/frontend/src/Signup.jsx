@@ -5,18 +5,19 @@ import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    /*axios
-      .post("http://localhost:3001/signup", { email, password })
+    //<Link to={{ pathname: "/signup2", state: email }}>send to signup2</Link>;
+    axios
+      .post("http://localhost:3001/sendverificationcode", { email })
       .then((result) => {
-        //console.log(result);
-        navigate("/verfiy");
+        console.log(result);
+        //navigate("/signup2", { state: { email: email } });
+        navigate("/verify", { state: { email: email } });
       })
-      .catch((err) => console.log(err));*/
-    navigate("/verify");
+      .catch((err) => console.log(err));
+    //navigate("/verify");
   };
 
   return (
@@ -37,18 +38,7 @@ function Signup() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="password">Password?</label>
-            <p></p>
-            <input
-              type="password"
-              placeholder="Type Password"
-              autoComplete="off"
-              name="password"
-              className="form-control"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+
           <div>
             <button type="submit" className="btn btn-outline-primary w-100">
               Sign up
