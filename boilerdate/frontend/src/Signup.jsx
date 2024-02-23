@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function Signup() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => {               
     e.preventDefault();
     //<Link to={{ pathname: "/signup2", state: email }}>send to signup2</Link>;
     axios

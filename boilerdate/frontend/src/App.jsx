@@ -8,6 +8,7 @@ import Verify from "./Verify";
 import Signup2 from "./Signup2";
 import Signup3 from "./Signup3";
 import UserConsent from "./UserConsent";
+import Interests from "./Interests"
 
 const App = () => {
   return (
@@ -15,12 +16,14 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<Signup />}></Route>
+          <Route path="/interests" element={<Interests />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/home" element={<Home />}></Route>
           <Route path="/verify" element={<Verify />}></Route>
           <Route path="/signup2" element={<Signup2 />}></Route>
           <Route path="/signup3" element={<Signup3 />}></Route>
           <Route path="/userConsent" element={<UserConsent />}></Route>
+
         </Routes>
       </BrowserRouter>
     </div>
