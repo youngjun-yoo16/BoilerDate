@@ -8,6 +8,7 @@ const {
   generateVerificationCode,
   sendVerificationEmail,
 } = require("./verification_code");
+const ProfileModel = require("./models/Profile");
 
 const app = express();
 app.use(express.json());
@@ -50,6 +51,12 @@ app.post("/signup2", (req, res) => {
       res.json("Could not find user");
     }
   });*/
+});
+
+app.post("/academics", (req, res) => {
+  ProfileModel.create(req.body)
+    .then((setupinfo) => res.json(setupinfo))
+    .catch((err) => res.json(err));
 });
 
 app.post("/login", (req, res) => {

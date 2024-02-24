@@ -10,6 +10,7 @@ import Signup3 from "./Signup3";
 import UserConsent from "./UserConsent";
 import Interests from "./Interests";
 import UploadPhoto from "./ProfileSetupUploadPhoto";
+import Academics from "./Academics";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/signup3" element={<Signup3 />}></Route>
           <Route path="/userConsent" element={<UserConsent />}></Route>
           <Route path="/uploadPhoto" element={<UploadPhoto />}></Route>
+          <Route path="/academics" element={<Academics />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

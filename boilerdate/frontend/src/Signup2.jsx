@@ -19,8 +19,6 @@ function Signup2() {
   const { email } = state || {};
   //console.log(email);
 
-  //document.getElementsByName("firstName").required = true;
-
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
