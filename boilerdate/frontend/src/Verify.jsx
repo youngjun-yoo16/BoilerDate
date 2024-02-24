@@ -30,7 +30,7 @@ function Verify() {
       .then((result) => {
         if (result.data === "Verification Success!") {
           console.log(result);
-          navigate("/signup2");
+          navigate("/signup2", { state: { email: email } });
         } else {
           toast.error("Incorrect code: verification failed");
         }
