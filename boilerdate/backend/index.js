@@ -95,7 +95,7 @@ app.post("/sendverificationcode", async (req, res) => {
 
     await CodeModel.create({ email: email, verificationCode: code });
 
-    const sendEmail = sendVerificationEmail(email, code);
+    const sendEmail = await sendVerificationEmail(email, code);
 
     if (sendEmail) {
       res.json({
