@@ -8,13 +8,14 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-function PRC() {
+function AdditionalInfo() {
+  const [height, setHeight] = useState("");
   const [personality, setPersonality] = useState("");
   const [relationship, setRelationship] = useState("");
   const [citizenship, setCitizenship] = useState("");
 
   const { state } = useLocation();
-  const { gpa, major, degree } = state || {};
+  const { gpa, major, degree, interests } = state || {};
 
   const navigate = useNavigate();
 
@@ -22,10 +23,12 @@ function PRC() {
     e.preventDefault();
     console.log(state);
     axios
-      .post("http://localhost:3001/prc", {
+      .post("http://localhost:3001/additionalInfo", {
         gpa,
         major,
         degree,
+        interests,
+        height,
         personality,
         relationship,
         citizenship,
@@ -43,6 +46,31 @@ function PRC() {
         <h2>Additional Info</h2>
         <br />
         <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Height</InputLabel>
+              <Select
+                required
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={height}
+                label="Height"
+                onChange={(e) => setHeight(e.target.value)}
+              >
+                <MenuItem value={">7"}> &gt; 7' 0''</MenuItem>
+                <MenuItem value={"6.9-7"}> 6' 9'' - 7' 0''</MenuItem>
+                <MenuItem value={"6.6-6.9"}> 6' 6'' - 6' 9''</MenuItem>
+                <MenuItem value={"6.3-6.6"}> 6' 3'' - 6' 6''</MenuItem>
+                <MenuItem value={"6-6.3"}> 6' 0'' - 6' 3''</MenuItem>
+                <MenuItem value={"5.9-6"}> 5' 9'' - 6' 0''</MenuItem>
+                <MenuItem value={"5.6-5.9"}> 5' 6'' - 5' 9''</MenuItem>
+                <MenuItem value={"5.3-5.6"}> 5' 3'' - 5' 6''</MenuItem>
+                <MenuItem value={"5-5.3"}> 5' 0'' - 5' 3''</MenuItem>
+                <MenuItem value={"<5"}> &lt; 5' 0''</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
           <div className="mb-3">
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Personality</InputLabel>
@@ -132,4 +160,4 @@ function PRC() {
   );
 }
 
-export default PRC;
+export default AdditionalInfo;

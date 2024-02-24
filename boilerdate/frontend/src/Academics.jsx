@@ -1,6 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
@@ -11,12 +12,17 @@ function Academics() {
   const [major, setMajor] = useState("");
   const [degree, setDegree] = useState("");
 
+  const { state } = useLocation();
+  const { interests } = state || {};
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     //console.log(result);
-    navigate("/prc", { state: { gpa: gpa, major: major, degree: degree } });
+    navigate("/additionalInfo", {
+      state: { gpa: gpa, major: major, degree: degree, interests: interests },
+    });
   };
 
   return (

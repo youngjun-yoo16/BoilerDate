@@ -129,9 +129,9 @@ function InterestsPage() {
   }
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     console.log(selectedInterests);
-    console.log("Hello");
-    navigate("/home");
+    navigate("/academics", { state: { interests: selectedInterests } });
   };
 
   return (

@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
 const ProfileSchema = new mongoose.Schema({
-  height: { type: Number, min: 1, max: 10 },
   gpa: String,
   major: String,
   degree: String,
-  //interests: [{ type: String }],
-  //hobbies: String,
+  interests: [{ type: String }],
+  height: String,
   personality: String,
   relationship: String,
   citizenship: String,
