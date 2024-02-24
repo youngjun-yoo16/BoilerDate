@@ -13,11 +13,9 @@ function Signup() {
       .post("http://localhost:3001/sendverificationcode", { email })
       .then((result) => {
         console.log(result);
-        //navigate("/signup2", { state: { email: email } });
         navigate("/verify", { state: { email: email } });
       })
       .catch((err) => console.log(err));
-    //navigate("/verify");
   };
 
   return (
