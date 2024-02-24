@@ -14,7 +14,7 @@ function PasswordReset() {
       .post("http://localhost:3001/sendverificationcode", { email })
       .then((result) => {
         if (result.data.success === true) {
-          navigate("/verify");
+            navigate("/changePassword", { state: { email: email } });
         } else {
           toast.error(`${result.data.message}`);
         }

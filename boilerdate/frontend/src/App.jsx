@@ -14,6 +14,7 @@ import Academics from "./Academics";
 import AdditionalInfo from "./AdditionalInfo";
 import Lifestyle from "./Lifestyle"
 import PasswordReset from "./PasswordReset";
+import ChangePassword from "./ChangePassword";
 
 const App = () => {
   return (
@@ -32,7 +33,8 @@ const App = () => {
           <Route path="/uploadPhoto" element={<UploadPhoto />}></Route>
           <Route path="/academics" element={<Academics />}></Route>
           <Route path="/additionalInfo" element={<AdditionalInfo />}></Route>
-          <Route path="/passwordReset" element={<PasswordReset />}></Route>          
+          <Route path="/passwordReset" element={<PasswordReset />}></Route>  
+          <Route path="/changePassword" element={<ChangePassword />}></Route>         
         </Routes>
       </BrowserRouter>
     </div>

@@ -69,6 +69,13 @@ function Login() {
           </button>
           <br />
           <br />
+          <p class="float-right">
+            <a href="/passwordReset">
+              forgot password?
+            </a>
+          </p>
+          <br />
+          <br />
         </form>
         <p>Don't have an account?</p>
         <Link to="/signup" className="btn btn-outline-dark border w-100">

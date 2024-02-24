@@ -10,9 +10,10 @@ const {
   sendVerificationEmail,
 } = require("./verification_code");
 const bodyParser = require("body-parser");
-const imageSchema = require("./models/Post");
+const imageSchema = require("./models/Image");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 const app = express();
 app.use(express.json());
@@ -83,6 +84,19 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.post("/updatepassword", (req, res) => {
+  const { email, password } = req.body;
+  UserModel.findOne({ email: email }).then((user) => {
+    if (user) {
+      UserModel.updateOne({ email: email, password: password }).then((res) => {
+        console.log(res);
+      })
+    } else {
+      res.json("Account does not exist");
+    }
+  });
+});
+
 app.post("/verify", (req, res) => {
   const { code } = req.body;
   CodeModel.findOne({ verificationCode: code }).then((code) => {
@@ -132,32 +146,40 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // retrieve all image docs from mongodb
-app.get("/uploadPhoto", (req, res) => {
+/*app.get("/uploadPhoto", (req, res) => {
   imageSchema.find({}).then((data, err) => {
     if (err) {
       console.log(err);
     }
-    res.render("imagepage", { items: data });
+    // fix this later; should render in a way to display a photo
+    res.render("/uploadPhoto", { items: data });
   });
 });
+*/
 
-app.post("/uploadPhoto", upload.single("image"), (req, res, next) => {
-  let obj = {
+app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
+  //try {
+  const obj = {
     name: req.body.name,
     img: {
       data: fs.readFileSync(
-        path.join(__dirname + "/uploads/" + req.file.filename)
+        path.join(__dirname, "/uploads/", req.file.filename)
       ),
       contentType: "image/png",
     },
   };
-  imageSchema.create(obj).then((err, item) => {
-    if (err) {
+
+  imageSchema
+    .create(obj)
+    .then((item) => {
+      // The document was created successfully
+      res.redirect("/");
+    })
+    .catch((err) => {
+      // There was an error creating the document
       console.log(err);
-    } else {
-      res.redirect("/interests");
-    }
-  });
+      res.status(500).send(err);
+    });
 });
 
 const PORT = process.env.PORT;
