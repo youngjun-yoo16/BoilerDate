@@ -24,7 +24,7 @@ function Login() {
           setLoginAttempt(loginAttempt + 1);
           toast.error(result.data);
           if (loginAttempt >= 4) {
-            navigate('/passwordReset');
+            navigate('/forgotPassword');
           }
         }
       })
@@ -70,7 +70,7 @@ function Login() {
           <br />
           <br />
           <p class="float-right">
-            <a href="/passwordReset">
+            <a href="/forgotPassword">
               forgot password?
             </a>
           </p>

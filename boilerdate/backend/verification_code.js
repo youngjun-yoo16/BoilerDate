@@ -4,8 +4,6 @@ const nodemailer = require("nodemailer");
 const { email_verification } = require("./authentication_lab");
 
 const transporter = nodemailer.createTransport({
-
-  
   service: "gmail",
   auth: {
     user: process.env.USER_EMAIL,

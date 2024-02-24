@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import VerificationInput from "react-verification-input";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 function Verify() {
   const [code, setCode] = useState("");
@@ -27,8 +28,13 @@ function Verify() {
     axios
       .post("http://localhost:3001/verify", { code })
       .then((result) => {
-        console.log(result);
-        navigate("/signup2");
+        if (result.data === "Verification Success!") {
+          console.log(result);
+          navigate("/signup2");
+        } else {
+          toast.error("Incorrect code: verification failed");
+        }
+
       })
       .catch((err) => console.log(err));
   };
@@ -68,6 +74,7 @@ function Verify() {
         >
           Verify
         </button>
+        <ToastContainer />
       </div>
     </div>
   );
