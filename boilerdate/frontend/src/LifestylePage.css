@@ -1,0 +1,65 @@
+/* InterestsPage.css */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .header-text {
+    font-family: Arial, sans-serif; /* Set font family for header text */
+    font-weight: 600;
+    font-size: 32px; 
+    padding-top: 20px;
+  }
+
+  .subheader-text {
+    font-family: Arial, sans-serif; /* Set font family for header text */
+    font-weight: 300;
+    font-size: 18px; 
+    padding-top: 20px;
+  }
+  
+  .selected-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    padding-top: 9px;
+    margin-bottom: 20px;
+  }
+
+  .lifestyle {
+    color: #81868b; 
+    padding: 6px 1px; 
+    border-radius: 17px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px; 
+    font-weight: normal; 
+    border: 1px solid #999fa6; 
+    transition: border-color 0.3s; 
+  }
+  
+  .interest:hover {
+    border-color: #d6321f; /* Change border color for selected interests */
+  }
+  
+  .selected {
+
+    border-color: #d6321f; /* Change border color for selected interests */
+  }
+
+  .interestsSelected {
+    color: #81868b; 
+    padding: 6px 1px; 
+    border-radius: 17px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px; 
+    font-weight: normal; 
+    border: 1px solid #999fa6; 
+    transition: background-color 0.3s;
+    background-color: #81868b; 
+    color: white;
+  }
+
+
+  

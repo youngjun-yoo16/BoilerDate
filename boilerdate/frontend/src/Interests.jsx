@@ -5,7 +5,6 @@ import "./InterestsPage.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-//is there need to send the entire thing to datbase???
 const interestsData = [
   "Travel",
   "Soccer",

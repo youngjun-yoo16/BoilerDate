@@ -12,6 +12,7 @@ import Interests from "./Interests";
 import UploadPhoto from "./ProfileSetupUploadPhoto";
 import Academics from "./Academics";
 import AdditionalInfo from "./AdditionalInfo";
+import Lifestyle from "./Lifestyle"
 import PasswordReset from "./PasswordReset";
 import ChangePassword from "./ChangePassword";
 
@@ -22,6 +23,7 @@ const App = () => {
         <Routes>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/interests" element={<Interests />}></Route>
+          <Route path="/lifestyle" element={<Lifestyle />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/home" element={<Home />}></Route>
           <Route path="/verify" element={<Verify />}></Route>

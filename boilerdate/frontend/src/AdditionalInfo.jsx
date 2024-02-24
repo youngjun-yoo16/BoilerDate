@@ -9,7 +9,8 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
 function AdditionalInfo() {
-  const [height, setHeight] = useState("");
+  const [feet, setFeet] = useState(4);
+  const [inches, setInches] = useState(0);
   const [personality, setPersonality] = useState("");
   const [relationship, setRelationship] = useState("");
   const [citizenship, setCitizenship] = useState("");
@@ -21,7 +22,10 @@ function AdditionalInfo() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(state);
+    console.log(feet);
+    console.log(inches);
+    let height = parseInt(feet) * 12 + parseInt(inches);
+    console.log(height);
     axios
       .post("http://localhost:3001/additionalInfo", {
         gpa,
@@ -47,28 +51,45 @@ function AdditionalInfo() {
         <br />
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Height</InputLabel>
-              <Select
-                required
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={height}
-                label="Height"
-                onChange={(e) => setHeight(e.target.value)}
-              >
-                <MenuItem value={">7"}> &gt; 7' 0''</MenuItem>
-                <MenuItem value={"6.9-7"}> 6' 9'' - 7' 0''</MenuItem>
-                <MenuItem value={"6.6-6.9"}> 6' 6'' - 6' 9''</MenuItem>
-                <MenuItem value={"6.3-6.6"}> 6' 3'' - 6' 6''</MenuItem>
-                <MenuItem value={"6-6.3"}> 6' 0'' - 6' 3''</MenuItem>
-                <MenuItem value={"5.9-6"}> 5' 9'' - 6' 0''</MenuItem>
-                <MenuItem value={"5.6-5.9"}> 5' 6'' - 5' 9''</MenuItem>
-                <MenuItem value={"5.3-5.6"}> 5' 3'' - 5' 6''</MenuItem>
-                <MenuItem value={"5-5.3"}> 5' 0'' - 5' 3''</MenuItem>
-                <MenuItem value={"<5"}> &lt; 5' 0''</MenuItem>
-              </Select>
-            </FormControl>
+            <label htmlFor="height">Enter your height:</label>
+            <p></p>
+
+            <div className="row">
+              <div className="col">
+                <label htmlFor="feet">feet</label>
+                <select
+                  className="form-control"
+                  id="exampleFormControlSelect1"
+                  onChange={(e) => setFeet(e.target.value)}
+                >
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                </select>
+              </div>
+              <div className="col">
+                <label htmlFor="inches">inches</label>
+                <select
+                  className="form-control"
+                  id="exampleFormControlSelect1"
+                  onChange={(e) => setInches(e.target.value)}
+                >
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <div className="mb-3">
