@@ -83,6 +83,19 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.post("/updatepassword", (req, res) => {
+  const { email, password } = req.body;
+  UserModel.findOne({ email: email }).then((user) => {
+    if (user) {
+      UserModel.updateOne({ email: email, password: password }).then((res) => {
+        console.log(res);
+      })
+    } else {
+      res.json("Account does not exist");
+    }
+  });
+});
+
 app.post("/verify", (req, res) => {
   const { code } = req.body;
   CodeModel.findOne({ verificationCode: code }).then((code) => {
