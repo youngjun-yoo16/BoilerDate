@@ -165,7 +165,7 @@ function LifestylePage() {
         selectedLifestyle.push(setSelectedSleepinghabits);
         console.log(selectedLifestyle);
         
-        
+
     }
 
 
