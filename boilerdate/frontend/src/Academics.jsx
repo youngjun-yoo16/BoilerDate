@@ -1,11 +1,7 @@
 import { useState } from "react";
 import React from "react";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -19,17 +15,8 @@ function Academics() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3001/academics", {
-        gpa,
-        major,
-        degree,
-      })
-      .then((result) => {
-        console.log(result);
-        navigate("/prc");
-      })
-      .catch((err) => console.log(err));
+    //console.log(result);
+    navigate("/prc", { state: { gpa: gpa, major: major, degree: degree } });
   };
 
   return (

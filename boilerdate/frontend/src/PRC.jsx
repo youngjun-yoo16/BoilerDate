@@ -13,12 +13,19 @@ function PRC() {
   const [relationship, setRelationship] = useState("");
   const [citizenship, setCitizenship] = useState("");
 
+  const { state } = useLocation();
+  const { gpa, major, degree } = state || {};
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(state);
     axios
       .post("http://localhost:3001/prc", {
+        gpa,
+        major,
+        degree,
         personality,
         relationship,
         citizenship,

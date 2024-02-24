@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const UserModel = require("./models/User");
 const CodeModel = require("./models/Code");
+const ProfileModel = require("./models/Profile");
 const {
   generateVerificationCode,
   sendVerificationEmail,
@@ -59,6 +60,12 @@ app.post("/signup2", (req, res) => {
       res.json("Could not find user");
     }
   });*/
+});
+
+app.post("/prc", (req, res) => {
+  ProfileModel.create(req.body)
+    .then((setupinfo) => res.json(setupinfo))
+    .catch((err) => res.json(err));
 });
 
 app.post("/login", (req, res) => {
