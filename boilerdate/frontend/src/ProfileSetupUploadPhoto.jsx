@@ -38,6 +38,7 @@ function UploadPhoto() {
         "http://localhost:3001/uploadPhoto",
         formData
       );
+      console.log(response);
       if (response) {
         toast.success("Photo uploaded successfully!");
         navigate("/interests");
