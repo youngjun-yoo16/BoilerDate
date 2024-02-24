@@ -12,6 +12,8 @@ import Interests from "./Interests";
 import UploadPhoto from "./ProfileSetupUploadPhoto";
 import Academics from "./Academics";
 import AdditionalInfo from "./AdditionalInfo";
+import Lifestyle from "./Lifestyle"
+import PasswordReset from "./PasswordReset";
 
 const App = () => {
   return (
@@ -20,6 +22,7 @@ const App = () => {
         <Routes>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/interests" element={<Interests />}></Route>
+          <Route path="/lifestyle" element={<Lifestyle />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/home" element={<Home />}></Route>
           <Route path="/verify" element={<Verify />}></Route>
@@ -29,6 +32,7 @@ const App = () => {
           <Route path="/uploadPhoto" element={<UploadPhoto />}></Route>
           <Route path="/academics" element={<Academics />}></Route>
           <Route path="/additionalInfo" element={<AdditionalInfo />}></Route>
+          <Route path="/passwordReset" element={<PasswordReset />}></Route>          
         </Routes>
       </BrowserRouter>
     </div>

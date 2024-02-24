@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginAttempt, setLoginAttempt] = useState(0);
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,9 +18,14 @@ function Login() {
       .then((result) => {
         console.log(result);
         if (result.data === "Success") {
+          setLoginAttempt(0);
           navigate("/home");
         } else {
+          setLoginAttempt(loginAttempt + 1);
           toast.error(result.data);
+          if (loginAttempt >= 4) {
+            navigate('/passwordReset');
+          }
         }
       })
       .catch((err) => console.log(err));
@@ -54,10 +60,13 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button type="submit" className="btn btn-outline-primary w-100">
+          <button type="submit" className="btn btn-outline-primary w-40" style={{float: 'left'}}>
             Login
           </button>
           <ToastContainer />
+          <button type="submit" className="btn btn-outline-primary w-40" style={{float: 'right'}}>
+            Change Password
+          </button>
           <br />
           <br />
         </form>
