@@ -16,7 +16,7 @@ function AdditionalInfo() {
   const [citizenship, setCitizenship] = useState("");
 
   const { state } = useLocation();
-  const { gpa, major, degree, interests } = state || {};
+  const { gpa, major, degree, interests, lifestyle } = state || {};
 
   const navigate = useNavigate();
 
@@ -32,6 +32,7 @@ function AdditionalInfo() {
         major,
         degree,
         interests,
+        lifestyle,
         height,
         personality,
         relationship,

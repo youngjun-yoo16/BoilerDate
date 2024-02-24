@@ -130,7 +130,7 @@ function InterestsPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(selectedInterests);
-    navigate("/academics", { state: { interests: selectedInterests } });
+    navigate("/lifestyle", { state: { interests: selectedInterests } });
   };
 
   return (
