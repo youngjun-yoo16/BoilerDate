@@ -36,6 +36,9 @@ function ChangePassword() {
             .post("http://localhost:3001/updatepassword", { newPassword })
             .then(() => {
               navigate("/login");
+            })
+            .catch((err) => {
+              toast.error(err);
             });
         }
       })

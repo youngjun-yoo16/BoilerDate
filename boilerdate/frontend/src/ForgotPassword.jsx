@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function PasswordReset() {
+function ForgotPassword() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const handleSubmit = (e) => {
@@ -59,4 +59,4 @@ function PasswordReset() {
   );
 }
 
-export default PasswordReset;
+export default ForgotPassword;
