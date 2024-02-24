@@ -11,7 +11,7 @@ import UserConsent from "./UserConsent";
 import Interests from "./Interests";
 import UploadPhoto from "./ProfileSetupUploadPhoto";
 import Academics from "./Academics";
-import PRC from "./PRC";
+import AdditionalInfo from "./AdditionalInfo";
 import PasswordReset from "./PasswordReset";
 
 const App = () => {
@@ -29,8 +29,8 @@ const App = () => {
           <Route path="/userConsent" element={<UserConsent />}></Route>
           <Route path="/uploadPhoto" element={<UploadPhoto />}></Route>
           <Route path="/academics" element={<Academics />}></Route>
-          <Route path="/prc" element={<PRC />}></Route>
-          <Route path='/resetPassword' element={<PasswordReset />}></Route>
+          <Route path="/additionalInfo" element={<AdditionalInfo />}></Route>
+          <Route path="/passwordReset" element={<PasswordReset />}></Route>          
         </Routes>
       </BrowserRouter>
     </div>

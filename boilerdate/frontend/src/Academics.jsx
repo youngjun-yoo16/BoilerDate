@@ -1,11 +1,8 @@
 import { useState } from "react";
 import React from "react";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import { useLocation } from "react-router-dom";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -15,21 +12,17 @@ function Academics() {
   const [major, setMajor] = useState("");
   const [degree, setDegree] = useState("");
 
+  const { state } = useLocation();
+  const { interests } = state || {};
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3001/academics", {
-        gpa,
-        major,
-        degree,
-      })
-      .then((result) => {
-        console.log(result);
-        navigate("/prc");
-      })
-      .catch((err) => console.log(err));
+    //console.log(result);
+    navigate("/additionalInfo", {
+      state: { gpa: gpa, major: major, degree: degree, interests: interests },
+    });
   };
 
   return (

@@ -1,9 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-//import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import './InterestsPage.css'; 
+import "./InterestsPage.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -109,19 +107,20 @@ const interestsData = [
   "Online Shopping",
   "NBA",
   "Trying New Things",
-  "Self Development"
+  "Self Development",
 ];
 
 function InterestsPage() {
-  const [notification, setNotification] = useState("");
   const [selectedInterests, setSelectedInterests] = useState([]);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   function toggleInterest(interest) {
     if (selectedInterests.includes(interest)) {
-      setSelectedInterests(selectedInterests.filter(item => item !== interest));
+      setSelectedInterests(
+        selectedInterests.filter((item) => item !== interest)
+      );
     } else {
-      if(selectedInterests.length < 5) {
+      if (selectedInterests.length < 5) {
         setSelectedInterests([...selectedInterests, interest]);
       } else {
         toast.info("You can select a maximum of 5 interests.");
@@ -129,45 +128,45 @@ function InterestsPage() {
     }
   }
 
-  const handleSubmit =(e) =>{
-   
+  const handleSubmit = (e) => {
+    e.preventDefault();
     console.log(selectedInterests);
-    console.log("Hello");
-  
-  
-  }
+    navigate("/academics", { state: { interests: selectedInterests } });
+  };
 
   return (
     <div className="container">
       <h1 className="header-text">Your Interests</h1>
       <form onSubmit={handleSubmit}>
-      <div className="selectedInterests-container">
-      {selectedInterests.map((interest, index) => (
-          <div
-            key={index}
-            className={`interestsSelected`}
-            onClick={() => toggleInterest(interest)}
-          >
-            {interest}
-          </div>
-        ))}
-      </div>
-      <div className="interests-container">
-        {interestsData.map((interest, index) => (
-          <div
-            key={index}
-            className={`interest ${selectedInterests.includes(interest) ? 'selected' : ''}`}
-            onClick={() => toggleInterest(interest)}
-          >
-            {interest}
-          </div>
-        ))}
-      </div>
-      <ToastContainer />
-      <button type="submit" className="btn btn-outline-primary w-100">
-              Next
+        <div className="selectedInterests-container">
+          {selectedInterests.map((interest, index) => (
+            <div
+              key={index}
+              className={`interestsSelected`}
+              onClick={() => toggleInterest(interest)}
+            >
+              {interest}
+            </div>
+          ))}
+        </div>
+        <div className="interests-container">
+          {interestsData.map((interest, index) => (
+            <div
+              key={index}
+              className={`interest ${
+                selectedInterests.includes(interest) ? "selected" : ""
+              }`}
+              onClick={() => toggleInterest(interest)}
+            >
+              {interest}
+            </div>
+          ))}
+        </div>
+        <ToastContainer />
+        <button type="submit" className="btn btn-outline-primary w-100">
+          Next
         </button>
-    </form>
+      </form>
     </div>
   );
 }
