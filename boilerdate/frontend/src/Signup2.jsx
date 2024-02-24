@@ -19,6 +19,8 @@ function Signup2() {
   const { email } = state || {};
   //console.log(email);
 
+  //document.getElementsByName("firstName").required = true;
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -49,6 +51,7 @@ function Signup2() {
             <label htmlFor="firstName">First name</label>
             <p></p>
             <input
+              required
               type="firstName"
               placeholder="Enter your first name"
               autoComplete="off"
@@ -61,6 +64,7 @@ function Signup2() {
             <label htmlFor="lastName">Last name</label>
             <p></p>
             <input
+              required
               type="lastName"
               placeholder="Enter your last name"
               autoComplete="off"
@@ -79,24 +83,28 @@ function Signup2() {
                 name="row-radio-buttons-group"
               >
                 <FormControlLabel
+                  required
                   value="female"
                   control={<Radio />}
                   label="Female"
                   onChange={(e) => setGender(e.target.value)}
                 />
                 <FormControlLabel
+                  required
                   value="male"
                   control={<Radio />}
                   label="Male"
                   onChange={(e) => setGender(e.target.value)}
                 />
                 <FormControlLabel
+                  required
                   value="non-binary"
                   control={<Radio />}
                   label="Non-binary"
                   onChange={(e) => setGender(e.target.value)}
                 />
                 <FormControlLabel
+                  required
                   value="other"
                   control={<Radio />}
                   label="Other"
@@ -110,7 +118,11 @@ function Signup2() {
             <label htmlFor="dob">Enter your date of birth</label>
             <br />
             <p></p>
-            <input type="date" onChange={(e) => setDob(e.target.value)} />
+            <input
+              required
+              type="date"
+              onChange={(e) => setDob(e.target.value)}
+            />
           </div>
 
           <br />

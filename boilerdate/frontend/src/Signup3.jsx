@@ -28,6 +28,7 @@ function Signup3() {
             <label htmlFor="email">Enter your password</label>
             <p></p>
             <input
+              required
               type="password"
               placeholder="Enter password"
               name="password"

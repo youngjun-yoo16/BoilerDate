@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function Signup() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = (e) => {               
+  const handleSubmit = (e) => {
     e.preventDefault();
     //<Link to={{ pathname: "/signup2", state: email }}>send to signup2</Link>;
     axios
@@ -30,6 +30,7 @@ function Signup() {
             <label htmlFor="email">What's your Purdue email?</label>
             <p></p>
             <input
+              required
               type="email"
               placeholder="Enter your Purdue email address"
               autoComplete="off"
