@@ -12,6 +12,7 @@ import Interests from "./Interests";
 import UploadPhoto from "./ProfileSetupUploadPhoto";
 import Academics from "./Academics";
 import PRC from "./PRC";
+import PasswordReset from "./PasswordReset";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/uploadPhoto" element={<UploadPhoto />}></Route>
           <Route path="/academics" element={<Academics />}></Route>
           <Route path="/prc" element={<PRC />}></Route>
+          <Route path='/resetPassword' element={<PasswordReset />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
