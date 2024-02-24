@@ -17,7 +17,6 @@ function Signup2() {
 
   const { state } = useLocation();
   const { email } = state || {};
-  //console.log(email);
 
   const navigate = useNavigate();
 

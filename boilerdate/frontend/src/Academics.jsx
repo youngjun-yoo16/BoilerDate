@@ -13,7 +13,7 @@ function Academics() {
   const [degree, setDegree] = useState("");
 
   const { state } = useLocation();
-  const { interests } = state || {};
+  const { interests, lifestyle } = state || {};
 
   const navigate = useNavigate();
 
@@ -21,7 +21,13 @@ function Academics() {
     e.preventDefault();
     //console.log(result);
     navigate("/additionalInfo", {
-      state: { gpa: gpa, major: major, degree: degree, interests: interests },
+      state: {
+        gpa: gpa,
+        major: major,
+        degree: degree,
+        interests: interests,
+        lifestyle: lifestyle,
+      },
     });
   };
 
