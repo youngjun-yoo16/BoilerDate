@@ -11,6 +11,7 @@ import UserConsent from "./UserConsent";
 import Interests from "./Interests";
 import UploadPhoto from "./ProfileSetupUploadPhoto";
 import Academics from "./Academics";
+import PRC from "./PRC";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/userConsent" element={<UserConsent />}></Route>
           <Route path="/uploadPhoto" element={<UploadPhoto />}></Route>
           <Route path="/academics" element={<Academics />}></Route>
+          <Route path="/prc" element={<PRC />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

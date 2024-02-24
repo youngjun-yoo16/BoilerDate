@@ -27,7 +27,7 @@ function Academics() {
       })
       .then((result) => {
         console.log(result);
-        navigate("/home");
+        navigate("/prc");
       })
       .catch((err) => console.log(err));
   };
