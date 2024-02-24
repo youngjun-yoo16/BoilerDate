@@ -37,9 +37,9 @@ mongoose
   });
 
 app.post("/signup", (req, res) => {
-  UserModel.create(req.body)
+  /*UserModel.create(req.body)
     .then((users) => res.json(users))
-    .catch((err) => res.json(err));
+    .catch((err) => res.json(err));*/
 });
 
 app.post("/signup2", (req, res) => {
