@@ -82,27 +82,18 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.post("/updatepassword", (req, res) => {
-  const { email, password } = req.body;
-  UserModel.findOneAndUpdate(
-    { email: email },
-    { $set: { password: password } },
-    { upsert: true }
-  )
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((error) => res.json(error));
-  /*UserModel.findOne({ email: email }).then((user) => {
-    if (user) {
-      UserModel.updateOne({ email: email, password: password }).then((result) => {
-        console.log(result);
-        res.json("Password Update Success!");
-      });
-    } else {
-      res.json("Account does not exist");
-    }
-  });*/
+app.post("/updatepassword", async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+    const result = await UserModel.findOneAndUpdate(
+      { email: email },
+      { $set: { password: newPassword } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.post("/verify", (req, res) => {
