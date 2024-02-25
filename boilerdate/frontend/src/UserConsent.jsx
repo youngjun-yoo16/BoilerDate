@@ -41,8 +41,13 @@ function UserConsent() {
   // may change the formatting
   return (
     <div>
-      <Container className="d-flex align-items-center justify-content-center vh-100">
+      <br />
+      <center>
         <h1>Rules and Guidelines</h1>
+      </center>
+      <br />
+      <br />
+      <Container className="d-flex align-items-center justify-content-center vh-100">
         <div>
           <ul>
             <li>
