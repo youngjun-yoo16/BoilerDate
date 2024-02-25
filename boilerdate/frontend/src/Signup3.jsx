@@ -57,7 +57,7 @@ function Signup3() {
       })
       .then((result) => {
         console.log(result);
-        navigate("/home");
+        navigate("/interests", { state: { email: email } });
       })
       .catch((err) => console.log(err));
   };

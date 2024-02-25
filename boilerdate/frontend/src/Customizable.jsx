@@ -12,9 +12,11 @@ function Customizable() {
   const [career_goals, setCareerGoals] = useState("");
   const [github, setGithub] = useState("");
   const [linkedin, setLinkedin] = useState("");
+  const [bio, setBio] = useState("");
 
   const { state } = useLocation();
   const {
+    email,
     gpa,
     major,
     degree,
@@ -32,6 +34,7 @@ function Customizable() {
     e.preventDefault();
     axios
       .post("http://localhost:3001/completeProfile", {
+        email,
         gpa,
         major,
         degree,
@@ -46,10 +49,11 @@ function Customizable() {
         career_goals,
         github,
         linkedin,
+        bio,
       })
       .then((result) => {
         console.log(result);
-        navigate("/home");
+        navigate("/home", { state: { email: email } });
       })
       .catch((err) => console.log(err));
   };
@@ -115,6 +119,18 @@ function Customizable() {
                 variant="outlined"
                 inputProps={{ maxLength: 60 }}
                 onChange={(e) => setLinkedin(e.target.value)}
+              />
+            </FormControl>
+          </div>
+
+          <div className="mb-3">
+            <FormControl fullWidth>
+              <TextField
+                id="outlined-basic"
+                label="Bio"
+                variant="outlined"
+                inputProps={{ maxLength: 200 }}
+                onChange={(e) => setBio(e.target.value)}
               />
             </FormControl>
           </div>

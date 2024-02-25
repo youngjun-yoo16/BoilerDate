@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const ProfileSchema = new mongoose.Schema({
+  email: String,
   gpa: String,
   major: String,
   degree: String,
@@ -15,6 +16,7 @@ const ProfileSchema = new mongoose.Schema({
   career_goals: String,
   github: String,
   linkedin: String,
+  bio: String,
 });
 
 const ProfileModel = mongoose.model("profileInfo", ProfileSchema);

@@ -15,7 +15,7 @@ function AdditionalInfo() {
   const [citizenship, setCitizenship] = useState("");
 
   const { state } = useLocation();
-  const { gpa, major, degree, interests, lifestyle } = state || {};
+  const { email, gpa, major, degree, interests, lifestyle } = state || {};
 
   const navigate = useNavigate();
 
@@ -27,6 +27,7 @@ function AdditionalInfo() {
     console.log(height);
     navigate("/customizable", {
       state: {
+        email: email,
         gpa: gpa,
         major: major,
         degree: degree,

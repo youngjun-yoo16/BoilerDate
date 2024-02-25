@@ -127,6 +127,9 @@ function InterestsPage() {
     }
   }
 
+  const { state } = useLocation();
+  const { email } = state || {};
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedInterests.length === 0) {
@@ -134,7 +137,9 @@ function InterestsPage() {
       return;
     }
     console.log(selectedInterests);
-    navigate("/lifestyle", { state: { interests: selectedInterests } });
+    navigate("/lifestyle", {
+      state: { email: email, interests: selectedInterests },
+    });
   };
 
   return (
