@@ -16,13 +16,9 @@ import Lifestyle from "./Lifestyle";
 import ForgotPassword from "./ForgotPassword";
 import ChangePassword from "./ChangePassword";
 import Customizable from "./Customizable";
-<<<<<<< Updated upstream
 import Settings from "./Settings";
 import GPA from "./Settings/GPA";
-=======
-//import Settings from "./Settings";
 import ProfilePage from "./Profile";
->>>>>>> Stashed changes
 
 const App = () => {
   return (
@@ -44,12 +40,9 @@ const App = () => {
           <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
           <Route path="/changePassword" element={<ChangePassword />}></Route>
           <Route path="/customizable" element={<Customizable />}></Route>
-<<<<<<< Updated upstream
           <Route path="/settings" element={<Settings />}></Route>
           <Route path="/settings/gpa" element={<GPA />}></Route>
-=======
           <Route path="/profile" element={<ProfilePage />}></Route>
->>>>>>> Stashed changes
         </Routes>
       </BrowserRouter>
     </div>
