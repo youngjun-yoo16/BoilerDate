@@ -2,20 +2,29 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Signup() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //<Link to={{ pathname: "/signup2", state: email }}>send to signup2</Link>;
-    axios
-      .post("http://localhost:3001/sendverificationcode", { email })
+    await axios
+      .post("http://localhost:3001/verifyemail", { email })
       .then((result) => {
-        console.log(result);
-        navigate("/verify", { state: { email: email } });
-      })
-      .catch((err) => console.log(err));
+        if (result.data === "Verification Success!") {
+          toast.error("Account already exists");
+        } else {
+          axios
+            .post("http://localhost:3001/sendverificationcode", { email })
+            .then((result) => {
+              console.log(result);
+              navigate("/verify", { state: { email: email } });
+            })
+            .catch((err) => console.log(err));
+        }
+      });
   };
 
   return (
@@ -43,6 +52,7 @@ function Signup() {
               Sign up
             </button>
           </div>
+          <ToastContainer />
           <br />
           <br />
         </form>
