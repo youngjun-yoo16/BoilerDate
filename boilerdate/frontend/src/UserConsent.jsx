@@ -23,7 +23,15 @@ function UserConsent() {
     if (isChecked) {
       // need to decide which page to proceed to
       console.log("user consent submitted");
-      navigate("/signup3");
+      navigate("/signup3", {
+        state: {
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          gender: gender,
+          dob: dob,
+        },
+      });
     } else {
       toast.error(
         "Please agree to the rules and safety guidelines to proceed."

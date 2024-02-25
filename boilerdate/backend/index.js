@@ -39,18 +39,16 @@ mongoose
   });
 
 app.post("/signup", (req, res) => {
-  /*UserModel.create(req.body)
+  UserModel.create(req.body)
     .then((users) => res.json(users))
-    .catch((err) => res.json(err));*/
+    .catch((err) => res.json(err));
 });
 
 app.post("/signup2", (req, res) => {
   //const { email, firstName, lastName, gender, dob } = req.body;
-
-  UserModel.create(req.body)
+  /*UserModel.create(req.body)
     .then((users) => res.json(users))
-    .catch((err) => res.json(err));
-
+    .catch((err) => res.json(err));*/
   /*UserModel.findOne({ email: email }).then((user) => {
     console.log(user);
     if (user) {
@@ -152,12 +150,17 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     cb(
       null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      "profile-" +
+        file.fieldname +
+        "-" +
+        Date.now() +
+        path.extname(file.originalname)
       // Date(Date.now()).toString() must be done to see the actual timestamp translated
     );
   },
 });
 
+// Sets the multer storage configuration to above.
 const upload = multer({ storage: storage });
 
 // retrieve all image docs from mongodb
@@ -172,34 +175,45 @@ const upload = multer({ storage: storage });
 });
 */
 
+// TODO: delete photo from temporary upload local directory
+// TODO: work on image retrieval
 app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
-  //console.log(req.file.filename);
+  temp_image_file_path = path.join(__dirname, "/uploads/", req.file.filename);
+
   const obj = {
     name: req.file.filename,
     img: {
-      data: fs.readFileSync(
-        // no problem here
-        path.join(__dirname, "/uploads/", req.file.filename)
-      ),
+      data: fs.readFileSync(temp_image_file_path),
       //contentType: "image/png",
       contentType: req.file.mimetype,
     },
   };
 
+  // insert photo to mongodb and return success true
   await imageModel
     .create(obj)
     .then((item) => {
-      // The document was created successfully
       res.status(200).json({
         success: true,
         message: "Photo upload done",
-        //redirectTo: "/interests",
       });
     })
     .catch((err) => {
       console.log(err);
       res.status(500).send(err);
     });
+  // delete uploaded file
+  fs.unlink(temp_image_file_path, (err) => {
+    if (err) {
+      if (err.code == "ENOENT") {
+        console.error("No such file exists.");
+      } else {
+        throw err;
+      }
+    } else {
+      console.log("File deleted");
+    }
+  });
 });
 
 const PORT = process.env.PORT;

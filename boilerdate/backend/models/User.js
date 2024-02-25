@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
     validate: {
       validator: isValidPassword,
       message:
-        "Password must have at least 10 characters, 1 uppercase letter, 1 number, and 1 special character.",
+        "Password must have at least 10 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.",
     },
   },
   firstName: String,
