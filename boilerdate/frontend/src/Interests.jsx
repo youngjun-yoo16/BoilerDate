@@ -130,7 +130,7 @@ function InterestsPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedInterests.length === 0) {
-      toast.error("Please select at least one interest.");
+      toast.info("Please select at least one interest.");
       return;
     }
     console.log(selectedInterests);

@@ -15,6 +15,7 @@ import AdditionalInfo from "./AdditionalInfo";
 import Lifestyle from "./Lifestyle";
 import ForgotPassword from "./ForgotPassword";
 import ChangePassword from "./ChangePassword";
+import ProfilePage from "./Profile";
 import Customizable from "./Customizable";
 
 const App = () => {

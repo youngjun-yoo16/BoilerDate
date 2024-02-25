@@ -1,0 +1,43 @@
+/* InterestsPage.css */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .header-text {
+    font-family: Arial, sans-serif; /* Set font family for header text */
+    font-weight: 600;
+    font-size: 32px; 
+    padding-top: 20px;
+  }
+
+  .notification {
+    background-color: #f44336;
+    color: rgb(53, 59, 119);
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  
+  .selectedInterests-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    padding-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .interests-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    padding-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+
+  
+
+
+  
