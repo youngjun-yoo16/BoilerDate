@@ -7,5 +7,5 @@ const imageSchema = new mongoose.Schema({
   },
 });
 
-const imageModel = mongoose.model("Image", imageSchema);
+const imageModel = mongoose.model("Profile_Images", imageSchema);
 module.exports = imageModel;
