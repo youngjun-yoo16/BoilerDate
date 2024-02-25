@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
@@ -44,8 +42,8 @@ function UserConsent() {
   return (
     <div>
       <Container className="d-flex align-items-center justify-content-center vh-100">
+        <h1>Rules and Guidelines</h1>
         <div>
-          <h1 className="text-center mb-4">Rules and Guidelines</h1>
           <ul>
             <li>
               <strong>1. Purdue Personnel Only</strong>
@@ -150,6 +148,9 @@ function UserConsent() {
           </ul>
         </div>
       </Container>
+      <br />
+      <br />
+      <br />
       <form
         onSubmit={handleSubmission}
         className="d-flex flex-column align-items-center"
@@ -166,11 +167,12 @@ function UserConsent() {
             <strong>I agree to the rules and safety guidelines.</strong>
           </label>
         </div>
-
+        <br />
         <button type="submit" className="btn btn-primary mt -3">
           Submit
         </button>
       </form>
+      <br />
       <ToastContainer />
     </div>
   );
