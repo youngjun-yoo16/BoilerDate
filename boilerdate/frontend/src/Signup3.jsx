@@ -31,11 +31,11 @@ function Signup3() {
       flag = false;
     }
     if (!lowercase_check_regex.test(password)) {
-      toast.error("Please include at least one uppercase letter!");
+      toast.error("Please include at least one lowercase letter!");
       flag = false;
     }
     if (!special_check_regex.test(password)) {
-      toast.error("Please include at least special characters!");
+      toast.error("Please include at least one special character!");
       flag = false;
     }
     if (!number_check_regex.test(password)) {
