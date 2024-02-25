@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+// Assuming uploadphoto.jsx is in the same directory
 
 function Signup3() {
   const [password, setPassword] = useState("");
@@ -12,6 +14,37 @@ function Signup3() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (password.length < 10) {
+      toast.error(
+        "Please make sure that your password has at least 10 characters!"
+      );
+      return;
+    }
+    const uppercase_check_regex = /[A-Z]/;
+    const lowercase_check_regex = /[a-z]/;
+    const special_check_regex = /[^a-zA-Z0-9]/;
+    const number_check_regex = /\d/;
+    let flag = true;
+    if (!uppercase_check_regex.test(password)) {
+      toast.error("Please include at least one uppercase letter!");
+      flag = false;
+    }
+    if (!lowercase_check_regex.test(password)) {
+      toast.error("Please include at least one uppercase letter!");
+      flag = false;
+    }
+    if (!special_check_regex.test(password)) {
+      toast.error("Please include at least special characters!");
+      flag = false;
+    }
+    if (!number_check_regex.test(password)) {
+      toast.error("Please include at least one number!");
+      flag = false;
+    }
+    if (!flag) {
+      return;
+    }
 
     axios
       .post("http://localhost:3001/signup", {
@@ -55,6 +88,7 @@ function Signup3() {
             Sign up
           </button>
         </form>
+        <ToastContainer />
       </div>
     </div>
   );
