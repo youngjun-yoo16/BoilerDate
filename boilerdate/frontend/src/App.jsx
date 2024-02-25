@@ -16,6 +16,7 @@ import Lifestyle from "./Lifestyle";
 import ForgotPassword from "./ForgotPassword";
 import ChangePassword from "./ChangePassword";
 import Customizable from "./Customizable";
+import Settings from "./Settings";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
           <Route path="/changePassword" element={<ChangePassword />}></Route>
           <Route path="/customizable" element={<Customizable />}></Route>
+          <Route path="/settings" element={<Settings />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
