@@ -28,12 +28,8 @@
   }
 
   
-  .selectedInterests-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
-    padding-top: 20px;
-    margin-bottom: 20px;
+  .selected-container {
+    border-bottom: 1.5px solid #9e9b9b;
   }
 
   .interests-container {
@@ -45,7 +41,6 @@
   }
   
   .content {
-    border-bottom: 1px solid #ccc; /* thin grey line */
     padding: 10px; /* Add padding as needed */
     text-align: left;
   }

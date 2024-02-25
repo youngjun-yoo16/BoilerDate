@@ -23,7 +23,9 @@
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 10px;
     padding-top: 9px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
+    padding-bottom: 20px;
+    border-bottom: 1.5px solid #b0aeae; /* thin grey line */
   }
 
   .lifestyle {

@@ -40,7 +40,7 @@ const smokingData = [
   "Trying to quit",
 ];
 
-const cannabisData = ["Yes", "Occasionally", "Socially", "Never"];
+
 
 const workoutData = ["Everyday", "Often", "Sometimes", "Never"];
 
@@ -68,7 +68,6 @@ function LifestylePage() {
   const [selectedPets, setSelectedPets] = useState([]);
   const [selectedDrinking, setSelectedDrinking] = useState([]);
   const [selectedSmoking, setSelectedSmoking] = useState([]);
-  const [selectedCannabis, setSelectedCannabis] = useState([]);
   const [selectedWorkout, setSelectedWorkout] = useState([]);
   const [selectedDiet, setSelectedDiet] = useState([]);
   const [selectedSocialmedia, setSelectedSocialmedia] = useState([]);
@@ -104,13 +103,6 @@ function LifestylePage() {
     }
   }
 
-  function toggleCannabis(cannabis) {
-    if (selectedCannabis === cannabis) {
-      setSelectedCannabis(null);
-    } else {
-      setSelectedCannabis(cannabis);
-    }
-  }
 
   function toggleWorkout(workout) {
     if (selectedWorkout === workout) {
@@ -150,7 +142,6 @@ function LifestylePage() {
       selectedPets.length === 0 ||
       selectedDrinking.length === 0 ||
       selectedSmoking.length === 0 ||
-      selectedCannabis.length === 0 ||
       selectedWorkout.length === 0 ||
       selectedDiet.length === 0 ||
       selectedSocialmedia.length === 0 ||
@@ -165,7 +156,7 @@ function LifestylePage() {
     selectedLifestyle.push(selectedPets);
     selectedLifestyle.push(selectedDrinking);
     selectedLifestyle.push(selectedSmoking);
-    selectedLifestyle.push(selectedCannabis);
+   
     selectedLifestyle.push(selectedWorkout);
     selectedLifestyle.push(selectedDiet);
     selectedLifestyle.push(selectedSocialmedia);
@@ -223,20 +214,6 @@ function LifestylePage() {
                 selectedSmoking === lifestyle ? "selected" : ""
               }`}
               onClick={() => toggleSmoking(lifestyle)}
-            >
-              {lifestyle}
-            </div>
-          ))}
-        </div>
-        <h2 className="subheader-text">Are you 420 friendly?</h2>
-        <div className="selected-container">
-          {cannabisData.map((lifestyle, index) => (
-            <div
-              key={index}
-              className={`lifestyle ${
-                selectedCannabis === lifestyle ? "selected" : ""
-              }`}
-              onClick={() => toggleCannabis(lifestyle)}
             >
               {lifestyle}
             </div>
