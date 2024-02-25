@@ -8,7 +8,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
 function Verify() {
-  const [code, setCode] = useState("");
+  const [tempCode, setTempCode] = useState("");
   const { state } = useLocation();
   const { email } = state || {};
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ function Verify() {
   const handleVerify = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/verify", { code })
+      .post("http://localhost:3001/verify", { tempCode })
       .then((result) => {
         if (result.data === "Verification Success!") {
           console.log(result);
@@ -57,7 +57,7 @@ function Verify() {
               characterSelected: "character--selected",
               characterFilled: "character--filled",
             }}
-            onChange={(e) => setCode(e)}
+            onChange={(e) => setTempCode(e)}
           />
         </div>
         <br />
