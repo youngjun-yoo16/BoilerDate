@@ -67,6 +67,16 @@ app.post("/completeProfile", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+app.get("/fetchProfile", async(req, res) => {
+  try {
+    const profiles = await ProfileModel.find;
+    res.json(profiles); 
+} catch (error) {
+    console.error('Error fetching profile data:', error);
+    res.status(500).json({ error: 'Failed to fetch profile data' }); 
+}
+});
+
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
   UserModel.findOne({ email: email }).then((user) => {
