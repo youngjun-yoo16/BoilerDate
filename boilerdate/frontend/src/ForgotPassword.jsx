@@ -17,7 +17,7 @@ function ForgotPassword() {
           return;
       }
     })
-    axios
+    await axios
       .post("http://localhost:3001/sendverificationcode", { email })
       .then((result) => {
         if (result.data.success === true) {

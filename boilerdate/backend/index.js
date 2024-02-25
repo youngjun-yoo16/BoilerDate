@@ -98,9 +98,10 @@ app.post("/updatepassword", (req, res) => {
 });
 
 app.post("/verify", (req, res) => {
-  const { code } = req.body;
-  CodeModel.findOne({ verificationCode: code }).then((code) => {
-    if (code) {
+  const { tempCode } = req.body;
+  console.log(tempCode);
+  CodeModel.findOne({ verificationCode: tempCode }).then((tempCode) => {
+    if (tempCode) {
       res.json("Verification Success!");
     } else {
       res.json("Verification Failed");
@@ -110,7 +111,7 @@ app.post("/verify", (req, res) => {
 
 app.post("/verifyemail", (req, res) => {
   const { email } = req.body;
-  UserModel.findOne({ email: email }).then((email) => {
+  CodeModel.findOne({ email: email }).then((email) => {
     if (email) {
       res.json("Verification Success!");
     } else {
@@ -125,11 +126,10 @@ app.post("/sendverificationcode", async (req, res) => {
     const { email } = req.body;
     const code = generateVerificationCode();
 
-    await CodeModel.create({ email: email, verificationCode: code });
-
     const sendEmail = await sendVerificationEmail(email, code);
 
     if (sendEmail) {
+      await CodeModel.create({ email: email, verificationCode: code });
       res.json({
         success: true,
         message: "Sent to database and email successfully!",

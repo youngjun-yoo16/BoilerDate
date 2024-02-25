@@ -14,7 +14,7 @@ function ChangePassword() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (tempCode === newPassword) {
@@ -27,14 +27,14 @@ function ChangePassword() {
       return;
     }
 
-    axios
-      .post("http://localhost:3001/verify", { email, tempCode })
+    await axios
+      .post("http://localhost:3001/verify", { tempCode })
       .then((result) => {
         if (result.data !== "Verification Success!") {
           toast.error("Incorrect code: verification failed");
         } else {
           axios
-            .post("http://localhost:3001/updatepassword", { newPassword })
+            .post("http://localhost:3001/updatepassword", { email, newPassword })
             .then(() => {
               navigate("/login");
             })
