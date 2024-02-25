@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -47,6 +46,10 @@ function Signup3() {
               className="form-control"
               onChange={(e) => setPassword(e.target.value)}
             />
+            <small id="passwordHelpBlock" className="form-text text-muted">
+              Password must have at least 10 characters, 1 uppercase letter, 1
+              lowercase letter 1 number, and 1 special character.
+            </small>
           </div>
           <button type="submit" className="btn btn-outline-primary w-100">
             Sign up
