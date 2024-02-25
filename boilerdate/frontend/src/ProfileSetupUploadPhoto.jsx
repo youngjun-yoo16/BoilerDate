@@ -4,9 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+function sleep(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 function UploadPhoto() {
   const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState("No file");
+  // may put some default message here before file upload.
+  const [fileName, setFileName] = useState(null);
   const navigate = useNavigate();
   const inputFileRef = useRef(null);
 
@@ -26,7 +31,7 @@ function UploadPhoto() {
     e.preventDefault();
 
     if (!file) {
-      toast.error("Please select a file!");
+      toast.error("Please select your photo!");
       return;
     }
 
@@ -41,6 +46,7 @@ function UploadPhoto() {
 
       if (response.data.success) {
         toast.success("Photo uploaded successfully!");
+        await sleep(1200);
         navigate("/interests");
       } else {
         toast.error("Error: server issue");
@@ -53,7 +59,7 @@ function UploadPhoto() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-50">
-        <h2>Please upload your photo</h2>
+        <h2>&nbsp;Please upload your photo</h2>
         <form
           onSubmit={handleSubmit}
           className="m-3"
@@ -74,6 +80,7 @@ function UploadPhoto() {
             className="d-none"
             type="file"
             name="image"
+            accept=".png, .jpg"
             onChange={handleFileChange}
             ref={inputFileRef}
           />
