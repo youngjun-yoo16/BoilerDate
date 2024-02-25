@@ -108,6 +108,17 @@ app.post("/verify", (req, res) => {
   });
 });
 
+app.post("/verifyemail", (req, res) => {
+  const { email } = req.body;
+  UserModel.findOne({ email: email }).then((email) => {
+    if (email) {
+      res.json("Verification Success!");
+    } else {
+      res.json("Verification Failed");
+    }
+  });
+});
+
 app.post("/sendverificationcode", async (req, res) => {
   try {
     // Get email

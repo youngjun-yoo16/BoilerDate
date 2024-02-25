@@ -8,8 +8,15 @@ import "react-toastify/dist/ReactToastify.css";
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await axios.post("http://localhost:3001/verifyemail", { email })
+    .then((result) => {
+      if (result.data !== "Verification Success!") {
+          toast.error("Account does not exist")
+          return;
+      }
+    })
     axios
       .post("http://localhost:3001/sendverificationcode", { email })
       .then((result) => {
