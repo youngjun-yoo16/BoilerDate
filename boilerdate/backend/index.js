@@ -163,20 +163,7 @@ const storage = multer.diskStorage({
 // Sets the multer storage configuration to above.
 const upload = multer({ storage: storage });
 
-// retrieve all image docs from mongodb
-/*app.get("/uploadPhoto", (req, res) => {
-  imageSchema.find({}).then((data, err) => {
-    if (err) {
-      console.log(err);
-    }
-    // fix this later; should render in a way to display a photo
-    res.render("/uploadPhoto", { items: data });
-  });
-});
-*/
-
-// TODO: delete photo from temporary upload local directory
-// TODO: work on image retrieval
+// Image retrieval can be done in frontend
 app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
   temp_image_file_path = path.join(__dirname, "/uploads/", req.file.filename);
 
