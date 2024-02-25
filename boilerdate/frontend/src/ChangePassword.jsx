@@ -18,7 +18,8 @@ function ChangePassword() {
     e.preventDefault();
 
     if (tempCode === newPassword) {
-      toast.error("Please enter the different password");
+      toast.error("New password should be different from the temporary code");
+      return;
     }
 
     if (newPassword !== confirmPassword) {

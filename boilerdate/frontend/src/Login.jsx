@@ -21,11 +21,15 @@ function Login() {
           setLoginAttempt(0);
           navigate("/home");
         } else {
-          setLoginAttempt(loginAttempt + 1);
           toast.error(result.data);
+          if (result.data === "Incorrect password") {
+            setLoginAttempt(loginAttempt + 1); 
+          }
           if (loginAttempt >= 4) {
+            setLoginAttempt(0);
             navigate('/forgotPassword');
           }
+
         }
       })
       .catch((err) => console.log(err));
