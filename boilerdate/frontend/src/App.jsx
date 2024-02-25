@@ -19,6 +19,7 @@ import Customizable from "./Customizable";
 import Settings from "./Settings";
 import GPA from "./Settings/GPA";
 import ProfilePage from "./Profile";
+import ImageTest from "./ImageTest";
 
 const App = () => {
   return (
@@ -43,6 +44,7 @@ const App = () => {
           <Route path="/settings" element={<Settings />}></Route>
           <Route path="/settings/gpa" element={<GPA />}></Route>
           <Route path="/profile" element={<ProfilePage />}></Route>
+          <Route path="/imageTest" element={<ImageTest />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
