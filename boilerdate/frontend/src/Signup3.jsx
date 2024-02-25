@@ -49,11 +49,11 @@ function Signup3() {
     axios
       .post("http://localhost:3001/signup", {
         email,
+        password,
         firstName,
         lastName,
         gender,
         dob,
-        password,
       })
       .then((result) => {
         console.log(result);

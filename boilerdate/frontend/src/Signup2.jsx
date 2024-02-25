@@ -1,7 +1,6 @@
 import { useState } from "react";
 import React from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -32,19 +31,6 @@ function Signup2() {
         dob: dob,
       },
     });
-    axios
-      .post("http://localhost:3001/signup", {
-        email,
-        firstName,
-        lastName,
-        gender,
-        dob,
-      })
-      .then((result) => {
-        console.log(result);
-        navigate("/userConsent");
-      })
-      .catch((err) => console.log(err));
   };
 
   return (
