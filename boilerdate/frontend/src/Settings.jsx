@@ -6,7 +6,7 @@ function Settings() {
       <div className="bg-white p-3 rounded w-25">
         <h2>Settings</h2>
         <Link
-          to="/settings"
+          to="/settings/gpa"
           type="button"
           className="btn btn-outline-dark border w-100"
         >

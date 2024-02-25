@@ -8,7 +8,7 @@ function Home() {
         <Link
           to="/settings"
           type="button"
-          className="btn btn-outline-dark border w-100"
+          className="btn btn-outline-secondary border w-100"
         >
           Settings
         </Link>

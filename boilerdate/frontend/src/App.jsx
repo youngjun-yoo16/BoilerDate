@@ -17,6 +17,7 @@ import ForgotPassword from "./ForgotPassword";
 import ChangePassword from "./ChangePassword";
 import Customizable from "./Customizable";
 import Settings from "./Settings";
+import GPA from "./Settings/GPA";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/changePassword" element={<ChangePassword />}></Route>
           <Route path="/customizable" element={<Customizable />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
+          <Route path="/settings/gpa" element={<GPA />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
