@@ -61,7 +61,7 @@ app.post("/signup2", (req, res) => {
   });*/
 });
 
-app.post("/additionalInfo", (req, res) => {
+app.post("/completeProfile", (req, res) => {
   ProfileModel.create(req.body)
     .then((setupinfo) => res.json(setupinfo))
     .catch((err) => res.json(err));

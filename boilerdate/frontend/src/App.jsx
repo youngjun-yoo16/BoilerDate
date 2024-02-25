@@ -12,9 +12,10 @@ import Interests from "./Interests";
 import UploadPhoto from "./ProfileSetupUploadPhoto";
 import Academics from "./Academics";
 import AdditionalInfo from "./AdditionalInfo";
-import Lifestyle from "./Lifestyle"
+import Lifestyle from "./Lifestyle";
 import ForgotPassword from "./ForgotPassword";
 import ChangePassword from "./ChangePassword";
+import Customizable from "./Customizable";
 
 const App = () => {
   return (
@@ -33,8 +34,9 @@ const App = () => {
           <Route path="/uploadPhoto" element={<UploadPhoto />}></Route>
           <Route path="/academics" element={<Academics />}></Route>
           <Route path="/additionalInfo" element={<AdditionalInfo />}></Route>
-          <Route path="/forgotPassword" element={<ForgotPassword />}></Route>  
-          <Route path="/changePassword" element={<ChangePassword />}></Route>         
+          <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
+          <Route path="/changePassword" element={<ChangePassword />}></Route>
+          <Route path="/customizable" element={<Customizable />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

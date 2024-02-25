@@ -1,7 +1,6 @@
 import { useState } from "react";
 import React from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -26,23 +25,19 @@ function AdditionalInfo() {
     console.log(inches);
     let height = parseInt(feet) * 12 + parseInt(inches);
     console.log(height);
-    axios
-      .post("http://localhost:3001/additionalInfo", {
-        gpa,
-        major,
-        degree,
-        interests,
-        lifestyle,
-        height,
-        personality,
-        relationship,
-        citizenship,
-      })
-      .then((result) => {
-        console.log(result);
-        navigate("/home");
-      })
-      .catch((err) => console.log(err));
+    navigate("/customizable", {
+      state: {
+        gpa: gpa,
+        major: major,
+        degree: degree,
+        interests: interests,
+        lifestyle: lifestyle,
+        height: height,
+        personality: personality,
+        relationship: relationship,
+        citizenship: citizenship,
+      },
+    });
   };
 
   return (
