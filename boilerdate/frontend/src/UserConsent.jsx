@@ -42,9 +42,11 @@ function UserConsent() {
   return (
     <div>
       <br />
-      <center>
-        <h1>Rules and Guidelines</h1>
-      </center>
+
+      <h1 className="d-flex flex-column align-items-center">
+        Rules and Guidelines
+      </h1>
+
       <br />
       <br />
       <Container className="d-flex align-items-center justify-content-center vh-100">
@@ -153,7 +155,6 @@ function UserConsent() {
           </ul>
         </div>
       </Container>
-      <br />
       <br />
       <br />
       <form
