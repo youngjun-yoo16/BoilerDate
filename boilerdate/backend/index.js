@@ -5,12 +5,12 @@ const cors = require("cors");
 const UserModel = require("./models/User");
 const CodeModel = require("./models/Code");
 const ProfileModel = require("./models/Profile");
+const imageModel = require("./models/Image");
 const {
   generateVerificationCode,
   sendVerificationEmail,
 } = require("./verification_code");
 const bodyParser = require("body-parser");
-const imageSchema = require("./models/Image");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
@@ -90,7 +90,7 @@ app.post("/updatepassword", (req, res) => {
     if (user) {
       UserModel.updateOne({ email: email, password: password }).then((res) => {
         console.log(res);
-      })
+      });
     } else {
       res.json("Account does not exist");
     }
@@ -139,7 +139,11 @@ const storage = multer.diskStorage({
     cb(null, "uploads");
   },
   filename: (req, file, cb) => {
-    cb(null, file.fieldname + "-" + Date.now());
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      // Date(Date.now()).toString() must be done to see the actual timestamp translated
+    );
   },
 });
 
@@ -158,25 +162,30 @@ const upload = multer({ storage: storage });
 */
 
 app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
-  //try {
+  //console.log(req.file.filename);
   const obj = {
-    name: req.body.name,
+    name: req.file.filename,
     img: {
       data: fs.readFileSync(
+        // no problem here
         path.join(__dirname, "/uploads/", req.file.filename)
       ),
-      contentType: "image/png",
+      //contentType: "image/png",
+      contentType: req.file.mimetype,
     },
   };
 
-  imageSchema
+  await imageModel
     .create(obj)
     .then((item) => {
       // The document was created successfully
-      res.redirect("/");
+      res.status(200).json({
+        success: true,
+        message: "Photo upload done",
+        //redirectTo: "/interests",
+      });
     })
     .catch((err) => {
-      // There was an error creating the document
       console.log(err);
       res.status(500).send(err);
     });

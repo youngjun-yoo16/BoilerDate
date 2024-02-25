@@ -38,10 +38,12 @@ function UploadPhoto() {
         "http://localhost:3001/uploadPhoto",
         formData
       );
-      console.log(response);
-      if (response) {
+
+      if (response.data.success) {
         toast.success("Photo uploaded successfully!");
         navigate("/interests");
+      } else {
+        toast.error("Error: server issue");
       }
     } catch (error) {
       toast.error(`Error: ${error.message}`);
