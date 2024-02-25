@@ -27,6 +27,37 @@ function ChangePassword() {
       return;
     }
 
+    if (newPassword.length < 10) {
+      toast.error(
+        "Please make sure that your password has at least 10 characters!"
+      );
+      return;
+    }
+    const uppercase_check_regex = /[A-Z]/;
+    const lowercase_check_regex = /[a-z]/;
+    const special_check_regex = /[^a-zA-Z0-9]/;
+    const number_check_regex = /\d/;
+    let flag = true;
+    if (!uppercase_check_regex.test(newPassword)) {
+      toast.error("Please include at least one uppercase letter!");
+      flag = false;
+    }
+    if (!lowercase_check_regex.test(newPassword)) {
+      toast.error("Please include at least one lowercase letter!");
+      flag = false;
+    }
+    if (!special_check_regex.test(newPassword)) {
+      toast.error("Please include at least one special character!");
+      flag = false;
+    }
+    if (!number_check_regex.test(newPassword)) {
+      toast.error("Please include at least one number!");
+      flag = false;
+    }
+    if (!flag) {
+      return;
+    }
+
     await axios
       .post("http://localhost:3001/verify", { tempCode })
       .then((result) => {
@@ -34,7 +65,10 @@ function ChangePassword() {
           toast.error("Incorrect code: verification failed");
         } else {
           axios
-            .post("http://localhost:3001/updatepassword", { email, newPassword })
+            .post("http://localhost:3001/updatepassword", {
+              email,
+              newPassword,
+            })
             .then(() => {
               navigate("/login");
             })
@@ -78,6 +112,10 @@ function ChangePassword() {
               className="form-control"
               onChange={(e) => setNewPassword(e.target.value)}
             />
+            <small id="passwordHelpBlock" className="form-text text-muted">
+              Password must have at least 10 characters, 1 uppercase letter, 1
+              lowercase letter 1 number, and 1 special character.
+            </small>
           </div>
           <div className="mb-3">
             <label htmlFor="password">Confirm New Password</label>
