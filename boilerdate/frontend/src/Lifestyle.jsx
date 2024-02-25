@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 //import axios from "axios";
@@ -160,14 +161,14 @@ function LifestylePage() {
         e.preventDefault();
 
         if (
-          selectedPets.length==0 ||
-          selectedDrinking.length==0 ||
-          selectedSmoking.length==0 ||
-          selectedCannabis.length==0 ||
-          selectedWorkout.length==0 ||
-          selectedDiet.length==0 ||
-          selectedSocialmedia.length==0 ||
-          selectedSleepinghabits.length==0
+          selectedPets.length===0 ||
+          selectedDrinking.length===0 ||
+          selectedSmoking.length===0 ||
+          selectedCannabis.length===0 ||
+          selectedWorkout.length===0 ||
+          selectedDiet.length===0 ||
+          selectedSocialmedia.length===0 ||
+          selectedSleepinghabits.length===0
       ) {
           // Notify the user to select an option for each category
           toast.error("Please select an option for each category");

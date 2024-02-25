@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./InterestsPage.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useLocation } from "react-router-dom";
 const interestsData = [
   "Travel",
   "Soccer",

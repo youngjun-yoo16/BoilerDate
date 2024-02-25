@@ -38,7 +38,7 @@
     transition: border-color 0.3s; 
   }
   
-  .interest:hover {
+  .lifestyle:hover {
     border-color: #d6321f; /* Change border color for selected interests */
   }
   
@@ -47,19 +47,6 @@
     border-color: #d6321f; /* Change border color for selected interests */
   }
 
-  .interestsSelected {
-    color: #81868b; 
-    padding: 6px 1px; 
-    border-radius: 17px;
-    text-align: center;
-    cursor: pointer;
-    font-size: 14px; 
-    font-weight: normal; 
-    border: 1px solid #999fa6; 
-    transition: background-color 0.3s;
-    background-color: #81868b; 
-    color: white;
-  }
 
 
   
