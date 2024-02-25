@@ -67,14 +67,14 @@ app.post("/completeProfile", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-app.get("/fetchProfile", async(req, res) => {
+app.get("/fetchProfile", async (req, res) => {
   try {
     const profiles = await ProfileModel.find;
-    res.json(profiles); 
-} catch (error) {
-    console.error('Error fetching profile data:', error);
-    res.status(500).json({ error: 'Failed to fetch profile data' }); 
-}
+    res.json(profiles);
+  } catch (error) {
+    console.error("Error fetching profile data:", error);
+    res.status(500).json({ error: "Failed to fetch profile data" });
+  }
 });
 
 app.post("/login", (req, res) => {
@@ -212,6 +212,22 @@ app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
       console.log("File deleted");
     }
   });
+});
+
+app.get("/image/:name", async (req, res) => {
+  try {
+    const img = await imageModel.findOne({ name: req.params.name });
+    if (!img || !img.img.data) {
+      return res.status(404).send();
+    }
+    console.log(img.img.data);
+
+    res.contentType(img.img.contentType);
+    res.send(img.img.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("server error?");
+  }
 });
 
 const PORT = process.env.PORT;
