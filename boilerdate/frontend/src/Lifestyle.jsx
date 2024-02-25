@@ -171,7 +171,7 @@ function LifestylePage() {
           selectedSleepinghabits.length===0
       ) {
           // Notify the user to select an option for each category
-          toast.error("Please select an option for each category");
+          toast.error("Please select an option for each category.");
           return;
       }
   
