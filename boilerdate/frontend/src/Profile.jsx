@@ -15,7 +15,7 @@ function ProfilePage() {
     axios.get("http://localhost:3001/fetchProfile")
         .then(response => {
             setProfile(response.data);
-            console.log(profile);
+            console.log();
         })
         .catch(error => {
             toast.error("Failed to fetch profile data");
@@ -37,28 +37,28 @@ function ProfilePage() {
       <h1 className="header-text">Name</h1>
       <form onSubmit={handleSubmit}>
 
-      <div>
+      <div className = "content">
         <h2 className="subheader-text">Looking for</h2>
         <div className="selected-container">
       
         </div>
         </div>
 
-        <div>
+        <div className = "content">
         <h2 className="subheader-text">Basics</h2>
         <div className="selected-container">
        
         </div>
         </div>
 
-        <div>  
+        <div className = "content"> 
         <h2 className="subheader-text">Interests</h2>
         <div className="selected-container">
      
         </div>
         </div>
 
-        <div>
+        <div className = "content">
         <h2 className="subheader-text">Lifestyle</h2>
         <div className="selected-container">
        

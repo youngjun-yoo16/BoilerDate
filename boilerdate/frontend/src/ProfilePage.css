@@ -11,6 +11,14 @@
     padding-top: 20px;
   }
 
+  .subheader-text {
+    font-family: Arial, sans-serif; /* Set font family for header text */
+    font-weight: 200;
+    font-size: 17px; 
+    padding-top: 20px;
+  
+  }
+
   .notification {
     background-color: #f44336;
     color: rgb(53, 59, 119);
@@ -36,7 +44,11 @@
     margin-bottom: 20px;
   }
   
-
+  .content {
+    border-bottom: 1px solid #ccc; /* thin grey line */
+    padding: 10px; /* Add padding as needed */
+    text-align: left;
+  }
   
 
 

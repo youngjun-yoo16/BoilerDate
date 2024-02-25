@@ -50,6 +50,8 @@ const dietData = [
   "Pescatarian",
   "Kosher",
   "Halal",
+  "Carnivore",
+  "Omnivore",
   "Other",
 ];
 
