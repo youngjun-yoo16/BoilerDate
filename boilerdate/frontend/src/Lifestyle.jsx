@@ -74,7 +74,7 @@ function LifestylePage() {
   const [selectedLifestyle, setSelectedLifestyle] = useState([]);
 
   const { state } = useLocation();
-  const { interests } = state || {};
+  const { email, interests } = state || {};
 
   const navigate = useNavigate();
 
@@ -171,7 +171,11 @@ function LifestylePage() {
     console.log(selectedLifestyle);
 
     navigate("/academics", {
-      state: { interests: interests, lifestyle: selectedLifestyle },
+      state: {
+        email: email,
+        interests: interests,
+        lifestyle: selectedLifestyle,
+      },
     });
   };
 
