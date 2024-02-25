@@ -19,17 +19,16 @@ function Login() {
         console.log(result);
         if (result.data === "Success") {
           setLoginAttempt(0);
-          navigate("/home");
+          navigate("/home", { state: { email: email } });
         } else {
           toast.error(result.data);
           if (result.data === "Incorrect password") {
-            setLoginAttempt(loginAttempt + 1); 
+            setLoginAttempt(loginAttempt + 1);
           }
           if (loginAttempt >= 4) {
             setLoginAttempt(0);
-            navigate('/forgotPassword');
+            navigate("/forgotPassword");
           }
-
         }
       })
       .catch((err) => console.log(err));
@@ -71,9 +70,7 @@ function Login() {
           </button>
           <ToastContainer />
           <p className="float-right">
-            <a href="/forgotPassword">
-              forgot password?
-            </a>
+            <a href="/forgotPassword">forgot password?</a>
           </p>
           <br />
           <br />
