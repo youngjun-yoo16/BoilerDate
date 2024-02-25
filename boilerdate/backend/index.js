@@ -39,18 +39,16 @@ mongoose
   });
 
 app.post("/signup", (req, res) => {
-  /*UserModel.create(req.body)
+  UserModel.create(req.body)
     .then((users) => res.json(users))
-    .catch((err) => res.json(err));*/
+    .catch((err) => res.json(err));
 });
 
 app.post("/signup2", (req, res) => {
   //const { email, firstName, lastName, gender, dob } = req.body;
-
-  UserModel.create(req.body)
+  /*UserModel.create(req.body)
     .then((users) => res.json(users))
-    .catch((err) => res.json(err));
-
+    .catch((err) => res.json(err));*/
   /*UserModel.findOne({ email: email }).then((user) => {
     console.log(user);
     if (user) {
