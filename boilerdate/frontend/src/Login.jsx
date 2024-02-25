@@ -51,6 +51,7 @@ function Login() {
               name="email"
               className="form-control"
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           <div className="mb-3">
@@ -62,18 +63,14 @@ function Login() {
               name="password"
               className="form-control"
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
-          <button type="submit" className="btn btn-outline-primary w-40" style={{float: 'left'}}>
+          <button type="submit" className="btn btn-outline-primary w-100">
             Login
           </button>
           <ToastContainer />
-          <button type="submit" className="btn btn-outline-primary w-40" style={{float: 'right'}}>
-            Change Password
-          </button>
-          <br />
-          <br />
-          <p class="float-right">
+          <p className="float-right">
             <a href="/forgotPassword">
               forgot password?
             </a>
