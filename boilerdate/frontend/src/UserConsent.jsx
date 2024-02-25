@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -10,16 +10,28 @@ function UserConsent() {
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
 
+  const { state } = useLocation();
+  const { email, firstName, lastName, gender, dob } = state || {};
+
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
   };
 
   const handleSubmission = (e) => {
     e.preventDefault();
+    console.log(state);
     if (isChecked) {
       // need to decide which page to proceed to
       console.log("user consent submitted");
-      navigate("/signup3");
+      navigate("/signup3", {
+        state: {
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          gender: gender,
+          dob: dob,
+        },
+      });
     } else {
       toast.error(
         "Please agree to the rules and safety guidelines to proceed."

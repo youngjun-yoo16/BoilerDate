@@ -39,18 +39,16 @@ mongoose
   });
 
 app.post("/signup", (req, res) => {
-  /*UserModel.create(req.body)
+  UserModel.create(req.body)
     .then((users) => res.json(users))
-    .catch((err) => res.json(err));*/
+    .catch((err) => res.json(err));
 });
 
 app.post("/signup2", (req, res) => {
   //const { email, firstName, lastName, gender, dob } = req.body;
-
-  UserModel.create(req.body)
+  /*UserModel.create(req.body)
     .then((users) => res.json(users))
-    .catch((err) => res.json(err));
-
+    .catch((err) => res.json(err));*/
   /*UserModel.findOne({ email: email }).then((user) => {
     console.log(user);
     if (user) {
@@ -101,6 +99,17 @@ app.post("/verify", (req, res) => {
   const { code } = req.body;
   CodeModel.findOne({ verificationCode: code }).then((code) => {
     if (code) {
+      res.json("Verification Success!");
+    } else {
+      res.json("Verification Failed");
+    }
+  });
+});
+
+app.post("/verifyemail", (req, res) => {
+  const { email } = req.body;
+  UserModel.findOne({ email: email }).then((email) => {
+    if (email) {
       res.json("Verification Success!");
     } else {
       res.json("Verification Failed");

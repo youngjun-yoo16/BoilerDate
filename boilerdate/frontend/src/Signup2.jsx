@@ -23,6 +23,15 @@ function Signup2() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(email);
+    navigate("/userConsent", {
+      state: {
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        gender: gender,
+        dob: dob,
+      },
+    });
     axios
       .post("http://localhost:3001/signup", {
         email,
