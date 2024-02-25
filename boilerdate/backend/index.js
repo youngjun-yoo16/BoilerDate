@@ -84,15 +84,25 @@ app.post("/login", (req, res) => {
 
 app.post("/updatepassword", (req, res) => {
   const { email, password } = req.body;
-  UserModel.findOne({ email: email }).then((user) => {
+  UserModel.findOneAndUpdate(
+    { email: email },
+    { $set: { password: password } },
+    { upsert: true }
+  )
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((error) => res.json(error));
+  /*UserModel.findOne({ email: email }).then((user) => {
     if (user) {
-      UserModel.updateOne({ email: email, password: password }).then((res) => {
-        console.log(res);
+      UserModel.updateOne({ email: email, password: password }).then((result) => {
+        console.log(result);
+        res.json("Password Update Success!");
       });
     } else {
       res.json("Account does not exist");
     }
-  });
+  });*/
 });
 
 app.post("/verify", (req, res) => {
@@ -109,7 +119,7 @@ app.post("/verify", (req, res) => {
 
 app.post("/verifyemail", (req, res) => {
   const { email } = req.body;
-  CodeModel.findOne({ email: email }).then((email) => {
+  UserModel.findOne({ email: email }).then((email) => {
     if (email) {
       res.json("Verification Success!");
     } else {
