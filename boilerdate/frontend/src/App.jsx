@@ -23,6 +23,10 @@ import ProfilePage from "./Profile";
 import ImageTest from "./ImageTest";
 import Major from "./Settings/Major";
 import Degree from "./Settings/Degree";
+import Height from "./Settings/Height";
+import Personality from "./Settings/Personality";
+import Relationship from "./Settings/Relationship";
+import Citizenship from "./Settings/Citizenship";
 
 const App = () => {
   return (
@@ -51,6 +55,13 @@ const App = () => {
           <Route path="/imageTest" element={<ImageTest />}></Route>
           <Route path="/settings/major" element={<Major />}></Route>
           <Route path="/settings/degree" element={<Degree />}></Route>
+          <Route path="/settings/height" element={<Height />}></Route>
+          <Route path="/settings/personality" element={<Personality />}></Route>
+          <Route
+            path="/settings/relationship"
+            element={<Relationship />}
+          ></Route>
+          <Route path="/settings/citizenship" element={<Citizenship />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
