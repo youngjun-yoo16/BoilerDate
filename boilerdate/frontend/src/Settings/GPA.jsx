@@ -4,13 +4,21 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function GPA() {
   const [gpa, setGpa] = useState("");
 
+  const { state } = useLocation();
+  const { email } = state || {};
+  console.log(email);
+
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(gpa);
+    navigate("/settings", { state: { email: email } });
   };
 
   return (

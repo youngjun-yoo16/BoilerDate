@@ -19,14 +19,15 @@ function ProfilePage() {
   //console.log(bio);
   useEffect(() => {
     axios
-      .app("http://localhost:3001/fetchProfile", { email })
+      .post("http://localhost:3001/fetchProfile", { email })
       .then((response) => {
         console.log(response.data);
         //fix from backend
         //  console.log(response.data[7]);
-        setProfile(response);
-        setInterests(response.interests);
-        setLifestyles(response.lifestyle);
+
+        setProfile(response.data.profile);
+        setInterests(response.data.profile.interests);
+        setLifestyles(response.data.profile.lifestyle);
       })
       .catch((error) => {
         toast.error("Failed to fetch profile data");

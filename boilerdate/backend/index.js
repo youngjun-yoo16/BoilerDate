@@ -69,17 +69,17 @@ app.post("/completeProfile", (req, res) => {
 
 app.post("/fetchProfile", async (req, res) => {
 
-  const { email } = req.body;
-    ProfileModel.findOne({ email: email }).then((profile) => {
-      if (profile) {
-        res.json(profile);
-      } else {
-        res.json("Verification Failed");
-      }
-    });
-  
-      
-  });
+  try {
+    const { email } = req.body;
+    const user = await UserModel.findOne({ email: email });
+    const profile = await ProfileModel.findOne({ email: email });
+    const responseData = { user: user, profile: profile };
+    res.json(responseData);
+  } catch (error) {
+    console.error("Error fetching profile data:", error);
+    res.json({ error: "Failed to fetch profile data" });
+  }
+});
     
 
 app.post("/login", (req, res) => {
