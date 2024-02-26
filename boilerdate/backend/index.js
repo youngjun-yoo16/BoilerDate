@@ -69,7 +69,8 @@ app.post("/completeProfile", (req, res) => {
 
 app.get("/fetchProfile", async (req, res) => {
   try {
-    const profiles = await ProfileModel.find();
+    const { email } = req.body;
+    const profiles = await ProfileModel.findOne({ email: email });
     res.json(profiles);
   } catch (error) {
     console.error("Error fetching profile data:", error);
