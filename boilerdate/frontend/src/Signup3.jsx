@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -11,6 +11,12 @@ function Signup3() {
 
   const { state } = useLocation();
   const { email, firstName, lastName, gender, dob } = state || {};
+
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1)
+    }
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault();
