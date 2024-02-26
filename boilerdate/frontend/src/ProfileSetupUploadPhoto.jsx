@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -14,6 +14,10 @@ function UploadPhoto() {
   const [fileName, setFileName] = useState(null);
   const navigate = useNavigate();
   const inputFileRef = useRef(null);
+
+  const { state } = useLocation();
+  const { email } = state || {};
+  console.log(email);
 
   const triggerFileInput = () => {
     inputFileRef.current.click();
@@ -47,7 +51,7 @@ function UploadPhoto() {
       if (response.data.success) {
         toast.success("Photo uploaded successfully!");
         await sleep(1200);
-        navigate("/interests");
+        navigate("/interests", { state: { email: email } });
       } else {
         toast.error("Error: server issue");
       }
