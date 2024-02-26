@@ -81,7 +81,7 @@ function LifestylePage() {
 
   useEffect(() => {
     if (email === undefined) {
-      navigate("/")
+      navigate(-1)
     }
   })
 

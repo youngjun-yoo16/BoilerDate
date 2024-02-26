@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -16,6 +16,12 @@ function Academics() {
   const { email, interests, lifestyle } = state || {};
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1)
+    }
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault();

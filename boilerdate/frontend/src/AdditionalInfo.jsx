@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,12 @@ function AdditionalInfo() {
   const { email, gpa, major, degree, interests, lifestyle } = state || {};
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1)
+    }
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault();
