@@ -7,6 +7,8 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Signup2() {
   const [firstName, setFirstName] = useState("");
@@ -22,15 +24,26 @@ function Signup2() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(email);
-    navigate("/userConsent", {
-      state: {
-        email: email,
-        firstName: firstName,
-        lastName: lastName,
-        gender: gender,
-        dob: dob,
-      },
-    });
+
+    console.log(`this is crr dob: ${dob}`);
+    let crrDob = new Date(dob);
+    let dateDiff = Date.now() - crrDob.getTime();
+    let objAge = new Date(dateDiff);
+    const age = Math.abs(objAge.getUTCFullYear() - 1970);
+    console.log(age);
+    if (age < 18) {
+      toast.error("You must be at least 18 years old to use our service!");
+    } else {
+      navigate("/userConsent", {
+        state: {
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          gender: gender,
+          dob: dob,
+        },
+      });
+    }
   };
 
   return (
@@ -123,6 +136,7 @@ function Signup2() {
               Next
             </button>
           </div>
+          <ToastContainer />
         </form>
       </div>
     </div>
