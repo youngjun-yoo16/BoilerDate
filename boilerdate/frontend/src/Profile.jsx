@@ -15,8 +15,9 @@ function ProfilePage() {
   const [lifestyles, setLifestyles] = useState([]);
   //console.log(bio);
   useEffect(() => {
-    axios.get("http://localhost:3001/fetchProfile")
+    axios.get("http://localhost:3001/fetchProfile", { email })
         .then(response => {
+          console.log(response.data);
           //fix from backend
           console.log(response.data[7]);
             setProfile(response.data[7]);

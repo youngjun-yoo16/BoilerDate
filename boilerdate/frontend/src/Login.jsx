@@ -43,7 +43,7 @@ function Login() {
           <div className="mb-3">
             <label htmlFor="email">Enter your email address</label>
             <p></p>
-            <input
+            <input  
               type="email"
               placeholder="Enter Email"
               autoComplete="off"
