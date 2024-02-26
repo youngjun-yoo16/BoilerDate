@@ -1,9 +1,6 @@
-import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 function Home() {
-  const [path, setPath] = useState("");
   const { state } = useLocation();
   const { email } = state || {};
   console.log(email);
