@@ -21,7 +21,7 @@ function Degree() {
     console.log(degree);
 
     axios
-      .post("http://localhost:3001/updateMajor", {
+      .post("http://localhost:3001/updateDegree", {
         email,
         degree,
       })
