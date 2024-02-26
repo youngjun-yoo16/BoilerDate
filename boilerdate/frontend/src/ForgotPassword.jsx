@@ -1,27 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const { flow } = state || {};
+
+  useEffect(() => {
+    console.log(flow)
+    if (flow === undefined) {
+      navigate(-1);
+    }
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:3001/verifyemail", { email })
-    .then((result) => {
-      if (result.data !== "Verification Success!") {
-          toast.error("Account does not exist")
+    await axios
+      .post("http://localhost:3001/verifyemail", { email })
+      .then((result) => {
+        if (result.data !== "Verification Success!") {
+          toast.error("Account does not exist");
           return;
-      }
-    })
+        }
+      });
     await axios
       .post("http://localhost:3001/sendverificationcode", { email })
       .then((result) => {
         if (result.data.success === true) {
-            navigate("/changePassword", { state: { email: email } });
+          navigate("/changePassword", { state: { email: email } });
         } else {
           toast.error(`${result.data.message}`);
         }

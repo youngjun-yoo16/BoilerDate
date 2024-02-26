@@ -17,7 +17,15 @@ function ProfilePage() {
 
   const { state } = useLocation();
   const { email } = state || {};
+  const navigate = useNavigate();
+
   console.log(email);
+
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1)
+    }
+  })
 
   const imageUrl = `http://localhost:3001/image/${email}`;
 

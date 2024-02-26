@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
+  const flow = true;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginAttempt, setLoginAttempt] = useState(0);
@@ -27,7 +28,7 @@ function Login() {
           }
           if (loginAttempt >= 4) {
             setLoginAttempt(0);
-            navigate("/forgotPassword");
+            navigate("/forgotPassword", { state: { flow: flow } });
           }
         }
       })
