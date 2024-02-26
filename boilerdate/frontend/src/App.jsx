@@ -2,6 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Signup from "./Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Landing from "./Landing";
 import Login from "./Login";
 import Home from "./Home";
 import Verify from "./Verify";
@@ -26,6 +27,7 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Landing />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/interests" element={<Interests />}></Route>
           <Route path="/lifestyle" element={<Lifestyle />}></Route>
