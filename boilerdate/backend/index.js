@@ -8,7 +8,7 @@ const ProfileModel = require("./models/Profile");
 const imageModel = require("./models/Image");
 const {
   generateVerificationCode,
-  sendVerificationEmail,  
+  sendVerificationEmail,
 } = require("./verification_code");
 const bodyParser = require("body-parser");
 const multer = require("multer");
@@ -68,7 +68,6 @@ app.post("/completeProfile", (req, res) => {
 });
 
 app.post("/fetchProfile", async (req, res) => {
-
   try {
     const { email } = req.body;
     const user = await UserModel.findOne({ email: email });
@@ -80,7 +79,6 @@ app.post("/fetchProfile", async (req, res) => {
     res.json({ error: "Failed to fetch profile data" });
   }
 });
-    
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
@@ -239,4 +237,18 @@ const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+});
+
+app.post("/updateGPA", async (req, res) => {
+  try {
+    const { email, gpa } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { gpa: gpa } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });

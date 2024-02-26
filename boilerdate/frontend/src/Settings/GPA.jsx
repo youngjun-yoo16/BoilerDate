@@ -5,6 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function GPA() {
   const [gpa, setGpa] = useState("");
@@ -18,7 +19,17 @@ function GPA() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(gpa);
-    navigate("/settings", { state: { email: email } });
+
+    axios
+      .post("http://localhost:3001/updateGPA", {
+        email,
+        gpa,
+      })
+      .then((result) => {
+        console.log(result);
+        navigate("/settings", { state: { email: email } });
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
