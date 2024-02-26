@@ -69,7 +69,6 @@ function ProfilePage() {
       <div>
         <img src={imageUrl} alt="Uploaded Content" />
       </div>
-      <h1 className="header-text">{profile.email}</h1>
       <h1 className="header-text">{fName} {lName}, {ages}</h1>
       <form onSubmit={handleSubmit}>
         <div className="content">
