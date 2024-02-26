@@ -69,11 +69,11 @@ app.post("/completeProfile", (req, res) => {
 
 app.get("/fetchProfile", async (req, res) => {
   try {
-    const profiles = await ProfileModel.find;
+    const profiles = await ProfileModel.find();
     res.json(profiles);
   } catch (error) {
     console.error("Error fetching profile data:", error);
-    res.status(500).json({ error: "Failed to fetch profile data" });
+    res.json({ error: "Failed to fetch profile data" });
   }
 });
 
