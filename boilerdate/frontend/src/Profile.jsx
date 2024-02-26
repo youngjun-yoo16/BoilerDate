@@ -19,7 +19,7 @@ function ProfilePage() {
   //console.log(bio);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/fetchProfile", { email })
+      .app("http://localhost:3001/fetchProfile", { email })
       .then((response) => {
         console.log(response.data);
         //fix from backend
