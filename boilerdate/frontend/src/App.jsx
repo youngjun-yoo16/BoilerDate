@@ -21,6 +21,8 @@ import Settings from "./Settings";
 import GPA from "./Settings/GPA";
 import ProfilePage from "./Profile";
 import ImageTest from "./ImageTest";
+import Major from "./Settings/Major";
+import Degree from "./Settings/Degree";
 
 const App = () => {
   return (
@@ -47,6 +49,8 @@ const App = () => {
           <Route path="/settings/gpa" element={<GPA />}></Route>
           <Route path="/profile" element={<ProfilePage />}></Route>
           <Route path="/imageTest" element={<ImageTest />}></Route>
+          <Route path="/settings/major" element={<Major />}></Route>
+          <Route path="/settings/degree" element={<Degree />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

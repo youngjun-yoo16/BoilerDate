@@ -36,6 +36,30 @@ function Settings() {
             }
           />
         </div>
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Major"
+            name="major"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/major", { state: { email: email } })
+            }
+          />
+        </div>
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Degree"
+            name="degree"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/degree", { state: { email: email } })
+            }
+          />
+        </div>
       </div>
     </div>
   );
