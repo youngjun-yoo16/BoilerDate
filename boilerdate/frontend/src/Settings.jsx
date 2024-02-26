@@ -66,6 +66,54 @@ function Settings() {
             }
           />
         </div>
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Height"
+            name="height"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/height", { state: { email: email } })
+            }
+          />
+        </div>
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Personality"
+            name="personality"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/personality", { state: { email: email } })
+            }
+          />
+        </div>
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Relationship"
+            name="relationship"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/relationship", { state: { email: email } })
+            }
+          />
+        </div>
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Citizenship"
+            name="citizenship"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/citizenship", { state: { email: email } })
+            }
+          />
+        </div>
       </div>
     </div>
   );

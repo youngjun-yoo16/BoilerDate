@@ -10,11 +10,12 @@ import axios from "axios";
 function ProfilePage() {
   const [fName, setfName] = useState("");
   const [lName, setlName] = useState("");
-  const [age, setAge] = useState("");
   const [profile, setProfile] = useState([]);
   const [interests, setInterests] = useState([]);
   const [lifestyles, setLifestyles] = useState([]);
 
+  const [ages, setAges] = useState("");
+  
   const { state } = useLocation();
   const { email } = state || {};
   const navigate = useNavigate();
@@ -35,8 +36,16 @@ function ProfilePage() {
       .post("http://localhost:3001/fetchProfile", { email })
       .then((response) => {
         console.log(response.data);
+        
         console.log(response.data.user.dob);
-        setAge(response.data.user.dob);
+        let crrDob = new Date(response.data.user.dob);
+        let dateDiff = Date.now() - crrDob.getTime();
+        let objAge = new Date(dateDiff);
+        const age = Math.abs(objAge.getUTCFullYear() - 1970);
+        console.log(age);
+        setAges(age);
+       
+       
         setfName(response.data.user.firstName);
         setlName(response.data.user.lastName);
         setProfile(response.data.profile);
@@ -49,6 +58,8 @@ function ProfilePage() {
       });
   }, []);
 
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -59,9 +70,7 @@ function ProfilePage() {
         <img src={imageUrl} alt="Uploaded Content" />
       </div>
       <h1 className="header-text">{profile.email}</h1>
-      <h1 className="header-text">
-        {fName} {lName},{" "}
-      </h1>
+      <h1 className="header-text">{fName} {lName}, {ages}</h1>
       <form onSubmit={handleSubmit}>
         <div className="content">
           <h2 className="subheader-text">Looking for</h2>

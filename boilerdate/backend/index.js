@@ -281,3 +281,59 @@ app.post("/updateDegree", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.post("/updateHeight", async (req, res) => {
+  try {
+    const { email, height } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { height: height } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updatePersonality", async (req, res) => {
+  try {
+    const { email, personality } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { personality: personality } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateRelationship", async (req, res) => {
+  try {
+    const { email, relationship } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { relationship: relationship } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateCitizenship", async (req, res) => {
+  try {
+    const { email, citizenship } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { citizenship: citizenship } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
