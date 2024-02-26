@@ -1,11 +1,16 @@
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
   const { state } = useLocation();
   const { email } = state || {};
-  console.log(email);
-
-  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (email === undefined) {
+      navigate("/")
+    }
+  })
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
@@ -38,7 +43,7 @@ function Home() {
             value="Logout"
             name="profile"
             className="btn btn-outline-danger border w-100"
-            onClick={() => navigate("/landing")}
+            onClick={() => navigate("/")}
           />
         </div>
       </div>
