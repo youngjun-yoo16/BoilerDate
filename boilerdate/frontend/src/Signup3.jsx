@@ -46,6 +46,8 @@ function Signup3() {
       return;
     }
 
+    setPassword(btoa(password))
+
     axios
       .post("http://localhost:3001/signup", {
         email,

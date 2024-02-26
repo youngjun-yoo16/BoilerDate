@@ -58,6 +58,9 @@ function ChangePassword() {
       return;
     }
 
+    const encodedPassword = btoa(newPassword);
+    console.log(encodedPassword);
+
     await axios
       .post("http://localhost:3001/verify", { tempCode })
       .then((result) => {
@@ -67,7 +70,7 @@ function ChangePassword() {
           axios
             .post("http://localhost:3001/updatepassword", {
               email,
-              newPassword,
+              encodedPassword,
             })
             .then(() => {
               navigate("/login");

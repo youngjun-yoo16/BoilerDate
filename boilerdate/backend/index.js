@@ -94,10 +94,10 @@ app.post("/login", (req, res) => {
 
 app.post("/updatepassword", async (req, res) => {
   try {
-    const { email, newPassword } = req.body;
+    const { email, encodedPassword } = req.body;
     const result = await UserModel.findOneAndUpdate(
       { email: email },
-      { $set: { password: newPassword } },
+      { $set: { password: encodedPassword } },
       { upsert: true, new: true } // Ensure to return the updated document
     );
     res.json(result);
