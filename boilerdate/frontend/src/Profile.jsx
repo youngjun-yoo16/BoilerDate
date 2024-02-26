@@ -11,11 +11,18 @@ import axios from "axios";
 function ProfilePage() {
 
   const [profile, setProfile] = useState([]);
+  const [interests, setInterests] = useState([]);
+  const [lifestyles, setLifestyles] = useState([]);
+  //console.log(bio);
   useEffect(() => {
     axios.get("http://localhost:3001/fetchProfile")
         .then(response => {
-            setProfile(response.data);
-            console.log();
+          //fix from backend
+          console.log(response.data[7]);
+            setProfile(response.data[7]);
+            setInterests(response.data[7].interests);
+            setLifestyles(response.data[7].lifestyle);
+         
         })
         .catch(error => {
             toast.error("Failed to fetch profile data");
@@ -23,7 +30,7 @@ function ProfilePage() {
         });
     }, []);
 
-
+  
   
     const handleSubmit = (e) => {
 
@@ -34,34 +41,51 @@ function ProfilePage() {
     
   return (
     <div className="container">
-      <h1 className="header-text">Name</h1>
+      <h1 className="header-text">{profile.email}</h1>
       <form onSubmit={handleSubmit}>
 
       <div className = "content">
         <h2 className="subheader-text">Looking for</h2>
-        <div className="selected-container">
-      
+        <div className="selected-container">  
+        <p className="relationship">{profile.relationship}</p>  
         </div>
         </div>
 
         <div className = "content">
         <h2 className="subheader-text">Basics</h2>
         <div className="selected-container">
-       
+        <p className="height">{profile.height}</p> 
+
         </div>
         </div>
 
         <div className = "content"> 
         <h2 className="subheader-text">Interests</h2>
         <div className="selected-container">
-     
+        {interests.map((interest, index) => (
+        <div
+        key={index}
+        className={`interests`}
+        >
+          {interest}
+          </div>
+        ))}
         </div>
         </div>
 
         <div className = "content">
         <h2 className="subheader-text">Lifestyle</h2>
         <div className="selected-container">
-       
+        {lifestyles.map((lifestyles, index) => (
+        <div
+        key={index}
+        className={`interests`}
+        >
+          {lifestyles}
+          </div>
+        ))}
+    
+      
          
         </div>
         </div>

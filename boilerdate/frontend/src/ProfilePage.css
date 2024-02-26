@@ -11,40 +11,49 @@
     padding-top: 20px;
   }
 
+
   .subheader-text {
     font-family: Arial, sans-serif; /* Set font family for header text */
-    font-weight: 200;
-    font-size: 17px; 
-    padding-top: 20px;
-  
+    font-weight: 300;
+    font-size: 18px; 
+    padding-top: 15px;
   }
 
-  .notification {
-    background-color: #f44336;
-    color: rgb(53, 59, 119);
-    text-align: center;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-
-  
   .selected-container {
-    border-bottom: 1.5px solid #9e9b9b;
-  }
-
-  .interests-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
-    padding-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    border-bottom: 1.3px solid #9e9b9b;
   }
   
   .content {
-    padding: 10px; /* Add padding as needed */
+    padding-top: 5px; 
+    margin-top: 5px;
     text-align: left;
   }
   
-
+  .relationship {
+    font-family: Arial, sans-serif;
+    font-weight: 540;
+    font-size: 25px; 
+    margin-bottom: -5px;
+    margin-top: -5px;
+  }
+  .height {
+    font-family: Arial, sans-serif;
+   
+    margin-bottom: -5px;
+    margin-top: -5px;
+  }
+  .interests {
+    color: #515558; 
+    padding: 6px 1px; 
+    border-radius: 17px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px; 
+    font-weight: normal; 
+    border: 1px solid #82868a; 
+    transition: border-color 0.3s; 
+  }
 
   
