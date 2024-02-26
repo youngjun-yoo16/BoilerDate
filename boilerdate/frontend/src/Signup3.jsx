@@ -46,12 +46,12 @@ function Signup3() {
       return;
     }
 
-    setPassword(btoa(password))
+    const encodedPassword = btoa(password);
 
     axios
       .post("http://localhost:3001/signup", {
         email,
-        password,
+        encodedPassword,
         firstName,
         lastName,
         gender,
