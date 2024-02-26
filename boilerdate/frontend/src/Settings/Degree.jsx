@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -16,6 +16,12 @@ function Degree() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1)
+    }
+  })
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(degree);

@@ -8,7 +8,7 @@ function Home() {
   
   useEffect(() => {
     if (email === undefined) {
-      navigate("/")
+      navigate(-1)
     }
   })
 

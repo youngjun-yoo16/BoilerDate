@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Settings() {
@@ -7,6 +7,12 @@ function Settings() {
   console.log(email);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1);
+    }
+  });
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">

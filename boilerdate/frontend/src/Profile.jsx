@@ -19,16 +19,18 @@ function ProfilePage() {
   const { email } = state || {};
   console.log(email);
 
+  const imageUrl = `http://localhost:3001/image/${email}`;
+
   //console.log(bio);
   useEffect(() => {
     axios
       .post("http://localhost:3001/fetchProfile", { email })
       .then((response) => {
         console.log(response.data);
-       console.log(response.data.user.dob);
+        console.log(response.data.user.dob);
         setAge(response.data.user.dob);
         setfName(response.data.user.firstName);
-        setlName(response.data.user.lastName)
+        setlName(response.data.user.lastName);
         setProfile(response.data.profile);
         setInterests(response.data.profile.interests);
         setLifestyles(response.data.profile.lifestyle);
@@ -45,9 +47,13 @@ function ProfilePage() {
 
   return (
     <div className="container">
-      <div>{/*<img src={imageUrl} alt="Uploaded Content" />*/}</div>
+      <div>
+        <img src={imageUrl} alt="Uploaded Content" />
+      </div>
       <h1 className="header-text">{profile.email}</h1>
-      <h1 className="header-text">{fName} {lName}, </h1>
+      <h1 className="header-text">
+        {fName} {lName},{" "}
+      </h1>
       <form onSubmit={handleSubmit}>
         <div className="content">
           <h2 className="subheader-text">Looking for</h2>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./InterestsPage.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -129,6 +129,12 @@ function InterestsPage() {
 
   const { state } = useLocation();
   const { email } = state || {};
+
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1)
+    }
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault();

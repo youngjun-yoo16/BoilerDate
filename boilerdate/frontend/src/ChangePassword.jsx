@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,12 @@ function ChangePassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1)
+    }
+  })
 
   const handleSubmit = async (e) => {
     e.preventDefault();

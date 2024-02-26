@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Verify.css";
 import "react-toastify/dist/ReactToastify.css";
 import VerificationInput from "react-verification-input";
@@ -13,6 +13,11 @@ function Verify() {
   const { email } = state || {};
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1)
+    }
+  })
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
