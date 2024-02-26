@@ -253,3 +253,31 @@ app.post("/updateGPA", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.post("/updateMajor", async (req, res) => {
+  try {
+    const { email, major } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { major: major } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateDegree", async (req, res) => {
+  try {
+    const { email, degree } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { degree: degree } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});

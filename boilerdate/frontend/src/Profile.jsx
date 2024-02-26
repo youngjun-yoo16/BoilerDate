@@ -8,6 +8,9 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 function ProfilePage() {
+  const [fName, setfName] = useState("");
+  const [lName, setlName] = useState("");
+  const [age, setAge] = useState("");
   const [profile, setProfile] = useState([]);
   const [interests, setInterests] = useState([]);
   const [lifestyles, setLifestyles] = useState([]);
@@ -22,9 +25,10 @@ function ProfilePage() {
       .post("http://localhost:3001/fetchProfile", { email })
       .then((response) => {
         console.log(response.data);
-        //fix from backend
-        //  console.log(response.data[7]);
-
+       console.log(response.data.user.dob);
+        setAge(response.data.user.dob);
+        setfName(response.data.user.firstName);
+        setlName(response.data.user.lastName)
         setProfile(response.data.profile);
         setInterests(response.data.profile.interests);
         setLifestyles(response.data.profile.lifestyle);
@@ -43,6 +47,7 @@ function ProfilePage() {
     <div className="container">
       <div>{/*<img src={imageUrl} alt="Uploaded Content" />*/}</div>
       <h1 className="header-text">{profile.email}</h1>
+      <h1 className="header-text">{fName} {lName}, </h1>
       <form onSubmit={handleSubmit}>
         <div className="content">
           <h2 className="subheader-text">Looking for</h2>
