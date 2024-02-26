@@ -8,7 +8,7 @@ const ProfileModel = require("./models/Profile");
 const imageModel = require("./models/Image");
 const {
   generateVerificationCode,
-  sendVerificationEmail,
+  sendVerificationEmail,  
 } = require("./verification_code");
 const bodyParser = require("body-parser");
 const multer = require("multer");
@@ -27,11 +27,11 @@ app.set("view engine", "ejs");
 const url = process.env.MONGODB_URI;
 
 mongoose.set("strictQuery", false);
-console.log("connecting to", url);
+console.log("Connecting to", url);
 
 mongoose
   .connect(url)
-  .then((result) => {
+  .then(() => {
     console.log("Connected to MongoDB");
   })
   .catch((error) => {
@@ -82,7 +82,7 @@ app.post("/login", (req, res) => {
   const { email, password } = req.body;
   UserModel.findOne({ email: email }).then((user) => {
     if (user) {
-      if (user.password === password) {
+      if (atob(user.password) === password) {
         res.json("Success");
       } else {
         res.json("Incorrect password");
