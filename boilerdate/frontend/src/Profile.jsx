@@ -21,12 +21,13 @@ function ProfilePage() {
     axios
       .post("http://localhost:3001/fetchProfile", { email })
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data.email);
         //fix from backend
         //  console.log(response.data[7]);
-        setProfile(response);
-        setInterests(response.interests);
-        setLifestyles(response.lifestyle);
+      
+        setProfile(response.data);
+        setInterests(response.data.interests);
+        setLifestyles(response.data.lifestyle);
       })
       .catch((error) => {
         toast.error("Failed to fetch profile data");
