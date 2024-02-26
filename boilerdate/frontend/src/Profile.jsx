@@ -24,7 +24,7 @@ function ProfilePage() {
         //console.log(response.data.email);
         //fix from backend
         //  console.log(response.data[7]);
-      
+
         setProfile(response.data);
         setInterests(response.data.interests);
         setLifestyles(response.data.lifestyle);
