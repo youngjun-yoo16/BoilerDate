@@ -183,6 +183,7 @@ app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
 
   const obj = {
     name: req.file.filename,
+    email: req.body.email,
     img: {
       data: fs.readFileSync(temp_image_file_path),
       //contentType: "image/png",

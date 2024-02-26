@@ -17,6 +17,7 @@ function UploadPhoto() {
 
   const { state } = useLocation();
   const { email } = state || {};
+
   console.log(email);
 
   const triggerFileInput = () => {
@@ -41,6 +42,7 @@ function UploadPhoto() {
 
     const formData = new FormData();
     formData.append("image", file);
+    formData.append("email", email);
 
     try {
       const response = await axios.post(
