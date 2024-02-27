@@ -9,14 +9,14 @@ function ForgotPassword() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { flow } = state || {};
+  //const { flow } = state || {};
 
-  useEffect(() => {
+  /*useEffect(() => {
     console.log(flow)
     if (flow === undefined) {
       navigate(-1);
     }
-  });
+  });*/
 
   const handleSubmit = async (e) => {
     e.preventDefault();
