@@ -18,7 +18,15 @@ function ProfilePage() {
   
   const { state } = useLocation();
   const { email } = state || {};
+  const navigate = useNavigate();
+
   console.log(email);
+
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1)
+    }
+  })
 
   const imageUrl = `http://localhost:3001/image/${email}`;
 
@@ -61,7 +69,6 @@ function ProfilePage() {
       <div>
         <img src={imageUrl} alt="Uploaded Content" />
       </div>
-      <h1 className="header-text">{profile.email}</h1>
       <h1 className="header-text">{fName} {lName}, {ages}</h1>
       <form onSubmit={handleSubmit}>
         <div className="content">

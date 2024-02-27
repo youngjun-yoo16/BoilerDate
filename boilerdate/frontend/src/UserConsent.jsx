@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
 function UserConsent() {
@@ -14,6 +14,12 @@ function UserConsent() {
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
   };
+
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1)
+    }
+  })
 
   const handleSubmission = (e) => {
     e.preventDefault();
