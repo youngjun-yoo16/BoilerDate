@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 // Assuming uploadphoto.jsx is in the same directory
 
 function Signup3() {
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const navigate = useNavigate();
 
   const { state } = useLocation();
@@ -21,7 +21,7 @@ function Signup3() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (password.length < 10) {
+    if (newPassword.length < 10) {
       toast.error(
         "Please make sure that your password has at least 10 characters!"
       );
@@ -32,19 +32,19 @@ function Signup3() {
     const special_check_regex = /[^a-zA-Z0-9]/;
     const number_check_regex = /\d/;
     let flag = true;
-    if (!uppercase_check_regex.test(password)) {
+    if (!uppercase_check_regex.test(newPassword)) {
       toast.error("Please include at least one uppercase letter!");
       flag = false;
     }
-    if (!lowercase_check_regex.test(password)) {
+    if (!lowercase_check_regex.test(newPassword)) {
       toast.error("Please include at least one lowercase letter!");
       flag = false;
     }
-    if (!special_check_regex.test(password)) {
+    if (!special_check_regex.test(newPassword)) {
       toast.error("Please include at least one special character!");
       flag = false;
     }
-    if (!number_check_regex.test(password)) {
+    if (!number_check_regex.test(newPassword)) {
       toast.error("Please include at least one number!");
       flag = false;
     }
@@ -52,7 +52,7 @@ function Signup3() {
       return;
     }
 
-    setPassword(btoa(password))
+    const password = btoa(newPassword)
 
     axios
       .post("http://localhost:3001/signup", {
@@ -86,7 +86,7 @@ function Signup3() {
               placeholder="Enter password"
               name="password"
               className="form-control"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setNewPassword(e.target.value)}
             />
             <small id="passwordHelpBlock" className="form-text text-muted">
               Password must have at least 10 characters, 1 uppercase letter, 1
