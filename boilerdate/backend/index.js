@@ -223,7 +223,7 @@ app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
   });
 });
 
-app.get("/image/:name", async (req, res) => {
+app.get("/image/:email", async (req, res) => {
   try {
     const img = await imageModel.findOne({ email: req.params.email });
     if (!img || !img.img.data) {
