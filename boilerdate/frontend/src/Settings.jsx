@@ -114,6 +114,84 @@ function Settings() {
             }
           />
         </div>
+
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Skills"
+            name="skills"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/skills", { state: { email: email } })
+            }
+          />
+        </div>
+
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Emplyoment history"
+            name="emplyoment"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/employment", { state: { email: email } })
+            }
+          />
+        </div>
+
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Career goals"
+            name="career"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/career", { state: { email: email } })
+            }
+          />
+        </div>
+
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="GitHub"
+            name="github"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/github", { state: { email: email } })
+            }
+          />
+        </div>
+
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="LinkedIn"
+            name="linkedin"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/linkedin", { state: { email: email } })
+            }
+          />
+        </div>
+
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Bio"
+            name="bio"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/bio", { state: { email: email } })
+            }
+          />
+        </div>
       </div>
     </div>
   );

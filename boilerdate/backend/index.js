@@ -337,3 +337,87 @@ app.post("/updateCitizenship", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.post("/updateSkills", async (req, res) => {
+  try {
+    const { email, skills } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { skills: skills } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateEmployment", async (req, res) => {
+  try {
+    const { email, employment_history } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { employment_history: employment_history } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateCareer", async (req, res) => {
+  try {
+    const { email, career_goals } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { career_goals: career_goals } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateGithub", async (req, res) => {
+  try {
+    const { email, github } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { github: github } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateLinkedin", async (req, res) => {
+  try {
+    const { email, linkedin } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { linkedin: linkedin } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateBio", async (req, res) => {
+  try {
+    const { email, bio } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { bio: bio } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});

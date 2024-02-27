@@ -27,6 +27,12 @@ import Height from "./Settings/Height";
 import Personality from "./Settings/Personality";
 import Relationship from "./Settings/Relationship";
 import Citizenship from "./Settings/Citizenship";
+import Skills from "./Settings/Skills";
+import Employment from "./Settings/Employment";
+import Career from "./Settings/Career";
+import Github from "./Settings/Github";
+import Linkedin from "./Settings/Linkedin";
+import Bio from "./Settings/Bio";
 
 const App = () => {
   return (
@@ -62,6 +68,12 @@ const App = () => {
             element={<Relationship />}
           ></Route>
           <Route path="/settings/citizenship" element={<Citizenship />}></Route>
+          <Route path="/settings/skills" element={<Skills />}></Route>
+          <Route path="/settings/employment" element={<Employment />}></Route>
+          <Route path="/settings/career" element={<Career />}></Route>
+          <Route path="/settings/github" element={<Github />}></Route>
+          <Route path="/settings/linkedin" element={<Linkedin />}></Route>
+          <Route path="/settings/bio" element={<Bio />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
