@@ -35,6 +35,9 @@ import Linkedin from "./Settings/Linkedin";
 import Bio from "./Settings/Bio";
 import UpdateInterests from "./Settings/Interests";
 import UpdateLifestyle from "./Settings/Lifestyle";
+import Name from "./Settings/Name";
+import Gender from "./Settings/Gender";
+import Birthday from "./Settings/Birthday";
 
 const App = () => {
   return (
@@ -84,6 +87,9 @@ const App = () => {
             path="/settings/lifestyle"
             element={<UpdateLifestyle />}
           ></Route>
+          <Route path="/settings/name" element={<Name />}></Route>
+          <Route path="/settings/gender" element={<Gender />}></Route>
+          <Route path="/settings/birthday" element={<Birthday />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

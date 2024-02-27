@@ -449,3 +449,45 @@ app.post("/updateLifestyle", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.post("/updateName", async (req, res) => {
+  try {
+    const { email, firstName, lastName } = req.body;
+    const result = await UserModel.findOneAndUpdate(
+      { email: email },
+      { $set: { firstName: firstName, lastName: lastName } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateGender", async (req, res) => {
+  try {
+    const { email, gender } = req.body;
+    const result = await UserModel.findOneAndUpdate(
+      { email: email },
+      { $set: { gender: gender } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateBirthday", async (req, res) => {
+  try {
+    const { email, dob } = req.body;
+    const result = await UserModel.findOneAndUpdate(
+      { email: email },
+      { $set: { dob: dob } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
