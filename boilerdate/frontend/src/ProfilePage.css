@@ -12,11 +12,10 @@
     
   }
 
-
   .subheader-text {
     font-family: Arial, sans-serif; /* Set font family for header text */
     font-weight: 300;
-    font-size: 18px; 
+    font-size: 19px; 
     padding-top: 15px;
   }
 
@@ -28,16 +27,16 @@
     padding-top: 0px;
     margin-bottom: -5px;
   }
-  .selected-container {
 
-    margin-bottom: 5px;
+  .selected-container {
+    padding-bottom: -5px;
+   margin-bottom: 5px;
     margin-top: 5px;
  
   }
 
   .content {
-    text-align: left;
-    
+    white-space: pre-wrap;
   }
   
   .relationship {
@@ -51,9 +50,11 @@
   .height {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 16px; 
-    margin-bottom: -5px;
+    
     margin-top: -5px;
+    margin-bottom: 8px; 
   }
+  
   .interests {
     color: #515558; 
     padding: 6px 1px; 

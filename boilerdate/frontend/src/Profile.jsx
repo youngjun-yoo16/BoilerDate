@@ -88,22 +88,25 @@ function ProfilePage() {
         <div className="content">
           <h2 className="subheader-text">Basics</h2>
           <div className="selected-container">
+            <div>
             <p className="height">Height: {profile.height}</p>
             <p className="height">Personality Type: {profile.personality}</p>
             <p className="height">Citizenship: {profile.citizenship}</p>
+          </div>
           </div>
         </div>
 
         <div className="content">
           <h2 className="subheader-text">Academics & Career</h2>
           <div className="selected-container">
+            <div>
              <p className="height">Major: {profile.major}</p>
            <p className="height">Degree: {profile.degree}</p> 
            <p className="height">GPA: {profile.gpa}</p> 
            <p className="height">Employment History: {profile.employment_history}</p> 
            <p className="height">Skills: {profile.skills}</p> 
            <p className="height">Career Goals: {profile.career_goals}</p>
-            
+            </div>
           </div>
         </div>
 
@@ -167,9 +170,10 @@ function ProfilePage() {
         <div className="content">
           <h2 className="subheader-text">Links</h2>
           <div className="selected-container">
+            <div>
             <p className="height">Github: {profile.github}</p>
             <p className="height">LinkedIn: {profile.linkedin}</p> 
-      
+            </div>
             
           </div>
         </div>
