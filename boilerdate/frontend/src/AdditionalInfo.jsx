@@ -21,9 +21,9 @@ function AdditionalInfo() {
 
   useEffect(() => {
     if (email === undefined) {
-      navigate(-1)
+      navigate(-1);
     }
-  })
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -138,16 +138,18 @@ function AdditionalInfo() {
                 label="Relationship"
                 onChange={(e) => setRelationship(e.target.value)}
               >
-                <MenuItem value={"long-term"}>Long-term</MenuItem>
-                <MenuItem value={"long-term, open"}>
+                <MenuItem value={"Long-term"}>Long-term</MenuItem>
+                <MenuItem value={"Long-term, open to short"}>
                   Long-term, open to short
                 </MenuItem>
-                <MenuItem value={"short-term, open"}>
+                <MenuItem value={"Short-term, open to long"}>
                   Short-term, open to long
                 </MenuItem>
-                <MenuItem value={"short-term"}>Short-term</MenuItem>
-                <MenuItem value={"friends"}>Friends</MenuItem>
-                <MenuItem value={"unsure"}>Still figuring it out</MenuItem>
+                <MenuItem value={"Short-term"}>Short-term</MenuItem>
+                <MenuItem value={"Friends"}>Friends</MenuItem>
+                <MenuItem value={"Still figuring it out"}>
+                  Still figuring it out
+                </MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -165,9 +167,9 @@ function AdditionalInfo() {
                 label="Citizenship"
                 onChange={(e) => setCitizenship(e.target.value)}
               >
-                <MenuItem value={"citizen"}>U.S. citizen</MenuItem>
-                <MenuItem value={"greencard"}>Greencard</MenuItem>
-                <MenuItem value={"international"}>International</MenuItem>
+                <MenuItem value={"U.S. citizen"}>U.S. citizen</MenuItem>
+                <MenuItem value={"Greencard"}>Greencard</MenuItem>
+                <MenuItem value={"International"}>International</MenuItem>
               </Select>
             </FormControl>
           </div>
