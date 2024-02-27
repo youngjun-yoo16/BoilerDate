@@ -259,7 +259,7 @@ function Settings() {
             name="password"
             className="btn btn-outline-dark border w-100"
             onClick={() =>
-              navigate("/changePassword", { state: { email: email } })
+              navigate("/updatePassword", { state: { email: email } })
             }
           />
         </div>
