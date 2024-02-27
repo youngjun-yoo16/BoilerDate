@@ -1,10 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./InterestsPage.css";
+import "../InterestsPage.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
+
 const interestsData = [
   "Travel",
   "Soccer",
@@ -109,7 +111,7 @@ const interestsData = [
   "Self Development",
 ];
 
-function InterestsPage() {
+function UpdateInterests() {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const navigate = useNavigate();
 
@@ -143,14 +145,21 @@ function InterestsPage() {
       return;
     }
     console.log(selectedInterests);
-    navigate("/lifestyle", {
-      state: { email: email, interests: selectedInterests },
-    });
+    axios
+      .post("http://localhost:3001/updateInterests", {
+        email,
+        selectedInterests,
+      })
+      .then((result) => {
+        console.log(result);
+        navigate("/settings", { state: { email: email } });
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
     <div className="container">
-      <h1 className="header-text">Your Interests</h1>
+      <h1 className="header-text">Update Interests</h1>
       <form onSubmit={handleSubmit}>
         <div className="selectedInterests-container">
           {selectedInterests.map((interest, index) => (
@@ -178,11 +187,11 @@ function InterestsPage() {
         </div>
         <ToastContainer />
         <button type="submit" className="btn btn-outline-primary w-100">
-          Next
+          Update
         </button>
       </form>
     </div>
   );
 }
 
-export default InterestsPage;
+export default UpdateInterests;

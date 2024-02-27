@@ -421,3 +421,31 @@ app.post("/updateBio", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.post("/updateInterests", async (req, res) => {
+  try {
+    const { email, selectedInterests } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { interests: selectedInterests } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateLifestyle", async (req, res) => {
+  try {
+    const { email, selectedLifestyle } = req.body;
+    const result = await ProfileModel.findOneAndUpdate(
+      { email: email },
+      { $set: { lifestyle: selectedLifestyle } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});

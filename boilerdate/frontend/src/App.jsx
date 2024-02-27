@@ -33,6 +33,8 @@ import Career from "./Settings/Career";
 import Github from "./Settings/Github";
 import Linkedin from "./Settings/Linkedin";
 import Bio from "./Settings/Bio";
+import UpdateInterests from "./Settings/Interests";
+import UpdateLifestyle from "./Settings/Lifestyle";
 
 const App = () => {
   return (
@@ -74,6 +76,14 @@ const App = () => {
           <Route path="/settings/github" element={<Github />}></Route>
           <Route path="/settings/linkedin" element={<Linkedin />}></Route>
           <Route path="/settings/bio" element={<Bio />}></Route>
+          <Route
+            path="/settings/interests"
+            element={<UpdateInterests />}
+          ></Route>
+          <Route
+            path="/settings/lifestyle"
+            element={<UpdateLifestyle />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>

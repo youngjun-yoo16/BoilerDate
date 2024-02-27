@@ -66,6 +66,32 @@ function Settings() {
             }
           />
         </div>
+
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Interests"
+            name="interests"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/interests", { state: { email: email } })
+            }
+          />
+        </div>
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Lifestyle"
+            name="lifestyle"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/lifestyle", { state: { email: email } })
+            }
+          />
+        </div>
+
         <p></p>
         <div className="mb-3">
           <input
