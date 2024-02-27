@@ -109,16 +109,21 @@ app.post("/updatepassword", async (req, res) => {
   }
 });
 
-app.post("/verify", (req, res) => {
+app.post("/verify", async (req, res) => {
   const { tempCode } = req.body;
-  console.log(tempCode);
-  CodeModel.findOne({ verificationCode: tempCode }).then((tempCode) => {
-    if (tempCode) {
+  try {
+    const result = await CodeModel.findOne({ verificationCode: tempCode });
+
+    if (result) {
       res.json("Verification Success!");
+      await CodeModel.findOneAndDelete({ verificationCode: tempCode });
     } else {
       res.json("Verification Failed");
     }
-  });
+  } catch (error) {
+    console.error("Error during verification or deletion:", error);
+    res.status(500).json("Internal Server Error");
+  }
 });
 
 app.post("/verifyemail", (req, res) => {
