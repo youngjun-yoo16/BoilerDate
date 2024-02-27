@@ -1,6 +1,6 @@
 /* InterestsPage.css */
 .container {
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto;
   }
 
@@ -32,11 +32,12 @@
     padding-bottom: -5px;
    margin-bottom: 5px;
     margin-top: 5px;
- 
+    
   }
 
   .content {
     white-space: pre-wrap;
+    
   }
   
   .relationship {

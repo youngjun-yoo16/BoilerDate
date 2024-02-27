@@ -37,7 +37,7 @@ function ProfilePage() {
       .then((response) => {
         console.log(response.data);
         
-        console.log(response.data.user.dob);
+        
         let crrDob = new Date(response.data.user.dob);
         let dateDiff = Date.now() - crrDob.getTime();
         let objAge = new Date(dateDiff);
