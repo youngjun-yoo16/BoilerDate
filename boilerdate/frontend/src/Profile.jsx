@@ -15,7 +15,7 @@ function ProfilePage() {
   const [lifestyles, setLifestyles] = useState([]);
 
   const [ages, setAges] = useState("");
-  
+
   const { state } = useLocation();
   const { email } = state || {};
   const navigate = useNavigate();
@@ -24,9 +24,9 @@ function ProfilePage() {
 
   useEffect(() => {
     if (email === undefined) {
-      navigate(-1)
+      navigate(-1);
     }
-  })
+  });
 
   const imageUrl = `http://localhost:3001/image/${email}`;
 
@@ -36,29 +36,25 @@ function ProfilePage() {
       .post("http://localhost:3001/fetchProfile", { email })
       .then((response) => {
         console.log(response.data);
-        
-        
+
         let crrDob = new Date(response.data.user.dob);
         let dateDiff = Date.now() - crrDob.getTime();
         let objAge = new Date(dateDiff);
         const age = Math.abs(objAge.getUTCFullYear() - 1970);
         console.log(age);
         setAges(age);
-       
+
         setfName(response.data.user.firstName);
         setlName(response.data.user.lastName);
         setProfile(response.data.profile);
         setInterests(response.data.profile.interests);
         setLifestyles(response.data.profile.lifestyle);
-
       })
       .catch((error) => {
         toast.error("Failed to fetch profile data");
         console.error("Error fetching profile:", error);
       });
   }, []);
-
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -69,7 +65,9 @@ function ProfilePage() {
       <div>
         <img src={imageUrl} alt="Uploaded Content" />
       </div>
-      <h1 className="header-text">{fName} {lName}, {ages}</h1>
+      <h1 className="header-text">
+        {fName} {lName}, {ages}
+      </h1>
       <form onSubmit={handleSubmit}>
         <div className="content">
           <h2 className="subheader-text">Looking for</h2>
@@ -89,10 +87,10 @@ function ProfilePage() {
           <h2 className="subheader-text">Basics</h2>
           <div className="selected-container">
             <div>
-            <p className="height">Height: {profile.height}</p>
-            <p className="height">Personality Type: {profile.personality}</p>
-            <p className="height">Citizenship: {profile.citizenship}</p>
-          </div>
+              <p className="height">Height: {profile.height}</p>
+              <p className="height">Personality Type: {profile.personality}</p>
+              <p className="height">Citizenship: {profile.citizenship}</p>
+            </div>
           </div>
         </div>
 
@@ -100,12 +98,14 @@ function ProfilePage() {
           <h2 className="subheader-text">Academics & Career</h2>
           <div className="selected-container">
             <div>
-             <p className="height">Major: {profile.major}</p>
-           <p className="height">Degree: {profile.degree}</p> 
-           <p className="height">GPA: {profile.gpa}</p> 
-           <p className="height">Employment History: {profile.employment_history}</p> 
-           <p className="height">Skills: {profile.skills}</p> 
-           <p className="height">Career Goals: {profile.career_goals}</p>
+              <p className="height">Major: {profile.major}</p>
+              <p className="height">Degree: {profile.degree}</p>
+              <p className="height">GPA: {profile.gpa}</p>
+              <p className="height">
+                Employment History: {profile.employment_history}
+              </p>
+              <p className="height">Skills: {profile.skills}</p>
+              <p className="height">Career Goals: {profile.career_goals}</p>
             </div>
           </div>
         </div>
@@ -125,45 +125,31 @@ function ProfilePage() {
           <h2 className="subheader-text">Lifestyle</h2>
           <h3 className="subsubheader-text">Pets</h3>
           <div className="selected-container">
-            <div className={`interests`}>
-            {lifestyles[0]}
-            </div>
+            <div className={`interests`}>{lifestyles[0]}</div>
           </div>
           <h3 className="subsubheader-text">Drinking</h3>
           <div className="selected-container">
-            <div className={`interests`}>
-            {lifestyles[1]}
-            </div>
+            <div className={`interests`}>{lifestyles[1]}</div>
           </div>
           <h3 className="subsubheader-text">Smoking</h3>
           <div className="selected-container">
-            <div className={`interests`}>
-            {lifestyles[2]}
-            </div>
+            <div className={`interests`}>{lifestyles[2]}</div>
           </div>
           <h3 className="subsubheader-text">Workout</h3>
           <div className="selected-container">
-            <div className={`interests`}>
-            {lifestyles[3]}
-            </div>
+            <div className={`interests`}>{lifestyles[3]}</div>
           </div>
           <h3 className="subsubheader-text">Dietary Preference</h3>
           <div className="selected-container">
-            <div className={`interests`}>
-            {lifestyles[4]}
-            </div>
+            <div className={`interests`}>{lifestyles[4]}</div>
           </div>
           <h3 className="subsubheader-text">Social Media</h3>
           <div className="selected-container">
-            <div className={`interests`}>
-            {lifestyles[5]}
-            </div>
+            <div className={`interests`}>{lifestyles[5]}</div>
           </div>
           <h3 className="subsubheader-text">Sleeping Habits</h3>
           <div className="selected-container">
-            <div className={`interests`}>
-            {lifestyles[6]}
-            </div>
+            <div className={`interests`}>{lifestyles[6]}</div>
           </div>
         </div>
 
@@ -171,17 +157,22 @@ function ProfilePage() {
           <h2 className="subheader-text">Links</h2>
           <div className="selected-container">
             <div>
-            <p className="height">Github: {profile.github}</p>
-            <p className="height">LinkedIn: {profile.linkedin}</p> 
+              <p className="height">Github: {profile.github}</p>
+              <p className="height">LinkedIn: {profile.linkedin}</p>
             </div>
-            
           </div>
         </div>
 
         <ToastContainer />
-        <button type="submit" className="btn btn-outline-primary w-100">
-          Edit Profile
-        </button>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Home"
+            name="home"
+            className="btn btn-outline-dark border w-100"
+            onClick={() => navigate("/home", { state: { email: email } })}
+          />
+        </div>
       </form>
     </div>
   );

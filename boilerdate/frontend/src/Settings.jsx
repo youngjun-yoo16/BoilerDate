@@ -189,7 +189,7 @@ function Settings() {
             <div className="mb-3">
               <input
                 type="button"
-                value="Emplyoment history"
+                value="Emplyoment"
                 name="emplyoment"
                 className="btn btn-outline-dark border w-100"
                 onClick={() =>
