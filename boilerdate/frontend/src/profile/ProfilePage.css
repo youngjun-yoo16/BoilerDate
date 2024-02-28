@@ -9,7 +9,22 @@
     font-weight: 600;
     font-size: 32px; 
     padding-top: 5px;
+    padding-bottom: 12px;
     
+  }
+
+  .card-header {
+    font-size: 19px; 
+  }
+
+  .list-group-item.custom-font-style{
+    font-weight: 530;
+    font-size: 30px; 
+  }
+
+  .list-group-item {
+    font-size: 16px; 
+   
   }
 
   .subheader-text {
@@ -32,10 +47,10 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 10px;
-    padding-top: 9px;
+    padding-top: 10px;
     margin-bottom: 12px;
-    padding-bottom: 20px;
-    border-bottom: 1.5px solid #b0aeae; /* thin grey line */
+
+    margin-left: 12px;
   }
   .cat {
     margin-top: 10px;
@@ -65,8 +80,14 @@
 
   .content {
     white-space: pre-wrap;
-    
+  
   }
+  
+  .card {
+    border-width: 1.5px;
+    margin-bottom: 5px;
+  }
+
   
   .relationship {
     font-family: Arial, sans-serif;
