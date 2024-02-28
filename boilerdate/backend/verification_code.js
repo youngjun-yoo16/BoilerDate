@@ -11,6 +11,19 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+async function verifyEmail(email) {
+  try {
+    const verification_res = await email_verification(email);
+    if (!verification_res.includes("SUCCESS")) {
+      console.error("Email verification failed: ", verification_res);
+      throw new Error("Email verification failed");
+    } else {
+      return true;
+    }
+  } catch (error) {
+    return false;
+  }
+}
 async function sendVerificationEmail(email, verificationCode) {
   try {
     // if reject, fn stops right here. else it continues to mail.
@@ -49,6 +62,7 @@ function generateVerificationCode() {
 }
 
 module.exports = {
+  verifyEmail,
   sendVerificationEmail,
   generateVerificationCode,
 };

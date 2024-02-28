@@ -9,6 +9,7 @@ const imageModel = require("./models/Image");
 const {
   generateVerificationCode,
   sendVerificationEmail,
+  verifyEmail,
 } = require("./verification_code");
 const bodyParser = require("body-parser");
 const multer = require("multer");
@@ -126,15 +127,27 @@ app.post("/verify", async (req, res) => {
   }
 });
 
-app.post("/verifyemail", (req, res) => {
-  const { email } = req.body;
-  UserModel.findOne({ email: email }).then((email) => {
-    if (email) {
-      res.json("Verification Success!");
+app.post("/verifyemail", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const validEmail = await verifyEmail(email);
+    // Not a valid Purdue email address
+    if (!validEmail) {
+      res.json("FAIL: user not found in the directory");
     } else {
-      res.json("Verification Failed");
+      const user = await UserModel.findOne({ email: email });
+      // User account already exists
+      if (user) {
+        res.json("Verification Success!");
+        // User account doesn't exist
+      } else {
+        res.json("Verification Failed");
+      }
     }
-  });
+  } catch (error) {
+    console.error("Error during email verification:", error);
+    res.status(500).json("Internal Server Error");
+  }
 });
 
 app.post("/sendverificationcode", async (req, res) => {

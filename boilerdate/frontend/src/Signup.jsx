@@ -16,13 +16,16 @@ function Signup() {
         if (result.data === "Verification Success!") {
           toast.error("Account already exists");
         } else {
-          axios
-            .post("http://localhost:3001/sendverificationcode", { email })
-            .then((result) => {
-              console.log(result);
-              navigate("/verify", { state: { email: email } });
-            })
-            .catch((err) => console.log(err));
+          if (result.data === "FAIL: user not found in the directory") {
+            toast.error("Please provide a valid Purdue email address");
+          } else {
+            axios
+              .post("http://localhost:3001/sendverificationcode", { email })
+              .then(() => {
+                navigate("/verify", { state: { email: email } });
+              })
+              .catch((err) => console.log(err));
+          }
         }
       });
   };
