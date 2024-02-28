@@ -1,4 +1,6 @@
 import React from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Carousel from 'react-bootstrap/Carousel';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProfilePage.css";
@@ -31,6 +33,9 @@ function ProfilePage() {
   const imageUrl = `http://localhost:3001/image/${email}`;
 
   useEffect(() => {
+  
+    
+
     axios
       .post("http://localhost:3001/fetchProfile", { email })
       .then((response) => {
@@ -55,6 +60,9 @@ function ProfilePage() {
       });
   }, []); // eslint-disable-line
 
+
+   
+
   const convertHeight = (heightInInches) => {
     const feet = Math.floor(heightInInches / 12);
     const inches = heightInInches % 12;
@@ -65,13 +73,37 @@ function ProfilePage() {
     e.preventDefault();
   };
 
+  
+  
   return (
 
  
     <div className="container">
-      <div>
-        <img src={imageUrl} alt="Uploaded Content" />
-      </div>
+<Carousel data-bs-theme="dark">
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={imageUrl}
+          alt="First slide"
+        />
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={imageUrl}
+          alt="Second slide"
+        />
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={imageUrl}
+          alt="Third slide"
+        />
+      </Carousel.Item>
+    </Carousel>
+
+      
       <h1 className="header-text">
         {fName} {lName}, {ages}
       </h1>
