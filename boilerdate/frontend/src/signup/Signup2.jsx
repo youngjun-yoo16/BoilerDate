@@ -23,9 +23,9 @@ function Signup2() {
 
   useEffect(() => {
     if (email === undefined) {
-      navigate(-1)
+      navigate(-1);
     }
-  })
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();

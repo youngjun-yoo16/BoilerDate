@@ -15,9 +15,9 @@ function Verify() {
 
   useEffect(() => {
     if (email === undefined) {
-      navigate(-1)
+      navigate(-1);
     }
-  })
+  });
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -39,7 +39,6 @@ function Verify() {
         } else {
           toast.error("Incorrect code: verification failed");
         }
-
       })
       .catch((err) => console.log(err));
   };
@@ -74,7 +73,8 @@ function Verify() {
         </p>
         <button
           type="submit"
-          className="btn btn-outline-primary rounded-20 w-25"
+          /*className="btn btn-outline-primary rounded-20 w-25"*/
+          className="btn btn-primary rounded-20 w-25"
           onClick={handleVerify}
         >
           Verify

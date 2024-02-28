@@ -45,6 +45,10 @@
   color: #a80031;
 }
 
+.boilerPink {
+  color: #f3567c;
+}
+
 .boilerRed-bg {
   background-color: #a80031;
 }
@@ -55,4 +59,33 @@
 
 .boilerPurple-bg {
   background-color: #d4bfff;
+}
+
+/*overrides default .btn border color with new color */
+.btn-primary,
+.btn-primary:active,
+.btn-primary:visited {
+  background-color: #f3567c !important;
+}
+
+/*overrides default .btn border color with new color */
+.btn-primary:hover {
+  background-color: #cf4969 !important;
+}
+
+/*overrides default .btn border color with new color */
+.btn {
+  border-color: #f3567c !important;
+}
+
+.btn-outline-primary,
+.btn-outline-primary:active,
+.btn-outline-primary:visited {
+  background-color: #f3567c !important;
+  color: white !important;
+}
+
+/*overrides default .btn border color with new color */
+.btn-outline-primary:hover {
+  background-color: #cf4969 !important;
 }

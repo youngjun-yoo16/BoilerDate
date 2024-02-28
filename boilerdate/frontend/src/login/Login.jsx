@@ -44,7 +44,7 @@ function Login() {
           <div className="mb-3">
             <label htmlFor="email">Enter your email address</label>
             <p></p>
-            <input  
+            <input
               type="email"
               placeholder="Enter Email"
               autoComplete="off"
@@ -66,7 +66,8 @@ function Login() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-outline-primary w-100">
+          {/* original: <button type="submit" className="btn btn-outline-primary w-100">*/}
+          <button type="submit" className="btn btn-primary w-100">
             Login
           </button>
           <ToastContainer />
