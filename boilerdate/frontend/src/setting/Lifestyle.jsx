@@ -69,10 +69,10 @@ function UpdateLifestyle() {
   const [selectedDiet, setSelectedDiet] = useState([]);
   const [selectedSocialmedia, setSelectedSocialmedia] = useState([]);
   const [selectedSleepinghabits, setSelectedSleepinghabits] = useState([]);
-  const [selectedLifestyle, setSelectedLifestyle] = useState([]);
+  const [selectedLifestyle] = useState([]);
 
   const { state } = useLocation();
-  const { email, interests } = state || {};
+  const { email } = state || {};
 
   const navigate = useNavigate();
 

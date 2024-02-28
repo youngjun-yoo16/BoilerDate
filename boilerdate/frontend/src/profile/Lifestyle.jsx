@@ -1,8 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-//import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./LifestylePage.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -72,7 +70,7 @@ function LifestylePage() {
   const [selectedDiet, setSelectedDiet] = useState([]);
   const [selectedSocialmedia, setSelectedSocialmedia] = useState([]);
   const [selectedSleepinghabits, setSelectedSleepinghabits] = useState([]);
-  const [selectedLifestyle, setSelectedLifestyle] = useState([]);
+  const [selectedLifestyle] = useState([]);
 
   const { state } = useLocation();
   const { email, interests } = state || {};

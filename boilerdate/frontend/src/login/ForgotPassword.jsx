@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const { state } = useLocation();
+  //const { state } = useLocation();
   //const { flow } = state || {};
 
   /*useEffect(() => {
