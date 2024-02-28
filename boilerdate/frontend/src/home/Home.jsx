@@ -1,16 +1,24 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Home() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { email } = state || {};
-  
+
   useEffect(() => {
     if (email === undefined) {
-      navigate(-1)
+      navigate(-1);
     }
-  })
+  });
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    navigate("/");
+    await toast.success("Logout Success!");
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
@@ -43,9 +51,10 @@ function Home() {
             value="Logout"
             name="profile"
             className="btn btn-outline-danger border w-100"
-            onClick={() => navigate("/")}
+            onClick={handleLogout}
           />
         </div>
+        <ToastContainer />
       </div>
     </div>
   );
