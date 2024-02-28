@@ -55,6 +55,12 @@ function ProfilePage() {
       });
   }, []); // eslint-disable-line
 
+  const convertHeight = (heightInInches) => {
+    const feet = Math.floor(heightInInches / 12);
+    const inches = heightInInches % 12;
+    return `${feet} ft ${inches} in`;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -70,33 +76,33 @@ function ProfilePage() {
       <form onSubmit={handleSubmit}>
         <div className="content">
           <h2 className="subheader-text">Looking for</h2>
-          <div className="selected-container">
+          <div className="cat">
             <p className="relationship">{profile.relationship}</p>
           </div>
         </div>
 
         <div className="content">
           <h2 className="subheader-text">About Me</h2>
-          <div className="selected-container">
+          <div className="cat">
             <p className="height">{profile.bio}</p>
           </div>
         </div>
 
         <div className="content">
           <h2 className="subheader-text">Basics</h2>
-          <div className="selected-container">
-            <div>
-              <p className="height">Height: {profile.height}</p>
+        
+            <div className = "cat">
+              <p className="height">Height: {convertHeight(profile.height)}</p>
               <p className="height">Personality Type: {profile.personality}</p>
               <p className="height">Citizenship: {profile.citizenship}</p>
-            </div>
           </div>
+         
         </div>
 
         <div className="content">
           <h2 className="subheader-text">Academics & Career</h2>
-          <div className="selected-container">
-            <div>
+          <div className="cat">
+           
               <p className="height">Major: {profile.major}</p>
               <p className="height">Degree: {profile.degree}</p>
               <p className="height">GPA: {profile.gpa}</p>
@@ -105,13 +111,13 @@ function ProfilePage() {
               </p>
               <p className="height">Skills: {profile.skills}</p>
               <p className="height">Career Goals: {profile.career_goals}</p>
-            </div>
+           
           </div>
         </div>
 
         <div className="content">
           <h2 className="subheader-text">Interests</h2>
-          <div className="selected-container">
+          <div className="selected-containers">
             {interests.map((interest, index) => (
               <div key={index} className={`interests`}>
                 {interest}
@@ -123,38 +129,38 @@ function ProfilePage() {
         <div className="content">
           <h2 className="subheader-text">Lifestyle</h2>
           <h3 className="subsubheader-text">Pets</h3>
-          <div className="selected-container">
+          <div className="selected-containerss">
             <div className={`interests`}>{lifestyles[0]}</div>
           </div>
           <h3 className="subsubheader-text">Drinking</h3>
-          <div className="selected-container">
+          <div className="selected-containerss">
             <div className={`interests`}>{lifestyles[1]}</div>
           </div>
           <h3 className="subsubheader-text">Smoking</h3>
-          <div className="selected-container">
+          <div className="selected-containerss">
             <div className={`interests`}>{lifestyles[2]}</div>
           </div>
           <h3 className="subsubheader-text">Workout</h3>
-          <div className="selected-container">
+          <div className="selected-containerss">
             <div className={`interests`}>{lifestyles[3]}</div>
           </div>
           <h3 className="subsubheader-text">Dietary Preference</h3>
-          <div className="selected-container">
+          <div className="selected-containerss">
             <div className={`interests`}>{lifestyles[4]}</div>
           </div>
           <h3 className="subsubheader-text">Social Media</h3>
-          <div className="selected-container">
+          <div className="selected-containerss">
             <div className={`interests`}>{lifestyles[5]}</div>
           </div>
           <h3 className="subsubheader-text">Sleeping Habits</h3>
-          <div className="selected-container">
+          <div className="selected-containersss">
             <div className={`interests`}>{lifestyles[6]}</div>
           </div>
         </div>
 
         <div className="content">
           <h2 className="subheader-text">Links</h2>
-          <div className="selected-container">
+          <div className="selected-containerss">
             <div>
               <p className="height">Github: {profile.github}</p>
               <p className="height">LinkedIn: {profile.linkedin}</p>
