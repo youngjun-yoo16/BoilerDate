@@ -40,3 +40,19 @@
     transform: rotate(360deg);
   }
 }
+
+.boilerRed {
+  color: #a80031;
+}
+
+.boilerRed-bg {
+  background-color: #a80031;
+}
+
+.boilerPurple {
+  color: #d4bfff;
+}
+
+.boilerPurple-bg {
+  background-color: #d4bfff;
+}
