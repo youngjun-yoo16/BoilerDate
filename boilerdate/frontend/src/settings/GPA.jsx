@@ -18,9 +18,9 @@ function GPA() {
 
   useEffect(() => {
     if (email === undefined) {
-      navigate(-1)
+      navigate(-1);
     }
-  })
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -71,10 +71,23 @@ function GPA() {
           </div>
 
           <br />
-          <div>
-            <button type="submit" className="btn btn-outline-primary w-100">
-              Update
-            </button>
+          <div className="row">
+            <div className="col">
+              <button
+                type="button"
+                className="btn btn-outline-secondary w-100"
+                onClick={() =>
+                  navigate("/settings", { state: { email: email } })
+                }
+              >
+                Back
+              </button>
+            </div>
+            <div className="col">
+              <button type="submit" className="btn btn-outline-primary w-100">
+                Update
+              </button>
+            </div>
           </div>
         </form>
       </div>
