@@ -30,7 +30,6 @@ function ProfilePage() {
 
   const imageUrl = `http://localhost:3001/image/${email}`;
 
-  //console.log(bio);
   useEffect(() => {
     axios
       .post("http://localhost:3001/fetchProfile", { email })
@@ -54,7 +53,7 @@ function ProfilePage() {
         toast.error("Failed to fetch profile data");
         console.error("Error fetching profile:", error);
       });
-  }, []);
+  }, []); // eslint-disable-line
 
   const handleSubmit = (e) => {
     e.preventDefault();

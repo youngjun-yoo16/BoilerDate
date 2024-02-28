@@ -38,6 +38,7 @@ import Name from "./settings/Name";
 import Gender from "./settings/Gender";
 import Birthday from "./settings/Birthday";
 import UpdatePassword from "./login/UpdatePassword";
+import SetupBio from "./profile/Bio";
 
 const App = () => {
   return (
@@ -61,6 +62,7 @@ const App = () => {
           <Route path="/changePassword" element={<ChangePassword />}></Route>
           <Route path="/updatePassword" element={<UpdatePassword />}></Route>
           <Route path="/customizable" element={<Customizable />}></Route>
+          <Route path="/bio" element={<SetupBio />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
           <Route path="/settings/gpa" element={<GPA />}></Route>
           <Route path="/profile" element={<ProfilePage />}></Route>

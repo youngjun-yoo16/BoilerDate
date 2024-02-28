@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Employment() {
-  const [employment_history, setEmploymentHistory] = useState("");
+  const [employment_history, setEmploymentHistory] = useState("N/A");
 
   const { state } = useLocation();
   const { email } = state || {};

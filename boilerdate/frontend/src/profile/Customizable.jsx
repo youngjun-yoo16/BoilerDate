@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 
 function Customizable() {
-  const [skills, setSkills] = useState("");
-  const [employment_history, setEmploymentHistory] = useState("");
-  const [career_goals, setCareerGoals] = useState("");
-  const [github, setGithub] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [bio, setBio] = useState("");
+  const [skills, setSkills] = useState("N/A");
+  const [employment_history, setEmploymentHistory] = useState("N/A");
+  const [career_goals, setCareerGoals] = useState("N/A");
+  const [github, setGithub] = useState("N/A");
+  const [linkedin, setLinkedin] = useState("N/A");
 
   const { state } = useLocation();
   const {
@@ -32,36 +30,31 @@ function Customizable() {
 
   useEffect(() => {
     if (email === undefined) {
-      navigate(-1)
+      navigate(-1);
     }
-  })
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3001/completeProfile", {
-        email,
-        gpa,
-        major,
-        degree,
-        interests,
-        lifestyle,
-        height,
-        personality,
-        relationship,
-        citizenship,
-        skills,
-        employment_history,
-        career_goals,
-        github,
-        linkedin,
-        bio,
-      })
-      .then((result) => {
-        console.log(result);
-        navigate("/home", { state: { email: email } });
-      })
-      .catch((err) => console.log(err));
+    navigate("/bio", {
+      state: {
+        email: email,
+        gpa: gpa,
+        major: major,
+        degree: degree,
+        interests: interests,
+        lifestyle: lifestyle,
+        height: height,
+        personality: personality,
+        relationship: relationship,
+        citizenship: citizenship,
+        skills: skills,
+        employment_history: employment_history,
+        career_goals: career_goals,
+        github: github,
+        linkedin: linkedin,
+      },
+    });
   };
 
   return (
@@ -125,18 +118,6 @@ function Customizable() {
                 variant="outlined"
                 inputProps={{ maxLength: 60 }}
                 onChange={(e) => setLinkedin(e.target.value)}
-              />
-            </FormControl>
-          </div>
-
-          <div className="mb-3">
-            <FormControl fullWidth>
-              <TextField
-                id="outlined-basic"
-                label="Bio"
-                variant="outlined"
-                inputProps={{ maxLength: 200 }}
-                onChange={(e) => setBio(e.target.value)}
               />
             </FormControl>
           </div>

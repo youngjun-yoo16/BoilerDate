@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Linkedin() {
-  const [linkedin, setLinkedin] = useState("");
+  const [linkedin, setLinkedin] = useState("N/A");
 
   const { state } = useLocation();
   const { email } = state || {};

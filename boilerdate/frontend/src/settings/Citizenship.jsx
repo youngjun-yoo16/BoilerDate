@@ -51,9 +51,9 @@ function Citizenship() {
                 label="Citizenship"
                 onChange={(e) => setCitizenship(e.target.value)}
               >
-                <MenuItem value={"citizen"}>U.S. citizen</MenuItem>
-                <MenuItem value={"greencard"}>Greencard</MenuItem>
-                <MenuItem value={"international"}>International</MenuItem>
+                <MenuItem value={"U.S. citizen"}>U.S. citizen</MenuItem>
+                <MenuItem value={"Greencard"}>Greencard</MenuItem>
+                <MenuItem value={"International"}>International</MenuItem>
               </Select>
             </FormControl>
           </div>

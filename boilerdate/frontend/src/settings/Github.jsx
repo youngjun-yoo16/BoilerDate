@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Github() {
-  const [github, setGithub] = useState("");
+  const [github, setGithub] = useState("N/A");
 
   const { state } = useLocation();
   const { email } = state || {};

@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Career() {
-  const [career_goals, setCareerGoals] = useState("");
+  const [career_goals, setCareerGoals] = useState("N/A");
 
   const { state } = useLocation();
   const { email } = state || {};
