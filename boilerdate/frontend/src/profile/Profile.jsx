@@ -128,7 +128,7 @@ function ProfilePage() {
 
         <div className="card">
           <div class ="card-header">
-            Basicss
+            Basics
           </div>
           <ul class="list-group list-group-flush">
           <li class="list-group-item">Height: {convertHeight(profile.height)}</li>
