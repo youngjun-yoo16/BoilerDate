@@ -202,6 +202,7 @@ function UpdateInterests() {
             </button>
           </div>
         </div>
+        <br />
       </form>
     </div>
   );
