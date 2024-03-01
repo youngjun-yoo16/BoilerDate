@@ -102,7 +102,7 @@ const interestsData = [
   "Jogging",
   "Science",
   "Korean Food",
-  "NightLife",
+  "Night Life",
   "Online Shopping",
   "NBA",
   "Trying New Things",

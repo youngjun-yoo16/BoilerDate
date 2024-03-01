@@ -22,9 +22,9 @@ function UploadPhoto() {
 
   useEffect(() => {
     if (email === undefined) {
-      navigate(-1)
+      navigate(-1);
     }
-  })
+  });
 
   const triggerFileInput = () => {
     inputFileRef.current.click();
@@ -80,7 +80,7 @@ function UploadPhoto() {
           <div className="mb-3">
             <button
               type="button"
-              className="btn btn-outline-primary"
+              className="btn btn-outline-secondary"
               onClick={triggerFileInput}
             >
               Choose file
