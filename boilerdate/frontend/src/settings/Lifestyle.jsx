@@ -297,6 +297,7 @@ function UpdateLifestyle() {
             </button>
           </div>
         </div>
+        <br />
       </form>
     </div>
   );
