@@ -269,7 +269,7 @@ function Settings() {
             type="button"
             value="Home"
             name="home"
-            className="btn btn-outline-dark border w-100"
+            className="btn btn-outline-primary border w-100"
             onClick={() => navigate("/home", { state: { email: email } })}
           />
         </div>
