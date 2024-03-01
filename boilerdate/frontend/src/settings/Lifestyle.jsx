@@ -84,7 +84,7 @@ function UpdateLifestyle() {
 
   function togglePet(pet) {
     if (selectedPets === pet) {
-      setSelectedPets(null);
+      setSelectedPets([]);
     } else {
       setSelectedPets(pet);
     }
@@ -92,7 +92,7 @@ function UpdateLifestyle() {
 
   function toggleDrinking(drinking) {
     if (selectedDrinking === drinking) {
-      setSelectedDrinking(null);
+      setSelectedDrinking([]);
     } else {
       setSelectedDrinking(drinking);
     }
@@ -100,7 +100,7 @@ function UpdateLifestyle() {
 
   function toggleSmoking(smoking) {
     if (selectedSmoking === smoking) {
-      setSelectedSmoking(null);
+      setSelectedSmoking([]);
     } else {
       setSelectedSmoking(smoking);
     }
@@ -108,7 +108,7 @@ function UpdateLifestyle() {
 
   function toggleWorkout(workout) {
     if (selectedWorkout === workout) {
-      setSelectedWorkout(null);
+      setSelectedWorkout([]);
     } else {
       setSelectedWorkout(workout);
     }
@@ -116,7 +116,7 @@ function UpdateLifestyle() {
 
   function toggleDiet(diet) {
     if (selectedDiet === diet) {
-      setSelectedDiet(null);
+      setSelectedDiet([]);
     } else {
       setSelectedDiet(diet);
     }
@@ -124,14 +124,14 @@ function UpdateLifestyle() {
 
   function toggleSocialmedia(socialmedia) {
     if (selectedSocialmedia === socialmedia) {
-      setSelectedSocialmedia(null);
+      setSelectedSocialmedia([]);
     } else {
       setSelectedSocialmedia(socialmedia);
     }
   }
   function toggleSleep(sleepinghabits) {
     if (selectedSleepinghabits === sleepinghabits) {
-      setSelectedSleepinghabits(null);
+      setSelectedSleepinghabits([]);
     } else {
       setSelectedSleepinghabits(sleepinghabits);
     }
