@@ -64,7 +64,7 @@ function DisplayFilteredUsers() {
           onCardLeftScreen={() => outOfFrame(person.name, index)}
         >
           <div
-            className="card"
+            className="card filter"
             style={{
               backgroundImage: "url(" + person.url + ")",
             }}
