@@ -266,14 +266,13 @@ app.listen(PORT, () => {
 app.post("/manageLD", async (req, res) => {
   try {
     const { email, target, lod } = req.body;
-    updateObject = {};
 
-    // if liked and email in dislike, remove from dislike and add to like
     UserLDModel.findOne({ email: email })
-      .then((res) => {
-        if (res) {
-          const likedEmailList = res.liked.emails;
-          const dislikedEmailList = res.disliked.emails;
+      .then(async (doc) => {
+        let updateObject = {};
+        if (doc) {
+          const likedEmailList = doc.liked.emails;
+          const dislikedEmailList = doc.disliked.emails;
           if (lod && dislikedEmailList.includes(target)) {
             // remove from dislike and add to like
             updateObject = {
@@ -287,30 +286,34 @@ app.post("/manageLD", async (req, res) => {
               $addToSet: { "disliked.emails": target },
             };
           } else {
+            // append email to liked or disliked array
             if (lod) {
-              // append email to liked array
               updateObject = { $addToSet: { "liked.emails": target } };
             } else {
               updateObject = { $addToSet: { "disliked.emails": target } };
             }
           }
+
+          // update
+          const updatedUser = await UserLDModel.findOneAndUpdate(
+            { email: email },
+            updateObject,
+            { new: true, upsert: true }
+          );
+          // send back
+          res.json(updatedUser);
+        } else {
+          // user not found
+          console.error("user not found");
+          res.status(404).json({ message: "User not found" });
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({ error: err.message });
       });
-    // if disliked and email in like, remove from like and add to dislike
-
-    // update or insert
-    const user = await UserLDModel.findOneAndUpdate(
-      { email: email },
-      updateObject,
-      // return modified one else create one
-      { new: true, upsert: true }
-    );
-
-    res.json(result);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 });
