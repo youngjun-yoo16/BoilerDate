@@ -159,17 +159,17 @@ function Filter() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    /*axios
-      .post("http://localhost:3001/completeProfile", {
+    axios
+      .post("http://localhost:3001/filter", {
         email,
         gender,
-        age,
+        age: ageRange,
         gpa,
         major,
         degree,
         interests,
         lifestyle,
-        height,
+        height: heightRange,
         personality,
         relationship,
         citizenship,
@@ -178,7 +178,7 @@ function Filter() {
         console.log(result);
         navigate("/home", { state: { email: email } });
       })
-      .catch((err) => console.log(err));*/
+      .catch((err) => console.log(err));
 
     //console.log(result);
     navigate("/home", {
