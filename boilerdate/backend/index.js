@@ -270,6 +270,7 @@ app.post("/manageLD", async (req, res) => {
       { $pull: { "liked.emails": target, "disliked.emails": target } }
     );
 
+    // either liked or disliked
     const flag = lod ? "liked.emails" : "disliked.emails";
 
     // finally create doc
@@ -279,6 +280,28 @@ app.post("/manageLD", async (req, res) => {
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
     console.log("email: " + email + " | like: " + lod + " | target: " + target);
+
+    // whenever liked, search if the target also liked him. add to matches
+    if (lod) {
+      const isMatch = await UserLDModel.findOne({
+        email: target,
+        "liked.emails": email,
+      });
+      if (isMatch) {
+        console.log("match found");
+        // update the current user
+        await UserLDModel.updateOne(
+          { email: email },
+          { $addToSet: { matches: target } }
+        );
+
+        // update the matched user
+        await UserLDModel.updateOne(
+          { email: email },
+          { $addToSet: { matches: email } }
+        );
+      }
+    }
 
     // send back
     res.json(updatedUser);

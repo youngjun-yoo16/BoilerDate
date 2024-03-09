@@ -8,6 +8,9 @@ const UserLDSchema = new mongoose.Schema({
   disliked: {
     emails: [String],
   },
+  matches: {
+    emails: [String],
+  },
 });
 
 const UserLDModel = mongoose.model("userLD", UserLDSchema);
