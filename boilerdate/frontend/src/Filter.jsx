@@ -409,7 +409,7 @@ function Filter() {
           </div>
 
           <div className="mb-3">
-            <div className="card flex justify-content-center">
+            <div className="cards flex justify-content-center">
               <MultiSelect
                 value={interests}
                 onChange={(e) => setInterests(e.value)}

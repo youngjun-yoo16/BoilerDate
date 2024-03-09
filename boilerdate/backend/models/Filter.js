@@ -16,5 +16,5 @@ const FilterSchema = new mongoose.Schema({
   },
 });
 
-const FilterModel = mongoose.model("filters", FilterSchema);
+const FilterModel = mongoose.model("filter_preferences", FilterSchema);
 module.exports = FilterModel;
