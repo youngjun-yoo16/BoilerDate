@@ -265,26 +265,55 @@ app.listen(PORT, () => {
 // liked dislike endpoint; only store data to db and returns nothing
 app.post("/manageLD", async (req, res) => {
   try {
-    //console.log("like or dislike receieved");
     const { email, target, lod } = req.body;
-    updateObject = {};
-    if (lod) {
-      // append email to liked array
-      updateObject = { $addToSet: { "liked.emails": target } };
-    } else {
-      updateObject = { $addToSet: { "disliked.emails": target } };
-    }
 
-    // update or insert
-    const user = await UserLDModel.findOneAndUpdate(
-      { email: email },
-      updateObject,
-      // return modified one else create one
-      { new: true, upsert: true }
-    );
+    UserLDModel.findOne({ email: email })
+      .then(async (doc) => {
+        let updateObject = {};
+        if (doc) {
+          const likedEmailList = doc.liked.emails;
+          const dislikedEmailList = doc.disliked.emails;
+          if (lod && dislikedEmailList.includes(target)) {
+            // remove from dislike and add to like
+            updateObject = {
+              $pull: { "disliked.emails": target },
+              $addToSet: { "liked.emails": target },
+            };
+          } else if (!lod && likedEmailList.includes(target)) {
+            // remove from like and add to dislike
+            updateObject = {
+              $pull: { "liked.emails": target },
+              $addToSet: { "disliked.emails": target },
+            };
+          } else {
+            // append email to liked or disliked array
+            if (lod) {
+              updateObject = { $addToSet: { "liked.emails": target } };
+            } else {
+              updateObject = { $addToSet: { "disliked.emails": target } };
+            }
+          }
 
-    res.json(result);
+          // update
+          const updatedUser = await UserLDModel.findOneAndUpdate(
+            { email: email },
+            updateObject,
+            { new: true, upsert: true }
+          );
+          // send back
+          res.json(updatedUser);
+        } else {
+          // user not found
+          console.error("user not found");
+          res.status(404).json({ message: "User not found" });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+      });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 });
