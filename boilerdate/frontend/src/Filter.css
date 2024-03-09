@@ -1,0 +1,8 @@
+.card {
+  background: var(--surface-card);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  width: 100%;
+  height: 100%;
+}

@@ -72,7 +72,7 @@ const App = () => {
           <Route path="/settings/degree" element={<Degree />}></Route>
           <Route path="/settings/height" element={<Height />}></Route>
           <Route path="/settings/personality" element={<Personality />}></Route>
-         
+
           <Route
             path="/settings/relationship"
             element={<Relationship />}

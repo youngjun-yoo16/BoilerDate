@@ -8,7 +8,6 @@ const ProfileModel = require("./models/Profile");
 const imageModel = require("./models/Image");
 
 const UserLDModel = require("./models/UserLD");
-const { HandleUserLikesAndDisklikes } = require("./HandleLikesDislikes");
 
 const {
   generateVerificationCode,
@@ -266,6 +265,7 @@ app.listen(PORT, () => {
 // liked dislike endpoint; only store data to db and returns nothing
 app.post("/manageLD", async (req, res) => {
   try {
+    //console.log("like or dislike receieved");
     const { email, target, lod } = req.body;
     updateObject = {};
     if (lod) {
@@ -282,6 +282,7 @@ app.post("/manageLD", async (req, res) => {
       // return modified one else create one
       { new: true, upsert: true }
     );
+
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
