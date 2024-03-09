@@ -580,28 +580,33 @@ app.post("/filter", async (req, res) => {
       citizenship,
     } = req.body;
 
+    // Dynamic query object (age and height will always be there)
+    let query = { age: age, height: height };
+
+    // Handle empty strings or empty arrays
+    if (gender) query.gender = gender;
+    if (gpa) query.gpa = gpa;
+    if (major) query.major = major;
+    if (degree) query.degree = degree;
+    if (interests && interests.length) query.interests = { $all: interests };
+    if (lifestyle && lifestyle.length) query.lifestyle = { $all: lifestyle };
+    if (personality) query.personality = personality;
+    if (relationship) query.relationship = relationship;
+    if (citizenship) query.citizenship = citizenship;
+
     // Extract the lower and upper GPA from the provided string
     let inputLowerGPA, inputUpperGPA;
     if (gpa.includes("-")) {
-      // Handle GPA range
       [inputLowerGPA, inputUpperGPA] = gpa.split("-").map(Number);
     } else {
-      // Handle GPA less than a specific value
       inputLowerGPA = null; // No lower bound
       inputUpperGPA = Number(gpa.substring(1)); // Extract and convert the upper bound
     }
 
-    // Step 1: Retrieve all potential matches based on criteria that can be directly matched
-    const potentialMatches = await ProfileModel.find({
-      major: major,
-      degree: degree,
-      interests: { $all: interests },
-      lifestyle: { $all: lifestyle },
-      height: { $gte: height[0], $lte: height[1] },
-      personality: personality,
-      relationship: relationship,
-      citizenship: citizenship,
-    }).select("email gpa -_id");
+    // Step 1: Retrieve all potential matches based on dynamically constructed criteria
+    const potentialMatches = await ProfileModel.find(query).select(
+      "email gpa -_id"
+    );
 
     // Step 2: Filter the potential matches further based on the GPA range
     const emailsMatchingGPA = potentialMatches
@@ -612,7 +617,7 @@ app.post("/filter", async (req, res) => {
         } else {
           storedLowerGPA = storedUpperGPA = Number(doc.gpa.substring(1));
         }
-        
+
         // Check overlap or upper bound conditions
         if (inputLowerGPA === null) {
           // If inputLowerGPA is null, we're dealing with a "<value" condition, so check if storedUpperGPA is less than inputUpperGPA
