@@ -262,12 +262,13 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
+// liked dislike endpoint; only store data to db and returns nothing
 app.post("/manageLD", async (req, res) => {
   try {
     const { email, target, lod } = req.body;
     updateObject = {};
     if (lod) {
-      // liked
+      // append email to liked array
       updateObject = { $addToSet: { "liked.emails": target } };
     } else {
       updateObject = { $addToSet: { "disliked.emails": target } };
