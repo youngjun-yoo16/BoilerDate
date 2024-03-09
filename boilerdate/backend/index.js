@@ -581,10 +581,11 @@ app.post("/filter", async (req, res) => {
     } = req.body;
 
     // Dynamic query object (age and height will always be there)
-    let query = { age: age, height: height };
+    let query = {
+      height: { $gte: height[0], $lte: height[1] },
+    };
 
     // Handle empty strings or empty arrays
-    if (gender) query.gender = gender;
     if (gpa) query.gpa = gpa;
     if (major) query.major = major;
     if (degree) query.degree = degree;
@@ -594,6 +595,7 @@ app.post("/filter", async (req, res) => {
     if (relationship) query.relationship = relationship;
     if (citizenship) query.citizenship = citizenship;
 
+    console.log(query);
     // Extract the lower and upper GPA from the provided string
     let inputLowerGPA, inputUpperGPA;
     if (gpa.includes("-")) {
@@ -633,15 +635,23 @@ app.post("/filter", async (req, res) => {
 
     // Step 3: For each email, find the corresponding user in the profile collection, calculate age, and check gender.
     // Use Promise.all to wait for all async operations to complete
+
+    // Dynamic query object
+    let userQuery = {};
+    if (gender) userQuery.gender = gender;
+
     const filteredUsersPromises = emailsMatchingGPA.map(async (email) => {
-      const user = await UserModel.findOne({ email, gender });
+      userQuery.email = email;
+      console.log(userQuery)
+      const user = await UserModel.findOne(userQuery);
+      console.log(user)
       if (user) {
         const dateDiff = Date.now() - new Date(user.dob).getTime();
         const objAge = new Date(dateDiff);
         const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
         if (
-          convertedAge >= Number(age[0]) &&
-          convertedAge <= Number(age[1]) &&
+          convertedAge >= age[0] &&
+          convertedAge <= age[1] &&
           user.gender === gender
         ) {
           return ProfileModel.findOne({ email: email }); // Return the promise
