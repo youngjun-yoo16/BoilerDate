@@ -555,19 +555,17 @@ app.post("/filter", async (req, res) => {
       citizenship,
     } = req.body;
 
-    const filtered_profiles = await ProfileModel.find(
-      {
-        gpa: gpa,
-        major: major,
-        degree: degree,
-        interests: { $all: interests },
-        lifestyle: { $all: lifestyle },
-        height: { $gt: lowerHeight, $lt: upperHeight },
-        personality: personality,
-        relationship: relationship,
-        citizenship: citizenship
-      }
-    );
+    const filtered_profiles = await ProfileModel.find({
+      gpa: gpa,
+      major: major,
+      degree: degree,
+      interests: { $all: interests },
+      lifestyle: { $all: lifestyle },
+      height: { $gt: lowerHeight, $lt: upperHeight },
+      personality: personality,
+      relationship: relationship,
+      citizenship: citizenship,
+    });
     res.json(filtered_profiles);
   } catch (error) {
     res.status(500).json({ error: error.message });
