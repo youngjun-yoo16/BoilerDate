@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import TinderCard from "react-tinder-card";
 import "./displayFilteredUser.css"
-import "./swipeButton.css";
+//import "./swipeButton.css";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
