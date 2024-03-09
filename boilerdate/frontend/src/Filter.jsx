@@ -10,12 +10,16 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { MultiSelect } from "primereact/multiselect";
 import "./Filter.css";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 function valuetext(value) {
   return `${value}°C`;
 }
 
 function Filter() {
+  const [gender, setGender] = useState("");
   const [gpa, setGpa] = useState("");
   const [major, setMajor] = useState("");
   const [degree, setDegree] = useState("");
@@ -144,8 +148,6 @@ function Filter() {
     }
   });
 
-  console.log(interests);
-
   const handleHeight = (event, newValue) => {
     setHeightRange(newValue);
     //console.log(newValue);
@@ -157,15 +159,42 @@ function Filter() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    /*axios
+      .post("http://localhost:3001/completeProfile", {
+        email,
+        gender,
+        age,
+        gpa,
+        major,
+        degree,
+        interests,
+        lifestyle,
+        height,
+        personality,
+        relationship,
+        citizenship,
+      })
+      .then((result) => {
+        console.log(result);
+        navigate("/home", { state: { email: email } });
+      })
+      .catch((err) => console.log(err));*/
+
     //console.log(result);
     navigate("/home", {
       state: {
         email: email,
+        gender: gender,
+        age: ageRange,
         gpa: gpa,
         major: major,
         degree: degree,
         interests: interests,
         lifestyle: lifestyle,
+        height: heightRange,
+        personality: personality,
+        relationship: relationship,
+        citizenship: citizenship,
       },
     });
   };
@@ -176,6 +205,42 @@ function Filter() {
         <h2>Filter</h2>
         <br />
         <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <p>Gender</p>
+            <FormControl>
+              <RadioGroup
+                row
+                aria-labelledby="gender-radio-buttons"
+                name="row-radio-buttons-group"
+              >
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <FormControlLabel
+                  value="non-binary"
+                  control={<Radio />}
+                  label="Non-binary"
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <FormControlLabel
+                  value="other"
+                  control={<Radio />}
+                  label="Other"
+                  onChange={(e) => setGender(e.target.value)}
+                />
+              </RadioGroup>
+            </FormControl>
+          </div>
+
           <div className="row">
             <div className="col">
               <div className="mb-3">
@@ -254,7 +319,6 @@ function Filter() {
                     Personality
                   </InputLabel>
                   <Select
-                    required
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={personality}
@@ -286,7 +350,6 @@ function Filter() {
                     Relationship goals
                   </InputLabel>
                   <Select
-                    required
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={relationship}
@@ -315,7 +378,6 @@ function Filter() {
                     Citizenship status
                   </InputLabel>
                   <Select
-                    required
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={citizenship}
