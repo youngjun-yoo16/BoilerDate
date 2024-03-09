@@ -6,21 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 function Home() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  //const { email } = state || {};
-  const {
-    email,
-    gender,
-    age,
-    gpa,
-    major,
-    degree,
-    interests,
-    lifestyle,
-    height,
-    personality,
-    relationship,
-    citizenship,
-  } = state || {};
+  const { email } = state || {};
   console.log(state);
 
   useEffect(() => {
