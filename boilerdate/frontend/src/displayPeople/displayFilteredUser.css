@@ -25,10 +25,29 @@
     .swipe{
       position: absolute;
     }
-    .swipeButton{
-        position: fixed;
-        bottom: 10vh;
-        display: flex;
-        justify-content: space-evenly;
-        width: 100%;
-      }
+
+.swipeButton{
+
+  position: fixed;
+  bottom: 300px;
+  display: flex;
+  justify-content: center;
+  gap:140px;
+  width: 100%;
+}
+
+.arrowButton {
+    position: fixed;
+    bottom: 9px; 
+    right: 5px; 
+  
+  
+}
+
+
+
+.close_button, .favorite_button {
+    margin: 50 50px ;
+    font-size:  "large";
+
+}

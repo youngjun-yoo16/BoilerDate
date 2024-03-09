@@ -8,12 +8,13 @@ import "./displayFilteredUser.css"
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 function DisplayFilteredUsers() {
 
-  //const { state } = useLocation();e
-//  const { email } = state || {};
- // const navigate = useNavigate();
+const { state } = useLocation();
+const { email } = state || {};
+const navigate = useNavigate();
 
  // console.log(email);
 
@@ -48,40 +49,46 @@ function DisplayFilteredUsers() {
       
     } else if (buttonType === 'like') {
       
+    } else if(buttonType === 'arrow') {
+      
     }
   };
 
   return (
-    <div>
+
   <div className="tinderCard_container">
-      {peoples.map((person, index) =>
-        <TinderCard
+      {peoples.map((person, index) => (
+       <TinderCard
           key={index}
           className="swipe"
          preventSwipe={[`up`, `down`]}
-          onSwipe={(dir) => swiped(dir, person.name)}
-          onCardLeftScreen={() => outOfFrame(person.name)}
+          onSwipe={(dir) => swiped(dir, person.name,index)}
+          onCardLeftScreen={() => outOfFrame(person.name,index)}
         > 
-        <div className="card" 
-        style={{
+        <div className="card" style={{
           backgroundImage:"url("+person.url+")"
         }}>
-          <h3>{person.name}</h3>
+          <h3>{person.name}  {person.age} </h3>
+          <div className="arrowButton">
+          <IconButton onClick={() => handleSubmit('arrow')}>
+          <ArrowCircleUpIcon sx={{ color: 'grey' }}  fontSize="large" className="arrow_button"/>
+  
+         </IconButton>
+         </div>
         </div>
-        
          </TinderCard>
-      )}
-    </div>
+      ))}
 
     <div className="swipeButton">
     <IconButton onClick={() => handleSubmit('close')}>
-      <CloseIcon fontSize='large' className="close_button"/>
+      <CloseIcon sx={{ color: 'black' }} fontSize="large" className="close_button"/>
     </IconButton>
     <IconButton onClick={() => handleSubmit('like')}>
-      <FavoriteIcon fontSize='large' className="favorite_button"/>
+      <FavoriteIcon sx={{ color: 'red' }}  fontSize="large" className="favorite_button"/>
     </IconButton>
   </div>
 </div>
+  
   );
 }
 
