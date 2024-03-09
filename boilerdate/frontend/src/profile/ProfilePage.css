@@ -1,121 +1,121 @@
 /* InterestsPage.css */
 .container {
-    max-width: 600px;
-    margin: 0 auto;
-  }
+  max-width: 600px;
+  margin: 0 auto;
+}
 
-  .header-text {
-    font-family: Arial, sans-serif; /* Set font family for header text */
-    font-weight: 540;
-    font-size: 35px; 
-    padding-top: 5px;
-    padding-bottom: 12px;
-    
-  }
-
-  .card-header {
-    font-size: 19px; 
-  }
-
-  .list-group-item.custom-font-style{
-    font-weight: 530;
-    font-size: 30px; 
-  }
-
-  .list-group-item {
-    font-size: 16px; 
-   
-  }
-
-  .subheader-text {
-    font-family: Arial, sans-serif; /* Set font family for header text */
-    font-weight: 300;
-    font-size: 19px; 
-    padding-top: 15px;
-  }
-
+.header-text {
+  font-family: Arial, sans-serif; /* Set font family for header text */
+  font-weight: 540;
+  font-size: 35px; 
+  padding-top: 5px;
+  padding-bottom: 12px;
   
-  .subsubheader-text {
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: 300;
-    font-size: 14.5px; 
-    padding-top: 0px;
-    margin-bottom: -5px;
-  }
+}
 
-  .selected-containers {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
-    padding-top: 10px;
-    margin-bottom: 12px;
+.card-header {
+  font-size: 19px; 
 
-    margin-left: 12px;
-  }
-  .cat {
-    margin-top: 10px;
-    border-bottom: 1.5px solid #b0aeae;
-  }
+}
 
-  .selected-containerss {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap:10px;
-    margin-top: 5px;
-   margin-bottom: 0px;
-   padding-top: 7px;
-   padding-bottom: 7px;
-  }
+.list-group-item.custom-font-style{
+  font-weight: 530;
+  font-size: 30px; 
+}
 
-  .selected-containersss {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap:10px;
-    margin-top: 5px;
-   margin-bottom: 5px;
-   padding-top: 8px;
-   padding-bottom: 20px;
-   border-bottom: 1.5px solid #b0aeae;
-  }
-
-  .content {
-    white-space: pre-wrap;
-  
-  }
-  
-  .card {
-    border-width: 1.5px;
-    margin-bottom: 5px;
-  }
-
-  
-  .relationship {
-    font-family: Arial, sans-serif;
-    font-weight: 540;
-    font-size: 25px; 
-    margin-top: -5px;
-    margin-bottom: 8px; 
-  }
-  
-  .height {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 16px; 
-    
-    margin-top: -5px;
-    margin-bottom: 8px; 
-  }
-  
-  .interests {
-    color: #515558; 
-    padding: 6px 1px; 
-    border-radius: 17px;
-    text-align: center;
-    cursor: pointer;
-    font-size: 14px; 
-    font-weight: normal; 
-    border: 1px solid #82868a; 
-    transition: border-color 0.3s; 
-  }
+.list-group-item {
+  font-size: 16px; 
  
+}
 
+.subheader-text {
+  font-family: Arial, sans-serif; /* Set font family for header text */
+  font-weight: 300;
+  font-size: 19px; 
+  padding-top: 15px;
+}
+
+
+.subsubheader-text {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 14.5px; 
+  padding-top: 0px;
+  margin-bottom: -5px;
+}
+
+.selected-containers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  padding-top: 10px;
+  margin-bottom: 12px;
+
+  margin-left: 12px;
+}
+.cat {
+  margin-top: 10px;
+  border-bottom: 1.5px solid #b0aeae;
+}
+
+.selected-containerss {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap:10px;
+  margin-top: 5px;
+ margin-bottom: 0px;
+ padding-top: 7px;
+ padding-bottom: 7px;
+}
+
+.selected-containersss {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap:10px;
+  margin-top: 5px;
+ margin-bottom: 5px;
+ padding-top: 8px;
+ padding-bottom: 20px;
+ border-bottom: 1.5px solid #b0aeae;
+}
+
+.content {
+  white-space: pre-wrap;
+
+}
+
+.card {
+  border-width: 1.5px;
+  margin-bottom: 5px;
+}
+
+
+.relationship {
+  font-family: Arial, sans-serif;
+  font-weight: 540;
+  font-size: 25px; 
+  margin-top: -5px;
+  margin-bottom: 8px; 
+}
+
+.height {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px; 
   
+  margin-top: -5px;
+  margin-bottom: 8px; 
+}
+
+.interests {
+  color: #515558; 
+  padding: 6px 1px; 
+  border-radius: 17px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px; 
+  font-weight: normal; 
+  border: 1px solid #82868a; 
+  transition: border-color 0.3s; 
+}
+
+
