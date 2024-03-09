@@ -270,6 +270,7 @@ app.post("/manageLD", async (req, res) => {
       { $pull: { "liked.emails": target, "disliked.emails": target } }
     );
 
+    // either liked or disliked
     const flag = lod ? "liked.emails" : "disliked.emails";
 
     // finally create doc
@@ -279,6 +280,28 @@ app.post("/manageLD", async (req, res) => {
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
     console.log("email: " + email + " | like: " + lod + " | target: " + target);
+
+    // whenever liked, search if the target also liked him. add to matches
+    if (lod) {
+      const isMatch = await UserLDModel.findOne({
+        email: target,
+        "liked.emails": email,
+      });
+      if (isMatch) {
+        console.log("match found");
+        // update the current user
+        await UserLDModel.updateOne(
+          { email: email },
+          { $addToSet: { matches: target } }
+        );
+
+        // update the matched user
+        await UserLDModel.updateOne(
+          { email: email },
+          { $addToSet: { matches: email } }
+        );
+      }
+    }
 
     // send back
     res.json(updatedUser);
@@ -557,28 +580,54 @@ app.post("/filter", async (req, res) => {
       citizenship,
     } = req.body;
 
-    // Extract the lower and upper GPA from the provided string
-    const [inputLowerGPA, inputUpperGPA] = gpa.split("-").map(Number);
+    // Dynamic query object (age and height will always be there)
+    let query = { age: age, height: height };
 
-    // Step 1: Retrieve all potential matches based on criteria that can be directly matched
-    const potentialMatches = await ProfileModel.find({
-      major: major,
-      degree: degree,
-      interests: { $all: interests },
-      lifestyle: { $all: lifestyle },
-      height: { $gte: height[0], $lte: height[1] },
-      personality: personality,
-      relationship: relationship,
-      citizenship: citizenship,
-    }).select("email gpa -_id");
+    // Handle empty strings or empty arrays
+    if (gender) query.gender = gender;
+    if (gpa) query.gpa = gpa;
+    if (major) query.major = major;
+    if (degree) query.degree = degree;
+    if (interests && interests.length) query.interests = { $all: interests };
+    if (lifestyle && lifestyle.length) query.lifestyle = { $all: lifestyle };
+    if (personality) query.personality = personality;
+    if (relationship) query.relationship = relationship;
+    if (citizenship) query.citizenship = citizenship;
+
+    // Extract the lower and upper GPA from the provided string
+    let inputLowerGPA, inputUpperGPA;
+    if (gpa.includes("-")) {
+      [inputLowerGPA, inputUpperGPA] = gpa.split("-").map(Number);
+    } else {
+      inputLowerGPA = null; // No lower bound
+      inputUpperGPA = Number(gpa.substring(1)); // Extract and convert the upper bound
+    }
+
+    // Step 1: Retrieve all potential matches based on dynamically constructed criteria
+    const potentialMatches = await ProfileModel.find(query).select(
+      "email gpa -_id"
+    );
 
     // Step 2: Filter the potential matches further based on the GPA range
     const emailsMatchingGPA = potentialMatches
       .filter((doc) => {
-        const [storedLowerGPA, storedUpperGPA] = doc.gpa.split("-").map(Number);
-        return (
-          inputLowerGPA <= storedLowerGPA && storedUpperGPA <= inputUpperGPA
-        );
+        let storedLowerGPA, storedUpperGPA;
+        if (doc.gpa.includes("-")) {
+          [storedLowerGPA, storedUpperGPA] = doc.gpa.split("-").map(Number);
+        } else {
+          storedLowerGPA = storedUpperGPA = Number(doc.gpa.substring(1));
+        }
+
+        // Check overlap or upper bound conditions
+        if (inputLowerGPA === null) {
+          // If inputLowerGPA is null, we're dealing with a "<value" condition, so check if storedUpperGPA is less than inputUpperGPA
+          return storedUpperGPA <= inputUpperGPA;
+        } else {
+          // If inputLowerGPA is not null, we're dealing with a range, so check if the ranges overlap
+          return (
+            inputLowerGPA <= storedLowerGPA && storedUpperGPA <= inputUpperGPA
+          );
+        }
       })
       .map((doc) => doc.email);
 
