@@ -45,10 +45,10 @@ function DisplayFilteredUsers() {
       //HandleUserLikesAndDislikes(temp_email, peoples[0].name, true);
       HandleUserLikesAndDislikes(temp_email, peoples[1].name, true);
     } else if (buttonType === "dislike") {
-      
+        //HandleUserLikesAndDislikes(temp_email, peoples[0].name, false);
+        HandleUserLikesAndDislikes(temp_email, peoples[1].name, false);
     } else if(buttonType === 'arrow') {
-      //HandleUserLikesAndDislikes(temp_email, peoples[0].name, false);
-      HandleUserLikesAndDislikes(temp_email, peoples[1].name, false);
+    
     }
   };
 
