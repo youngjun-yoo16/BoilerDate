@@ -6,6 +6,10 @@ const UserModel = require("./models/User");
 const CodeModel = require("./models/Code");
 const ProfileModel = require("./models/Profile");
 const imageModel = require("./models/Image");
+
+const UserLDModel = require("./models/UserLD");
+const { HandleUserLikesAndDisklikes } = require("./HandleLikesDislikes");
+
 const {
   generateVerificationCode,
   sendVerificationEmail,
@@ -256,6 +260,30 @@ const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+});
+
+app.post("/manageLD", async (req, res) => {
+  try {
+    const { email, target, lod } = req.body;
+    updateObject = {};
+    if (lod) {
+      // liked
+      updateObject = { $addToSet: { "liked.emails": target } };
+    } else {
+      updateObject = { $addToSet: { "disliked.emails": target } };
+    }
+
+    // update or insert
+    const user = await UserLDModel.findOneAndUpdate(
+      { email: email },
+      updateObject,
+      // return modified one else create one
+      { new: true, upsert: true }
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.post("/updateGPA", async (req, res) => {
