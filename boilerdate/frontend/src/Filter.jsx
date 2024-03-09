@@ -8,6 +8,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
+import { MultiSelect } from "primereact/multiselect";
+import "./Filter.css";
 
 function valuetext(value) {
   return `${value}°C`;
@@ -28,6 +30,110 @@ function Filter() {
   const [relationship, setRelationship] = useState("");
   const [citizenship, setCitizenship] = useState("");
 
+  const interestsData = [
+    "Travel",
+    "Soccer",
+    "Music",
+    "Outdoors",
+    "Movies",
+    "Snowboarding",
+    "Art Galleries",
+    "YouTube",
+    "Xbox",
+    "Beach",
+    "Weightlifting",
+    "Walking My Dog",
+    "World Peace",
+    "Twitter",
+    "Virtual Reality",
+    "Tango",
+    "Tennis",
+    "Skiing",
+    "Dancing",
+    "Road Trips",
+    "Climate Change",
+    "Football",
+    "Festivals",
+    "Tattoos",
+    "Crossfit",
+    "LGBTQ+ Rights",
+    "K-Pop",
+    "Reading",
+    "Photography",
+    "Sports",
+    "Country Music",
+    "Sushi",
+    "Hockey",
+    "Skincare",
+    "Running",
+    "Basketball",
+    "Boxing",
+    "Cars",
+    "Walking",
+    "Robotics",
+    "Instagram",
+    "Foodie Tour",
+    "Shopping",
+    "Clubbing",
+    "Self Care",
+    "Yoga",
+    "Gym",
+    "Skateboarding",
+    "Coffee",
+    "AI",
+    "Poetry",
+    "Singing",
+    "Ice Skating",
+    "Gaming",
+    "Pilates",
+    "Ice Cream",
+    "Cheerleading",
+    "Motor Sports",
+    "E-Sports",
+    "Painting",
+    "Bowling",
+    "Surfing",
+    "Coding",
+    "Cooking",
+    "Motorcycles",
+    "Art",
+    "Tea",
+    "Wine",
+    "Volunteering",
+    "Vlogging",
+    "Anime",
+    "Ramen",
+    "Volleyball",
+    "League of Legends",
+    "Baseball",
+    "Band",
+    "TikTok",
+    "Comedy",
+    "Blogging",
+    "Netflix",
+    "Horror Movies",
+    "Programming",
+    "Math",
+    "Environment",
+    "Stock Exchange",
+    "Equality",
+    "Animals",
+    "Guitar",
+    "Gospel",
+    "Parties",
+    "Hip Hop",
+    "Indoor Activities",
+    "Literature",
+    "Jogging",
+    "Science",
+    "Korean Food",
+    "Night Life",
+    "Online Shopping",
+    "NBA",
+    "Trying New Things",
+    "Self Development",
+  ];
+
   const navigate = useNavigate();
   const { state } = useLocation();
   const { email } = state || {};
@@ -37,6 +143,8 @@ function Filter() {
       navigate(-1);
     }
   });
+
+  console.log(interests);
 
   const handleHeight = (event, newValue) => {
     setHeightRange(newValue);
@@ -235,6 +343,18 @@ function Filter() {
                   />
                 </Box>
               </div>
+            </div>
+          </div>
+
+          <div className="mb-3">
+            <div className="card flex justify-content-center">
+              <MultiSelect
+                value={interests}
+                onChange={(e) => setInterests(e.value)}
+                options={interestsData}
+                placeholder="Select Interests"
+                className="w-full md:w-20rem"
+              />
             </div>
           </div>
 
