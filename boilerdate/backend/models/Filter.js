@@ -4,7 +4,8 @@ const FilterSchema = new mongoose.Schema({
   email: String,
   filter_preferences: {
     gpa: String,
-    age: [String],
+    gender: String,
+    age: [Number],
     major: String,
     degree: String,
     interests: [String],

@@ -1,14 +1,13 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const UserModel = require("./models/User");
 const CodeModel = require("./models/Code");
 const ProfileModel = require("./models/Profile");
 const imageModel = require("./models/Image");
-
 const UserLDModel = require("./models/UserLD");
-
+const FilterModel = require("./models/Filter");
 const {
   generateVerificationCode,
   sendVerificationEmail,
@@ -18,7 +17,6 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const FilterModel = require("./models/Filter");
 
 const app = express();
 app.use(express.json());
@@ -581,61 +579,69 @@ app.post("/filter", async (req, res) => {
       degree,
       interests,
       lifestyle,
-      lowerHeight,
-      upperHeight,
+      height,
       personality,
       relationship,
       citizenship,
     } = req.body;
 
-    // Step 1: Filter profileInfos collection
-    const filteredEmails = await ProfileModel.find({
-      gpa: gpa,
+    // Extract the lower and upper GPA from the provided string
+    const [inputLowerGPA, inputUpperGPA] = gpa.split("-").map(Number);
+
+    // Step 1: Retrieve all potential matches based on criteria that can be directly matched
+    const potentialMatches = await ProfileModel.find({
       major: major,
       degree: degree,
       interests: { $all: interests },
       lifestyle: { $all: lifestyle },
-      height: { $gt: lowerHeight, $lt: upperHeight },
+      height: { $gte: height[0], $lte: height[1] },
       personality: personality,
       relationship: relationship,
       citizenship: citizenship,
-    }).select("email -_id"); // Select only the email field; disregard _id field
+    }).select("email gpa -_id");
 
-    const emails = filteredEmails.map((doc) => doc.email);
+    // Step 2: Filter the potential matches further based on the GPA range
+    const emailsMatchingGPA = potentialMatches
+      .filter((doc) => {
+        const [storedLowerGPA, storedUpperGPA] = doc.gpa.split("-").map(Number);
+        return (
+          inputLowerGPA <= storedLowerGPA && storedUpperGPA <= inputUpperGPA
+        );
+      })
+      .map((doc) => doc.email);
 
-    // Step 2: For each email, find the corresponding user in the profile collection, calculate age.
-    // If the age is within the range and the gender matches, insert user profile into filteredUsers array
+    // Step 3: For each email, find the corresponding user in the profile collection, calculate age, and check gender.
     // Use Promise.all to wait for all async operations to complete
-    const filteredUsersPromises = emails.map(async (email) => {
-      const user = await UserModel.findOne({ email: email });
+    const filteredUsersPromises = emailsMatchingGPA.map(async (email) => {
+      const user = await UserModel.findOne({ email, gender });
       if (user) {
         const dateDiff = Date.now() - new Date(user.dob).getTime();
         const objAge = new Date(dateDiff);
         const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
-        if (convertedAge >= Number(age[0]) && convertedAge <= Number(age[1]) && user.gender === gender) {
-          return ProfileModel.findOne({ email: email }); // Return the promise
+        if (convertedAge >= age[0] && convertedAge <= age[1]) {
+          return ProfileModel.findOne({ email: email }).select("-_id"); // Exclude _id in the output
         }
       }
+      return null;
     });
 
-    const filteredUsersResults = await Promise.all(filteredUsersPromises);
-    const filteredUsers = filteredUsersResults.filter(
-      (user) => user !== undefined
-    );
+    let filteredUsers = await Promise.all(filteredUsersPromises);
+    filteredUsers = filteredUsers.filter((user) => user); // Remove nulls
 
-    // Step 3: Upsert filter preferences in FilterModel
+    // Step 4: Upsert filter preferences in FilterModel
     await FilterModel.findOneAndUpdate(
       { email: email },
       {
         $set: {
           filter_preferences: {
             gpa: gpa,
+            gender: gender,
             age: age,
             major: major,
             degree: degree,
             interests: interests,
             lifestyle: lifestyle,
-            height: [lowerHeight, upperHeight],
+            height: height,
             personality: personality,
             relationship: relationship,
             citizenship: citizenship,
