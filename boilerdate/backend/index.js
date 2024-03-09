@@ -574,8 +574,9 @@ app.post("/filter", async (req, res) => {
   try {
     const {
       email,
-      gpa,
+      gender,
       age,
+      gpa,
       major,
       degree,
       interests,
@@ -603,7 +604,7 @@ app.post("/filter", async (req, res) => {
     const emails = filteredEmails.map((doc) => doc.email);
 
     // Step 2: For each email, find the corresponding user in the profile collection, calculate age.
-    // If the age is within the range, insert user profile into filteredUsers array
+    // If the age is within the range and the gender matches, insert user profile into filteredUsers array
     // Use Promise.all to wait for all async operations to complete
     const filteredUsersPromises = emails.map(async (email) => {
       const user = await UserModel.findOne({ email: email });
@@ -611,7 +612,7 @@ app.post("/filter", async (req, res) => {
         const dateDiff = Date.now() - new Date(user.dob).getTime();
         const objAge = new Date(dateDiff);
         const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
-        if (convertedAge >= Number(age[0]) && convertedAge <= Number(age[1])) {
+        if (convertedAge >= Number(age[0]) && convertedAge <= Number(age[1]) && user.gender === gender) {
           return ProfileModel.findOne({ email: email }); // Return the promise
         }
       }
