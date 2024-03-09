@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
-function UserConsent() {
+function displayFilteredUsers() {
   // set state to false as default
   //const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
@@ -21,4 +21,4 @@ function UserConsent() {
   );
 }
 
-export default UserConsent;
+export default displayFilteredUsers;
