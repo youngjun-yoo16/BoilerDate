@@ -265,15 +265,41 @@ app.listen(PORT, () => {
 // liked dislike endpoint; only store data to db and returns nothing
 app.post("/manageLD", async (req, res) => {
   try {
-    //console.log("like or dislike receieved");
     const { email, target, lod } = req.body;
     updateObject = {};
-    if (lod) {
-      // append email to liked array
-      updateObject = { $addToSet: { "liked.emails": target } };
-    } else {
-      updateObject = { $addToSet: { "disliked.emails": target } };
-    }
+
+    // if liked and email in dislike, remove from dislike and add to like
+    UserLDModel.findOne({ email: email })
+      .then((res) => {
+        if (res) {
+          const likedEmailList = res.liked.emails;
+          const dislikedEmailList = res.disliked.emails;
+          if (lod && dislikedEmailList.includes(target)) {
+            // remove from dislike and add to like
+            updateObject = {
+              $pull: { "disliked.emails": target },
+              $addToSet: { "liked.emails": target },
+            };
+          } else if (!lod && likedEmailList.includes(target)) {
+            // remove from like and add to dislike
+            updateObject = {
+              $pull: { "liked.emails": target },
+              $addToSet: { "disliked.emails": target },
+            };
+          } else {
+            if (lod) {
+              // append email to liked array
+              updateObject = { $addToSet: { "liked.emails": target } };
+            } else {
+              updateObject = { $addToSet: { "disliked.emails": target } };
+            }
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // if disliked and email in like, remove from like and add to dislike
 
     // update or insert
     const user = await UserLDModel.findOneAndUpdate(
