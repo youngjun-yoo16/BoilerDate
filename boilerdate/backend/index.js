@@ -265,51 +265,23 @@ app.post("/manageLD", async (req, res) => {
   try {
     const { email, target, lod } = req.body;
 
-    UserLDModel.findOne({ email: email })
-      .then(async (doc) => {
-        let updateObject = {};
-        if (doc) {
-          const likedEmailList = doc.liked.emails;
-          const dislikedEmailList = doc.disliked.emails;
-          if (lod && dislikedEmailList.includes(target)) {
-            // remove from dislike and add to like
-            updateObject = {
-              $pull: { "disliked.emails": target },
-              $addToSet: { "liked.emails": target },
-            };
-          } else if (!lod && likedEmailList.includes(target)) {
-            // remove from like and add to dislike
-            updateObject = {
-              $pull: { "liked.emails": target },
-              $addToSet: { "disliked.emails": target },
-            };
-          } else {
-            // append email to liked or disliked array
-            if (lod) {
-              updateObject = { $addToSet: { "liked.emails": target } };
-            } else {
-              updateObject = { $addToSet: { "disliked.emails": target } };
-            }
-          }
+    await UserLDModel.updateOne(
+      { email: email },
+      { $pull: { "liked.emails": target, "disliked.emails": target } }
+    );
 
-          // update
-          const updatedUser = await UserLDModel.findOneAndUpdate(
-            { email: email },
-            updateObject,
-            { new: true, upsert: true }
-          );
-          // send back
-          res.json(updatedUser);
-        } else {
-          // user not found
-          console.error("user not found");
-          res.status(404).json({ message: "User not found" });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).json({ error: err.message });
-      });
+    const flag = lod ? "liked.emails" : "disliked.emails";
+
+    // finally create doc
+    const updatedUser = await UserLDModel.findOneAndUpdate(
+      { email: email },
+      { $addToSet: { [flag]: target } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+    console.log("email: " + email + " | like: " + lod + " | target: " + target);
+
+    // send back
+    res.json(updatedUser);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
@@ -618,8 +590,12 @@ app.post("/filter", async (req, res) => {
         const dateDiff = Date.now() - new Date(user.dob).getTime();
         const objAge = new Date(dateDiff);
         const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
-        if (convertedAge >= age[0] && convertedAge <= age[1]) {
-          return ProfileModel.findOne({ email: email }).select("-_id"); // Exclude _id in the output
+        if (
+          convertedAge >= Number(age[0]) &&
+          convertedAge <= Number(age[1]) &&
+          user.gender === gender
+        ) {
+          return ProfileModel.findOne({ email: email }); // Return the promise
         }
       }
       return null;
