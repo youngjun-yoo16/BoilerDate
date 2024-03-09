@@ -18,6 +18,7 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const FilterModel = require("./models/Filter");
 
 const app = express();
 app.use(express.json());
@@ -264,15 +265,41 @@ app.listen(PORT, () => {
 // liked dislike endpoint; only store data to db and returns nothing
 app.post("/manageLD", async (req, res) => {
   try {
-    //console.log("like or dislike receieved");
     const { email, target, lod } = req.body;
     updateObject = {};
-    if (lod) {
-      // append email to liked array
-      updateObject = { $addToSet: { "liked.emails": target } };
-    } else {
-      updateObject = { $addToSet: { "disliked.emails": target } };
-    }
+
+    // if liked and email in dislike, remove from dislike and add to like
+    UserLDModel.findOne({ email: email })
+      .then((res) => {
+        if (res) {
+          const likedEmailList = res.liked.emails;
+          const dislikedEmailList = res.disliked.emails;
+          if (lod && dislikedEmailList.includes(target)) {
+            // remove from dislike and add to like
+            updateObject = {
+              $pull: { "disliked.emails": target },
+              $addToSet: { "liked.emails": target },
+            };
+          } else if (!lod && likedEmailList.includes(target)) {
+            // remove from like and add to dislike
+            updateObject = {
+              $pull: { "liked.emails": target },
+              $addToSet: { "disliked.emails": target },
+            };
+          } else {
+            if (lod) {
+              // append email to liked array
+              updateObject = { $addToSet: { "liked.emails": target } };
+            } else {
+              updateObject = { $addToSet: { "disliked.emails": target } };
+            }
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // if disliked and email in like, remove from like and add to dislike
 
     // update or insert
     const user = await UserLDModel.findOneAndUpdate(
@@ -557,7 +584,8 @@ app.post("/filter", async (req, res) => {
       citizenship,
     } = req.body;
 
-    const filtered_profiles = await ProfileModel.find({
+    // Step 1: Filter profileInfos collection
+    const filteredEmails = await ProfileModel.find({
       gpa: gpa,
       major: major,
       degree: degree,
@@ -567,8 +595,53 @@ app.post("/filter", async (req, res) => {
       personality: personality,
       relationship: relationship,
       citizenship: citizenship,
+    }).select("email -_id"); // Select only the email field; disregard _id field
+
+    const emails = filteredEmails.map((doc) => doc.email);
+
+    // Step 2: For each email, find the corresponding user in the profile collection, calculate age.
+    // If the age is within the range, insert user profile into filteredUsers array
+    // Use Promise.all to wait for all async operations to complete
+    const filteredUsersPromises = emails.map(async (email) => {
+      const user = await UserModel.findOne({ email: email });
+      if (user) {
+        const dateDiff = Date.now() - new Date(user.dob).getTime();
+        const objAge = new Date(dateDiff);
+        const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
+        if (convertedAge >= Number(age[0]) && convertedAge <= Number(age[1])) {
+          return ProfileModel.findOne({ email: email }); // Return the promise
+        }
+      }
     });
-    res.json(filtered_profiles);
+
+    const filteredUsersResults = await Promise.all(filteredUsersPromises);
+    const filteredUsers = filteredUsersResults.filter(
+      (user) => user !== undefined
+    );
+
+    // Step 3: Upsert filter preferences in FilterModel
+    await FilterModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          filter_preferences: {
+            gpa: gpa,
+            age: age,
+            major: major,
+            degree: degree,
+            interests: interests,
+            lifestyle: lifestyle,
+            height: [lowerHeight, upperHeight],
+            personality: personality,
+            relationship: relationship,
+            citizenship: citizenship,
+          },
+        },
+      },
+      { upsert: true, new: true }
+    );
+
+    res.json(filteredUsers);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

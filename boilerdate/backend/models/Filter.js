@@ -2,17 +2,19 @@ const mongoose = require("mongoose");
 
 const FilterSchema = new mongoose.Schema({
   email: String,
-  gpa: String,
-  age: Number,
-  major: String,
-  degree: String,
-  interests: [{ type: String }],
-  lifestyle: [{ type: String }],
-  height: String,
-  personality: String,
-  relationship: String,
-  citizenship: String,
+  filter_preferences: {
+    gpa: String,
+    age: [String],
+    major: String,
+    degree: String,
+    interests: [String],
+    lifestyle: [String],
+    height: [Number],
+    personality: String,
+    relationship: String,
+    citizenship: String,
+  },
 });
 
-const FilterModel = mongoose.model("filter_preferences", FilterSchema);
+const FilterModel = mongoose.model("filters", FilterSchema);
 module.exports = FilterModel;
