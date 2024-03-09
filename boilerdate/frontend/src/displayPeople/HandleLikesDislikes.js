@@ -1,6 +1,7 @@
-require("dotenv").config();
+import axios from "axios";
+//require("dotenv").config();
 
-async function HandleUserLikesAndDisklikes(email, target, lod) {
+async function HandleUserLikesAndDislikes(email, target, lod) {
   // user with given email has liked the target email
   // lod: true -> like , false -> dislike
   axios
@@ -11,6 +12,4 @@ async function HandleUserLikesAndDisklikes(email, target, lod) {
     .catch((err) => console.log(err));
 }
 
-module.exports = {
-  HandleUserLikesAndDisklikes,
-};
+export default HandleUserLikesAndDislikes;
