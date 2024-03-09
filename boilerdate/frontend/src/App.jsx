@@ -39,6 +39,7 @@ import Gender from "./settings/Gender";
 import Birthday from "./settings/Birthday";
 import UpdatePassword from "./login/UpdatePassword";
 import SetupBio from "./profile/Bio";
+import DisplayFilteredUsers from "./displayPeople/displayFilteredUsers";
 import Filter from "./Filter";
 
 const App = () => {
@@ -71,6 +72,7 @@ const App = () => {
           <Route path="/settings/degree" element={<Degree />}></Route>
           <Route path="/settings/height" element={<Height />}></Route>
           <Route path="/settings/personality" element={<Personality />}></Route>
+         
           <Route
             path="/settings/relationship"
             element={<Relationship />}
@@ -93,6 +95,7 @@ const App = () => {
           <Route path="/settings/name" element={<Name />}></Route>
           <Route path="/settings/gender" element={<Gender />}></Route>
           <Route path="/settings/birthday" element={<Birthday />}></Route>
+          <Route path="/matches" element={<DisplayFilteredUsers />}></Route>
           <Route path="/filter" element={<Filter />}></Route>
         </Routes>
       </BrowserRouter>
