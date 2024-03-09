@@ -558,7 +558,15 @@ app.post("/filter", async (req, res) => {
     } = req.body;
 
     // Extract the lower and upper GPA from the provided string
-    const [inputLowerGPA, inputUpperGPA] = gpa.split("-").map(Number);
+    let inputLowerGPA, inputUpperGPA;
+    if (gpa.includes("-")) {
+      // Handle GPA range
+      [inputLowerGPA, inputUpperGPA] = gpa.split("-").map(Number);
+    } else {
+      // Handle GPA less than a specific value
+      inputLowerGPA = null; // No lower bound
+      inputUpperGPA = Number(gpa.substring(1)); // Extract and convert the upper bound
+    }
 
     // Step 1: Retrieve all potential matches based on criteria that can be directly matched
     const potentialMatches = await ProfileModel.find({
@@ -575,10 +583,23 @@ app.post("/filter", async (req, res) => {
     // Step 2: Filter the potential matches further based on the GPA range
     const emailsMatchingGPA = potentialMatches
       .filter((doc) => {
-        const [storedLowerGPA, storedUpperGPA] = doc.gpa.split("-").map(Number);
-        return (
-          inputLowerGPA <= storedLowerGPA && storedUpperGPA <= inputUpperGPA
-        );
+        let storedLowerGPA, storedUpperGPA;
+        if (doc.gpa.includes("-")) {
+          [storedLowerGPA, storedUpperGPA] = doc.gpa.split("-").map(Number);
+        } else {
+          storedLowerGPA = storedUpperGPA = Number(doc.gpa.substring(1));
+        }
+        
+        // Check overlap or upper bound conditions
+        if (inputLowerGPA === null) {
+          // If inputLowerGPA is null, we're dealing with a "<value" condition, so check if storedUpperGPA is less than inputUpperGPA
+          return storedUpperGPA <= inputUpperGPA;
+        } else {
+          // If inputLowerGPA is not null, we're dealing with a range, so check if the ranges overlap
+          return (
+            inputLowerGPA <= storedLowerGPA && storedUpperGPA <= inputUpperGPA
+          );
+        }
       })
       .map((doc) => doc.email);
 
