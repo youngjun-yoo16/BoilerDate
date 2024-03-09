@@ -262,12 +262,13 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
+// liked dislike endpoint; only store data to db and returns nothing
 app.post("/manageLD", async (req, res) => {
   try {
     const { email, target, lod } = req.body;
     updateObject = {};
     if (lod) {
-      // liked
+      // append email to liked array
       updateObject = { $addToSet: { "liked.emails": target } };
     } else {
       updateObject = { $addToSet: { "disliked.emails": target } };
@@ -533,6 +534,40 @@ app.post("/updateBirthday", async (req, res) => {
       { upsert: true, new: true } // Ensure to return the updated document
     );
     res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/filter", async (req, res) => {
+  try {
+    const {
+      email,
+      gpa,
+      age,
+      major,
+      degree,
+      interests,
+      lifestyle,
+      lowerHeight,
+      upperHeight,
+      personality,
+      relationship,
+      citizenship,
+    } = req.body;
+
+    const filtered_profiles = await ProfileModel.find({
+      gpa: gpa,
+      major: major,
+      degree: degree,
+      interests: { $all: interests },
+      lifestyle: { $all: lifestyle },
+      height: { $gt: lowerHeight, $lt: upperHeight },
+      personality: personality,
+      relationship: relationship,
+      citizenship: citizenship,
+    });
+    res.json(filtered_profiles);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

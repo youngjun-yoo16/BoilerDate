@@ -18,7 +18,7 @@ function Home() {
     e.preventDefault();
     navigate("/");
     await toast.success("Logout Success!");
-  }
+  };
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
@@ -42,6 +42,16 @@ function Home() {
             name="profile"
             className="btn btn-outline-primary border w-100"
             onClick={() => navigate("/profile", { state: { email: email } })}
+          />
+        </div>
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Filter"
+            name="filter"
+            className="btn btn-outline-dark border w-100"
+            onClick={() => navigate("/filter", { state: { email: email } })}
           />
         </div>
         <p></p>

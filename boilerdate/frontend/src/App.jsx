@@ -40,6 +40,7 @@ import Birthday from "./settings/Birthday";
 import UpdatePassword from "./login/UpdatePassword";
 import SetupBio from "./profile/Bio";
 import DisplayFilteredUsers from "./displayPeople/displayFilteredUsers";
+import Filter from "./Filter";
 
 const App = () => {
   return (
@@ -95,6 +96,7 @@ const App = () => {
           <Route path="/settings/gender" element={<Gender />}></Route>
           <Route path="/settings/birthday" element={<Birthday />}></Route>
           <Route path="/matches" element={<DisplayFilteredUsers />}></Route>
+          <Route path="/filter" element={<Filter />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
