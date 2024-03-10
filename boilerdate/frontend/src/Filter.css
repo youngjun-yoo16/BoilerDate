@@ -1,3 +1,8 @@
+#filtercontainer {
+  min-height: 100vh;
+  overflow: auto;
+}
+
 .interestOptions {
   background: var(--surface-card);
   padding: 1rem;
@@ -29,13 +34,13 @@
 
 .heightRange {
   position: relative;
-  padding-left: 2%;
-  padding-top: 3px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .ageRange {
   position: relative;
-  padding-top: 3px;
+  padding-top: 10px;
 }
 
 .drinking {
@@ -44,6 +49,39 @@
 
 .lifetxt {
   padding-top: 8px;
-  padding-left: 25px;
+  padding-left: 15px;
   font-weight: bold;
+}
+
+.lifetitle {
+  padding-top: 10px;
+  font-weight: bolder;
+}
+
+.pets {
+  margin-right: 26px !important;
+}
+
+.drink {
+  margin-right: 71.3px !important;
+}
+
+.smoke {
+  margin-right: 62.5px !important;
+}
+
+.workout {
+  margin-right: 167px !important;
+}
+
+.diet {
+  margin-right: 18px !important;
+}
+
+.social {
+  margin-right: 148.5px !important;
+}
+
+.sleep {
+  margin-right: 293px !important;
 }

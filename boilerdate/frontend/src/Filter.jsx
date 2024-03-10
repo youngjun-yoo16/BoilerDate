@@ -190,7 +190,10 @@ function Filter() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
+    <div
+      id="filtercontainer"
+      className="d-flex justify-content-center align-items-center bg-secondary"
+    >
       <div className="bg-white p-3 rounded w-75">
         <h2>Filter</h2>
         <form onSubmit={handleSubmit}>
@@ -289,10 +292,10 @@ function Filter() {
               <div className="mb-0 heightRange">
                 <Box sx={{ width: 500 }}>
                   <div className="row">
-                    <div className="col-lg-4">
-                      <p className="heighttxt">Height (inches):</p>
+                    <div className="col-lg-3">
+                      <p className="heighttxt">Height (in):</p>
                     </div>
-                    <div className="col-lg-8">
+                    <div className="col-lg-9">
                       <Slider
                         getAriaLabel={() => "Height range"}
                         value={heightRange}
@@ -389,10 +392,10 @@ function Filter() {
               <div className="mb-0 ageRange">
                 <Box sx={{ width: 500 }}>
                   <div className="row">
-                    <div className="col-lg-4">
+                    <div className="col-lg-3">
                       <p className="agetxt">Age:</p>
                     </div>
-                    <div className="col-lg-8">
+                    <div className="col-lg-9">
                       <Slider
                         getAriaLabel={() => "Age range"}
                         value={ageRange}
@@ -422,7 +425,7 @@ function Filter() {
           </div>
 
           <div className="mb-0">
-            <p>
+            <p className="lifetitle">
               <b>Lifestyle</b>
             </p>
             <div className="row">
@@ -439,54 +442,56 @@ function Filter() {
                       control={<Radio />}
                       label="Dog"
                       onChange={(e) => setPets(e.target.value)}
+                      className="pets"
                     />
                     <FormControlLabel
                       value="Cat"
                       control={<Radio />}
                       label="Cat"
                       onChange={(e) => setPets(e.target.value)}
+                      className="pets"
                     />
                     <FormControlLabel
                       value="Bird"
                       control={<Radio />}
                       label="Bird"
                       onChange={(e) => setPets(e.target.value)}
+                      className="pets"
                     />
                     <FormControlLabel
                       value="Hamster"
                       control={<Radio />}
                       label="Hamster"
                       onChange={(e) => setPets(e.target.value)}
+                      className="pets"
                     />
                     <FormControlLabel
                       value="Other"
                       control={<Radio />}
                       label="Other"
                       onChange={(e) => setPets(e.target.value)}
+                      className="pets"
                     />
                     <FormControlLabel
                       value="Don't have but love"
                       control={<Radio />}
                       label="Don't have but love"
                       onChange={(e) => setPets(e.target.value)}
+                      className="pets"
                     />
                     <FormControlLabel
                       value="Pet-free"
                       control={<Radio />}
                       label="Pet-free"
                       onChange={(e) => setPets(e.target.value)}
+                      className="pets"
                     />
                     <FormControlLabel
                       value="Allergic to pets"
                       control={<Radio />}
                       label="Allergic to pets"
                       onChange={(e) => setPets(e.target.value)}
-                    />
-                    <FormControlLabel
-                      value="All the pets"
-                      control={<Radio />}
-                      label="All the pets"
-                      onChange={(e) => setPets(e.target.value)}
+                      className="pets"
                     />
                   </RadioGroup>
                 </FormControl>
@@ -497,44 +502,50 @@ function Filter() {
             <div className="row">
               <div className="col-lg-1 lifetxt">Drinking:</div>
               <div className="col-lg-11">
-                <FormControl>
-                  <RadioGroup
-                    row
-                    aria-labelledby="drinking-radio-buttons"
-                    name="row-radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="Not for me"
-                      control={<Radio />}
-                      label="Not for me"
-                      onChange={(e) => setDrinking(e.target.value)}
-                    />
-                    <FormControlLabel
-                      value="Sober"
-                      control={<Radio />}
-                      label="Sober"
-                      onChange={(e) => setDrinking(e.target.value)}
-                    />
-                    <FormControlLabel
-                      value="On special occasions"
-                      control={<Radio />}
-                      label="On special occasions"
-                      onChange={(e) => setDrinking(e.target.value)}
-                    />
-                    <FormControlLabel
-                      value="On weekends"
-                      control={<Radio />}
-                      label="On weekends"
-                      onChange={(e) => setDrinking(e.target.value)}
-                    />
-                    <FormControlLabel
-                      value="Most nights"
-                      control={<Radio />}
-                      label="Most nights"
-                      onChange={(e) => setDrinking(e.target.value)}
-                    />
-                  </RadioGroup>
-                </FormControl>
+                <Box sx={{ width: 1 }}>
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      aria-labelledby="drinking-radio-buttons"
+                      name="row-radio-buttons-group"
+                    >
+                      <FormControlLabel
+                        value="Not for me"
+                        control={<Radio />}
+                        label="Not for me"
+                        onChange={(e) => setDrinking(e.target.value)}
+                        className="drink"
+                      />
+                      <FormControlLabel
+                        value="Sober"
+                        control={<Radio />}
+                        label="Sober"
+                        onChange={(e) => setDrinking(e.target.value)}
+                        className="drink"
+                      />
+                      <FormControlLabel
+                        value="On special occasions"
+                        control={<Radio />}
+                        label="On special occasions"
+                        onChange={(e) => setDrinking(e.target.value)}
+                        className="drink"
+                      />
+                      <FormControlLabel
+                        value="On weekends"
+                        control={<Radio />}
+                        label="On weekends"
+                        onChange={(e) => setDrinking(e.target.value)}
+                        className="drink"
+                      />
+                      <FormControlLabel
+                        value="Most nights"
+                        control={<Radio />}
+                        label="Most nights"
+                        onChange={(e) => setDrinking(e.target.value)}
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Box>
               </div>
             </div>
           </div>
@@ -553,24 +564,28 @@ function Filter() {
                       control={<Radio />}
                       label="Social smoker"
                       onChange={(e) => setSmoking(e.target.value)}
+                      className="smoke"
                     />
                     <FormControlLabel
                       value="Smoker when drinking"
                       control={<Radio />}
                       label="Smoker when drinking"
                       onChange={(e) => setSmoking(e.target.value)}
+                      className="smoke"
                     />
                     <FormControlLabel
                       value="Non-smoker"
                       control={<Radio />}
                       label="Non-smoker"
                       onChange={(e) => setSmoking(e.target.value)}
+                      className="smoke"
                     />
                     <FormControlLabel
                       value="Smoker"
                       control={<Radio />}
                       label="Smoker"
                       onChange={(e) => setSmoking(e.target.value)}
+                      className="smoke"
                     />
                     <FormControlLabel
                       value="Trying to quit"
@@ -598,18 +613,21 @@ function Filter() {
                       control={<Radio />}
                       label="Everyday"
                       onChange={(e) => setWorkout(e.target.value)}
+                      className="workout"
                     />
                     <FormControlLabel
                       value="Often"
                       control={<Radio />}
                       label="Often"
                       onChange={(e) => setWorkout(e.target.value)}
+                      className="workout"
                     />
                     <FormControlLabel
                       value="Sometimes"
                       control={<Radio />}
                       label="Sometimes"
                       onChange={(e) => setWorkout(e.target.value)}
+                      className="workout"
                     />
                     <FormControlLabel
                       value="Never"
@@ -637,42 +655,49 @@ function Filter() {
                       control={<Radio />}
                       label="Vegan"
                       onChange={(e) => setDiet(e.target.value)}
+                      className="diet"
                     />
                     <FormControlLabel
                       value="Vegetarian"
                       control={<Radio />}
                       label="Vegetarian"
                       onChange={(e) => setDiet(e.target.value)}
+                      className="diet"
                     />
                     <FormControlLabel
                       value="Pescatarian"
                       control={<Radio />}
                       label="Pescatarian"
                       onChange={(e) => setDiet(e.target.value)}
+                      className="diet"
                     />
                     <FormControlLabel
                       value="Kosher"
                       control={<Radio />}
                       label="Kosher"
                       onChange={(e) => setDiet(e.target.value)}
+                      className="diet"
                     />
                     <FormControlLabel
                       value="Halal"
                       control={<Radio />}
                       label="Halal"
                       onChange={(e) => setDiet(e.target.value)}
+                      className="diet"
                     />
                     <FormControlLabel
                       value="Carnivore"
                       control={<Radio />}
                       label="Carnivore"
                       onChange={(e) => setDiet(e.target.value)}
+                      className="diet"
                     />
                     <FormControlLabel
                       value="Omnivore"
                       control={<Radio />}
                       label="Omnivore"
                       onChange={(e) => setDiet(e.target.value)}
+                      className="diet"
                     />
                     <FormControlLabel
                       value="Other"
@@ -700,18 +725,21 @@ function Filter() {
                       control={<Radio />}
                       label="Influencer status"
                       onChange={(e) => setSocial(e.target.value)}
+                      className="social"
                     />
                     <FormControlLabel
                       value="Socially active"
                       control={<Radio />}
                       label="Socially active"
                       onChange={(e) => setSocial(e.target.value)}
+                      className="social"
                     />
                     <FormControlLabel
                       value="Off"
                       control={<Radio />}
                       label="Off"
                       onChange={(e) => setSocial(e.target.value)}
+                      className="social"
                     />
                     <FormControlLabel
                       value="Passive scroller"
@@ -739,12 +767,14 @@ function Filter() {
                       control={<Radio />}
                       label="Early bird"
                       onChange={(e) => setSleeping(e.target.value)}
+                      className="sleep"
                     />
                     <FormControlLabel
                       value="Night owl"
                       control={<Radio />}
                       label="Night owl"
                       onChange={(e) => setSleeping(e.target.value)}
+                      className="sleep"
                     />
                     <FormControlLabel
                       value="In a spectrum"
