@@ -255,6 +255,18 @@ function Settings() {
         <div className="mb-3">
           <input
             type="button"
+            value="Notifications"
+            name="notifications"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/updateNotifications", { state: { email: email } })
+            }
+          />
+        </div>
+
+        <div className="mb-3">
+          <input
+            type="button"
             value="Password"
             name="password"
             className="btn btn-outline-dark border w-100"

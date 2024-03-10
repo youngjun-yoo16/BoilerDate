@@ -42,6 +42,7 @@ import SetupBio from "./profile/Bio";
 import DisplayFilteredUsers from "./displayPeople/displayFilteredUsers";
 import Filter from "./Filter";
 import DeleteAccount from "./settings/DeleteAccount";
+import Notifications from "./settings/Notifications";
 import ShowMatches from "./showldm/showMatches";
 import ShowYourLikes from "./showldm/showYourLikes";
 import ShowYourDislikes from "./showldm/showYourDislikes";
@@ -68,6 +69,7 @@ const App = () => {
           <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
           <Route path="/changePassword" element={<ChangePassword />}></Route>
           <Route path="/updatePassword" element={<UpdatePassword />}></Route>
+          <Route path="/updateNotifications" element={<Notifications />}></Route>
           <Route path="/customizable" element={<Customizable />}></Route>
           <Route path="/bio" element={<SetupBio />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
