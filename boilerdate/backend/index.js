@@ -6,7 +6,7 @@ const UserModel = require("./models/User");
 const CodeModel = require("./models/Code");
 const ProfileModel = require("./models/Profile");
 const imageModel = require("./models/Image");
-const UserLDModel = require("./models/UserLD");
+const UserLDMModel = require("./models/UserLDM");
 const FilterModel = require("./models/Filter");
 const {
   generateVerificationCode,
@@ -89,7 +89,7 @@ app.post("/deleteAccount", async (req, res) => {
     await UserModel.deleteOne({ email: email });
     await ProfileModel.deleteOne({ email: email });
     await FilterModel.deleteOne({ email: email });
-    await UserLDModel.deleteOne({ email: email });
+    await UserLDMModel.deleteOne({ email: email });
     res.status(200).json({
       message: "Account and all associated data successfully deleted.",
     });
@@ -280,7 +280,7 @@ app.post("/manageLD", async (req, res) => {
   try {
     const { email, target, lod } = req.body;
 
-    await UserLDModel.updateOne(
+    await UserLDMModel.updateOne(
       { email: email },
       { $pull: { "liked.emails": target, "disliked.emails": target } }
     );
@@ -289,7 +289,7 @@ app.post("/manageLD", async (req, res) => {
     const flag = lod ? "liked.emails" : "disliked.emails";
 
     // finally create doc
-    const updatedUser = await UserLDModel.findOneAndUpdate(
+    const updatedUser = await UserLDMModel.findOneAndUpdate(
       { email: email },
       { $addToSet: { [flag]: target } },
       { new: true, upsert: true, setDefaultsOnInsert: true }
@@ -298,20 +298,20 @@ app.post("/manageLD", async (req, res) => {
 
     // whenever liked, search if the target also liked him. add to matches
     if (lod) {
-      const isMatch = await UserLDModel.findOne({
+      const isMatch = await UserLDMModel.findOne({
         email: target,
         "liked.emails": email,
       });
       if (isMatch) {
         console.log("match found");
         // update the current user
-        await UserLDModel.updateOne(
+        await UserLDMModel.updateOne(
           { email: email },
           { $addToSet: { matches: target } }
         );
 
         // update the matched user
-        await UserLDModel.updateOne(
+        await UserLDMModel.updateOne(
           { email: email },
           { $addToSet: { matches: email } }
         );

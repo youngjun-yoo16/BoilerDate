@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const UserLDSchema = new mongoose.Schema({
+const UserLDMSchema = new mongoose.Schema({
   email: String,
   liked: {
     emails: [String],
@@ -13,5 +13,5 @@ const UserLDSchema = new mongoose.Schema({
   },
 });
 
-const UserLDModel = mongoose.model("userLD", UserLDSchema);
-module.exports = UserLDModel;
+const UserLDMModel = mongoose.model("user_like_dislike_matches", UserLDMSchema);
+module.exports = UserLDMModel;
