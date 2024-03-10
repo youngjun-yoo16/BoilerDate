@@ -339,6 +339,19 @@ app.post("/fetchLikes", async (req, res) => {
   }
 });
 
+app.post("/fetchusername", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const username = await UserModel.findOne({ email: email });
+    const usergpa = await ProfileModel.findOne({ email: email });
+    //console.log(usergpa);
+    res.json([username, usergpa]);
+  } catch (error) {
+    console.error("Error fetching the username: ", error);
+    res.json({ error: "Failed to fetch usernmae" });
+  }
+});
+
 app.post("/deleteUnmatched", async (req, res) => {
   try {
     const { email, emailToRemove } = req.body;

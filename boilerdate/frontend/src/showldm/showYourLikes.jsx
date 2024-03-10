@@ -25,6 +25,9 @@ function ShowYourLikes() {
   console.log(email);
 
   const [likesList, setLikesList] = useState([]);
+  const [userFirstName, setUserFirstName] = useState("");
+  const [userLastName, setUserLastName] = useState("");
+  const [userGPA, setUserGPA] = useState("");
 
   useEffect(() => {
     if (email === undefined) {
@@ -46,6 +49,22 @@ function ShowYourLikes() {
   }, [email]);
 
   // get profile info and images of each email
+  useEffect(() => {
+    axios
+      .post("http://localhost:3001/fetchusername", { email })
+      .then((res) => {
+        const username = res.data[0];
+        const gpa = res.data[1];
+        setUserFirstName(username.firstName);
+        setUserLastName(username.lastName);
+        setUserGPA(gpa.gpa);
+        //console.log(userGPA);
+      })
+      .catch((err) => {
+        toast.error("Failed to fetch username and gpa!");
+        console.error("Fetch failed for username and gpa");
+      });
+  });
 
   // display each card accordingly
   const imageUrl = `http://localhost:3001/image/${email}`;
