@@ -658,6 +658,7 @@ app.post("/fetchFilteredUsers", async (req, res) => {
   try {
     const { email } = req.body;
     const user = await FilterModel.findOne({ email: email });
+
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
@@ -723,7 +724,7 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     // Dynamic query object
     let userQuery = {};
     if (fp.gender) userQuery.gender = fp.gender;
-
+    
     const filteredUsersPromises = emailsMatchingGPA.map(async (email) => {
       userQuery.email = email;
       const user = await UserModel.findOne(userQuery);
@@ -743,6 +744,7 @@ app.post("/fetchFilteredUsers", async (req, res) => {
               age: convertedAge,
               firstName: user.firstName,
               lastName: user.lastName,
+              imageUrl: `http://localhost:3001/image/${email}`
             }; // Include the calculated age and name
           }
         }
