@@ -41,6 +41,7 @@ import UpdatePassword from "./login/UpdatePassword";
 import SetupBio from "./profile/Bio";
 import DisplayFilteredUsers from "./displayPeople/displayFilteredUsers";
 import Filter from "./Filter";
+import DeleteAccount from "./settings/DeleteAccount";
 
 const App = () => {
   return (
@@ -97,6 +98,7 @@ const App = () => {
           <Route path="/settings/birthday" element={<Birthday />}></Route>
           <Route path="/matches" element={<DisplayFilteredUsers />}></Route>
           <Route path="/filter" element={<Filter />}></Route>
+          <Route path="/settings/delete" element={<DeleteAccount />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

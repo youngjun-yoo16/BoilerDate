@@ -267,6 +267,18 @@ function Settings() {
         <div className="mb-3">
           <input
             type="button"
+            value="Delete Account"
+            name="delete"
+            className="btn btn-outline-danger border w-100"
+            onClick={() =>
+              navigate("/settings/delete", { state: { email: email } })
+            }
+          />
+        </div>
+
+        <div className="mb-3">
+          <input
+            type="button"
             value="Home"
             name="home"
             className="btn btn-outline-primary border w-100"
