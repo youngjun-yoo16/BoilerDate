@@ -10,18 +10,11 @@ import "react-toastify/dist/ReactToastify.css";
 const petData = [
   "Dog",
   "Cat",
-  "Reptile",
-  "Amphibian",
   "Bird",
-  "Fish",
-  "Don't have but love",
-  "Turtle",
   "Hamster",
-  "Rabbit",
   "Other",
+  "Don't have but love",
   "Pet-free",
-  "All the pets",
-  "Want a pet",
   "Allergic to pets",
 ];
 const drinkingData = [
@@ -49,7 +42,6 @@ const dietData = [
   "Halal",
   "Carnivore",
   "Omnivore",
-  "Other",
 ];
 
 const socialmediaData = [

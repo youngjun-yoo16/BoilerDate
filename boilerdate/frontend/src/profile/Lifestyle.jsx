@@ -9,18 +9,11 @@ import "react-toastify/dist/ReactToastify.css";
 const petData = [
   "Dog",
   "Cat",
-  "Reptile",
-  "Amphibian",
   "Bird",
-  "Fish",
-  "Don't have but love",
-  "Turtle",
   "Hamster",
-  "Rabbit",
   "Other",
+  "Don't have but love",
   "Pet-free",
-  "All the pets",
-  "Want a pet",
   "Allergic to pets",
 ];
 const drinkingData = [
@@ -38,8 +31,6 @@ const smokingData = [
   "Trying to quit",
 ];
 
-
-
 const workoutData = ["Everyday", "Often", "Sometimes", "Never"];
 
 const dietData = [
@@ -50,7 +41,6 @@ const dietData = [
   "Halal",
   "Carnivore",
   "Omnivore",
-  "Other",
 ];
 
 const socialmediaData = [
@@ -79,9 +69,9 @@ function LifestylePage() {
 
   useEffect(() => {
     if (email === undefined) {
-      navigate(-1)
+      navigate(-1);
     }
-  })
+  });
 
   function togglePet(pet) {
     if (selectedPets === pet) {
@@ -106,7 +96,6 @@ function LifestylePage() {
       setSelectedSmoking(smoking);
     }
   }
-
 
   function toggleWorkout(workout) {
     if (selectedWorkout === workout) {
@@ -160,7 +149,7 @@ function LifestylePage() {
     selectedLifestyle.push(selectedPets);
     selectedLifestyle.push(selectedDrinking);
     selectedLifestyle.push(selectedSmoking);
-   
+
     selectedLifestyle.push(selectedWorkout);
     selectedLifestyle.push(selectedDiet);
     selectedLifestyle.push(selectedSocialmedia);
