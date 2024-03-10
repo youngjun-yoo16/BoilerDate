@@ -236,7 +236,7 @@ app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.status(500).send(err);
     });
   // delete uploaded file
@@ -323,6 +323,18 @@ app.post("/manageldm", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/fetchLikes", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const likesList = await UserLDMModel.findOne({ email: email });
+    res.json(likesList);
+    console.log("list of likes for this user is sent");
+  } catch (error) {
+    console.error("Error fetching the list of likes:", error);
+    res.json({ error: "Failed to fetch likes" });
   }
 });
 
