@@ -328,12 +328,26 @@ app.post("/manageldm", async (req, res) => {
 
 app.post("/deleteUnmatched", async (req, res) => {
   try {
+    const { email, emailToRemove } = req.body;
+    const result = await UserLDMModel.updateOne(
+      { email: email },
+      { $pull: { "matches.emails": emailToRemove } }
+    );
 
+    // Check the result to see if the document was found and updated
+    if (result.nModified > 0) {
+      console.log("Document updated successfully:", result);
+      res.status(200).json({ message: "Unmatched user removed successfully." });
+    } else {
+      // No documents were modified: The email was not found in the matches or the user does not exist
+      console.log("No changes made. The user may not exist or the email was not found in matches.");
+      res.status(404).json({ message: "No changes made. User not found or match email not in list." });
+    }
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ error: error.message })
+    console.error(error);
+    res.status(500).json({ error: error.message });
   }
-})
+});
 
 app.post("/updateGPA", async (req, res) => {
   try {
