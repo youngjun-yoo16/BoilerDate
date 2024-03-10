@@ -340,8 +340,12 @@ app.post("/deleteUnmatched", async (req, res) => {
       res.status(200).json({ message: "Unmatched user removed successfully." });
     } else {
       // No documents were modified: The email was not found in the matches or the user does not exist
-      console.log("No changes made. The user may not exist or the email was not found in matches.");
-      res.status(404).json({ message: "No changes made. User not found or match email not in list." });
+      console.log(
+        "No changes made. The user may not exist or the email was not found in matches."
+      );
+      res.status(404).json({
+        message: "No changes made. User not found or match email not in list.",
+      });
     }
   } catch (error) {
     console.error(error);
@@ -601,7 +605,7 @@ app.post("/updateBirthday", async (req, res) => {
   }
 });
 
-app.post("/filter", async (req, res) => {
+app.post("/updateFilterPreferences", async (req, res) => {
   try {
     const {
       email,
@@ -618,28 +622,71 @@ app.post("/filter", async (req, res) => {
       citizenship,
     } = req.body;
 
-    // Dynamic query object (age and height will always be there)
+    // Upsert filter preferences in FilterModel
+    const updatedDocument = await FilterModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          filter_preferences: {
+            gpa: gpa,
+            gender: gender,
+            age: age,
+            major: major,
+            degree: degree,
+            interests: interests,
+            lifestyle: lifestyle,
+            height: height,
+            personality: personality,
+            relationship: relationship,
+            citizenship: citizenship,
+          },
+        },
+      },
+      { upsert: true, new: true }
+    );
+
+    res.json({
+      message: "Filter preferences updated successfully.",
+      updatedPreferences: updatedDocument.filter_preferences,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("fetchFilteredUsers", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await FilterModel.findOne({ email: email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const fp = user.filter_preferences;
+    // Dynamic query object (height will always be there)
     let query = {
-      height: { $gte: height[0], $lte: height[1] },
+      height: { $gte: fp.height[0], $lte: fp.height[1] },
     };
 
     // Handle empty strings or empty arrays
-    if (gpa) query.gpa = gpa;
-    if (major) query.major = major;
-    if (degree) query.degree = degree;
-    if (interests && interests.length) query.interests = { $all: interests };
-    if (lifestyle && lifestyle.length) query.lifestyle = { $all: lifestyle };
-    if (personality) query.personality = personality;
-    if (relationship) query.relationship = relationship;
-    if (citizenship) query.citizenship = citizenship;
+    if (fp.gpa) query.gpa = fp.gpa;
+    if (fp.major) query.major = fp.major;
+    if (fp.degree) query.degree = fp.degree;
+    if (fp.interests && fp.interests.length)
+      query.interests = { $all: fp.interests };
+    if (fp.lifestyle && fp.lifestyle.length)
+      query.lifestyle = { $all: fp.lifestyle };
+    if (fp.personality) query.personality = fp.personality;
+    if (fp.relationship) query.relationship = fp.relationship;
+    if (fp.citizenship) query.citizenship = fp.citizenship;
 
     // Extract the lower and upper GPA from the provided string
     let inputLowerGPA, inputUpperGPA;
-    if (gpa.includes("-")) {
-      [inputLowerGPA, inputUpperGPA] = gpa.split("-").map(Number);
+    if (fp.gpa.includes("-")) {
+      [inputLowerGPA, inputUpperGPA] = fp.gpa.split("-").map(Number);
     } else {
       inputLowerGPA = null; // No lower bound
-      inputUpperGPA = Number(gpa.substring(1)); // Extract and convert the upper bound
+      inputUpperGPA = Number(fp.gpa.substring(1)); // Extract and convert the upper bound
     }
 
     // Step 1: Retrieve all potential matches based on dynamically constructed criteria
@@ -675,7 +722,7 @@ app.post("/filter", async (req, res) => {
 
     // Dynamic query object
     let userQuery = {};
-    if (gender) userQuery.gender = gender;
+    if (fp.gender) userQuery.gender = fp.gender;
 
     const filteredUsersPromises = emailsMatchingGPA.map(async (email) => {
       userQuery.email = email;
@@ -685,9 +732,9 @@ app.post("/filter", async (req, res) => {
         const objAge = new Date(dateDiff);
         const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
         if (
-          convertedAge >= age[0] &&
-          convertedAge <= age[1] &&
-          (gender === "" || user.gender === gender)
+          convertedAge >= fp.age[0] &&
+          convertedAge <= fp.age[1] &&
+          (fp.gender === "" || user.gender === fp.gender)
         ) {
           return ProfileModel.findOne({ email: email }); // Return the promise
         }
@@ -697,29 +744,6 @@ app.post("/filter", async (req, res) => {
 
     let filteredUsers = await Promise.all(filteredUsersPromises);
     filteredUsers = filteredUsers.filter((user) => user); // Remove nulls
-
-    // Step 4: Upsert filter preferences in FilterModel
-    await FilterModel.findOneAndUpdate(
-      { email: email },
-      {
-        $set: {
-          filter_preferences: {
-            gpa: gpa,
-            gender: gender,
-            age: age,
-            major: major,
-            degree: degree,
-            interests: interests,
-            lifestyle: lifestyle,
-            height: height,
-            personality: personality,
-            relationship: relationship,
-            citizenship: citizenship,
-          },
-        },
-      },
-      { upsert: true, new: true }
-    );
 
     res.json(filteredUsers);
   } catch (error) {

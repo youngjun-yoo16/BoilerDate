@@ -195,7 +195,7 @@ function Filter() {
     }
 
     axios
-      .post("http://localhost:3001/filter", {
+      .post("http://localhost:3001/updateFilterPreferences", {
         email,
         gender,
         age: ageRange,
