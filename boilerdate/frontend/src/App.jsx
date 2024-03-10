@@ -42,6 +42,7 @@ import SetupBio from "./profile/Bio";
 import DisplayFilteredUsers from "./displayPeople/displayFilteredUsers";
 import Filter from "./Filter";
 import DeleteAccount from "./settings/DeleteAccount";
+import ShowMatches from "../showldm/showMatches";
 
 const App = () => {
   return (
