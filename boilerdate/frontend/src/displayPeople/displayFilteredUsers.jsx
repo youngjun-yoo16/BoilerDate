@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef,useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,13 +11,6 @@ import HandleUserLikesAndDislikes from "./HandleLikesDislikes";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 
 function DisplayFilteredUsers() {
-  // navigation must be done from other page
-  const { state } = useLocation();
-  const { email } = state || {};
-  // const navigate = useNavigate();
-
-  // console.log(email);
-
   // array of users
   // will be getting from the database later and store it here
   const [peoples, setPeople] = useState([
@@ -37,34 +30,96 @@ function DisplayFilteredUsers() {
     },
   ]);
 
-  const swiped = (direction, nameToDelete) => {};
+  const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
+  const [lastDirection, setLastDirecton] = useState();
 
-  const outOfFrame = (name) => {};
+  const currentIndexRef = useRef(currentIndex);
 
-  const handleSubmit = (buttonType) => {
+  const childRefs = useMemo(
+    () =>
+      Array(peoples.length)
+        .fill(0)
+        .map((i) => React.createRef()),
+    []
+  )
+
+  const updateCurrentIndex = (val) => {
+    setCurrentIndex(val)
+    currentIndexRef.current = val
+  }
+
+  const canSwipe = currentIndex >= 0
+
+  // navigation must be done from other page
+  const { state } = useLocation();
+  const { email } = state || {};
+  // const navigate = useNavigate();
+
+  // console.log(email);
+
+
+  const swiped = (direction, nameToDelete, index) => {
+    setLastDirecton(direction)
+    updateCurrentIndex(index - 1)
+  };
+
+  const outOfFrame = (name, idx) => {
+    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
+ 
+    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
+
+  }
+
+  const handleSubmit = async (buttonType) => {
     const temp_email = "lee3546@purdue.edu";
     if (buttonType === "like") {
+      if (canSwipe && currentIndex < peoples.length) {
+        await childRefs[currentIndex].current.swipe('right') // Swipe the card!
+      }
       //HandleUserLikesAndDislikes(temp_email, peoples[0].email, true);
       HandleUserLikesAndDislikes(temp_email, peoples[1].email, true);
     } else if (buttonType === "dislike") {
+      if (canSwipe && currentIndex < peoples.length) {
+        await childRefs[currentIndex].current.swipe('left') // Swipe the card!
+      }
       HandleUserLikesAndDislikes(temp_email, peoples[0].email, false);
       //HandleUserLikesAndDislikes(temp_email, peoples[1].email, false);
     } else if (buttonType === "arrow") {
+
+
     }
   };
+
+  
+  let message;
+if (lastDirection === 'left') {
+  message = (
+    <h2 className='infoText'>
+      NOPE
+    </h2>
+  );
+} else if (lastDirection === 'right') {
+  message = (
+    <h2 className='infoText'>
+      LIKE
+    </h2>
+  );
+}
+
 
   return (
     <div className="tinderCard_container">
       {peoples.map((person, index) => (
         <TinderCard
-          key={index}
+          key={person.name}
+          ref={childRefs[index]}
           className="swipe"
           preventSwipe={[`up`, `down`]}
           onSwipe={(dir) => swiped(dir, person.name, index)}
           onCardLeftScreen={() => outOfFrame(person.name, index)}
         >
           <div
-            className="card filter"
+            className="card"
             style={{
               backgroundImage: "url(" + person.url + ")",
             }}
@@ -101,6 +156,11 @@ function DisplayFilteredUsers() {
           />
         </IconButton>
       </div>
+      
+      <div className="message"> 
+      {message} 
+       </div>
+            
     </div>
   );
 }

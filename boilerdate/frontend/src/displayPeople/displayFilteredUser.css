@@ -1,4 +1,4 @@
-.filter{
+.card{
     position:relative;
     width: 400px;
     padding: 20px;
@@ -46,8 +46,24 @@
 
 
 
-.close_button, .favorite_button {
+.close_button {
+  
     margin: 50 50px ;
     font-size:  "large";
 
+}
+
+
+
+
+.favorite_button {
+  
+    margin: 50 50px ;
+    font-size:  "large";
+
+}
+
+.message {
+  position: fixed;
+  bottom:200px;
 }
