@@ -193,16 +193,15 @@ function Filter() {
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-75">
         <h2>Filter</h2>
-        <br />
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <p>Gender</p>
+          <div className="mb-2">
             <FormControl>
               <RadioGroup
                 row
                 aria-labelledby="gender-radio-buttons"
                 name="row-radio-buttons-group"
               >
+                <p className="gendertxt">Gender:</p>
                 <FormControlLabel
                   value="female"
                   control={<Radio />}
@@ -287,18 +286,24 @@ function Filter() {
                 </FormControl>
               </div>
 
-              <div className="mb-3">
-                <Box sx={{ width: 300 }}>
-                  <p>Height (inches)</p>
-                  <Slider
-                    getAriaLabel={() => "Height range"}
-                    value={heightRange}
-                    onChange={handleHeight}
-                    valueLabelDisplay="auto"
-                    getAriaValueText={valuetext}
-                    min={48}
-                    max={95}
-                  />
+              <div className="mb-0 heightRange">
+                <Box sx={{ width: 500 }}>
+                  <div className="row">
+                    <div className="col-lg-4">
+                      <p className="heighttxt">Height (inches):</p>
+                    </div>
+                    <div className="col-lg-8">
+                      <Slider
+                        getAriaLabel={() => "Height range"}
+                        value={heightRange}
+                        onChange={handleHeight}
+                        valueLabelDisplay="auto"
+                        getAriaValueText={valuetext}
+                        min={48}
+                        max={95}
+                      />
+                    </div>
+                  </div>
                 </Box>
               </div>
             </div>
@@ -381,25 +386,31 @@ function Filter() {
                 </FormControl>
               </div>
 
-              <div className="mb-0">
-                <Box sx={{ width: 300 }}>
-                  <p>Age</p>
-                  <Slider
-                    getAriaLabel={() => "Age range"}
-                    value={ageRange}
-                    onChange={handleAge}
-                    valueLabelDisplay="auto"
-                    getAriaValueText={valuetext}
-                    min={18}
-                    max={99}
-                  />
+              <div className="mb-0 ageRange">
+                <Box sx={{ width: 500 }}>
+                  <div className="row">
+                    <div className="col-lg-4">
+                      <p className="agetxt">Age:</p>
+                    </div>
+                    <div className="col-lg-8">
+                      <Slider
+                        getAriaLabel={() => "Age range"}
+                        value={ageRange}
+                        onChange={handleAge}
+                        valueLabelDisplay="auto"
+                        getAriaValueText={valuetext}
+                        min={18}
+                        max={99}
+                      />
+                    </div>
+                  </div>
                 </Box>
               </div>
             </div>
           </div>
 
           <div className="mb-3">
-            <div className="interestOptions flex justify-content-center">
+            <div className="interestOptions flex justify-content-center border-2">
               <MultiSelect
                 value={interests}
                 onChange={(e) => setInterests(e.value)}
@@ -411,291 +422,340 @@ function Filter() {
           </div>
 
           <div className="mb-0">
-            <p>Lifestyle</p>
-            <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="pet-radio-buttons"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="Cat"
-                  control={<Radio />}
-                  label="Cat"
-                  onChange={(e) => setPets(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Dog"
-                  control={<Radio />}
-                  label="Dog"
-                  onChange={(e) => setPets(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Bird"
-                  control={<Radio />}
-                  label="Bird"
-                  onChange={(e) => setPets(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Other"
-                  control={<Radio />}
-                  label="Other"
-                  onChange={(e) => setPets(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Don't have but love"
-                  control={<Radio />}
-                  label="Don't have but love"
-                  onChange={(e) => setPets(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Pet free"
-                  control={<Radio />}
-                  label="Pet free"
-                  onChange={(e) => setPets(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Allergic to pets"
-                  control={<Radio />}
-                  label="Allergic to pets"
-                  onChange={(e) => setPets(e.target.value)}
-                />
-              </RadioGroup>
-            </FormControl>
+            <p>
+              <b>Lifestyle</b>
+            </p>
+            <div className="row">
+              <div className="col-lg-1 lifetxt">Pets:</div>
+              <div className="col-lg-11">
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="pet-radio-buttons"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="Dog"
+                      control={<Radio />}
+                      label="Dog"
+                      onChange={(e) => setPets(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Cat"
+                      control={<Radio />}
+                      label="Cat"
+                      onChange={(e) => setPets(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Bird"
+                      control={<Radio />}
+                      label="Bird"
+                      onChange={(e) => setPets(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Hamster"
+                      control={<Radio />}
+                      label="Hamster"
+                      onChange={(e) => setPets(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Other"
+                      control={<Radio />}
+                      label="Other"
+                      onChange={(e) => setPets(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Don't have but love"
+                      control={<Radio />}
+                      label="Don't have but love"
+                      onChange={(e) => setPets(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Pet-free"
+                      control={<Radio />}
+                      label="Pet-free"
+                      onChange={(e) => setPets(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Allergic to pets"
+                      control={<Radio />}
+                      label="Allergic to pets"
+                      onChange={(e) => setPets(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="All the pets"
+                      control={<Radio />}
+                      label="All the pets"
+                      onChange={(e) => setPets(e.target.value)}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+            </div>
+          </div>
+          <div className="mb-0 drinking">
+            <div className="row">
+              <div className="col-lg-1 lifetxt">Drinking:</div>
+              <div className="col-lg-11">
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="drinking-radio-buttons"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="Not for me"
+                      control={<Radio />}
+                      label="Not for me"
+                      onChange={(e) => setDrinking(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Sober"
+                      control={<Radio />}
+                      label="Sober"
+                      onChange={(e) => setDrinking(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="On special occasions"
+                      control={<Radio />}
+                      label="On special occasions"
+                      onChange={(e) => setDrinking(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="On weekends"
+                      control={<Radio />}
+                      label="On weekends"
+                      onChange={(e) => setDrinking(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Most nights"
+                      control={<Radio />}
+                      label="Most nights"
+                      onChange={(e) => setDrinking(e.target.value)}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+            </div>
           </div>
           <div className="mb-0">
-            <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="drinking-radio-buttons"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="Not for me"
-                  control={<Radio />}
-                  label="Not for me"
-                  onChange={(e) => setDrinking(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Sober"
-                  control={<Radio />}
-                  label="Sober"
-                  onChange={(e) => setDrinking(e.target.value)}
-                />
-                <FormControlLabel
-                  value="On special occasions"
-                  control={<Radio />}
-                  label="On special occasions"
-                  onChange={(e) => setDrinking(e.target.value)}
-                />
-                <FormControlLabel
-                  value="On weekends"
-                  control={<Radio />}
-                  label="On weekends"
-                  onChange={(e) => setDrinking(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Most nights"
-                  control={<Radio />}
-                  label="Most nights"
-                  onChange={(e) => setDrinking(e.target.value)}
-                />
-              </RadioGroup>
-            </FormControl>
+            <div className="row">
+              <div className="col-lg-1 lifetxt">Smoking:</div>
+              <div className="col-lg-11">
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="smoking-radio-buttons"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="Social smoker"
+                      control={<Radio />}
+                      label="Social smoker"
+                      onChange={(e) => setSmoking(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Smoker when drinking"
+                      control={<Radio />}
+                      label="Smoker when drinking"
+                      onChange={(e) => setSmoking(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Non-smoker"
+                      control={<Radio />}
+                      label="Non-smoker"
+                      onChange={(e) => setSmoking(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Smoker"
+                      control={<Radio />}
+                      label="Smoker"
+                      onChange={(e) => setSmoking(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Trying to quit"
+                      control={<Radio />}
+                      label="Trying to quit"
+                      onChange={(e) => setSmoking(e.target.value)}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+            </div>
           </div>
           <div className="mb-0">
-            <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="smoking-radio-buttons"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="Social smoker"
-                  control={<Radio />}
-                  label="Social smoker"
-                  onChange={(e) => setSmoking(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Smoker when drinking"
-                  control={<Radio />}
-                  label="Smoker when drinking"
-                  onChange={(e) => setSmoking(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Non-smoker"
-                  control={<Radio />}
-                  label="Non-smoker"
-                  onChange={(e) => setSmoking(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Smoker"
-                  control={<Radio />}
-                  label="Smoker"
-                  onChange={(e) => setSmoking(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Trying to quit"
-                  control={<Radio />}
-                  label="Trying to quit"
-                  onChange={(e) => setSmoking(e.target.value)}
-                />
-              </RadioGroup>
-            </FormControl>
+            <div className="row">
+              <div className="col-lg-1 lifetxt">Workout:</div>
+              <div className="col-lg-11">
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="workout-radio-buttons"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="Everyday"
+                      control={<Radio />}
+                      label="Everyday"
+                      onChange={(e) => setWorkout(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Often"
+                      control={<Radio />}
+                      label="Often"
+                      onChange={(e) => setWorkout(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Sometimes"
+                      control={<Radio />}
+                      label="Sometimes"
+                      onChange={(e) => setWorkout(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Never"
+                      control={<Radio />}
+                      label="Never"
+                      onChange={(e) => setWorkout(e.target.value)}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+            </div>
           </div>
           <div className="mb-0">
-            <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="workout-radio-buttons"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="Everyday"
-                  control={<Radio />}
-                  label="Everyday"
-                  onChange={(e) => setWorkout(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Often"
-                  control={<Radio />}
-                  label="Often"
-                  onChange={(e) => setWorkout(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Sometimes"
-                  control={<Radio />}
-                  label="Sometimes"
-                  onChange={(e) => setWorkout(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Never"
-                  control={<Radio />}
-                  label="Never"
-                  onChange={(e) => setWorkout(e.target.value)}
-                />
-              </RadioGroup>
-            </FormControl>
+            <div className="row">
+              <div className="col-lg-1 lifetxt">Diet:</div>
+              <div className="col-lg-11">
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="diet-radio-buttons"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="Vegan"
+                      control={<Radio />}
+                      label="Vegan"
+                      onChange={(e) => setDiet(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Vegetarian"
+                      control={<Radio />}
+                      label="Vegetarian"
+                      onChange={(e) => setDiet(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Pescatarian"
+                      control={<Radio />}
+                      label="Pescatarian"
+                      onChange={(e) => setDiet(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Kosher"
+                      control={<Radio />}
+                      label="Kosher"
+                      onChange={(e) => setDiet(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Halal"
+                      control={<Radio />}
+                      label="Halal"
+                      onChange={(e) => setDiet(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Carnivore"
+                      control={<Radio />}
+                      label="Carnivore"
+                      onChange={(e) => setDiet(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Omnivore"
+                      control={<Radio />}
+                      label="Omnivore"
+                      onChange={(e) => setDiet(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Other"
+                      control={<Radio />}
+                      label="Other"
+                      onChange={(e) => setDiet(e.target.value)}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+            </div>
           </div>
           <div className="mb-0">
-            <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="diet-radio-buttons"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="Vegan"
-                  control={<Radio />}
-                  label="Vegan"
-                  onChange={(e) => setDiet(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Vegetarian"
-                  control={<Radio />}
-                  label="Vegetarian"
-                  onChange={(e) => setDiet(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Pescatarian"
-                  control={<Radio />}
-                  label="Pescatarian"
-                  onChange={(e) => setDiet(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Kosher"
-                  control={<Radio />}
-                  label="Kosher"
-                  onChange={(e) => setDiet(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Halal"
-                  control={<Radio />}
-                  label="Halal"
-                  onChange={(e) => setDiet(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Carnivore"
-                  control={<Radio />}
-                  label="Carnivore"
-                  onChange={(e) => setDiet(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Omnivore"
-                  control={<Radio />}
-                  label="Omnivore"
-                  onChange={(e) => setDiet(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Other"
-                  control={<Radio />}
-                  label="Other"
-                  onChange={(e) => setDiet(e.target.value)}
-                />
-              </RadioGroup>
-            </FormControl>
+            <div className="row">
+              <div className="col-lg-1 lifetxt">Socials:</div>
+              <div className="col-lg-11">
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="social-radio-buttons"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="Influencer status"
+                      control={<Radio />}
+                      label="Influencer status"
+                      onChange={(e) => setSocial(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Socially active"
+                      control={<Radio />}
+                      label="Socially active"
+                      onChange={(e) => setSocial(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Off"
+                      control={<Radio />}
+                      label="Off"
+                      onChange={(e) => setSocial(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Passive scroller"
+                      control={<Radio />}
+                      label="Passive scroller"
+                      onChange={(e) => setSocial(e.target.value)}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+            </div>
           </div>
           <div className="mb-0">
-            <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="social-radio-buttons"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="Influencer status"
-                  control={<Radio />}
-                  label="Influencer status"
-                  onChange={(e) => setSocial(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Socially active"
-                  control={<Radio />}
-                  label="Socially active"
-                  onChange={(e) => setSocial(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Off"
-                  control={<Radio />}
-                  label="Off"
-                  onChange={(e) => setSocial(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Passive scroller"
-                  control={<Radio />}
-                  label="Passive scroller"
-                  onChange={(e) => setSocial(e.target.value)}
-                />
-              </RadioGroup>
-            </FormControl>
-          </div>
-          <div className="mb-0">
-            <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="sleeping-radio-buttons"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="Early bird"
-                  control={<Radio />}
-                  label="Early bird"
-                  onChange={(e) => setSleeping(e.target.value)}
-                />
-                <FormControlLabel
-                  value="Night owl"
-                  control={<Radio />}
-                  label="Night owl"
-                  onChange={(e) => setSleeping(e.target.value)}
-                />
-                <FormControlLabel
-                  value="In a spectrum"
-                  control={<Radio />}
-                  label="In a spectrum"
-                  onChange={(e) => setSleeping(e.target.value)}
-                />
-              </RadioGroup>
-            </FormControl>
+            <div className="row">
+              <div className="col-lg-1 lifetxt">Sleeping:</div>
+              <div className="col-lg-11">
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="sleeping-radio-buttons"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="Early bird"
+                      control={<Radio />}
+                      label="Early bird"
+                      onChange={(e) => setSleeping(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="Night owl"
+                      control={<Radio />}
+                      label="Night owl"
+                      onChange={(e) => setSleeping(e.target.value)}
+                    />
+                    <FormControlLabel
+                      value="In a spectrum"
+                      control={<Radio />}
+                      label="In a spectrum"
+                      onChange={(e) => setSleeping(e.target.value)}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+            </div>
           </div>
 
           <br />
