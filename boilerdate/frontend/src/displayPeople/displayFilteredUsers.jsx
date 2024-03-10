@@ -19,7 +19,7 @@ function DisplayFilteredUsers() {
   // array of users
   // will be getting from the database later and store it here
   
-  /*
+/*
   const [check, setCheck] = useState(1);
   const [peoples, setPeople] = useState([
     {
@@ -37,40 +37,48 @@ function DisplayFilteredUsers() {
       imageUrl: `https://media.gettyimages.com/photos/of-tesla-and-space-x-elon-musk-attends-the-2015-vanity-fair-oscar-picture-id464172224?k=6&m=464172224&s=612x612&w=0&h=M9Wf9-mcTJBLRWKFhAX_QGVAPXogzxyvZeCiIV5O3pw=`,
     },
   ]);
-  */
-
+  
+*/
+  
   const [peoples, setPeople] = useState([]);
-  const [check, setCheck] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState();
+  const [lastDirection, setLastDirecton] = useState();
+  const [childRefs, setChildRefs] = useState([]);
+  const currentIndexRef = useRef();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        
         const response = await axios.post("http://localhost:3001/fetchFilteredUsers", { email });
         setPeople(response.data);
         console.log(response.data);
-        setCheck(1);
+    
       } catch (error) {
         toast.error("Failed to fetch profile data");
         console.error("Error fetching profile:", error);
-      }
+      } 
     };
     fetchData();
   }, [email]);
  
-  console.log(peoples)
+  useEffect(() => {
+    console.log(peoples); // Log after peoples is updated
+    setCurrentIndex(peoples.length - 1); // Update currentIndex based on the new length of peoples
+    currentIndexRef.current = peoples.length - 1; 
+    setChildRefs(peoples.map(() => React.createRef()));
+  }, [peoples]);
+
+
   
+console.log(peoples.length)
+ 
+//const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
+ // const [lastDirection, setLastDirecton] = useState();
 
-  const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
-  const [lastDirection, setLastDirecton] = useState();
 
-  const currentIndexRef = useRef(currentIndex);
 
-  const childRefs = useMemo(
-    () =>
-      Array(peoples.length)
-        .fill(0)
-        .map((i) => React.createRef()),
-    [peoples]
-  )
+ 
   console.log(childRefs);
 
   const updateCurrentIndex = (val) => {
@@ -138,7 +146,7 @@ function DisplayFilteredUsers() {
     );
   }
 
-  if(check===1) {
+  
   return (
     <div className="tinderCard_container">
       {peoples.map((person, index) => (
@@ -196,7 +204,7 @@ function DisplayFilteredUsers() {
     </div>
   );
           }
-}
+
 
 export default DisplayFilteredUsers;
 
