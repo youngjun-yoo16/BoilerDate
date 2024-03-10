@@ -17,6 +17,7 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const NotificationModel = require("./models/Notification");
 
 const app = express();
 app.use(express.json());
@@ -609,6 +610,20 @@ app.post("/updateBirthday", async (req, res) => {
     const result = await UserModel.findOneAndUpdate(
       { email: email },
       { $set: { dob: dob } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateNotificationSettings", async (req, res) => {
+  try {
+    const { email, likePf, matchPf } = req.body;
+    const result = await NotificationModel.findOneAndUpdate(
+      { email: email },
+      { $set: { like: likePf, match: matchPf } },
       { upsert: true, new: true } // Ensure to return the updated document
     );
     res.json(result);
