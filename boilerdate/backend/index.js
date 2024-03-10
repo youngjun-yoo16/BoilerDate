@@ -654,7 +654,7 @@ app.post("/updateFilterPreferences", async (req, res) => {
   }
 });
 
-app.post("fetchFilteredUsers", async (req, res) => {
+app.post("/fetchFilteredUsers", async (req, res) => {
   try {
     const { email } = req.body;
     const user = await FilterModel.findOne({ email: email });
