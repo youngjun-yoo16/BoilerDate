@@ -736,7 +736,15 @@ app.post("/fetchFilteredUsers", async (req, res) => {
           convertedAge <= fp.age[1] &&
           (fp.gender === "" || user.gender === fp.gender)
         ) {
-          return ProfileModel.findOne({ email: email }); // Return the promise
+          const profile = await ProfileModel.findOne({ email: email });
+          if (profile) {
+            return {
+              ...profile.toObject(),
+              age: convertedAge,
+              firstName: user.firstName,
+              lastName: user.lastName,
+            }; // Include the calculated age and name
+          }
         }
       }
       return null;
