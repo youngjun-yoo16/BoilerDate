@@ -42,10 +42,10 @@ import SetupBio from "./profile/Bio";
 import DisplayFilteredUsers from "./displayPeople/displayFilteredUsers";
 import Filter from "./Filter";
 import DeleteAccount from "./settings/DeleteAccount";
-import ShowMatches from "../showldm/showMatches";
-import ShowYourLikes from "../showldm/showYourLikes";
-import ShowYourDislikes from "../showldm/showYourDislikes";
-import ShowPeopleLikedYou from "../showldm/showPeopleLikedYou";
+import ShowMatches from "./showldm/showMatches";
+import ShowYourLikes from "./showldm/showYourLikes";
+import ShowYourDislikes from "./showldm/showYourDislikes";
+import ShowPeopleLikedYou from "./showldm/showPeopleLikedYou";
 
 const App = () => {
   return (
