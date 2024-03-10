@@ -167,6 +167,33 @@ function Filter() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (pets != "") {
+      //setLifestyle([...lifestyle, pets]);
+      lifestyle.push(pets);
+      //console.log(pets);
+      console.log(lifestyle);
+    }
+    if (drinking != "") {
+      lifestyle.push(drinking);
+    }
+    if (smoking != "") {
+      lifestyle.push(smoking);
+    }
+    if (workout != "") {
+      lifestyle.push(workout);
+    }
+    if (diet != "") {
+      lifestyle.push(diet);
+    }
+    if (social != "") {
+      lifestyle.push(social);
+    }
+    if (sleeping != "") {
+      lifestyle.push(sleeping);
+      console.log(lifestyle);
+    }
+
     axios
       .post("http://localhost:3001/filter", {
         email,
@@ -696,13 +723,6 @@ function Filter() {
                       value="Omnivore"
                       control={<Radio />}
                       label="Omnivore"
-                      onChange={(e) => setDiet(e.target.value)}
-                      className="diet"
-                    />
-                    <FormControlLabel
-                      value="Other"
-                      control={<Radio />}
-                      label="Other"
                       onChange={(e) => setDiet(e.target.value)}
                     />
                   </RadioGroup>
