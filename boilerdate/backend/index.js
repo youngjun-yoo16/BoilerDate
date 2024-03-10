@@ -276,7 +276,7 @@ app.listen(PORT, () => {
 });
 
 // liked dislike endpoint; only store data to db and returns nothing
-app.post("/manageLD", async (req, res) => {
+app.post("/manageldm", async (req, res) => {
   try {
     const { email, target, lod } = req.body;
 
