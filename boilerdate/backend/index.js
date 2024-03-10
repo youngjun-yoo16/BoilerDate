@@ -595,7 +595,6 @@ app.post("/filter", async (req, res) => {
     if (relationship) query.relationship = relationship;
     if (citizenship) query.citizenship = citizenship;
 
-    console.log(query);
     // Extract the lower and upper GPA from the provided string
     let inputLowerGPA, inputUpperGPA;
     if (gpa.includes("-")) {
@@ -642,9 +641,7 @@ app.post("/filter", async (req, res) => {
 
     const filteredUsersPromises = emailsMatchingGPA.map(async (email) => {
       userQuery.email = email;
-      console.log(userQuery)
       const user = await UserModel.findOne(userQuery);
-      console.log(user)
       if (user) {
         const dateDiff = Date.now() - new Date(user.dob).getTime();
         const objAge = new Date(dateDiff);
@@ -652,7 +649,7 @@ app.post("/filter", async (req, res) => {
         if (
           convertedAge >= age[0] &&
           convertedAge <= age[1] &&
-          user.gender === gender
+          (gender === "" || user.gender === gender)
         ) {
           return ProfileModel.findOne({ email: email }); // Return the promise
         }
