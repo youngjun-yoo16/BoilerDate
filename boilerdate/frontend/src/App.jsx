@@ -43,6 +43,8 @@ import DisplayFilteredUsers from "./displayPeople/displayFilteredUsers";
 import Filter from "./Filter";
 import DeleteAccount from "./settings/DeleteAccount";
 import ShowMatches from "../showldm/showMatches";
+import ShowLikes from "../showldm/showLikes";
+import ShowDislikes from "../showldm/showDisLikes";
 
 const App = () => {
   return (
@@ -100,6 +102,9 @@ const App = () => {
           <Route path="/matches" element={<DisplayFilteredUsers />}></Route>
           <Route path="/filter" element={<Filter />}></Route>
           <Route path="/settings/delete" element={<DeleteAccount />}></Route>
+          <Route path="/showmatches" element={<ShowMatches />}></Route>
+          <Route path="/showlikes" element={<ShowLikes />}></Route>
+          <Route path="/showdislikes" element={<ShowDislikes />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
