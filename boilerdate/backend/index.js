@@ -83,6 +83,21 @@ app.post("/fetchProfile", async (req, res) => {
   }
 });
 
+app.post("/deleteAccount", async (req, res) => {
+  try {
+    const { email } = req.body;
+    await UserModel.deleteOne({ email: email });
+    await ProfileModel.deleteOne({ email: email });
+    await FilterModel.deleteOne({ email: email });
+    await UserLDModel.deleteOne({ email: email });
+    res.status(200).json({
+      message: "Account and all associated data successfully deleted.",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
   UserModel.findOne({ email: email }).then((user) => {
