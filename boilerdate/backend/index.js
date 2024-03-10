@@ -230,7 +230,7 @@ app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
   // insert photo to mongodb and return success true
   await imageModel
     .create(obj)
-    .then((item) => {
+    .then(() => {
       res.status(200).json({
         success: true,
         message: "Photo upload done",
