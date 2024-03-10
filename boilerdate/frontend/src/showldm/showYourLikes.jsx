@@ -14,6 +14,8 @@ import Box from "@mui/material/Box";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import CardMedia from "@mui/material/CardMedia";
+
 function ShowYourLikes() {
   // required for keeping login status
   const { state } = useLocation();
@@ -22,12 +24,30 @@ function ShowYourLikes() {
 
   console.log(email);
 
+  const [likesList, setLikesList] = useState([]);
+
   useEffect(() => {
     if (email === undefined) {
       navigate(-1);
     }
   });
+  // get list of likes
+  useEffect(() => {
+    axios
+      .post("http://localhost:3001/fetchlikes", { email })
+      .then((res) => {
+        console.log(res.data.liked.emails);
+        setLikesList(res.data.liked.emails);
+      })
+      .catch((err) => {
+        toast.error("Failed to fetch the users you liked!");
+        console.error("fetch failed for liked users");
+      });
+  }, [email]);
 
+  // get profile info and images of each email
+
+  // display each card accordingly
   const imageUrl = `http://localhost:3001/image/${email}`;
 
   const handleSubmit = (e) => {
@@ -36,7 +56,27 @@ function ShowYourLikes() {
 
   return (
     <div className="container">
-      <h1> hi</h1>
+      <div>
+        <Card sx={{ maxWidth: 300 }}>
+          <CardMedia
+            sx={{ height: 300 }}
+            image={imageUrl}
+            title="green iguana"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              Elon musk
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Meta intern
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">Like</Button>
+            <Button size="small">Dislike</Button>
+          </CardActions>
+        </Card>
+      </div>
     </div>
   );
 }

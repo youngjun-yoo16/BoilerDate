@@ -59,11 +59,11 @@ function Home() {
         <div className="mb-3">
           <input
             type="button"
-            value="ShowMatch"
+            value="Your Matches"
             name="Matches"
             className="btn btn-outline-primary border w-100"
             onClick={() =>
-              navigate("/showmatches", { state: { email: email } })
+              navigate("/showyourlikes", { state: { email: email } })
             }
           />
         </div>
