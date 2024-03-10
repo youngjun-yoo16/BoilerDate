@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-function ShowDislikes() {
+function ShowYourLikes() {
   // required for keeping login status
   const { state } = useLocation();
   const { email } = state || {};
@@ -34,4 +34,4 @@ function ShowDislikes() {
   );
 }
 
-export default ShowDislikes;
+export default ShowYourLikes;

@@ -43,8 +43,9 @@ import DisplayFilteredUsers from "./displayPeople/displayFilteredUsers";
 import Filter from "./Filter";
 import DeleteAccount from "./settings/DeleteAccount";
 import ShowMatches from "../showldm/showMatches";
-import ShowLikes from "../showldm/showLikes";
-import ShowDislikes from "../showldm/showDisLikes";
+import ShowYourLikes from "../showldm/showYourLikes";
+import ShowYourDislikes from "../showldm/showYourDislikes";
+import ShowPeopleLikedYou from "../showldm/showPeopleLikedYou";
 
 const App = () => {
   return (
@@ -103,8 +104,15 @@ const App = () => {
           <Route path="/filter" element={<Filter />}></Route>
           <Route path="/settings/delete" element={<DeleteAccount />}></Route>
           <Route path="/showmatches" element={<ShowMatches />}></Route>
-          <Route path="/showlikes" element={<ShowLikes />}></Route>
-          <Route path="/showdislikes" element={<ShowDislikes />}></Route>
+          <Route path="/showyourlikes" element={<ShowYourLikes />}></Route>
+          <Route
+            path="/showyourdislikes"
+            element={<ShowYourDislikes />}
+          ></Route>
+          <Route
+            path="/showpeoplelikedyou"
+            element={<ShowPeopleLikedYou />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>
