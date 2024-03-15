@@ -215,6 +215,26 @@ function ProfilePage() {
             onClick={() => navigate("/home", { state: { email: email } })}
           />
         </div>
+
+        <div className="mb-3">
+          <input
+            type="button"
+            value="rep"
+            name="home"
+            className="btn btn-outline-dark border w-100"
+           //onClick={() => navigate("/home", { state: { email: email } })}
+          />
+        </div>
+
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Home"
+            name="home"
+            className="btn btn-outline-dark border w-100"
+            //onClick={() => navigate("/home", { state: { email: email } })}
+          />
+        </div>
       </form>
     </div>
   );

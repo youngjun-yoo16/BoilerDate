@@ -10,8 +10,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import HandleUserLikesAndDislikes from "./HandleLikesDislikes";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import axios from "axios";
+import CardProfile from "./CardProfile";
 
 function DisplayFilteredUsers() {
+  const [showCardProfile, setShowCardProfile] = useState(false);
   const { state } = useLocation();
   const { email } = state || {};
    const navigate = useNavigate();
@@ -44,6 +46,7 @@ function DisplayFilteredUsers() {
   const [currentIndex, setCurrentIndex] = useState();
   const [lastDirection, setLastDirecton] = useState();
   const [childRefs, setChildRefs] = useState([]);
+  const [likedUser, setLikedUser] = useState();
   const currentIndexRef = useRef();
 
   useEffect(() => {
@@ -69,15 +72,11 @@ function DisplayFilteredUsers() {
     setChildRefs(peoples.map(() => React.createRef()));
   }, [peoples]);
 
-
   
 console.log(peoples.length)
  
 //const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
  // const [lastDirection, setLastDirecton] = useState();
-
-
-
  
   console.log(childRefs);
 
@@ -113,7 +112,10 @@ console.log(peoples.length)
     if (buttonType === "like") {
 
       if (canSwipe && currentIndex < peoples.length) {
+        
         await childRefs[currentIndex].current.swipe('right') // Swipe the card!
+       console.log(peoples[currentIndex].email)
+       
       }
       //HandleUserLikesAndDislikes(temp_email, peoples[0].email, true);
      // HandleUserLikesAndDislikes(temp_email, peoples[1].email, true);
@@ -128,7 +130,7 @@ console.log(peoples.length)
 
   const handleSubmit = (e) => {
      if (e === "arrow") {
-
+      setShowCardProfile((prev) => !prev);
     }
   };
 
@@ -178,6 +180,7 @@ console.log(peoples.length)
               </IconButton>
             </div>
           </div>
+          {showProfilePage && <CardProfile />}
         </TinderCard>
       ))}
 
