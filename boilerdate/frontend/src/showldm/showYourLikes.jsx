@@ -25,15 +25,14 @@ function ShowYourLikes() {
   console.log(email);
 
   const [likesList, setLikesList] = useState([]);
-  const [userFirstName, setUserFirstName] = useState("");
-  const [userLastName, setUserLastName] = useState("");
-  const [userGPA, setUserGPA] = useState("");
+  const [userData, setUserData] = useState("");
 
   useEffect(() => {
     if (email === undefined) {
-      navigate(-1);
+      //navigate(-1);
     }
   });
+
   // get list of likes
   useEffect(() => {
     axios
@@ -48,8 +47,8 @@ function ShowYourLikes() {
       });
   }, [email]);
 
-  // get profile info and images of each email
-  useEffect(() => {
+  // get profile info and images of each email <- this only finds the info of the crr user
+  /*  useEffect(() => {
     axios
       .post("http://localhost:3001/fetchusername", { email })
       .then((res) => {
@@ -64,7 +63,23 @@ function ShowYourLikes() {
         toast.error("Failed to fetch username and gpa!");
         console.error("Fetch failed for username and gpa");
       });
-  });
+  });*/
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:3001/fetchusernames", { emails: likesList })
+      .then((res) => {
+        const userData = res.data;
+        // now user data is mapped as [username : gpa]
+        console.log("this is likedlist for " + email + ": " + likesList);
+        console.log(userData);
+        setUserData(userData);
+      })
+      .catch((err) => {
+        toast.error("Failed to fetch username and gpa!");
+        console.error("Fetch failed for username and gpa");
+      });
+  }, [likesList]);
 
   // display each card accordingly
   const imageUrl = `http://localhost:3001/image/${email}`;
