@@ -1,4 +1,7 @@
 .filter {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
   position: relative;
   width: 400px;
   padding: 20px;
@@ -43,6 +46,13 @@
     z-index: 1000; /* Adjust the value as needed */
   
 }
+.main_text {
+  position: fixed;
+  
+left: 10px;
+ 
+    z-index: 1000;
+}
 
 .close_button {
   margin: 50 50px;
@@ -57,4 +67,9 @@
 .message {
   position: fixed;
   bottom: 200px;
+}
+
+.mb-4 {
+  position: fixed;
+  bottom: 100px;
 }
