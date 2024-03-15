@@ -137,7 +137,7 @@ function DisplayFilteredUsers() {
       if (canSwipe && currentIndex < peoples.length) {
         await childRefs[currentIndex].current.swipe("left"); // Swipe the card!
         const emailToSend = peoples[currentIndex].email;
-        HandleUserLikesAndDislikes(email, emailToSend, true);
+        HandleUserLikesAndDislikes(email, emailToSend, false);
       }
       // HandleUserLikesAndDislikes(temp_email, peoples[0].email, false);
       //HandleUserLikesAndDislikes(temp_email, peoples[1].email, false);
