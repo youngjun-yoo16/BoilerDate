@@ -102,7 +102,7 @@ function ShowMatches() {
         </Grid>
       ) : (
         <Typography variant="h5" textAlign="center" marginTop={5}>
-          You have no match
+          You have no matches
         </Typography>
       )}
     </div>
