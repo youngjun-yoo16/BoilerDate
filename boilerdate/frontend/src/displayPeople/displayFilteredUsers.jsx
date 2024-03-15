@@ -121,7 +121,7 @@ function DisplayFilteredUsers() {
         } catch (err) {
           console.error("Failed to send a notification email.");
         }
-        setLikedUser(peoples[currentIndex].email);
+         setLikedUser(peoples[currentIndex].email);
 
         console.log(likedUser);
 
@@ -182,7 +182,7 @@ function DisplayFilteredUsers() {
               </IconButton>
             </div>
           </div>
-          {showCardProfile && <CardProfile email={likedUser} />}
+          {showCardProfile && <CardProfile email={peoples[currentIndex].email}/>}
         </TinderCard>
       ))}
 

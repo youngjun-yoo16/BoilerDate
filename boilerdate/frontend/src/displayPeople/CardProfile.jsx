@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-function ProfilePage() {
+function CardProfile({email}) {
   const [fName, setfName] = useState("");
   const [lName, setlName] = useState("");
   const [profile, setProfile] = useState([]);
@@ -18,9 +18,9 @@ function ProfilePage() {
 
   const [ages, setAges] = useState("");
 
- // const { state } = useLocation();
- // const { email } = state || {};
- // const navigate = useNavigate();
+//const { state } = useLocation();
+ //const { email } = state || {};
+const navigate = useNavigate();
 
   console.log(email);
 
@@ -55,7 +55,7 @@ function ProfilePage() {
         toast.error("Failed to fetch profile data");
         console.error("Error fetching profile:", error);
       });
-  }, []); // eslint-disable-line
+  }, [email]); // eslint-disable-line
 
   const convertHeight = (heightInInches) => {
     const feet = Math.floor(heightInInches / 12);
@@ -212,7 +212,7 @@ function ProfilePage() {
             value="Home"
             name="home"
             className="btn btn-outline-dark border w-100"
-            onClick={() => navigate("/home", { state: { email: email } })}
+            //onClick={() => navigate("/home", { state: { email: email } })}
           />
         </div>
 
@@ -240,4 +240,4 @@ function ProfilePage() {
   );
 }
 
-export default ProfilePage;
+export default CardProfile;
