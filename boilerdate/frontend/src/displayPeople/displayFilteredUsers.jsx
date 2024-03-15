@@ -73,20 +73,12 @@ function DisplayFilteredUsers() {
     setChildRefs(peoples.map(() => React.createRef()));
   }, [peoples]);
 
-<<<<<<< HEAD
   
 console.log(peoples.length)
  
 //const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
  // const [lastDirection, setLastDirecton] = useState();
  
-=======
-  console.log(peoples.length);
-
-  //const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
-  // const [lastDirection, setLastDirecton] = useState();
-
->>>>>>> e813b402847e8be22181afadc56f76093c217c4e
   console.log(childRefs);
 
   const updateCurrentIndex = (val) => {
@@ -118,26 +110,22 @@ console.log(peoples.length)
   const swipe = async (buttonType) => {
     //console.log(peoples[currentIndex].email)
     if (buttonType === "like") {
-      try {
-        const emailToSend = peoples[currentIndex].email;
-        //console.log(peoples[currentIndex].email)
-        const response = await axios.post(
-          "http://localhost:3001/sendNotificationEmail",
-          { emailToSend }
-        );
-        console.log(response);
-      } catch (err) {
-        console.error("Failed to send a notification email.");
-      }
       if (canSwipe && currentIndex < peoples.length) {
-<<<<<<< HEAD
+        try {
+          const emailToSend = peoples[currentIndex].email;
+          //console.log(peoples[currentIndex].email)
+          const response = await axios.post(
+            "http://localhost:3001/sendNotificationEmail",
+            { emailToSend }
+          );
+          console.log(response);
+        } catch (err) {
+          console.error("Failed to send a notification email.");
+        }
         
         await childRefs[currentIndex].current.swipe('right') // Swipe the card!
        console.log(peoples[currentIndex].email)
        
-=======
-        await childRefs[currentIndex].current.swipe("right"); // Swipe the card!
->>>>>>> e813b402847e8be22181afadc56f76093c217c4e
       }
       //HandleUserLikesAndDislikes(temp_email, peoples[0].email, true);
       // HandleUserLikesAndDislikes(temp_email, peoples[1].email, true);
@@ -151,12 +139,8 @@ console.log(peoples.length)
   };
 
   const handleSubmit = (e) => {
-<<<<<<< HEAD
      if (e === "arrow") {
       setShowCardProfile((prev) => !prev);
-=======
-    if (e === "arrow") {
->>>>>>> e813b402847e8be22181afadc56f76093c217c4e
     }
   };
 
