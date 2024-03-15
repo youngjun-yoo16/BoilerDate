@@ -734,7 +734,6 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     };
 
     // Handle empty strings or empty arrays
-    if (fp.gpa) query.gpa = fp.gpa;
     if (fp.major) query.major = fp.major;
     if (fp.degree) query.degree = fp.degree;
     if (fp.interests && fp.interests.length)
@@ -759,8 +758,11 @@ app.post("/fetchFilteredUsers", async (req, res) => {
       "email gpa -_id"
     );
 
+    // Filter out the user itself if included
+    const filteredPotentialMatches = potentialMatches.filter(potentialMatch => potentialMatch.email !== email)
+
     // Step 2: Filter the potential matches further based on the GPA range
-    const emailsMatchingGPA = potentialMatches
+    const emailsMatchingGPA = filteredPotentialMatches
       .filter((doc) => {
         let storedLowerGPA, storedUpperGPA;
         if (doc.gpa.includes("-")) {

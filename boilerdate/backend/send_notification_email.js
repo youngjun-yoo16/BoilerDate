@@ -11,8 +11,8 @@ const transporter = nodemailer.createTransport({
 
 async function sendNotificationEmail(email, type) {
   try {
-    const subject = "";
-    const text = "";
+    let subject = "";
+    let text = "";
     type === "like"
       ? ((subject =
           "[BoilerDate] New Like Alert: Someone's Interested in You!"),
