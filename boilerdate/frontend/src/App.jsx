@@ -47,6 +47,8 @@ import ShowMatches from "./showldm/showMatches";
 import ShowYourLikes from "./showldm/showYourLikes";
 import ShowYourDislikes from "./showldm/showYourDislikes";
 import ShowPeopleLikedYou from "./showldm/showPeopleLikedYou";
+import Privacy from "./Privacy";
+import ProfileSettings from "./settings/ProfileSettings";
 
 const App = () => {
   return (
@@ -69,7 +71,10 @@ const App = () => {
           <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
           <Route path="/changePassword" element={<ChangePassword />}></Route>
           <Route path="/updatePassword" element={<UpdatePassword />}></Route>
-          <Route path="/updateNotifications" element={<Notifications />}></Route>
+          <Route
+            path="/updateNotifications"
+            element={<Notifications />}
+          ></Route>
           <Route path="/customizable" element={<Customizable />}></Route>
           <Route path="/bio" element={<SetupBio />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
@@ -115,6 +120,8 @@ const App = () => {
             path="/showpeoplelikedyou"
             element={<ShowPeopleLikedYou />}
           ></Route>
+          <Route path="/settings/privacy" element={<Privacy />}></Route>
+          <Route path="/settings/profile" element={<ProfileSettings />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
