@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import HandleUserLikesAndDislikes from "./HandleLikesDislikes";
-import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
+import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import BlockIcon from "@mui/icons-material/Block";
 import axios from "axios";
 import CardProfile from "./CardProfile.jsx";
@@ -186,7 +186,7 @@ function DisplayFilteredUsers() {
             </h3>
             <div className="arrowButton">
               <IconButton onClick={() => handleSubmit("arrow")}>
-                <ArrowCircleUpIcon
+                <ArrowCircleDownIcon
                   sx={{ color: "grey" }}
                   fontSize="large"
                   className="arrow_button"

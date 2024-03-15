@@ -829,9 +829,18 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     );
 
     // Filter out the user itself if included
-    const filteredPotentialMatches = potentialMatches.filter(
+    let filteredPotentialMatches = potentialMatches.filter(
       (potentialMatch) => potentialMatch.email !== email
     );
+
+    // Filter out already matched users
+    const matchedUsers = await UserLDMModel.findOne(
+      { email: email },
+      { "matches.emails": 1, _id: 0 }
+    );
+
+    // Emails of already matched users
+    const matchedUsersEmails = matchedUsers.matches.emails
 
     // Step 2: Filter the potential matches further based on the GPA range
     let emailsMatchingGPA;
@@ -860,6 +869,9 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     } else {
       emailsMatchingGPA = filteredPotentialMatches.map((doc) => doc.email);
     }
+
+    // Filter out emails of already matched users
+    emailsMatchingGPA = emailsMatchingGPA.filter(email => !matchedUsersEmails.includes(email))
 
     // Step 3: For each email, find the corresponding user in the profile collection, calculate age, and check gender.
     // Use Promise.all to wait for all async operations to complete
