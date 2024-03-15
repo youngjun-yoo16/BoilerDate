@@ -28,10 +28,10 @@
 
 .swipeButton {
   position: fixed;
-  bottom: 300px;
+  bottom: 280px;
   display: flex;
   justify-content: center;
-  gap: 140px;
+  gap: 90px;
   width: 100%;
 }
 

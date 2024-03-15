@@ -193,25 +193,7 @@ const navigate = useNavigate();
         </div>
 
         <ToastContainer />
-        <div className="mb-3">
-          <input
-            type="button"
-            value="Block"
-            name="Block"
-            className="btn btn-outline-dark border w-100"
-            //onClick={() => navigate("/home", { state: { email: email } })}
-          />
-        </div>
-
-        <div className="mb-3">
-          <input
-            type="button"
-            value="Report"
-            name="Report s"
-            className="btn btn-outline-dark border w-100"
-           //onClick={() => navigate("/home", { state: { email: email } })}
-          />
-        </div>
+      
       </form>
     </div>
   );

@@ -9,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import HandleUserLikesAndDislikes from "./HandleLikesDislikes";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
+import BlockIcon from '@mui/icons-material/Block';
 import axios from "axios";
 import CardProfile from "./CardProfile.jsx";
 
@@ -193,7 +194,7 @@ function DisplayFilteredUsers() {
           )}
         </TinderCard>
       ))}
-
+      <div> </div>
       <div className="swipeButton">
         <IconButton onClick={() => swipe("dislike")}>
           <CloseIcon
@@ -207,6 +208,13 @@ function DisplayFilteredUsers() {
             sx={{ color: "red" }}
             fontSize="large"
             className="favorite_button"
+          />
+        </IconButton>
+        <IconButton onClick={() => swipe("block")}>
+          <BlockIcon
+            sx={{ color: "black" }}
+            fontSize="large"
+            className="block_button"
           />
         </IconButton>
       </div>
