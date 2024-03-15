@@ -101,21 +101,40 @@ app.post("/deleteAccount", async (req, res) => {
   }
 });
 
-app.post("/privacy", (req, res) => {
+app.post("/privacy", async (req, res) => {
   try {
-    const { email } = req.params.email;
-    res.json(email);
+    const {
+      email,
+      gpa,
+      major,
+      degree,
+      interests,
+      lifestyle,
+      height,
+      personality,
+      relationship,
+      citizenship,
+      skills,
+      employment,
+      career,
+      github,
+      linkedin,
+    } = req.body;
+    console.log(email);
 
-    PrivacyModel.findOne({ email: email }).then((privacy) => {
+    await PrivacyModel.findOne({ email: email }).then((privacy) => {
       if (privacy) {
         PrivacyModel.deleteOne({ email: email });
-        res.json("privacy deleted");
+        /*PrivacyModel.deleteOne({ email: email }).then((result) => {
+          console.log(result);
+        });*/
+        console.log("privacy deleted");
       } else {
-        res.json("privacy does not exist");
+        console.log("privacy does not exist");
       }
     });
 
-    PrivacyModel.create(req.body)
+    await PrivacyModel.create(req.body)
       .then((setupinfo) => res.json(setupinfo))
       .catch((err) => res.json(err));
   } catch (error) {
@@ -348,10 +367,10 @@ app.post("/manageldm", async (req, res) => {
         "liked.emails": email,
       });
       if (isMatch) {
-        const type = "match"
+        const type = "match";
         console.log("match found");
-        await sendNotificationEmail(email, type)
-        await sendNotificationEmail(target, type)
+        await sendNotificationEmail(email, type);
+        await sendNotificationEmail(target, type);
         // update the current user
         await UserLDMModel.updateOne(
           { email: email },
