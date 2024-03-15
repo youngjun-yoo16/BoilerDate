@@ -810,30 +810,37 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     );
 
     // Filter out the user itself if included
-    const filteredPotentialMatches = potentialMatches.filter(potentialMatch => potentialMatch.email !== email)
+    const filteredPotentialMatches = potentialMatches.filter(
+      (potentialMatch) => potentialMatch.email !== email
+    );
 
     // Step 2: Filter the potential matches further based on the GPA range
-    const emailsMatchingGPA = filteredPotentialMatches
-      .filter((doc) => {
-        let storedLowerGPA, storedUpperGPA;
-        if (doc.gpa.includes("-")) {
-          [storedLowerGPA, storedUpperGPA] = doc.gpa.split("-").map(Number);
-        } else {
-          storedLowerGPA = storedUpperGPA = Number(doc.gpa.substring(1));
-        }
+    let emailsMatchingGPA;
+    if (fp.gpa) {
+      emailsMatchingGPA = filteredPotentialMatches
+        .filter((doc) => {
+          let storedLowerGPA, storedUpperGPA;
+          if (doc.gpa.includes("-")) {
+            [storedLowerGPA, storedUpperGPA] = doc.gpa.split("-").map(Number);
+          } else {
+            storedLowerGPA = storedUpperGPA = Number(doc.gpa.substring(1));
+          }
 
-        // Check overlap or upper bound conditions
-        if (inputLowerGPA === null) {
-          // If inputLowerGPA is null, we're dealing with a "<value" condition, so check if storedUpperGPA is less than inputUpperGPA
-          return storedUpperGPA <= inputUpperGPA;
-        } else {
-          // If inputLowerGPA is not null, we're dealing with a range, so check if the ranges overlap
-          return (
-            inputLowerGPA <= storedLowerGPA && storedUpperGPA <= inputUpperGPA
-          );
-        }
-      })
-      .map((doc) => doc.email);
+          // Check overlap or upper bound conditions
+          if (inputLowerGPA === null) {
+            // If inputLowerGPA is null, we're dealing with a "<value" condition, so check if storedUpperGPA is less than inputUpperGPA
+            return storedUpperGPA <= inputUpperGPA;
+          } else {
+            // If inputLowerGPA is not null, we're dealing with a range, so check if the ranges overlap
+            return (
+              inputLowerGPA <= storedLowerGPA && storedUpperGPA <= inputUpperGPA
+            );
+          }
+        })
+        .map((doc) => doc.email);
+    } else {
+      emailsMatchingGPA = filteredPotentialMatches.map((doc) => doc.email);
+    }
 
     // Step 3: For each email, find the corresponding user in the profile collection, calculate age, and check gender.
     // Use Promise.all to wait for all async operations to complete
