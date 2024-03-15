@@ -1,69 +1,57 @@
-.filter{
-  position:relative;
+.filter {
+  position: relative;
   width: 400px;
   padding: 20px;
   max-width: 85vw;
-  height:50vh;
+  height: 50vh;
   border-radius: 10px;
   background-position: center;
   background-size: cover;
-  }
-    
-    .card h3{
-      color: #fff;
-      position: absolute;
-      bottom: 0;
-      margin: 10px;
-    }
-    
-    .tinderCard_container{
-      display: flex;
-      justify-content: center;
-      margin-top: 10vh;
-    }
-    
-    .swipe{
-      position: absolute;
-    }
+}
 
-.swipeButton{
+.card h3 {
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  margin: 10px;
+}
 
+.tinderCard_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10vh;
+}
+
+.swipe {
+  position: absolute;
+}
+
+.swipeButton {
   position: fixed;
   bottom: 300px;
   display: flex;
   justify-content: center;
-  gap:140px;
+  gap: 140px;
   width: 100%;
 }
 
 .arrowButton {
-    position: fixed;
-    bottom: 9px; 
-    right: 5px; 
-  
-  
+  position: fixed;
+  bottom: 9px;
+  right: 5px;
 }
-
-
 
 .close_button {
-  
-    margin: 50 50px ;
-    font-size:  "large";
-
+  margin: 50 50px;
+  font-size: "large";
 }
 
-
-
-
 .favorite_button {
-  
-    margin: 50 50px ;
-    font-size:  "large";
-
+  margin: 50 50px;
+  font-size: "large";
 }
 
 .message {
   position: fixed;
-  bottom:200px;
+  bottom: 200px;
 }

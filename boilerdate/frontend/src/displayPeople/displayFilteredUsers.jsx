@@ -12,10 +12,10 @@ import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import axios from "axios";
 
 function DisplayFilteredUsers() {
-  //const { state } = useLocation();
-  //const { email } = state || {};
-    // const navigate = useNavigate();
-  const email = "yoo156@purdue.edu"
+  const { state } = useLocation();
+  const { email } = state || {};
+  // const navigate = useNavigate();
+  // const email = "yoo156@purdue.edu"
   // array of users
   // will be getting from the database later and store it here
   
@@ -111,6 +111,7 @@ console.log(peoples.length)
   const swipe = async (buttonType) => {
    // const temp_email = "lee3546@purdue.edu";
     if (buttonType === "like") {
+
       if (canSwipe && currentIndex < peoples.length) {
         await childRefs[currentIndex].current.swipe('right') // Swipe the card!
       }
@@ -207,5 +208,3 @@ console.log(peoples.length)
 
 
 export default DisplayFilteredUsers;
-
-
