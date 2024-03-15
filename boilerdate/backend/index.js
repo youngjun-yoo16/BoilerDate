@@ -921,6 +921,26 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     let filteredUsers = await Promise.all(filteredUsersPromises);
     filteredUsers = filteredUsers.filter((user) => user); // Remove nulls
 
+    const blockedUsers = await BlockModel.findOne({ email: email });
+    let blockedEmails = blockedUsers.blocks;
+    //console.log(blockedUsers.blocks);
+    let blocks = [];
+    console.log(blockedEmails);
+    console.log(blockedUsers.blocks.length);
+    for (let index = 0; index < blocks.length; index++) {
+      const element = blockedEmails[index];
+      blocks.push(element);
+      console.log(element);
+    }
+    console.log(blockedEmails);
+
+    /*let afterBlock = blockedUsers.filter(
+      (notBlocked) => notBlocked.email !== email
+    );*/
+
+    //console.log(filteredUsers);
+    //console.log(filteredUsers.email);
+
     res.json(filteredUsers);
   } catch (error) {
     res.status(500).json({ error: error.message });
