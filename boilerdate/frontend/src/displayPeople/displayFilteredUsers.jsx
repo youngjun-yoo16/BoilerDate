@@ -112,11 +112,12 @@ function DisplayFilteredUsers() {
     if (buttonType === "like") {
       if (canSwipe && currentIndex < peoples.length) {
         try {
+          const type = "like"
           const emailToSend = peoples[currentIndex].email;
           //console.log(peoples[currentIndex].email)
           const response = await axios.post(
             "http://localhost:3001/sendNotificationEmail",
-            { emailToSend }
+            { emailToSend, type }
           );
           console.log(response);
         } catch (err) {

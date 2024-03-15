@@ -196,8 +196,8 @@ app.post("/sendverificationcode", async (req, res) => {
 
 app.post("/sendNotificationEmail", async (req, res) => {
   try {
-    const { emailToSend } = req.body;
-    const sendEmail = await sendNotificationEmail(emailToSend);
+    const { emailToSend, type } = req.body;
+    const sendEmail = await sendNotificationEmail(emailToSend, type);
     if (sendEmail) {
       res.json({
         success: true,
@@ -325,7 +325,10 @@ app.post("/manageldm", async (req, res) => {
         "liked.emails": email,
       });
       if (isMatch) {
+        const type = "match"
         console.log("match found");
+        await sendNotificationEmail(email, type)
+        await sendNotificationEmail(target, type)
         // update the current user
         await UserLDMModel.updateOne(
           { email: email },
