@@ -240,32 +240,28 @@ app.post("/sendverificationcode", async (req, res) => {
 
 app.post("/sendNotificationEmail", async (req, res) => {
   try {
-    let sendEmail = false;
     const { emailToSend, type } = req.body;
-    const likeStatus = await NotificationModel.findOne(
+
+    // Fetch like and match status in one go
+    const userStatus = await NotificationModel.findOne(
       { email: emailToSend },
       { like: 1, match: 1, _id: 0 }
     );
 
-    if (type === "like" && likeStatus.like) {
-      sendEmail = await sendNotificationEmail(emailToSend, type);
+    // Determine if an email should be sent based on the type and the respective status
+    const shouldSendEmail =
+      (type === "like" && userStatus.like) ||
+      (type === "match" && userStatus.match);
+
+    if (shouldSendEmail) {
+      const sendEmailResult = await sendNotificationEmail(emailToSend, type);
+      if (sendEmailResult) {
+        return res.json({ success: true, message: "Sent email successfully!" });
+      }
     }
 
-    if (type === "match" && likeStatus.match) {
-      sendEmail = await sendNotificationEmail(emailToSend, type);
-    }
-
-    if (sendEmail) {
-      res.json({
-        success: true,
-        message: "Sent email successfully!",
-      });
-    } else {
-      res.json({
-        success: false,
-        message: "Failed to send notification email",
-      });
-    }
+    // If email wasn't sent, respond with failure message
+    res.json({ success: false, message: "Failed to send notification email" });
   } catch (err) {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
