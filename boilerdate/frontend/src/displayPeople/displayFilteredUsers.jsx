@@ -10,7 +10,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import HandleUserLikesAndDislikes from "./HandleLikesDislikes";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import axios from "axios";
-import CardProfile from "./CardProfile";
+import CardProfile from "./CardProfile.jsx";
 
 function DisplayFilteredUsers() {
   const [showCardProfile, setShowCardProfile] = useState(false);
@@ -122,6 +122,9 @@ console.log(peoples.length)
         } catch (err) {
           console.error("Failed to send a notification email.");
         }
+        setLikedUser(peoples[currentIndex].email);
+        
+         console.log(likedUser)
         
         await childRefs[currentIndex].current.swipe('right') // Swipe the card!
        console.log(peoples[currentIndex].email)
@@ -181,7 +184,7 @@ console.log(peoples.length)
               </IconButton>
             </div>
           </div>
-          {showProfilePage && <CardProfile />}
+          {showCardProfile && <CardProfile email={likedUser}/>}
         </TinderCard>
       ))}
 

@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Carousel from "react-bootstrap/Carousel";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./ProfilePage.css";
+import "./CardProfile.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
@@ -18,9 +18,9 @@ function ProfilePage() {
 
   const [ages, setAges] = useState("");
 
-  const { state } = useLocation();
-  const { email } = state || {};
-  const navigate = useNavigate();
+ // const { state } = useLocation();
+ // const { email } = state || {};
+ // const navigate = useNavigate();
 
   console.log(email);
 
