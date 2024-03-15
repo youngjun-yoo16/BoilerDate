@@ -96,7 +96,7 @@ function DisplayFilteredUsers() {
     updateCurrentIndex(index - 1);
   };
 
-  const outOfFrame = (name, idx) => {
+  const outOfFrame = (name, idx) => { 
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
@@ -181,9 +181,11 @@ function DisplayFilteredUsers() {
               backgroundImage: "url(" + person.imageUrl + ")",
             }}
           >
+           
             <h3 className="main_text">
               {person.firstName} {person.age}{" "}
             </h3>
+           
             <div className="arrowButton">
               <IconButton onClick={() => handleSubmit("arrow")}>
                 <ArrowCircleDownIcon
@@ -223,8 +225,18 @@ function DisplayFilteredUsers() {
           />
         </IconButton>
       </div>
-
+      
       <div className="message">{message}</div>
+
+      <div className="mb-4">
+          <input
+            type="button"
+            value="Home"
+            name="home"
+            className="btn btn-outline-dark border w-100"
+            onClick={() => navigate("/home", { state: { email: email } })}
+          />
+        </div>
     </div>
   );
 }
