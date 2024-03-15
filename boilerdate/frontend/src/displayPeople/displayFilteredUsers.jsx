@@ -108,6 +108,7 @@ console.log(peoples.length)
   };
 
   const swipe = async (buttonType) => {
+    setShowCardProfile(false); 
     //console.log(peoples[currentIndex].email)
     if (buttonType === "like") {
       if (canSwipe && currentIndex < peoples.length) {
