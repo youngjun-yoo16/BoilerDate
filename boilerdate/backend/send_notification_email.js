@@ -1,6 +1,5 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
-// import email verification fn
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -13,7 +12,7 @@ const transporter = nodemailer.createTransport({
 async function sendNotificationEmail(email) {
   try {
     mailOptions = {
-      from: "boilerdate@gmail.com",
+      from: "boilderdate@gmail.com",
       to: email,
       subject: "Boilerdate Account Creation Email Verification",
       text: `Someone liked you!`,
@@ -29,3 +28,7 @@ async function sendNotificationEmail(email) {
     return false;
   }
 }
+
+module.exports = {
+  sendNotificationEmail,
+};

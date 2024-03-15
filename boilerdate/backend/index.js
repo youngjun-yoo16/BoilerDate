@@ -13,6 +13,7 @@ const {
   sendVerificationEmail,
   verifyEmail,
 } = require("./verification_code");
+const { sendNotificationEmail } = require("./send_notification_email");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const path = require("path");
@@ -186,6 +187,26 @@ app.post("/sendverificationcode", async (req, res) => {
       res.json({
         success: false,
         message: "Failed to send verification code email",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+app.post("/sendNotificationEmail", async (req, res) => {
+  try {
+    const { emailToSend } = req.body;
+    const sendEmail = await sendNotificationEmail(emailToSend);
+    if (sendEmail) {
+      res.json({
+        success: true,
+        message: "Sent email successfully!",
+      });
+    } else {
+      res.json({
+        success: false,
+        message: "Failed to send notification email",
       });
     }
   } catch (err) {

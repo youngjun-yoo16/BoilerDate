@@ -16,12 +16,12 @@ function DisplayFilteredUsers() {
   const [showCardProfile, setShowCardProfile] = useState(false);
   const { state } = useLocation();
   const { email } = state || {};
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // array of users
   // will be getting from the database later and store it here
-  
-/*
+
+  /*
   const [check, setCheck] = useState(1);
   const [peoples, setPeople] = useState([
     {
@@ -41,7 +41,7 @@ function DisplayFilteredUsers() {
   ]);
   
 */
-  
+
   const [peoples, setPeople] = useState([]);
   const [currentIndex, setCurrentIndex] = useState();
   const [lastDirection, setLastDirecton] = useState();
@@ -52,104 +52,121 @@ function DisplayFilteredUsers() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
-        const response = await axios.post("http://localhost:3001/fetchFilteredUsers", { email });
+        const response = await axios.post(
+          "http://localhost:3001/fetchFilteredUsers",
+          { email }
+        );
         setPeople(response.data);
         console.log(response.data);
-    
       } catch (error) {
         toast.error("Failed to fetch profile data");
         console.error("Error fetching profile:", error);
-      } 
+      }
     };
     fetchData();
   }, [email]);
- 
+
   useEffect(() => {
     console.log(peoples); // Log after peoples is updated
     setCurrentIndex(peoples.length - 1); // Update currentIndex based on the new length of peoples
-    currentIndexRef.current = peoples.length - 1; 
+    currentIndexRef.current = peoples.length - 1;
     setChildRefs(peoples.map(() => React.createRef()));
   }, [peoples]);
 
+<<<<<<< HEAD
   
 console.log(peoples.length)
  
 //const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
  // const [lastDirection, setLastDirecton] = useState();
  
+=======
+  console.log(peoples.length);
+
+  //const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
+  // const [lastDirection, setLastDirecton] = useState();
+
+>>>>>>> e813b402847e8be22181afadc56f76093c217c4e
   console.log(childRefs);
 
   const updateCurrentIndex = (val) => {
-    setCurrentIndex(val)
-    currentIndexRef.current = val
-  }
+    setCurrentIndex(val);
+    currentIndexRef.current = val;
+  };
 
-  const canGoBack = currentIndex < peoples.length - 1
+  const canGoBack = currentIndex < peoples.length - 1;
 
-  const canSwipe = currentIndex >= 0
+  const canSwipe = currentIndex >= 0;
 
   const swiped = (direction, nameToDelete, index) => {
-    setLastDirecton(direction)
-    updateCurrentIndex(index - 1)
+    setLastDirecton(direction);
+    updateCurrentIndex(index - 1);
   };
 
   const outOfFrame = (name, idx) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
-    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
-
-  }
+    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
+  };
 
   const goBack = async () => {
-    if (!canGoBack) return
-    const newIndex = currentIndex + 1
-    updateCurrentIndex(newIndex)
-    await childRefs[newIndex].current.restoreCard()
-  }
+    if (!canGoBack) return;
+    const newIndex = currentIndex + 1;
+    updateCurrentIndex(newIndex);
+    await childRefs[newIndex].current.restoreCard();
+  };
 
   const swipe = async (buttonType) => {
-   // const temp_email = "lee3546@purdue.edu";
+    //console.log(peoples[currentIndex].email)
     if (buttonType === "like") {
-
+      try {
+        const emailToSend = peoples[currentIndex].email;
+        //console.log(peoples[currentIndex].email)
+        const response = await axios.post(
+          "http://localhost:3001/sendNotificationEmail",
+          { emailToSend }
+        );
+        console.log(response);
+      } catch (err) {
+        console.error("Failed to send a notification email.");
+      }
       if (canSwipe && currentIndex < peoples.length) {
+<<<<<<< HEAD
         
         await childRefs[currentIndex].current.swipe('right') // Swipe the card!
        console.log(peoples[currentIndex].email)
        
+=======
+        await childRefs[currentIndex].current.swipe("right"); // Swipe the card!
+>>>>>>> e813b402847e8be22181afadc56f76093c217c4e
       }
       //HandleUserLikesAndDislikes(temp_email, peoples[0].email, true);
-     // HandleUserLikesAndDislikes(temp_email, peoples[1].email, true);
+      // HandleUserLikesAndDislikes(temp_email, peoples[1].email, true);
     } else if (buttonType === "dislike") {
       if (canSwipe && currentIndex < peoples.length) {
-        await childRefs[currentIndex].current.swipe('left') // Swipe the card!
+        await childRefs[currentIndex].current.swipe("left"); // Swipe the card!
       }
-     // HandleUserLikesAndDislikes(temp_email, peoples[0].email, false);
+      // HandleUserLikesAndDislikes(temp_email, peoples[0].email, false);
       //HandleUserLikesAndDislikes(temp_email, peoples[1].email, false);
-    } 
+    }
   };
 
   const handleSubmit = (e) => {
+<<<<<<< HEAD
      if (e === "arrow") {
       setShowCardProfile((prev) => !prev);
+=======
+    if (e === "arrow") {
+>>>>>>> e813b402847e8be22181afadc56f76093c217c4e
     }
   };
 
   let message;
-  if (lastDirection === 'left') {
-    message = (
-      <h2 className='infoText'>
-        NOPE
-      </h2>
-    );
-  } else if (lastDirection === 'right') {
-    message = (
-      <h2 className='infoText'>
-        LIKE
-      </h2>
-    );
+  if (lastDirection === "left") {
+    message = <h2 className="infoText">NOPE</h2>;
+  } else if (lastDirection === "right") {
+    message = <h2 className="infoText">LIKE</h2>;
   }
 
-  
   return (
     <div className="tinderCard_container">
       {peoples.map((person, index) => (
@@ -201,13 +218,9 @@ console.log(peoples.length)
         </IconButton>
       </div>
 
-      <div className="message">
-        {message}
-      </div>
-
+      <div className="message">{message}</div>
     </div>
   );
-          }
-
+}
 
 export default DisplayFilteredUsers;
