@@ -379,9 +379,27 @@ app.post("/manageldm", async (req, res) => {
       });
       if (isMatch) {
         const type = "match";
-        console.log("match found");
-        await sendNotificationEmail(email, type);
-        await sendNotificationEmail(target, type);
+
+        // Fetch like and match status for both users in parallel
+        const [userStatus, targetStatus] = await Promise.all([
+          NotificationModel.findOne({ email: email }, { match: 1, _id: 0 }),
+          NotificationModel.findOne({ email: target }, { match: 1, _id: 0 }),
+        ]);
+
+        // Determine if an email should be sent to each user based on the match status
+        const shouldSendEmailToUser = userStatus && userStatus.match;
+        const shouldSendEmailToTarget = targetStatus && targetStatus.match;
+
+        // Send email to the user if their match status is true
+        if (shouldSendEmailToUser) {
+          await sendNotificationEmail(email, type);
+        }
+
+        // Send email to the target if their match status is true
+        if (shouldSendEmailToTarget) {
+          await sendNotificationEmail(target, type);
+        }
+
         // update the current user
         await UserLDMModel.updateOne(
           { email: email },
