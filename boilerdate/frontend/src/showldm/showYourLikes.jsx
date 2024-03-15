@@ -74,7 +74,7 @@ function ShowYourLikes() {
   return (
     <div className="container">
       <Typography variant="h4" gutterBottom>
-        People You Liked
+        Likes Sent
       </Typography>
       {userData.length > 0 ? (
         <Grid container spacing={4}>
