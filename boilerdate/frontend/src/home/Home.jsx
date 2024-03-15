@@ -25,6 +25,18 @@ function Home() {
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25">
         <h2>Home</h2>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Discover"
+            name="Discover"
+            className="btn btn-outline-primary border w-100"
+            onClick={() =>
+              navigate("/discover", { state: { email: email } })
+            }
+          />
+        </div>
+
         <p></p>
         <div className="mb-3">
           <input
@@ -77,6 +89,7 @@ function Home() {
             onClick={handleLogout}
           />
         </div>
+      
         <ToastContainer />
       </div>
     </div>
