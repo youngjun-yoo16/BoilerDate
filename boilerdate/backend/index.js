@@ -449,7 +449,7 @@ app.post("/fetchlikes", async (req, res) => {
   }
 });
 
-app.post("/fetch");
+//app.post("/fetch");
 
 app.post("/fetchusernames", async (req, res) => {
   try {
