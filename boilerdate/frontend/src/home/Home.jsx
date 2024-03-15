@@ -73,7 +73,31 @@ function Home() {
             name="Matches"
             className="btn btn-outline-primary border w-100"
             onClick={() =>
+              navigate("/showmatches", { state: { email: email } })
+            }
+          />
+        </div>
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="People you liked"
+            name="Matches"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
               navigate("/showyourlikes", { state: { email: email } })
+            }
+          />
+        </div>
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="People liked you "
+            name="Matches"
+            className="btn btn-outline-primary border w-100"
+            onClick={() =>
+              navigate("/showpeoplelikedyou", { state: { email: email } })
             }
           />
         </div>

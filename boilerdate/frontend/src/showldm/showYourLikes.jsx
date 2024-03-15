@@ -50,21 +50,6 @@ function ShowYourLikes() {
   }, [email]);
 
   // get profile info and images of each email <- this only finds the info of the crr user
-  /*  useEffect(() => {
-    axios
-      .post("http://localhost:3001/fetchusernames", { emails: likesList })
-      .then((res) => {
-        const userData = res.data;
-        // now user data is mapped as [username : gpa]
-        console.log("this is likedlist for " + email + ": " + likesList);
-        console.log(userData);
-        setUserData(userData);
-      })
-      .catch((err) => {
-        toast.error("Failed to fetch username and gpa!");
-        console.error("Fetch failed for username and gpa");
-      });
-  }, [likesList]);*/
 
   useEffect(() => {
     if (likesList.length > 0) {
@@ -85,10 +70,6 @@ function ShowYourLikes() {
         });
     }
   }, [likesList]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
 
   return (
     <div className="container">
@@ -114,8 +95,8 @@ function ShowYourLikes() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">Like</Button>
-                  <Button size="small">Dislike</Button>
+                  {/*<Button size="small">Like</Button>*/}
+                  {/*<Button size="small">Dislike</Button>*/}
                 </CardActions>
               </Card>
             </Grid>
