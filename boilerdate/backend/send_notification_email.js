@@ -14,8 +14,8 @@ async function sendNotificationEmail(email) {
     mailOptions = {
       from: "boilderdate@gmail.com",
       to: email,
-      subject: "Boilerdate Account Creation Email Verification",
-      text: `Someone liked you!`,
+      subject: "[BoilerDate] New Like Alert: Someone's Interested in You!",
+      text: "You've Caught Someone's Eye! Find Out Who...",
     };
 
     const info = await transporter.sendMail(mailOptions);
