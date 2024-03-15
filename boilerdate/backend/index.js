@@ -363,16 +363,25 @@ app.post("/fetchLikes", async (req, res) => {
   }
 });
 
-app.post("/fetchusername", async (req, res) => {
+app.post("/fetchusernames", async (req, res) => {
   try {
-    const { email } = req.body;
-    const username = await UserModel.findOne({ email: email });
-    const usergpa = await ProfileModel.findOne({ email: email });
-    //console.log(usergpa);
-    res.json([username, usergpa]);
+    const { emails } = req.body;
+    const usernames = await UserModel.find({ email: { $in: emails } });
+    const profiles = await ProfileModel.find({ email: { $in: emails } });
+    let userData = {};
+    usernames.forEach((user) => {
+      const profile = profiles.find((profile) => profile.email === user.email);
+      const username = `${user.firstName} ${user.lastName}`;
+      userData[username] = {
+        email: user.email,
+        gpa: profile.gpa,
+      };
+    });
+    // send back
+    res.json(userData);
   } catch (error) {
-    console.error("Error fetching the username: ", error);
-    res.json({ error: "Failed to fetch usernmae" });
+    console.error("Error fetching the username and gpa ", error);
+    res.json({ error: "Failed to fetch username and gpa from db" });
   }
 });
 
