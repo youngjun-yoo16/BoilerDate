@@ -848,8 +848,8 @@ app.post("/fetchFilteredUsers", async (req, res) => {
       { "matches.emails": 1, _id: 0 }
     );
 
-    // Emails of already matched users
-    const matchedUsersEmails = matchedUsers.matches.emails;
+    // Use optional chaining and provide a default empty array if null
+    const matchedUsersEmails = matchedUsers?.matches.emails || [];
 
     // Step 2: Filter the potential matches further based on the GPA range
     let emailsMatchingGPA;
