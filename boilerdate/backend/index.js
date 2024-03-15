@@ -20,6 +20,7 @@ const path = require("path");
 const fs = require("fs");
 const NotificationModel = require("./models/Notification");
 const PrivacyModel = require("./models/Privacy");
+const SendmailTransport = require("nodemailer/lib/sendmail-transport");
 
 const app = express();
 app.use(express.json());
@@ -238,8 +239,21 @@ app.post("/sendverificationcode", async (req, res) => {
 
 app.post("/sendNotificationEmail", async (req, res) => {
   try {
+    let sendEmail = false;
     const { emailToSend, type } = req.body;
-    const sendEmail = await sendNotificationEmail(emailToSend, type);
+    const likeStatus = await NotificationModel.findOne(
+      { email: emailToSend },
+      { like: 1, match: 1, _id: 0 }
+    );
+
+    if (type === "like" && likeStatus.like) {
+      sendEmail = await sendNotificationEmail(emailToSend, type);
+    }
+
+    if (type === "match" && likeStatus.match) {
+      sendEmail = await sendNotificationEmail(emailToSend, type);
+    }
+
     if (sendEmail) {
       res.json({
         success: true,
@@ -823,7 +837,7 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     );
 
     // Emails of already matched users
-    const matchedUsersEmails = matchedUsers.matches.emails
+    const matchedUsersEmails = matchedUsers.matches.emails;
 
     // Step 2: Filter the potential matches further based on the GPA range
     let emailsMatchingGPA;
@@ -854,7 +868,9 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     }
 
     // Filter out emails of already matched users
-    emailsMatchingGPA = emailsMatchingGPA.filter(email => !matchedUsersEmails.includes(email))
+    emailsMatchingGPA = emailsMatchingGPA.filter(
+      (email) => !matchedUsersEmails.includes(email)
+    );
 
     // Step 3: For each email, find the corresponding user in the profile collection, calculate age, and check gender.
     // Use Promise.all to wait for all async operations to complete

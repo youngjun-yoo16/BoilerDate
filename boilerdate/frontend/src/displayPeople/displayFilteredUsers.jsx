@@ -12,6 +12,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import BlockIcon from '@mui/icons-material/Block';
 import axios from "axios";
 import CardProfile from "./CardProfile.jsx";
+import NotificationModel from "../../../backend/models/Notification.js";
 
 function DisplayFilteredUsers() {
   const [showCardProfile, setShowCardProfile] = useState(false);
