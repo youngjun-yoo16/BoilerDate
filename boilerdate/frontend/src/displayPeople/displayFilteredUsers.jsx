@@ -122,7 +122,7 @@ console.log(peoples.length)
         } catch (err) {
           console.error("Failed to send a notification email.");
         }
-        setLikedUser(peoples[currentIndex].email);
+         setLikedUser(peoples[currentIndex].email);
         
          console.log(likedUser)
         
@@ -184,7 +184,7 @@ console.log(peoples.length)
               </IconButton>
             </div>
           </div>
-          {showCardProfile && <CardProfile email={likedUser}/>}
+          {showCardProfile && <CardProfile email={peoples[currentIndex].email}/>}
         </TinderCard>
       ))}
 
