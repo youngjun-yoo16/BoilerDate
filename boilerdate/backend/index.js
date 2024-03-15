@@ -377,6 +377,12 @@ app.post("/manageldm", async (req, res) => {
         email: target,
         "liked.emails": email,
       });
+
+      const updateReceivedLikes = await UserLDMModel.updateOne(
+        { email: target },
+        { $addToSet: { "receivedlikes.emails": email } }
+      );
+
       if (isMatch) {
         const type = "match";
         console.log("match found");
@@ -406,7 +412,7 @@ app.post("/manageldm", async (req, res) => {
   }
 });
 
-app.post("/fetchLikes", async (req, res) => {
+app.post("/fetchlikes", async (req, res) => {
   try {
     const { email } = req.body;
     const likesList = await UserLDMModel.findOne({ email: email });
@@ -417,6 +423,8 @@ app.post("/fetchLikes", async (req, res) => {
     res.json({ error: "Failed to fetch likes" });
   }
 });
+
+app.post("/fetch");
 
 app.post("/fetchusernames", async (req, res) => {
   try {
