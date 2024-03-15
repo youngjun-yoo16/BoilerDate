@@ -8,10 +8,11 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import HandleUserLikesAndDislikes from "./HandleLikesDislikes";
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
-import BlockIcon from '@mui/icons-material/Block';
+import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
+import BlockIcon from "@mui/icons-material/Block";
 import axios from "axios";
 import CardProfile from "./CardProfile.jsx";
+import Block from "./HandleBlock.js";
 
 function DisplayFilteredUsers() {
   const [showCardProfile, setShowCardProfile] = useState(false);
@@ -142,6 +143,10 @@ function DisplayFilteredUsers() {
       }
       // HandleUserLikesAndDislikes(temp_email, peoples[0].email, false);
       //HandleUserLikesAndDislikes(temp_email, peoples[1].email, false);
+    } else if (buttonType === "block") {
+      await childRefs[currentIndex].current.swipe("left");
+      const emailToBlock = peoples[currentIndex].email;
+      Block(email, emailToBlock);
     }
   };
 

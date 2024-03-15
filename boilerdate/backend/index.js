@@ -20,6 +20,7 @@ const path = require("path");
 const fs = require("fs");
 const NotificationModel = require("./models/Notification");
 const PrivacyModel = require("./models/Privacy");
+const BlockModel = require("./models/Block");
 
 const app = express();
 app.use(express.json());
@@ -92,6 +93,7 @@ app.post("/deleteAccount", async (req, res) => {
     await UserModel.deleteOne({ email: email });
     await ProfileModel.deleteOne({ email: email });
     await FilterModel.deleteOne({ email: email });
+    await PrivacyModel.deleteOne({ email: email });
     await UserLDMModel.deleteOne({ email: email });
     res.status(200).json({
       message: "Account and all associated data successfully deleted.",
@@ -452,6 +454,21 @@ app.post("/deleteUnmatched", async (req, res) => {
     }
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/block", async (req, res) => {
+  try {
+    const { email, target } = req.body;
+
+    await BlockModel.findOneAndUpdate(
+      { email: email },
+      { $addToSet: { "blocks.emails": target } },
+      { upsert: true }
+    );
+    console.log("email: " + email + " | target: " + target);
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
