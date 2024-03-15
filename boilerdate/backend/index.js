@@ -19,6 +19,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const NotificationModel = require("./models/Notification");
+const PrivacyModel = require("./models/Privacy");
 
 const app = express();
 app.use(express.json());
@@ -95,6 +96,47 @@ app.post("/deleteAccount", async (req, res) => {
     res.status(200).json({
       message: "Account and all associated data successfully deleted.",
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/privacy", async (req, res) => {
+  try {
+    const {
+      email,
+      gpa,
+      major,
+      degree,
+      interests,
+      lifestyle,
+      height,
+      personality,
+      relationship,
+      citizenship,
+      skills,
+      employment,
+      career,
+      github,
+      linkedin,
+    } = req.body;
+    console.log(email);
+
+    await PrivacyModel.findOne({ email: email }).then((privacy) => {
+      if (privacy) {
+        PrivacyModel.deleteOne({ email: email });
+        /*PrivacyModel.deleteOne({ email: email }).then((result) => {
+          console.log(result);
+        });*/
+        console.log("privacy deleted");
+      } else {
+        console.log("privacy does not exist");
+      }
+    });
+
+    await PrivacyModel.create(req.body)
+      .then((setupinfo) => res.json(setupinfo))
+      .catch((err) => res.json(err));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -325,10 +367,10 @@ app.post("/manageldm", async (req, res) => {
         "liked.emails": email,
       });
       if (isMatch) {
-        const type = "match"
+        const type = "match";
         console.log("match found");
-        await sendNotificationEmail(email, type)
-        await sendNotificationEmail(target, type)
+        await sendNotificationEmail(email, type);
+        await sendNotificationEmail(target, type);
         // update the current user
         await UserLDMModel.updateOne(
           { email: email },
@@ -363,16 +405,25 @@ app.post("/fetchLikes", async (req, res) => {
   }
 });
 
-app.post("/fetchusername", async (req, res) => {
+app.post("/fetchusernames", async (req, res) => {
   try {
-    const { email } = req.body;
-    const username = await UserModel.findOne({ email: email });
-    const usergpa = await ProfileModel.findOne({ email: email });
-    //console.log(usergpa);
-    res.json([username, usergpa]);
+    const { emails } = req.body;
+    const usernames = await UserModel.find({ email: { $in: emails } });
+    const profiles = await ProfileModel.find({ email: { $in: emails } });
+    let userData = {};
+    usernames.forEach((user) => {
+      const profile = profiles.find((profile) => profile.email === user.email);
+      const username = `${user.firstName} ${user.lastName}`;
+      userData[username] = {
+        email: user.email,
+        gpa: profile.gpa,
+      };
+    });
+    // send back
+    res.json(userData);
   } catch (error) {
-    console.error("Error fetching the username: ", error);
-    res.json({ error: "Failed to fetch usernmae" });
+    console.error("Error fetching the username and gpa ", error);
+    res.json({ error: "Failed to fetch username and gpa from db" });
   }
 });
 
