@@ -31,9 +31,7 @@ function Home() {
             value="Discover"
             name="Discover"
             className="btn btn-outline-primary border w-100"
-            onClick={() =>
-              navigate("/discover", { state: { email: email } })
-            }
+            onClick={() => navigate("/discover", { state: { email: email } })}
           />
         </div>
 
@@ -89,7 +87,7 @@ function Home() {
             onClick={handleLogout}
           />
         </div>
-      
+
         <ToastContainer />
       </div>
     </div>
