@@ -107,13 +107,14 @@ function DisplayFilteredUsers() {
   };
 
   const swipe = async (buttonType) => {
-    setShowCardProfile(false); 
+    setShowCardProfile(false);
     //console.log(peoples[currentIndex].email)
     if (buttonType === "like") {
       if (canSwipe && currentIndex < peoples.length) {
         try {
-          const type = "like"
+          const type = "like";
           const emailToSend = peoples[currentIndex].email;
+          HandleUserLikesAndDislikes(email, emailToSend, true);
           //console.log(peoples[currentIndex].email)
           const response = await axios.post(
             "http://localhost:3001/sendNotificationEmail",
@@ -123,7 +124,7 @@ function DisplayFilteredUsers() {
         } catch (err) {
           console.error("Failed to send a notification email.");
         }
-         setLikedUser(peoples[currentIndex].email);
+        setLikedUser(peoples[currentIndex].email);
 
         console.log(likedUser);
 
@@ -135,6 +136,8 @@ function DisplayFilteredUsers() {
     } else if (buttonType === "dislike") {
       if (canSwipe && currentIndex < peoples.length) {
         await childRefs[currentIndex].current.swipe("left"); // Swipe the card!
+        const emailToSend = peoples[currentIndex].email;
+        HandleUserLikesAndDislikes(email, emailToSend, true);
       }
       // HandleUserLikesAndDislikes(temp_email, peoples[0].email, false);
       //HandleUserLikesAndDislikes(temp_email, peoples[1].email, false);
@@ -158,14 +161,13 @@ function DisplayFilteredUsers() {
     <div className="tinderCard_container">
       {peoples.map((person, index) => (
         <TinderCard
-        flickOnSwipe = {false}
+          flickOnSwipe={false}
           key={person.firstName}
           ref={childRefs[index]}
           className="swipe"
           preventSwipe={[`up`, `down`]}
           onSwipe={(dir) => swiped(dir, person.firstName, index)}
           onCardLeftScreen={() => outOfFrame(person.firstName, index)}
-         
         >
           <div
             className="card filter"
@@ -186,9 +188,10 @@ function DisplayFilteredUsers() {
               </IconButton>
             </div>
           </div>
-          {showCardProfile && <CardProfile email={peoples[currentIndex].email}/>}
+          {showCardProfile && (
+            <CardProfile email={peoples[currentIndex].email} />
+          )}
         </TinderCard>
-        
       ))}
 
       <div className="swipeButton">

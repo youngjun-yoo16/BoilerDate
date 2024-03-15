@@ -15,6 +15,8 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 
 function ShowYourLikes() {
   // required for keeping login status
@@ -29,7 +31,7 @@ function ShowYourLikes() {
 
   useEffect(() => {
     if (email === undefined) {
-      //navigate(-1);
+      navigate(-1);
     }
   });
 
@@ -50,23 +52,6 @@ function ShowYourLikes() {
   // get profile info and images of each email <- this only finds the info of the crr user
   /*  useEffect(() => {
     axios
-      .post("http://localhost:3001/fetchusername", { email })
-      .then((res) => {
-        const username = res.data[0];
-        const gpa = res.data[1];
-        setUserFirstName(username.firstName);
-        setUserLastName(username.lastName);
-        setUserGPA(gpa.gpa);
-        //console.log(userGPA);
-      })
-      .catch((err) => {
-        toast.error("Failed to fetch username and gpa!");
-        console.error("Fetch failed for username and gpa");
-      });
-  });*/
-
-  useEffect(() => {
-    axios
       .post("http://localhost:3001/fetchusernames", { emails: likesList })
       .then((res) => {
         const userData = res.data;
@@ -79,10 +64,27 @@ function ShowYourLikes() {
         toast.error("Failed to fetch username and gpa!");
         console.error("Fetch failed for username and gpa");
       });
-  }, [likesList]);
+  }, [likesList]);*/
 
-  // display each card accordingly
-  const imageUrl = `http://localhost:3001/image/${email}`;
+  useEffect(() => {
+    if (likesList.length > 0) {
+      axios
+        .post("http://localhost:3001/fetchusernames", { emails: likesList })
+        .then((res) => {
+          // restructure userData to array
+          setUserData(
+            Object.entries(res.data).map(([username, { email, gpa }]) => ({
+              username,
+              email,
+              gpa,
+            }))
+          );
+        })
+        .catch((err) => {
+          toast.error("Failed to fetch usernames and GPAs!");
+        });
+    }
+  }, [likesList]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -90,27 +92,40 @@ function ShowYourLikes() {
 
   return (
     <div className="container">
-      <div>
-        <Card sx={{ maxWidth: 300 }}>
-          <CardMedia
-            sx={{ height: 300 }}
-            image={imageUrl}
-            title="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Elon musk
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Meta intern
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Like</Button>
-            <Button size="small">Dislike</Button>
-          </CardActions>
-        </Card>
-      </div>
+      <Typography variant="h4" gutterBottom>
+        People You Liked
+      </Typography>
+      {userData.length > 0 ? (
+        <Grid container spacing={4}>
+          {userData.map((user, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Card sx={{ maxWidth: 160 }}>
+                <CardMedia
+                  sx={{ height: 130 }}
+                  image={`http://localhost:3001/image/${user.email}`}
+                  title={user.username}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {user.username}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    GPA: {user.gpa}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small">Like</Button>
+                  <Button size="small">Dislike</Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Typography variant="h5" textAlign="center" marginTop={5}>
+          You didn't like anyone
+        </Typography>
+      )}
     </div>
   );
 }
