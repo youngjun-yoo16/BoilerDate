@@ -37,8 +37,11 @@
 
 .arrowButton {
   position: fixed;
-  bottom: 9px;
-  right: 5px;
+  top: 5px;
+  right: 9px;
+ 
+    z-index: 1000; /* Adjust the value as needed */
+  
 }
 
 .close_button {
