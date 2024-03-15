@@ -69,21 +69,8 @@ const navigate = useNavigate();
 
   return (
     <div className="container">
-      <Carousel data-bs-theme="dark">
-        <Carousel.Item>
-          <img className="d-block w-100" src={imageUrl} alt="First slide" />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className="d-block w-100" src={imageUrl} alt="Second slide" />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className="d-block w-100" src={imageUrl} alt="Third slide" />
-        </Carousel.Item>
-      </Carousel>
-
-      <h1 className="header-text">
-        {fName} {lName}, {ages}
-      </h1>
+      
+     
       <form onSubmit={handleSubmit}>
         <div className="card">
           <div class="card-header">Looking for</div>
