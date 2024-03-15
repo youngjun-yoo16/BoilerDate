@@ -374,13 +374,13 @@ app.post("/manageldm", async (req, res) => {
         // update the current user
         await UserLDMModel.updateOne(
           { email: email },
-          { $addToSet: { matches: target } }
+          { $addToSet: { "matches.emails": target } }
         );
 
         // update the matched user
         await UserLDMModel.updateOne(
-          { email: email },
-          { $addToSet: { matches: email } }
+          { email: target },
+          { $addToSet: { "matches.emails": email } }
         );
 
         // TODO: if dislike, remove from match and add to dislike
