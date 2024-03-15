@@ -73,12 +73,11 @@ function DisplayFilteredUsers() {
     setChildRefs(peoples.map(() => React.createRef()));
   }, [peoples]);
 
-  
-console.log(peoples.length)
- 
-//const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
- // const [lastDirection, setLastDirecton] = useState();
- 
+  console.log(peoples.length);
+
+  //const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
+  // const [lastDirection, setLastDirecton] = useState();
+
   console.log(childRefs);
 
   const updateCurrentIndex = (val) => {
@@ -108,27 +107,28 @@ console.log(peoples.length)
   };
 
   const swipe = async (buttonType) => {
+    setShowCardProfile(false); 
     //console.log(peoples[currentIndex].email)
     if (buttonType === "like") {
       if (canSwipe && currentIndex < peoples.length) {
         try {
+          const type = "like"
           const emailToSend = peoples[currentIndex].email;
           //console.log(peoples[currentIndex].email)
           const response = await axios.post(
             "http://localhost:3001/sendNotificationEmail",
-            { emailToSend }
+            { emailToSend, type }
           );
           console.log(response);
         } catch (err) {
           console.error("Failed to send a notification email.");
         }
          setLikedUser(peoples[currentIndex].email);
-        
-         console.log(likedUser)
-        
-        await childRefs[currentIndex].current.swipe('right') // Swipe the card!
-       console.log(peoples[currentIndex].email)
-       
+
+        console.log(likedUser);
+
+        await childRefs[currentIndex].current.swipe("right"); // Swipe the card!
+        console.log(peoples[currentIndex].email);
       }
       //HandleUserLikesAndDislikes(temp_email, peoples[0].email, true);
       // HandleUserLikesAndDislikes(temp_email, peoples[1].email, true);
@@ -142,7 +142,7 @@ console.log(peoples.length)
   };
 
   const handleSubmit = (e) => {
-     if (e === "arrow") {
+    if (e === "arrow") {
       setShowCardProfile((prev) => !prev);
     }
   };

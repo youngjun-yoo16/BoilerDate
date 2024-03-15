@@ -9,17 +9,27 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendNotificationEmail(email) {
+async function sendNotificationEmail(email, type) {
   try {
+    const subject = "";
+    const text = "";
+    type === "like"
+      ? ((subject =
+          "[BoilerDate] New Like Alert: Someone's Interested in You!"),
+        (text = "You've Caught Someone's Eye! Find Out Who..."))
+      : ((subject =
+          "[BoilerDate] Match Made: Discover Your Latest Connection!"),
+        (text = "Exciting News: You Have a New Match! See Who It Is..."));
+
     mailOptions = {
       from: "boilderdate@gmail.com",
       to: email,
-      subject: "Boilerdate Account Creation Email Verification",
-      text: `Someone liked you!`,
+      subject: subject,
+      text: text,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log("Like notification sent: ", info.response);
+    console.log(`${type} notification sent: `, info.response);
 
     return true;
   } catch (error) {
