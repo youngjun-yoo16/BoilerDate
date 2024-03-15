@@ -11,6 +11,9 @@ const UserLDMSchema = new mongoose.Schema({
   matches: {
     emails: [String],
   },
+  receivedlikes: {
+    emails: [String],
+  },
 });
 
 const UserLDMModel = mongoose.model("user_like_dislike_matches", UserLDMSchema);

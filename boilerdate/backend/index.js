@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const UserModel = require("./models/User");
 const CodeModel = require("./models/Code");
 const ProfileModel = require("./models/Profile");
-const imageModel = require("./models/Image");
+const ImageModel = require("./models/Image");
 const UserLDMModel = require("./models/UserLDM");
 const FilterModel = require("./models/Filter");
 const {
@@ -90,11 +90,19 @@ app.post("/fetchProfile", async (req, res) => {
 app.post("/deleteAccount", async (req, res) => {
   try {
     const { email } = req.body;
-    await UserModel.deleteOne({ email: email });
-    await ProfileModel.deleteOne({ email: email });
-    await FilterModel.deleteOne({ email: email });
-    await PrivacyModel.deleteOne({ email: email });
-    await UserLDMModel.deleteOne({ email: email });
+
+    // Execute all deletion operations in parallel
+    await Promise.all([
+      UserModel.deleteOne({ email }),
+      ProfileModel.deleteOne({ email }),
+      FilterModel.deleteOne({ email }),
+      PrivacyModel.deleteOne({ email }),
+      UserLDMModel.deleteOne({ email }),
+      NotificationModel.deleteOne({ email }),
+      ImageModel.deleteOne({ email }),
+      BlockModel.deleteOne({ email }),
+    ]);
+
     res.status(200).json({
       message: "Account and all associated data successfully deleted.",
     });
@@ -302,8 +310,7 @@ app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
   };
 
   // insert photo to mongodb and return success true
-  await imageModel
-    .create(obj)
+  await ImageModel.create(obj)
     .then(() => {
       res.status(200).json({
         success: true,
@@ -330,7 +337,7 @@ app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
 
 app.get("/image/:email", async (req, res) => {
   try {
-    const img = await imageModel.findOne({ email: req.params.email });
+    const img = await ImageModel.findOne({ email: req.params.email });
     if (!img || !img.img.data) {
       return res.status(404).send();
     }
@@ -377,11 +384,35 @@ app.post("/manageldm", async (req, res) => {
         email: target,
         "liked.emails": email,
       });
+
+      const updateReceivedLikes = await UserLDMModel.updateOne(
+        { email: target },
+        { $addToSet: { "receivedlikes.emails": email } }
+      );
+
       if (isMatch) {
         const type = "match";
-        console.log("match found");
-        await sendNotificationEmail(email, type);
-        await sendNotificationEmail(target, type);
+
+        // Fetch like and match status for both users in parallel
+        const [userStatus, targetStatus] = await Promise.all([
+          NotificationModel.findOne({ email: email }, { match: 1, _id: 0 }),
+          NotificationModel.findOne({ email: target }, { match: 1, _id: 0 }),
+        ]);
+
+        // Determine if an email should be sent to each user based on the match status
+        const shouldSendEmailToUser = userStatus && userStatus.match;
+        const shouldSendEmailToTarget = targetStatus && targetStatus.match;
+
+        // Send email to the user if their match status is true
+        if (shouldSendEmailToUser) {
+          await sendNotificationEmail(email, type);
+        }
+
+        // Send email to the target if their match status is true
+        if (shouldSendEmailToTarget) {
+          await sendNotificationEmail(target, type);
+        }
+
         // update the current user
         await UserLDMModel.updateOne(
           { email: email },
@@ -406,7 +437,7 @@ app.post("/manageldm", async (req, res) => {
   }
 });
 
-app.post("/fetchLikes", async (req, res) => {
+app.post("/fetchlikes", async (req, res) => {
   try {
     const { email } = req.body;
     const likesList = await UserLDMModel.findOne({ email: email });
@@ -417,6 +448,8 @@ app.post("/fetchLikes", async (req, res) => {
     res.json({ error: "Failed to fetch likes" });
   }
 });
+
+//app.post("/fetch");
 
 app.post("/fetchusernames", async (req, res) => {
   try {

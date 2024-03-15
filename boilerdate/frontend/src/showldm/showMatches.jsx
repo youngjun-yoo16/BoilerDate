@@ -72,7 +72,7 @@ function ShowMatches() {
   return (
     <div className="container">
       <Typography variant="h4" gutterBottom>
-        People Matched With You
+       Your Matches
       </Typography>
       {userData.length > 0 ? (
         <Grid container spacing={4}>
@@ -102,7 +102,7 @@ function ShowMatches() {
         </Grid>
       ) : (
         <Typography variant="h5" textAlign="center" marginTop={5}>
-          You have no match
+          You have no matches
         </Typography>
       )}
     </div>

@@ -8,5 +8,5 @@ const imageSchema = new mongoose.Schema({
   },
 });
 
-const imageModel = mongoose.model("Profile_Images", imageSchema);
-module.exports = imageModel;
+const ImageModel = mongoose.model("Profile_Images", imageSchema);
+module.exports = ImageModel;
