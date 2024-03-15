@@ -110,6 +110,7 @@ function DisplayFilteredUsers() {
 
   const swipe = async (buttonType) => {
     setShowCardProfile(false);
+ 
     //console.log(peoples[currentIndex].email)
     if (buttonType === "like") {
       if (canSwipe && currentIndex < peoples.length) {
@@ -165,6 +166,16 @@ function DisplayFilteredUsers() {
 
   return (
     <div className="tinderCard_container">
+           <div className="mb-4">
+          <input
+            type="button"
+            value="Home"
+            name="home"
+            className="btn btn-outline-dark border w-100"
+            onClick={() => navigate("/home", { state: { email: email } })}
+          />
+        </div>
+
       {peoples.map((person, index) => (
         <TinderCard
           flickOnSwipe={false}
@@ -226,17 +237,8 @@ function DisplayFilteredUsers() {
         </IconButton>
       </div>
       
-      <div className="message">{message}</div>
 
-      <div className="mb-4">
-          <input
-            type="button"
-            value="Home"
-            name="home"
-            className="btn btn-outline-dark border w-100"
-            onClick={() => navigate("/home", { state: { email: email } })}
-          />
-        </div>
+   
     </div>
   );
 }

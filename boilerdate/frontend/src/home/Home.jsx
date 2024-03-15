@@ -81,7 +81,7 @@ function Home() {
         <div className="mb-3">
           <input
             type="button"
-            value="People you liked"
+            value="Likes Sent"
             name="Matches"
             className="btn btn-outline-dark border w-100"
             onClick={() =>
@@ -93,7 +93,7 @@ function Home() {
         <div className="mb-3">
           <input
             type="button"
-            value="People liked you "
+            value="Likes Received"
             name="Matches"
             className="btn btn-outline-primary border w-100"
             onClick={() =>
