@@ -158,12 +158,14 @@ function DisplayFilteredUsers() {
     <div className="tinderCard_container">
       {peoples.map((person, index) => (
         <TinderCard
+        flickOnSwipe = {false}
           key={person.firstName}
           ref={childRefs[index]}
           className="swipe"
           preventSwipe={[`up`, `down`]}
           onSwipe={(dir) => swiped(dir, person.firstName, index)}
           onCardLeftScreen={() => outOfFrame(person.firstName, index)}
+         
         >
           <div
             className="card filter"
@@ -186,6 +188,7 @@ function DisplayFilteredUsers() {
           </div>
           {showCardProfile && <CardProfile email={peoples[currentIndex].email}/>}
         </TinderCard>
+        
       ))}
 
       <div className="swipeButton">
