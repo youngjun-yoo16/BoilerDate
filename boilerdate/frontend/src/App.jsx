@@ -102,7 +102,7 @@ const App = () => {
           <Route path="/settings/name" element={<Name />}></Route>
           <Route path="/settings/gender" element={<Gender />}></Route>
           <Route path="/settings/birthday" element={<Birthday />}></Route>
-          <Route path="/matches" element={<DisplayFilteredUsers />}></Route>
+          <Route path="/discover" element={<DisplayFilteredUsers />}></Route>
           <Route path="/filter" element={<Filter />}></Route>
           <Route path="/settings/delete" element={<DeleteAccount />}></Route>
           <Route path="/showmatches" element={<ShowMatches />}></Route>

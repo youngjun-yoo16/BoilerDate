@@ -12,10 +12,10 @@ import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import axios from "axios";
 
 function DisplayFilteredUsers() {
-  //const { state } = useLocation();
-  //const { email } = state || {};
-    // const navigate = useNavigate();
-  const email = "yoo156@purdue.edu"
+  const { state } = useLocation();
+  const { email } = state || {};
+   const navigate = useNavigate();
+
   // array of users
   // will be getting from the database later and store it here
   
