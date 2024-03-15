@@ -19,6 +19,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const NotificationModel = require("./models/Notification");
+const PrivacyModel = require("./models/Privacy");
 
 const app = express();
 app.use(express.json());
@@ -95,6 +96,28 @@ app.post("/deleteAccount", async (req, res) => {
     res.status(200).json({
       message: "Account and all associated data successfully deleted.",
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/privacy", (req, res) => {
+  try {
+    const { email } = req.params.email;
+    res.json(email);
+
+    PrivacyModel.findOne({ email: email }).then((privacy) => {
+      if (privacy) {
+        PrivacyModel.deleteOne({ email: email });
+        res.json("privacy deleted");
+      } else {
+        res.json("privacy does not exist");
+      }
+    });
+
+    PrivacyModel.create(req.body)
+      .then((setupinfo) => res.json(setupinfo))
+      .catch((err) => res.json(err));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
