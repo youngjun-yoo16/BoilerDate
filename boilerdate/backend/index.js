@@ -491,29 +491,26 @@ app.post("/deleteUnmatched", async (req, res) => {
       { $pull: { "matches.emails": email } }
     );
 
-    // Check the results to see if the documents were found and updated
-    if (result1.nModified > 0 && result2.nModified > 0) {
-      console.log("Both documents updated successfully:", result1, result2);
+    // Check the results to see if the documents were found (matched)
+    if (result1.matchedCount > 0 && result2.matchedCount > 0) {
+      console.log("Both documents found:", result1, result2);
       res
         .status(200)
         .json({ message: "Unmatched users removed successfully." });
-    } else if (result1.nModified > 0 || result2.nModified > 0) {
-      // Partial success: Only one of the emails was found and removed
+    } else if (result1.matchedCount > 0 || result2.matchedCount > 0) {
+      // Partial success: Only one of the documents was found
       console.log(
-        "Partial update. One of the emails may not exist or was not found in matches."
+        "Partial update. One of the documents may not have been matched."
       );
       res.status(207).json({
         message:
-          "Partial success. One of the users may not exist or match email not in list.",
+          "Partial success. One of the documents may not have been matched.",
       });
     } else {
-      // No documents were modified: The emails were not found in the matches or the users do not exist
-      console.log(
-        "No changes made. The users may not exist or the emails were not found in matches."
-      );
+      // No documents were matched
+      console.log("No documents matched the criteria.");
       res.status(404).json({
-        message:
-          "No changes made. Users not found or match emails not in list.",
+        message: "No documents matched the criteria.",
       });
     }
   } catch (error) {
