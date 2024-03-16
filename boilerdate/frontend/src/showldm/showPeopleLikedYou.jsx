@@ -57,10 +57,11 @@ function ShowPeopleLikedYou() {
         .then((res) => {
           // restructure userData to array
           setUserData(
-            Object.entries(res.data).map(([username, { email, gpa }]) => ({
+            Object.entries(res.data).map(([username, { email, gpa, dob }]) => ({
               username,
               email,
               gpa,
+              dob,
             }))
           );
         })
