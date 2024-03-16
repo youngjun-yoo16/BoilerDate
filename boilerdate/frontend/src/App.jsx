@@ -52,6 +52,7 @@ import ProfileSettings from "./settings/ProfileSettings";
 import CardProfilePeopleLiked from "./showldm/CardProfilePeopleLiked";
 import Significant from "./settings/Significant";
 import ShowBlocks from "./showldm/showBlocks";
+import ShowPages from "./showldm/ShowPages";
 
 const App = () => {
   return (
@@ -127,6 +128,7 @@ const App = () => {
             path="/showpeoplelikedyou/profilecard"
             element={<CardProfilePeopleLiked />}
           ></Route>
+          <Route path="/showpages" element={<ShowPages />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
