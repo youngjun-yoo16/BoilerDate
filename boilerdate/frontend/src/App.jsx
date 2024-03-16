@@ -45,14 +45,13 @@ import DeleteAccount from "./settings/DeleteAccount";
 import Notifications from "./settings/Notifications";
 import ShowMatches from "./relationships/showMatches";
 import ShowYourLikes from "./relationships/showYourLikes";
-
 import ShowPeopleLikedYou from "./relationships/showPeopleLikedYou";
 import Privacy from "./Privacy";
 import ProfileSettings from "./settings/ProfileSettings";
 import CardProfilePeopleLiked from "./relationships/CardProfilePeopleLiked";
 import Significant from "./settings/Significant";
-import ShowBlocks from "./showldm/showBlocks";
-import ShowPages from "./showldm/ShowPages";
+import ShowBlocks from "./relationships/showBlocks";
+import ShowPages from "./relationships/ShowPages";
 
 const App = () => {
   return (
