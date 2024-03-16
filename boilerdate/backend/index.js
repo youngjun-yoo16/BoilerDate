@@ -400,12 +400,13 @@ app.get("/significant/:email", async (req, res) => {
       return res.status(404).send();
     }
 
-    // send back
+    // send back, prompting user to download the file
+    res.setHeader("Content-Disposition", "attachment; filename=" + pdf.name);
     res.contentType(pdf.pdfFile.contentType);
     res.send(pdf.pdfFile);
   } catch (error) {
     console.error(error);
-    res.status(500).send("GET email failed");
+    res.status(500).send("GET pdfFile failed");
   }
 });
 

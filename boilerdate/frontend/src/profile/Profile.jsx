@@ -67,6 +67,32 @@ function ProfilePage() {
     e.preventDefault();
   };
 
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(`/significant/${email}`);
+
+      if (!response.ok) {
+        throw new Error("PDF file fetch failed");
+      }
+
+      // create a temporary tag and trigger downlaod
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+
+      // Set the downloadable filename to the following text
+      link.setAttribute("download", "You will be surprised!");
+      document.body.appendChild(link);
+
+      // manually click the link
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="container">
       <Carousel data-bs-theme="dark">
@@ -111,9 +137,9 @@ function ProfilePage() {
           <div class="card-header">Check this out!</div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              {/* TODO: display the filename and let download be clickable*/}
+              {/* TODO: display the filename and let download be clickable; change click this to filename*/}
+              <button onClick={handleDownload}>Click this!</button>
               {/* TODO: make sure it doesnt display if there is none*/}
-              File: {convertHeight(profile.height)}
             </li>
           </ul>
         </div>
