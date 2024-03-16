@@ -63,6 +63,8 @@ const navigate = useNavigate();
       
      
       <form onSubmit={handleSubmit}>
+
+        {person.relationship && (
         <div className="card">
           <div class="card-header">Looking for</div>
           <ul class="list-group list-group-flush">
@@ -71,7 +73,8 @@ const navigate = useNavigate();
             </li>
           </ul>
         </div>
-
+        )}
+        
         <div class="card">
           <div class="card-body">
             <blockquote class="blockquote mb-0">
@@ -84,36 +87,55 @@ const navigate = useNavigate();
             </blockquote>
           </div>
         </div>
-
+          
         <div className="card">
           <div class="card-header">Basics</div>
           <ul class="list-group list-group-flush">
+            {person.height && (
             <li class="list-group-item">
               Height: {convertHeight(person.height)}
             </li>
+            )}
+            {person.personality && (
             <li class="list-group-item">
               Personality Type: {person.personality}
             </li>
+            )}
+            {person.citizenship && (
             <li class="list-group-item">Citizenship: {person.citizenship}</li>
+            )}
           </ul>
         </div>
 
         <div className="card">
           <div class="card-header">Academics & Career</div>
           <ul class="list-group list-group-flush">
+            {person.major && (
             <li class="list-group-item">Major: {person.major}</li>
+            )}
+            {person.degree && (
             <li class="list-group-item">Degree: {person.degree}</li>
+            )}
+            {person.gpa && (
             <li class="list-group-item">GPA: {person.gpa}</li>
+            )}
+            {person.employment_history && (
             <li class="list-group-item">
               Employment History: {person.employment_history}
             </li>
+            )}
+            {person.skills && (
             <li class="list-group-item">Skills: {person.skills}</li>
+            )}
+            {person.career_goals && (
             <li class="list-group-item">
               Career Goals: {person.career_goals}
             </li>
+            )}
           </ul>
         </div>
-
+        
+        {person.interests && (
         <div className="card">
           <div class="card-header">Interests</div>
           <ul class="list-group list-group-flush">
@@ -126,7 +148,9 @@ const navigate = useNavigate();
             </div>
           </ul>
         </div>
+        )}
 
+        {person.lifestyle && (
         <div className="card">
           <div class="card-header">Lifestyle</div>
           <ul class="list-group list-group-flush">
@@ -174,12 +198,17 @@ const navigate = useNavigate();
             </li>
           </ul>
         </div>
+        )}
 
         <div className="card">
           <div class="card-header">Links</div>
           <ul class="list-group list-group-flush">
+            {person.github && (
             <li class="list-group-item">GitHub: {person.github}</li>
+            )}
+            {person.linkedin && (
             <li class="list-group-item">LinkedIn: {person.linkedin}</li>
+            )}
           </ul>
         </div>
 
