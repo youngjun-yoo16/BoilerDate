@@ -21,6 +21,7 @@ const fs = require("fs");
 const NotificationModel = require("./models/Notification");
 const PrivacyModel = require("./models/Privacy");
 const BlockModel = require("./models/BlockReport");
+const PdfModel = require("./models/PdfFile");
 
 const app = express();
 app.use(express.json());
@@ -330,7 +331,7 @@ app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
         throw err;
       }
     } else {
-      console.log("File deleted");
+      console.log("Image File deleted");
     }
   });
 });
@@ -346,7 +347,65 @@ app.get("/image/:email", async (req, res) => {
     res.send(img.img.data);
   } catch (error) {
     console.error(error);
-    res.status(500).send("server error?");
+    res.status(500).send("GET image failed");
+  }
+});
+
+app.post("/uploadPDFfile", upload.single("pdfFile"), async (req, res) => {
+  // define temporary filepath
+  temp_pdf_file_path = path.join(__dirname, "/uploads/", req.file.filename);
+
+  // define object to upload
+  const obj = {
+    name: req.file.filename,
+    email: req.body.email,
+    pdfFile: {
+      data: fs.readFileSync(temp_pdf_file_path),
+      contentType: req.file.mimetype,
+    },
+  };
+
+  // insert pdf file to mongodb and return success true
+  await PdfModel.create(obj)
+    .then(() => {
+      res.status(200).json({
+        success: true,
+        message: "pdf file upload completed",
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
+
+  // delete uploaded file in temp folder
+  fs.unlink(temp_pdf_file_path, (err) => {
+    if (err) {
+      if (err.code == "ENOENT") {
+        console.error("No such file exists.");
+      } else {
+        throw err;
+      }
+    } else {
+      console.log("PDF File deleted");
+    }
+  });
+});
+
+app.get("/significant/:email", async (req, res) => {
+  try {
+    // search for the pdf file with given email
+    const pdf = await PdfModel.findOne({ email: req.params.email });
+    if (!pdf || !pdf.pdfFile.data) {
+      return res.status(404).send();
+    }
+
+    // send back
+    res.contentType(pdf.pdfFile.contentType);
+    res.send(pdf.pdfFile);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("GET email failed");
   }
 });
 
