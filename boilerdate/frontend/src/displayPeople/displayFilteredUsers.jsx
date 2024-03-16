@@ -236,9 +236,6 @@ function DisplayFilteredUsers() {
           />
         </IconButton>
       </div>
-      
-
-   
     </div>
   );
 }
