@@ -69,10 +69,16 @@ function ShowMatches() {
     }
   }, [matchesList]);
 
+  function handleClick(e) {
+    e.preventDefault();
+    console.log("Unmatched option selected\n");
+  }
+
   return (
     <div className="container">
       <Typography variant="h4" gutterBottom>
-       Your Matches
+        <br></br>
+        Your Matches
       </Typography>
       {userData.length > 0 ? (
         <Grid container spacing={4}>
@@ -93,8 +99,13 @@ function ShowMatches() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  {/*<Button size="small">Like</Button>*/}
-                  {/*<Button size="small">Dislike</Button>*/}
+                  <Button
+                    size="small"
+                    onCLick={handleClick}
+                    className="btn btn-outline-primary border w-100"
+                  >
+                    Chat
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>
