@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Container } from "react-bootstrap";
-import { ToastContainer, toast } from "react-toastify";
-import Carousel from "react-bootstrap/Carousel";
+import { toast } from "react-toastify";
 import TinderCard from "react-tinder-card";
 import "./displayFilteredUser.css";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import HandleUserLikesAndDislikes from "./HandleLikesDislikes";
+import HandleUserLikesAndDislikes from "./HandleLikesDislikes.js";
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import BlockIcon from "@mui/icons-material/Block";
 import ReportIcon from "@mui/icons-material/Report";
@@ -16,6 +14,8 @@ import axios from "axios";
 import CardProfile from "./CardProfile.jsx";
 import Block from "./HandleBlock.js";
 import Report from "./HandleReport.js";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 function DisplayFilteredUsers() {
   const [showCardProfile, setShowCardProfile] = useState(false);
@@ -111,6 +111,46 @@ function DisplayFilteredUsers() {
     await childRefs[newIndex].current.restoreCard();
   };
 
+  const [showBlock, setShowBlock] = useState(false);
+  const handleCloseBlock = () => setShowBlock(false);
+  const handleShowBlock = () => setShowBlock(true);
+
+  const handleBlock = (e) => {
+    console.log("blocking");
+    handleShowBlock();
+  };
+
+  const actualBlock = async (e) => {
+    handleCloseBlock();
+    setShowCardProfile(false);
+    if (canSwipe && currentIndex < peoples.length) {
+      await childRefs[currentIndex].current.swipe("left");
+      const emailToBlock = peoples[currentIndex].email;
+      console.log("blocked!!!");
+      Block(email, emailToBlock);
+    }
+  };
+
+  const [showReport, setShowReport] = useState(false);
+  const handleCloseReport = () => setShowReport(false);
+  const handleShowReport = () => setShowReport(true);
+
+  const handleReport = (e) => {
+    console.log("reporting");
+    handleShowReport();
+  };
+
+  const actualReport = async (e) => {
+    handleCloseReport();
+    setShowCardProfile(false);
+    if (canSwipe && currentIndex < peoples.length) {
+      await childRefs[currentIndex].current.swipe("left");
+      const emailToReport = peoples[currentIndex].email;
+      console.log("reported!!!");
+      Report(email, emailToReport);
+    }
+  };
+
   const swipe = async (buttonType) => {
     setShowCardProfile(false);
 
@@ -147,19 +187,6 @@ function DisplayFilteredUsers() {
       }
       // HandleUserLikesAndDislikes(temp_email, peoples[0].email, false);
       //HandleUserLikesAndDislikes(temp_email, peoples[1].email, false);
-    } else if (buttonType === "block") {
-      if (canSwipe && currentIndex < peoples.length) {
-        await childRefs[currentIndex].current.swipe("left");
-        const emailToBlock = peoples[currentIndex].email;
-        Block(email, emailToBlock);
-      }
-    } else if (buttonType === "report") {
-      console.log("report");
-      if (canSwipe && currentIndex < peoples.length) {
-        await childRefs[currentIndex].current.swipe("left");
-        const emailToReport = peoples[currentIndex].email;
-        Report(email, emailToReport);
-      }
     }
   };
 
@@ -218,7 +245,7 @@ function DisplayFilteredUsers() {
               </IconButton>
             </div>
             <div className="swipeButton">
-              <IconButton onClick={() => swipe("report")}>
+              <IconButton onClick={() => handleReport()}>
                 <ReportIcon
                   sx={{ color: "black" }}
                   fontSize="large"
@@ -228,7 +255,7 @@ function DisplayFilteredUsers() {
             </div>
           </div>
           {showCardProfile && (
-            <CardProfile email={peoples[currentIndex].email} />
+            <CardProfile person={person} />
           )}
         </TinderCard>
       ))}
@@ -248,7 +275,8 @@ function DisplayFilteredUsers() {
             className="favorite_button"
           />
         </IconButton>
-        <IconButton onClick={() => swipe("block")}>
+        {/*} <IconButton onClick={() => swipe("block")}>*/}
+        <IconButton onClick={() => handleBlock()}>
           <BlockIcon
             sx={{ color: "black" }}
             fontSize="large"
@@ -256,7 +284,7 @@ function DisplayFilteredUsers() {
           />
         </IconButton>
       </div>
-    </div>
+      </div>
   );
 }
 

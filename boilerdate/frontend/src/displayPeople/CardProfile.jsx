@@ -9,29 +9,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-function CardProfile({email}) {
-  const [fName, setfName] = useState("");
-  const [lName, setlName] = useState("");
-  const [profile, setProfile] = useState([]);
-  const [interests, setInterests] = useState([]);
-  const [lifestyles, setLifestyles] = useState([]);
-
-  const [ages, setAges] = useState("");
+function CardProfile({person}) {
 
 //const { state } = useLocation();
  //const { email } = state || {};
 const navigate = useNavigate();
 
-  console.log(email);
 
-  useEffect(() => {
-    if (email === undefined) {
-      navigate(-1);
-    }
-  });
 
-  const imageUrl = `http://localhost:3001/image/${email}`;
 
+  const imageUrl = `http://localhost:3001/image/${person.email}`;
+
+
+  /*
   useEffect(() => {
     axios
       .post("http://localhost:3001/fetchProfile", { email })
@@ -56,6 +46,7 @@ const navigate = useNavigate();
         console.error("Error fetching profile:", error);
       });
   }, [email]); // eslint-disable-line
+*/ 
 
   const convertHeight = (heightInInches) => {
     const feet = Math.floor(heightInInches / 12);
@@ -76,7 +67,7 @@ const navigate = useNavigate();
           <div class="card-header">Looking for</div>
           <ul class="list-group list-group-flush">
             <li className="list-group-item custom-font-style">
-              {profile.relationship}
+              {person.relationship}
             </li>
           </ul>
         </div>
@@ -84,10 +75,10 @@ const navigate = useNavigate();
         <div class="card">
           <div class="card-body">
             <blockquote class="blockquote mb-0">
-              <p>{profile.bio}</p>
+              <p>{person.bio}</p>
               <footer class="blockquote-footer">
                 <cite title="Source Title">
-                  {fName} {lName}
+                  {person.firstName} {person.lastName}
                 </cite>
               </footer>
             </blockquote>
@@ -98,27 +89,27 @@ const navigate = useNavigate();
           <div class="card-header">Basics</div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              Height: {convertHeight(profile.height)}
+              Height: {convertHeight(person.height)}
             </li>
             <li class="list-group-item">
-              Personality Type: {profile.personality}
+              Personality Type: {person.personality}
             </li>
-            <li class="list-group-item">Citizenship: {profile.citizenship}</li>
+            <li class="list-group-item">Citizenship: {person.citizenship}</li>
           </ul>
         </div>
 
         <div className="card">
           <div class="card-header">Academics & Career</div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Major: {profile.major}</li>
-            <li class="list-group-item">Degree: {profile.degree}</li>
-            <li class="list-group-item">GPA: {profile.gpa}</li>
+            <li class="list-group-item">Major: {person.major}</li>
+            <li class="list-group-item">Degree: {person.degree}</li>
+            <li class="list-group-item">GPA: {person.gpa}</li>
             <li class="list-group-item">
-              Employment History: {profile.employment_history}
+              Employment History: {person.employment_history}
             </li>
-            <li class="list-group-item">Skills: {profile.skills}</li>
+            <li class="list-group-item">Skills: {person.skills}</li>
             <li class="list-group-item">
-              Career Goals: {profile.career_goals}
+              Career Goals: {person.career_goals}
             </li>
           </ul>
         </div>
@@ -127,7 +118,7 @@ const navigate = useNavigate();
           <div class="card-header">Interests</div>
           <ul class="list-group list-group-flush">
             <div className="selected-containers">
-              {interests.map((interest, index) => (
+              {person.interests.map((interest, index) => (
                 <div key={index} className={`interests`}>
                   {interest}
                 </div>
@@ -142,43 +133,43 @@ const navigate = useNavigate();
             <li class="list-group-item">
               Pets
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[0]}</div>
+                <div className={`interests`}>{person.lifestyle[0]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Drinking
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[1]}</div>
+                <div className={`interests`}>{person.lifestyle[1]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Smoking
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[2]}</div>
+                <div className={`interests`}>{person.lifestyle[2]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Workout
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[3]}</div>
+                <div className={`interests`}>{person.lifestyle[3]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Dietary Preference
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[4]}</div>
+                <div className={`interests`}>{person.lifestyle[4]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Social Media
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[5]}</div>
+                <div className={`interests`}>{person.lifestyle[5]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Sleeping Habits
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[6]}</div>
+                <div className={`interests`}>{person.lifestyle[6]}</div>
               </div>
             </li>
           </ul>
@@ -187,8 +178,8 @@ const navigate = useNavigate();
         <div className="card">
           <div class="card-header">Links</div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">GitHub: {profile.github}</li>
-            <li class="list-group-item">LinkedIn: {profile.linkedin}</li>
+            <li class="list-group-item">GitHub: {person.github}</li>
+            <li class="list-group-item">LinkedIn: {person.linkedin}</li>
           </ul>
         </div>
 
