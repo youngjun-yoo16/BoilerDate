@@ -106,7 +106,6 @@ function ShowPeopleLikedYou() {
           You have no likes
         </Typography>
       )}
-<div> </div>
 <div className="mb-3">
           <input
             type="button"
