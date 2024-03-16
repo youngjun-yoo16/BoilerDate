@@ -20,7 +20,8 @@ const path = require("path");
 const fs = require("fs");
 const NotificationModel = require("./models/Notification");
 const PrivacyModel = require("./models/Privacy");
-const BlockModel = require("./models/Block");
+const BlockModel = require("./models/BlockReport");
+const PdfModel = require("./models/PdfFile");
 
 const app = express();
 app.use(express.json());
@@ -330,7 +331,7 @@ app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
         throw err;
       }
     } else {
-      console.log("File deleted");
+      console.log("Image File deleted");
     }
   });
 });
@@ -341,13 +342,70 @@ app.get("/image/:email", async (req, res) => {
     if (!img || !img.img.data) {
       return res.status(404).send();
     }
-    //console.log(img.img.data);
 
     res.contentType(img.img.contentType);
     res.send(img.img.data);
   } catch (error) {
     console.error(error);
-    res.status(500).send("server error?");
+    res.status(500).send("GET image failed");
+  }
+});
+
+app.post("/uploadPDFfile", upload.single("pdfFile"), async (req, res) => {
+  // define temporary filepath
+  temp_pdf_file_path = path.join(__dirname, "/uploads/", req.file.filename);
+
+  // define object to upload
+  const obj = {
+    name: req.file.filename,
+    email: req.body.email,
+    pdfFile: {
+      data: fs.readFileSync(temp_pdf_file_path),
+      contentType: req.file.mimetype,
+    },
+  };
+
+  // insert pdf file to mongodb and return success true
+  await PdfModel.create(obj)
+    .then(() => {
+      res.status(200).json({
+        success: true,
+        message: "pdf file upload completed",
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
+
+  // delete uploaded file in temp folder
+  fs.unlink(temp_pdf_file_path, (err) => {
+    if (err) {
+      if (err.code == "ENOENT") {
+        console.error("No such file exists.");
+      } else {
+        throw err;
+      }
+    } else {
+      console.log("PDF File deleted");
+    }
+  });
+});
+
+app.get("/significant/:email", async (req, res) => {
+  try {
+    // search for the pdf file with given email
+    const pdf = await PdfModel.findOne({ email: req.params.email });
+    if (!pdf || !pdf.pdfFile.data) {
+      return res.status(404).send();
+    }
+
+    // send back
+    res.contentType(pdf.pdfFile.contentType);
+    res.send(pdf.pdfFile);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("GET email failed");
   }
 });
 
@@ -449,7 +507,21 @@ app.post("/fetchlikes", async (req, res) => {
   }
 });
 
-//app.post("/fetch");
+app.post("/fetchblocks", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const document = await BlockModel.findOne({ email: email }, "blocks");
+
+    if (document) {
+      res.json(document.blocks);
+    } else {
+      res.status(404).json({ message: "Document not found" });
+    }
+  } catch (error) {
+    console.error("Failed to fetch blocks:", error);
+    res.status(500).json({ error: "Failed to fetch blocks" });
+  }
+});
 
 app.post("/fetchusernames", async (req, res) => {
   try {
@@ -463,8 +535,8 @@ app.post("/fetchusernames", async (req, res) => {
       const username = `${user.firstName} ${user.lastName}`;
       const dob = user.dob;
       const dateDiff = Date.now() - new Date(dob).getTime();
-    const objAge = new Date(dateDiff);
-    const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
+      const objAge = new Date(dateDiff);
+      const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
       userData[username] = {
         email: user.email,
         gpa: profile.gpa,

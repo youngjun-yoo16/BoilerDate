@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import TinderCard from "react-tinder-card";
-import "./displayFilteredUser.css";
+import "./DisplayFilteredUser.css";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -284,7 +284,51 @@ function DisplayFilteredUsers() {
           />
         </IconButton>
       </div>
-      </div>
+
+      <form onSubmit={actualBlock}>
+        <div className="mb-3">
+          <Modal show={showBlock} onHide={handleCloseBlock} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirmation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to block this user? This action cannot be
+              undone.
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseBlock}>
+                Close
+              </Button>
+              <Button type="submit" variant="danger" onClick={actualBlock}>
+                Block
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      </form>
+
+      <form onSubmit={actualReport}>
+        <div className="mb-3">
+          <Modal show={showReport} onHide={handleCloseReport} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirmation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to report this user? This action cannot be
+              undone.
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseReport}>
+                Close
+              </Button>
+              <Button type="submit" variant="danger" onClick={actualReport}>
+                Report
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      </form>
+    </div>
   );
 }
 

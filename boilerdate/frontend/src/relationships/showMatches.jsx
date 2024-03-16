@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import ButtonBase from "@mui/material/ButtonBase"; 
+import ButtonBase from "@mui/material/ButtonBase";
 // imports for card components
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -70,7 +70,7 @@ function ShowMatches() {
 
   async function handleClick(emailToRemove, e) {
     e.preventDefault();
-    e.stopPropagation(); 
+    e.stopPropagation();
     try {
       const response = await axios.post(
         "http://localhost:3001/deleteUnmatched",
@@ -93,48 +93,49 @@ function ShowMatches() {
   }
 
   const handleCardClick = (userEmail) => {
-    navigate("/profilecard", { state: { email: userEmail } });
-    
+    navigate("/showpeoplelikedyou/profilecard", {
+      state: { email: userEmail },
+    });
   };
   return (
     <div className="container">
+      <br />
       <Typography variant="h4" gutterBottom>
-        <br></br>
         Your Matches
       </Typography>
       {userData.length > 0 ? (
         <Grid container spacing={4}>
           {userData.map((user, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-               <ButtonBase
+              <ButtonBase
                 onClick={() => handleCardClick(user.email)}
-                style={{ display: 'block', textAlign: 'initial' }}
+                style={{ display: "block", textAlign: "initial" }}
               >
-              <Card sx={{ maxWidth: 160 }}>
-                <CardMedia
-                  sx={{ height: 130 }}
-                  image={`http://localhost:3001/image/${user.email}`}
-                  title={user.username}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                  {user.username}, {user.age}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    GPA: {user.gpa}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    size="small"
-                    onClick={(e) => handleClick(user.email, e)}
-                    className="btn btn-outline-primary border w-100"
-                  >
-                    Unmatch
-                  </Button>
-                  <ToastContainer />
-                </CardActions>
-              </Card>
+                <Card sx={{ maxWidth: 160 }}>
+                  <CardMedia
+                    sx={{ height: 130 }}
+                    image={`http://localhost:3001/image/${user.email}`}
+                    title={user.username}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {user.username}, {user.age}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      GPA: {user.gpa}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      onClick={(e) => handleClick(user.email, e)}
+                      className="btn btn-outline-primary border w-100"
+                    >
+                      Unmatch
+                    </Button>
+                    <ToastContainer />
+                  </CardActions>
+                </Card>
               </ButtonBase>
             </Grid>
           ))}
@@ -144,13 +145,16 @@ function ShowMatches() {
           You have no matches
         </Typography>
       )}
+      <br />
       <div className="mb-3">
         <input
           type="button"
-          value="Home"
-          name="home"
+          value="Back"
+          name="back"
           className="btn btn-outline-dark border w-100"
-          onClick={() => navigate("/home", { state: { email: email } })}
+          onClick={() =>
+            navigate("/relationships", { state: { email: email } })
+          }
         />
       </div>
     </div>

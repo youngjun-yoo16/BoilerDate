@@ -39,17 +39,19 @@ import Gender from "./settings/Gender";
 import Birthday from "./settings/Birthday";
 import UpdatePassword from "./login/UpdatePassword";
 import SetupBio from "./profile/Bio";
-import DisplayFilteredUsers from "./displayPeople/displayFilteredUsers";
+import DisplayFilteredUsers from "./discover/DisplayFilteredUsers";
 import Filter from "./Filter";
 import DeleteAccount from "./settings/DeleteAccount";
 import Notifications from "./settings/Notifications";
-import ShowMatches from "./showldm/showMatches";
-import ShowYourLikes from "./showldm/showYourLikes";
-
-import ShowPeopleLikedYou from "./showldm/showPeopleLikedYou";
-import Privacy from "./Privacy";
+import ShowMatches from "./relationships/ShowMatches";
+import ShowYourLikes from "./relationships/ShowYourLikes";
+import ShowPeopleLikedYou from "./relationships/ShowPeopleLikedYou";
+import Privacy from "./settings/Privacy";
 import ProfileSettings from "./settings/ProfileSettings";
-import CardProfilePeopleLiked from "./showldm/CardProfilePeopleLiked";
+import CardProfilePeopleLiked from "./relationships/CardProfilePeopleLiked";
+import Significant from "./settings/Significant";
+import ShowPages from "./relationships/ShowPages";
+import ShowBlocks from "./relationships/ShowBlocks";
 
 const App = () => {
   return (
@@ -108,19 +110,24 @@ const App = () => {
           <Route path="/settings/name" element={<Name />}></Route>
           <Route path="/settings/gender" element={<Gender />}></Route>
           <Route path="/settings/birthday" element={<Birthday />}></Route>
+          <Route path="/settings/significant" element={<Significant />}></Route>
           <Route path="/discover" element={<DisplayFilteredUsers />}></Route>
           <Route path="/filter" element={<Filter />}></Route>
           <Route path="/settings/delete" element={<DeleteAccount />}></Route>
           <Route path="/showmatches" element={<ShowMatches />}></Route>
           <Route path="/showyourlikes" element={<ShowYourLikes />}></Route>
-          
+          <Route path="/showblocks" element={<ShowBlocks />}></Route>
           <Route
             path="/showpeoplelikedyou"
             element={<ShowPeopleLikedYou />}
           ></Route>
           <Route path="/settings/privacy" element={<Privacy />}></Route>
           <Route path="/settings/profile" element={<ProfileSettings />}></Route>
-          <Route path="/profilecard" element={<CardProfilePeopleLiked/>}></Route>
+          <Route
+            path="/showpeoplelikedyou/profilecard"
+            element={<CardProfilePeopleLiked />}
+          ></Route>
+          <Route path="/relationships" element={<ShowPages />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
