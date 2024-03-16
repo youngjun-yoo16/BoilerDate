@@ -985,11 +985,49 @@ app.post("/fetchFilteredUsers", async (req, res) => {
 
       console.log(finalFilter.length);
       //console.log(finalFilter);
-      res.json(finalFilter);
+      const filteredUserProfilesByPrivacySettings =
+        await filterUsersByPrivacySettings(finalFilter);
+        
+      res.json(filteredUserProfilesByPrivacySettings);
     } else {
-      res.json(filteredUsers);
+      const filteredUserProfilesByPrivacySettings =
+        await filterUsersByPrivacySettings(filteredUsers);
+
+      res.json(filteredUserProfilesByPrivacySettings);
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
+async function filterUsersByPrivacySettings(users) {
+  const filteredProfiles = [];
+  for (const user of users) {
+    // Fetch privacy settings for the current user
+    const privacySettings = await PrivacyModel.findOne({
+      email: user.email,
+    }).lean();
+    const filteredUser = {};
+
+    // If privacy settings exist, filter the user's info based on these settings
+    if (privacySettings) {
+      for (const key of Object.keys(user)) {
+        // If the key exists in privacy settings
+        if (privacySettings.hasOwnProperty(key)) {
+          // Include the field with its original value if set to 'yes', or null if set to 'no'
+          filteredUser[key] = privacySettings[key] === "no" ? null : user[key];
+        } else {
+          // If the privacy setting for a key is not defined, retain the original value
+          filteredUser[key] = user[key];
+        }
+      }
+    } else {
+      // If no privacy settings found, include the user's full profile without modification
+      for (const key of Object.keys(user)) {
+        filteredUser[key] = user[key];
+      }
+    }
+    filteredProfiles.push(filteredUser);
+  }
+  return filteredProfiles;
+}
