@@ -467,8 +467,6 @@ app.post("/fetchusernames", async (req, res) => {
         dob: dob,
       };
     });
-    // send back
-    //console.log(userData);
     res.json(userData);
   } catch (error) {
     console.error("Error fetching the username and gpa ", error);
@@ -961,7 +959,7 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     const blockedUsers = await BlockModel.findOne({ email: email });
     //console.log(blockedUsers);
     if (blockedUsers) {
-      console.log("blocked users exist");
+      //console.log("blocked users exist");
 
       const blockedEmails = blockedUsers.blocks;
       let blocks = [];
@@ -969,7 +967,7 @@ app.post("/fetchFilteredUsers", async (req, res) => {
         const element = blockedEmails.emails[index];
         blocks.push(element);
       }
-      console.log("blocked users: " + blocks);
+      //console.log("blocked users: " + blocks);
 
       let finalFilter = [];
       for (let index = 0; index < filteredUsers.length; index++) {
@@ -979,14 +977,14 @@ app.post("/fetchFilteredUsers", async (req, res) => {
         } else {
           finalFilter.push(filteredUsers[index]);
         }
-        console.log("element: " + element);
+        //console.log("element: " + element);
       }
 
       console.log(finalFilter.length);
       //console.log(finalFilter);
       const filteredUserProfilesByPrivacySettings =
         await filterUsersByPrivacySettings(finalFilter);
-        
+
       res.json(filteredUserProfilesByPrivacySettings);
     } else {
       const filteredUserProfilesByPrivacySettings =
