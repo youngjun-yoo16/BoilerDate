@@ -50,6 +50,7 @@ import ShowPeopleLikedYou from "./showldm/showPeopleLikedYou";
 import Privacy from "./Privacy";
 import ProfileSettings from "./settings/ProfileSettings";
 import CardProfilePeopleLiked from "./showldm/CardProfilePeopleLiked";
+import Significant from "./settings/Significant";
 import ShowBlocks from "./showldm/showBlocks";
 
 const App = () => {
@@ -109,12 +110,13 @@ const App = () => {
           <Route path="/settings/name" element={<Name />}></Route>
           <Route path="/settings/gender" element={<Gender />}></Route>
           <Route path="/settings/birthday" element={<Birthday />}></Route>
+          <Route path="/settings/significant" element={<Significant />}></Route>
           <Route path="/discover" element={<DisplayFilteredUsers />}></Route>
           <Route path="/filter" element={<Filter />}></Route>
           <Route path="/settings/delete" element={<DeleteAccount />}></Route>
           <Route path="/showmatches" element={<ShowMatches />}></Route>
           <Route path="/showyourlikes" element={<ShowYourLikes />}></Route>
-          <Route path="/showblocks" element={<ShowBlocks />}></Route>
+<Route path="/showblocks" element={<ShowBlocks />}></Route>
           <Route
             path="/showpeoplelikedyou"
             element={<ShowPeopleLikedYou />}
@@ -122,7 +124,7 @@ const App = () => {
           <Route path="/settings/privacy" element={<Privacy />}></Route>
           <Route path="/settings/profile" element={<ProfileSettings />}></Route>
           <Route
-            path="/profilecard"
+            path="/showpeoplelikedyou/profilecard"
             element={<CardProfilePeopleLiked />}
           ></Route>
         </Routes>

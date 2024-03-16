@@ -20,7 +20,7 @@ const path = require("path");
 const fs = require("fs");
 const NotificationModel = require("./models/Notification");
 const PrivacyModel = require("./models/Privacy");
-const BlockModel = require("./models/Block");
+const BlockModel = require("./models/BlockReport");
 
 const app = express();
 app.use(express.json());
@@ -341,7 +341,6 @@ app.get("/image/:email", async (req, res) => {
     if (!img || !img.img.data) {
       return res.status(404).send();
     }
-    //console.log(img.img.data);
 
     res.contentType(img.img.contentType);
     res.send(img.img.data);
