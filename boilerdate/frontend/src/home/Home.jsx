@@ -40,16 +40,6 @@ function Home() {
         <div className="mb-3">
           <input
             type="button"
-            value="Settings"
-            name="settings"
-            className="btn btn-outline-secondary border w-100"
-            onClick={() => navigate("/settings", { state: { email: email } })}
-          />
-        </div>
-        <p></p>
-        <div className="mb-3">
-          <input
-            type="button"
             value="Profile"
             name="profile"
             className="btn btn-outline-primary border w-100"
@@ -73,7 +63,20 @@ function Home() {
             value="Relationships"
             name="relationships"
             className="btn btn-outline-primary border w-100"
-            onClick={() => navigate("/showpages", { state: { email: email } })}
+            onClick={() =>
+              navigate("/relationships", { state: { email: email } })
+            }
+          />
+        </div>
+
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Settings"
+            name="settings"
+            className="btn btn-outline-secondary border w-100"
+            onClick={() => navigate("/settings", { state: { email: email } })}
           />
         </div>
 

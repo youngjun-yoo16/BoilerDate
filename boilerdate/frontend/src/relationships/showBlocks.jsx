@@ -71,8 +71,8 @@ function ShowBlocks() {
 
   return (
     <div className="container">
+      <br />
       <Typography variant="h4" gutterBottom>
-        <br></br>
         Blocked Users
       </Typography>
       {userData.length > 0 ? (
@@ -107,13 +107,16 @@ function ShowBlocks() {
           You have no blocked users
         </Typography>
       )}
+      <br />
       <div className="mb-3">
         <input
           type="button"
           value="Back"
           name="back"
           className="btn btn-outline-dark border w-100"
-          onClick={() => navigate("/showpages", { state: { email: email } })}
+          onClick={() =>
+            navigate("/relationships", { state: { email: email } })
+          }
         />
       </div>
     </div>

@@ -99,8 +99,8 @@ function ShowMatches() {
   };
   return (
     <div className="container">
+      <br />
       <Typography variant="h4" gutterBottom>
-        <br></br>
         Your Matches
       </Typography>
       {userData.length > 0 ? (
@@ -145,13 +145,16 @@ function ShowMatches() {
           You have no matches
         </Typography>
       )}
+      <br />
       <div className="mb-3">
         <input
           type="button"
           value="Back"
           name="back"
           className="btn btn-outline-dark border w-100"
-          onClick={() => navigate("/showpages", { state: { email: email } })}
+          onClick={() =>
+            navigate("/relationships", { state: { email: email } })
+          }
         />
       </div>
     </div>

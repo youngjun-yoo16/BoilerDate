@@ -127,7 +127,7 @@ const App = () => {
             path="/showpeoplelikedyou/profilecard"
             element={<CardProfilePeopleLiked />}
           ></Route>
-          <Route path="/showpages" element={<ShowPages />}></Route>
+          <Route path="/relationships" element={<ShowPages />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
