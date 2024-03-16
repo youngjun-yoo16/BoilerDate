@@ -460,12 +460,15 @@ app.post("/fetchusernames", async (req, res) => {
     usernames.forEach((user) => {
       const profile = profiles.find((profile) => profile.email === user.email);
       const username = `${user.firstName} ${user.lastName}`;
+      const dob = user.dob;
       userData[username] = {
         email: user.email,
         gpa: profile.gpa,
+        dob: dob,
       };
     });
     // send back
+    //console.log(userData);
     res.json(userData);
   } catch (error) {
     console.error("Error fetching the username and gpa ", error);
@@ -954,10 +957,43 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     let filteredUsers = await Promise.all(filteredUsersPromises);
     filteredUsers = filteredUsers.filter((user) => user); // Remove nulls
 
-    const filteredUserProfilesByPrivacySettings =
-      await filterUsersByPrivacySettings(filteredUsers);
+    // Step 4: Filter out blocked users
+    const blockedUsers = await BlockModel.findOne({ email: email });
+    //console.log(blockedUsers);
+    if (blockedUsers) {
+      console.log("blocked users exist");
 
-    res.json(filteredUserProfilesByPrivacySettings);
+      const blockedEmails = blockedUsers.blocks;
+      let blocks = [];
+      for (let index = 0; index < blockedEmails.emails.length; index++) {
+        const element = blockedEmails.emails[index];
+        blocks.push(element);
+      }
+      console.log("blocked users: " + blocks);
+
+      let finalFilter = [];
+      for (let index = 0; index < filteredUsers.length; index++) {
+        const element = filteredUsers[index].email;
+        if (blocks.includes(element)) {
+          console.log("blocked!!!");
+        } else {
+          finalFilter.push(filteredUsers[index]);
+        }
+        console.log("element: " + element);
+      }
+
+      console.log(finalFilter.length);
+      //console.log(finalFilter);
+      const filteredUserProfilesByPrivacySettings =
+        await filterUsersByPrivacySettings(finalFilter);
+        
+      res.json(filteredUserProfilesByPrivacySettings);
+    } else {
+      const filteredUserProfilesByPrivacySettings =
+        await filterUsersByPrivacySettings(filteredUsers);
+
+      res.json(filteredUserProfilesByPrivacySettings);
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

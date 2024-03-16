@@ -57,10 +57,11 @@ function ShowPeopleLikedYou() {
         .then((res) => {
           // restructure userData to array
           setUserData(
-            Object.entries(res.data).map(([username, { email, gpa }]) => ({
+            Object.entries(res.data).map(([username, { email, gpa, dob }]) => ({
               username,
               email,
               gpa,
+              dob,
             }))
           );
         })
@@ -106,6 +107,15 @@ function ShowPeopleLikedYou() {
           You have no likes
         </Typography>
       )}
+<div className="mb-3">
+          <input
+            type="button"
+            value="Home"
+            name="home"
+            className="btn btn-outline-dark border w-100"
+            onClick={() => navigate("/home", { state: { email: email } })}
+          />
+        </div>
     </div>
   );
 }
