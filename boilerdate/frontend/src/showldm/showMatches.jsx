@@ -69,6 +69,7 @@ function ShowMatches() {
 
   async function handleClick(emailToRemove, e) {
     e.preventDefault();
+    e.stopPropagation(); 
     try {
       const response = await axios.post(
         "http://localhost:3001/deleteUnmatched",
