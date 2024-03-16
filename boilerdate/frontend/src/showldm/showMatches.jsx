@@ -10,12 +10,10 @@ import ButtonBase from "@mui/material/ButtonBase";
 // imports for card components
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Box from "@mui/material/Box";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 
 function ShowMatches() {
@@ -63,15 +61,33 @@ function ShowMatches() {
             }))
           );
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error("Failed to fetch usernames and GPAs!");
         });
     }
   }, [matchesList]);
 
-  function handleClick(e) {
+  async function handleClick(emailToRemove, e) {
     e.preventDefault();
-    console.log("Unmatched option selected\n");
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/deleteUnmatched",
+        {
+          email: email, // email
+          emailToRemove: emailToRemove, // The email of the user to unmatch
+        }
+      );
+      if (response) {
+        toast.success("Unmatch Success!");
+        // Filter out the user that was unmatched and update the userData state
+        const updatedUserData = userData.filter(
+          (user) => user.email !== emailToRemove
+        );
+        setUserData(updatedUserData);
+      }
+    } catch (error) {
+      toast.error(error.toString());
+    }
   }
 
   const handleCardClick = (userEmail) => {
@@ -109,11 +125,12 @@ function ShowMatches() {
                 <CardActions>
                   <Button
                     size="small"
-                    onCLick={handleClick}
+                    onClick={(e) => handleClick(user.email, e)}
                     className="btn btn-outline-primary border w-100"
                   >
-                    Chat
+                    Unmatch
                   </Button>
+                  <ToastContainer />
                 </CardActions>
               </Card>
               </ButtonBase>
@@ -126,15 +143,14 @@ function ShowMatches() {
         </Typography>
       )}
       <div className="mb-3">
-          <input
-            type="button"
-            value="Home"
-            name="home"
-            className="btn btn-outline-dark border w-100"
-            onClick={() => navigate("/home", { state: { email: email } })}
-          />
-        </div>
-      
+        <input
+          type="button"
+          value="Home"
+          name="home"
+          className="btn btn-outline-dark border w-100"
+          onClick={() => navigate("/home", { state: { email: email } })}
+        />
+      </div>
     </div>
   );
 }

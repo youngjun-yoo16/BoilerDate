@@ -468,8 +468,6 @@ app.post("/fetchusernames", async (req, res) => {
         dob: dob,
       };
     });
-    // send back
-    //console.log(userData);
     res.json(userData);
   } catch (error) {
     console.error("Error fetching the username and gpa ", error);
@@ -480,22 +478,39 @@ app.post("/fetchusernames", async (req, res) => {
 app.post("/deleteUnmatched", async (req, res) => {
   try {
     const { email, emailToRemove } = req.body;
-    const result = await UserLDMModel.updateOne(
+
+    // First operation: Remove emailToRemove from email's document
+    const result1 = await UserLDMModel.updateOne(
       { email: email },
       { $pull: { "matches.emails": emailToRemove } }
     );
 
-    // Check the result to see if the document was found and updated
-    if (result.nModified > 0) {
-      console.log("Document updated successfully:", result);
-      res.status(200).json({ message: "Unmatched user removed successfully." });
-    } else {
-      // No documents were modified: The email was not found in the matches or the user does not exist
+    // Second operation: Remove email from emailToRemove's document
+    const result2 = await UserLDMModel.updateOne(
+      { email: emailToRemove },
+      { $pull: { "matches.emails": email } }
+    );
+
+    // Check the results to see if the documents were found (matched)
+    if (result1.matchedCount > 0 && result2.matchedCount > 0) {
+      console.log("Both documents found:", result1, result2);
+      res
+        .status(200)
+        .json({ message: "Unmatched users removed successfully." });
+    } else if (result1.matchedCount > 0 || result2.matchedCount > 0) {
+      // Partial success: Only one of the documents was found
       console.log(
-        "No changes made. The user may not exist or the email was not found in matches."
+        "Partial update. One of the documents may not have been matched."
       );
+      res.status(207).json({
+        message:
+          "Partial success. One of the documents may not have been matched.",
+      });
+    } else {
+      // No documents were matched
+      console.log("No documents matched the criteria.");
       res.status(404).json({
-        message: "No changes made. User not found or match email not in list.",
+        message: "No documents matched the criteria.",
       });
     }
   } catch (error) {
@@ -962,7 +977,7 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     const blockedUsers = await BlockModel.findOne({ email: email });
     //console.log(blockedUsers);
     if (blockedUsers) {
-      console.log("blocked users exist");
+      //console.log("blocked users exist");
 
       const blockedEmails = blockedUsers.blocks;
       let blocks = [];
@@ -970,7 +985,7 @@ app.post("/fetchFilteredUsers", async (req, res) => {
         const element = blockedEmails.emails[index];
         blocks.push(element);
       }
-      console.log("blocked users: " + blocks);
+      //console.log("blocked users: " + blocks);
 
       let finalFilter = [];
       for (let index = 0; index < filteredUsers.length; index++) {
@@ -980,14 +995,14 @@ app.post("/fetchFilteredUsers", async (req, res) => {
         } else {
           finalFilter.push(filteredUsers[index]);
         }
-        console.log("element: " + element);
+        //console.log("element: " + element);
       }
 
       console.log(finalFilter.length);
       //console.log(finalFilter);
       const filteredUserProfilesByPrivacySettings =
         await filterUsersByPrivacySettings(finalFilter);
-        
+
       res.json(filteredUserProfilesByPrivacySettings);
     } else {
       const filteredUserProfilesByPrivacySettings =
