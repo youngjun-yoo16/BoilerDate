@@ -113,23 +113,43 @@ function DisplayFilteredUsers() {
     await childRefs[newIndex].current.restoreCard();
   };
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [showBlock, setShowBlock] = useState(false);
+  const handleCloseBlock = () => setShowBlock(false);
+  const handleShowBlock = () => setShowBlock(true);
 
   const handleBlock = (e) => {
     console.log("blocking");
-    handleShow();
+    handleShowBlock();
   };
 
   const actualBlock = async (e) => {
-    handleClose();
+    handleCloseBlock();
     setShowCardProfile(false);
     if (canSwipe && currentIndex < peoples.length) {
       await childRefs[currentIndex].current.swipe("left");
       const emailToBlock = peoples[currentIndex].email;
       console.log("blocked!!!");
       Block(email, emailToBlock);
+    }
+  };
+
+  const [showReport, setShowReport] = useState(false);
+  const handleCloseReport = () => setShowReport(false);
+  const handleShowReport = () => setShowReport(true);
+
+  const handleReport = (e) => {
+    console.log("reporting");
+    handleShowReport();
+  };
+
+  const actualReport = async (e) => {
+    handleCloseReport();
+    setShowCardProfile(false);
+    if (canSwipe && currentIndex < peoples.length) {
+      await childRefs[currentIndex].current.swipe("left");
+      const emailToReport = peoples[currentIndex].email;
+      console.log("reported!!!");
+      Report(email, emailToReport);
     }
   };
 
@@ -169,20 +189,6 @@ function DisplayFilteredUsers() {
       }
       // HandleUserLikesAndDislikes(temp_email, peoples[0].email, false);
       //HandleUserLikesAndDislikes(temp_email, peoples[1].email, false);
-    } else if (buttonType === "block") {
-      if (canSwipe && currentIndex < peoples.length) {
-        await childRefs[currentIndex].current.swipe("left");
-        const emailToBlock = peoples[currentIndex].email;
-        console.log("blocked!!!");
-        //Block(email, emailToBlock);
-      }
-    } else if (buttonType === "report") {
-      console.log("report");
-      if (canSwipe && currentIndex < peoples.length) {
-        await childRefs[currentIndex].current.swipe("left");
-        const emailToReport = peoples[currentIndex].email;
-        Report(email, emailToReport);
-      }
     }
   };
 
@@ -241,7 +247,7 @@ function DisplayFilteredUsers() {
               </IconButton>
             </div>
             <div className="swipeButton">
-              <IconButton onClick={() => swipe("report")}>
+              <IconButton onClick={() => handleReport()}>
                 <ReportIcon
                   sx={{ color: "black" }}
                   fontSize="large"
@@ -283,7 +289,7 @@ function DisplayFilteredUsers() {
 
       <form onSubmit={actualBlock}>
         <div className="mb-3">
-          <Modal show={show} onHide={handleClose} centered>
+          <Modal show={showBlock} onHide={handleCloseBlock} centered>
             <Modal.Header closeButton>
               <Modal.Title>Confirmation</Modal.Title>
             </Modal.Header>
@@ -292,11 +298,33 @@ function DisplayFilteredUsers() {
               undone.
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
+              <Button variant="secondary" onClick={handleCloseBlock}>
                 Close
               </Button>
               <Button type="submit" variant="danger" onClick={actualBlock}>
                 Block
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      </form>
+
+      <form onSubmit={actualReport}>
+        <div className="mb-3">
+          <Modal show={showReport} onHide={handleCloseReport} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirmation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to report this user? This action cannot be
+              undone.
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseReport}>
+                Close
+              </Button>
+              <Button type="submit" variant="danger" onClick={actualReport}>
+                Report
               </Button>
             </Modal.Footer>
           </Modal>

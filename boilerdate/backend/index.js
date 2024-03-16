@@ -20,7 +20,7 @@ const path = require("path");
 const fs = require("fs");
 const NotificationModel = require("./models/Notification");
 const PrivacyModel = require("./models/Privacy");
-const BlockModel = require("./models/Block");
+const BlockModel = require("./models/BlockReport");
 
 const app = express();
 app.use(express.json());
@@ -463,8 +463,8 @@ app.post("/fetchusernames", async (req, res) => {
       const username = `${user.firstName} ${user.lastName}`;
       const dob = user.dob;
       const dateDiff = Date.now() - new Date(dob).getTime();
-    const objAge = new Date(dateDiff);
-    const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
+      const objAge = new Date(dateDiff);
+      const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
       userData[username] = {
         email: user.email,
         gpa: profile.gpa,
