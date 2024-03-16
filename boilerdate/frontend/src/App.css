@@ -81,11 +81,20 @@
 .btn-outline-primary,
 .btn-outline-primary:active,
 .btn-outline-primary:visited {
-  background-color: #f3567c !important;
-  color: white !important;
+  /*background-color: #f3567c !important;
+  color: white !important;*/
+  color: black !important;
 }
 
 /*overrides default .btn border color with new color */
 .btn-outline-primary:hover {
-  background-color: #cf4969 !important;
+  /*background-color: #cf4969 !important;*/
+  background-color: #f3567c !important;
+  color: white !important;
+}
+
+.border,
+.border-primary {
+  color: #f3567c;
+  border-color: #f3567c;
 }

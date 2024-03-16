@@ -23,7 +23,7 @@ function Home() {
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
-      <div className="bg-white p-3 rounded w-25">
+      <div className="bg-white p-3 rounded w-25 border border-primary">
         <h2>Home</h2>
         <br />
         <div className="mb-3">
@@ -52,7 +52,7 @@ function Home() {
             type="button"
             value="Filter"
             name="filter"
-            className="btn btn-outline-dark border w-100"
+            className="btn btn-outline-primary border w-100"
             onClick={() => navigate("/filter", { state: { email: email } })}
           />
         </div>
