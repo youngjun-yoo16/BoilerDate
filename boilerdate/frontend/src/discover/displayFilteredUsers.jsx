@@ -8,7 +8,7 @@ import "./displayFilteredUser.css";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import HandleUserLikesAndDislikes from "./HandleLikesDislikes";
+import HandleUserLikesAndDislikes from "./HandleLikesDislikes.js";
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import BlockIcon from "@mui/icons-material/Block";
 import ReportIcon from "@mui/icons-material/Report";

@@ -39,7 +39,7 @@ import Gender from "./settings/Gender";
 import Birthday from "./settings/Birthday";
 import UpdatePassword from "./login/UpdatePassword";
 import SetupBio from "./profile/Bio";
-import DisplayFilteredUsers from "./displayPeople/displayFilteredUsers";
+import DisplayFilteredUsers from "./discover/displayFilteredUsers";
 import Filter from "./Filter";
 import DeleteAccount from "./settings/DeleteAccount";
 import Notifications from "./settings/Notifications";
