@@ -478,22 +478,42 @@ app.post("/fetchusernames", async (req, res) => {
 app.post("/deleteUnmatched", async (req, res) => {
   try {
     const { email, emailToRemove } = req.body;
-    const result = await UserLDMModel.updateOne(
+
+    // First operation: Remove emailToRemove from email's document
+    const result1 = await UserLDMModel.updateOne(
       { email: email },
       { $pull: { "matches.emails": emailToRemove } }
     );
 
-    // Check the result to see if the document was found and updated
-    if (result.nModified > 0) {
-      console.log("Document updated successfully:", result);
-      res.status(200).json({ message: "Unmatched user removed successfully." });
-    } else {
-      // No documents were modified: The email was not found in the matches or the user does not exist
+    // Second operation: Remove email from emailToRemove's document
+    const result2 = await UserLDMModel.updateOne(
+      { email: emailToRemove },
+      { $pull: { "matches.emails": email } }
+    );
+
+    // Check the results to see if the documents were found and updated
+    if (result1.nModified > 0 && result2.nModified > 0) {
+      console.log("Both documents updated successfully:", result1, result2);
+      res
+        .status(200)
+        .json({ message: "Unmatched users removed successfully." });
+    } else if (result1.nModified > 0 || result2.nModified > 0) {
+      // Partial success: Only one of the emails was found and removed
       console.log(
-        "No changes made. The user may not exist or the email was not found in matches."
+        "Partial update. One of the emails may not exist or was not found in matches."
+      );
+      res.status(207).json({
+        message:
+          "Partial success. One of the users may not exist or match email not in list.",
+      });
+    } else {
+      // No documents were modified: The emails were not found in the matches or the users do not exist
+      console.log(
+        "No changes made. The users may not exist or the emails were not found in matches."
       );
       res.status(404).json({
-        message: "No changes made. User not found or match email not in list.",
+        message:
+          "No changes made. Users not found or match emails not in list.",
       });
     }
   } catch (error) {

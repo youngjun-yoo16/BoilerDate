@@ -63,15 +63,33 @@ function ShowMatches() {
             }))
           );
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error("Failed to fetch usernames and GPAs!");
         });
     }
   }, [matchesList]);
 
-  function handleClick(e) {
+  async function handleClick(emailToRemove, e) {
     e.preventDefault();
-    console.log("Unmatched option selected\n");
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/deleteUnmatched",
+        {
+          email: email, // email
+          emailToRemove: emailToRemove, // The email of the user to unmatch
+        }
+      );
+      if (response) {
+        // Filter out the user that was unmatched and update the userData state
+        const updatedUserData = userData.filter(
+          (user) => user.email !== emailToRemove
+        );
+        setUserData(updatedUserData);
+        toast.success("Unmatch Success!");
+      }
+    } catch (error) {
+      toast.error(error.toString());
+    }
   }
 
   return (
@@ -101,10 +119,10 @@ function ShowMatches() {
                 <CardActions>
                   <Button
                     size="small"
-                    onCLick={handleClick}
+                    onClick={(e) => handleClick(user.email, e)}
                     className="btn btn-outline-primary border w-100"
                   >
-                    Chat
+                    Unmatch
                   </Button>
                 </CardActions>
               </Card>
@@ -117,15 +135,14 @@ function ShowMatches() {
         </Typography>
       )}
       <div className="mb-3">
-          <input
-            type="button"
-            value="Home"
-            name="home"
-            className="btn btn-outline-dark border w-100"
-            onClick={() => navigate("/home", { state: { email: email } })}
-          />
-        </div>
-      
+        <input
+          type="button"
+          value="Home"
+          name="home"
+          className="btn btn-outline-dark border w-100"
+          onClick={() => navigate("/home", { state: { email: email } })}
+        />
+      </div>
     </div>
   );
 }
