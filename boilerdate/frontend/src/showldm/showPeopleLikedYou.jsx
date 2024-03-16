@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-
+import ButtonBase from "@mui/material/ButtonBase"; 
 // imports for card components
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -19,6 +19,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 
 function ShowPeopleLikedYou() {
+  
   // required for keeping login status
   const { state } = useLocation();
   const { email } = state || {};
@@ -71,6 +72,11 @@ function ShowPeopleLikedYou() {
     }
   }, [receivedLikesList]);
 
+  const handleCardClick = (userEmail) => {
+    navigate("/showpeoplelikedyou/profilecard", { state: { email: userEmail } });
+    
+  };
+
   return (
     <div className="container">
       <Typography variant="h4" gutterBottom>
@@ -80,6 +86,10 @@ function ShowPeopleLikedYou() {
         <Grid container spacing={4}>
           {userData.map((user, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
+                 <ButtonBase
+                onClick={() => handleCardClick(user.email)}
+                style={{ display: 'block', textAlign: 'initial' }}
+              >
               <Card sx={{ maxWidth: 160 }}>
                 <CardMedia
                   sx={{ height: 130 }}
@@ -99,6 +109,7 @@ function ShowPeopleLikedYou() {
                   {/*<Button size="small">Dislike</Button>*/}
                 </CardActions>
               </Card>
+              </ButtonBase>
             </Grid>
           ))}
         </Grid>
