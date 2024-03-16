@@ -460,12 +460,15 @@ app.post("/fetchusernames", async (req, res) => {
     usernames.forEach((user) => {
       const profile = profiles.find((profile) => profile.email === user.email);
       const username = `${user.firstName} ${user.lastName}`;
+      const dob = user.dob;
       userData[username] = {
         email: user.email,
         gpa: profile.gpa,
+        dob: dob,
       };
     });
     // send back
+    //console.log(userData);
     res.json(userData);
   } catch (error) {
     console.error("Error fetching the username and gpa ", error);
