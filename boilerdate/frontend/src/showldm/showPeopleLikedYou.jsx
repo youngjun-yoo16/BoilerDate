@@ -73,11 +73,11 @@ function ShowPeopleLikedYou() {
   }, [receivedLikesList]);
 
   const handleCardClick = (userEmail) => {
-    navigate("/showpeoplelikedyou/profilecard", { state: { email: userEmail } });
+    navigate("/profilecard", { state: { email: userEmail } });
     
   };
 
-  return (
+  return (      
     <div className="container">
       <Typography variant="h4" gutterBottom>
         Likes Received

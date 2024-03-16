@@ -45,7 +45,7 @@ import DeleteAccount from "./settings/DeleteAccount";
 import Notifications from "./settings/Notifications";
 import ShowMatches from "./showldm/showMatches";
 import ShowYourLikes from "./showldm/showYourLikes";
-import ShowYourDislikes from "./showldm/showYourDislikes";
+
 import ShowPeopleLikedYou from "./showldm/showPeopleLikedYou";
 import Privacy from "./Privacy";
 import ProfileSettings from "./settings/ProfileSettings";
@@ -113,17 +113,14 @@ const App = () => {
           <Route path="/settings/delete" element={<DeleteAccount />}></Route>
           <Route path="/showmatches" element={<ShowMatches />}></Route>
           <Route path="/showyourlikes" element={<ShowYourLikes />}></Route>
-          <Route
-            path="/showyourdislikes"
-            element={<ShowYourDislikes />}
-          ></Route>
+          
           <Route
             path="/showpeoplelikedyou"
             element={<ShowPeopleLikedYou />}
           ></Route>
           <Route path="/settings/privacy" element={<Privacy />}></Route>
           <Route path="/settings/profile" element={<ProfileSettings />}></Route>
-          <Route path="/showpeoplelikedyou/profilecard" element={<CardProfilePeopleLiked/>}></Route>
+          <Route path="/profilecard" element={<CardProfilePeopleLiked/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
