@@ -2,7 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -11,12 +11,12 @@ import ButtonBase from "@mui/material/ButtonBase";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 
-function ShowMatches() {
+function ShowPeopleLikedYou() {
+  
   // required for keeping login status
   const { state } = useLocation();
   const { email } = state || {};
@@ -24,7 +24,7 @@ function ShowMatches() {
 
   console.log(email);
 
-  const [matchesList, setMatchesList] = useState([]);
+  const [receivedLikesList, setreceivedLikesList] = useState([]);
   const [userData, setUserData] = useState("");
 
   useEffect(() => {
@@ -33,26 +33,29 @@ function ShowMatches() {
     }
   });
 
-  // get list of matches
   useEffect(() => {
     axios
       .post("http://localhost:3001/fetchlikes", { email })
       .then((res) => {
-        console.log(res.data.matches.emails);
-        setMatchesList(res.data.matches.emails);
+        console.log(res.data.receivedlikes.emails);
+        setreceivedLikesList(res.data.receivedlikes.emails);
       })
       .catch((err) => {
-        toast.error("Failed to fetch your matches!");
-        console.error("fetch failed for matches");
+        toast.error("Failed to fetch the users you liked!");
+        console.error("fetch failed for liked users");
       });
   }, [email]);
 
   useEffect(() => {
-    if (matchesList.length > 0) {
+    if (receivedLikesList.length > 0) {
       axios
-        .post("http://localhost:3001/fetchusernames", { emails: matchesList })
+        .post("http://localhost:3001/fetchusernames", {
+          emails: receivedLikesList,
+        })
         .then((res) => {
           // restructure userData to array
+
+        
           setUserData(
             Object.entries(res.data).map(([username, { email, gpa, age }]) => ({
               username,
@@ -62,51 +65,29 @@ function ShowMatches() {
             }))
           );
         })
-        .catch(() => {
+        .catch((err) => {
           toast.error("Failed to fetch usernames and GPAs!");
         });
     }
-  }, [matchesList]);
 
-  async function handleClick(emailToRemove, e) {
-    e.preventDefault();
-    e.stopPropagation(); 
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/deleteUnmatched",
-        {
-          email: email, // email
-          emailToRemove: emailToRemove, // The email of the user to unmatch
-        }
-      );
-      if (response) {
-        toast.success("Unmatch Success!");
-        // Filter out the user that was unmatched and update the userData state
-        const updatedUserData = userData.filter(
-          (user) => user.email !== emailToRemove
-        );
-        setUserData(updatedUserData);
-      }
-    } catch (error) {
-      toast.error(error.toString());
-    }
-  }
+
+  }, [receivedLikesList]);
 
   const handleCardClick = (userEmail) => {
-    navigate("/profilecard", { state: { email: userEmail } });
+    navigate("/showpeoplelikedyou/profilecard", { state: { email: userEmail } });
     
   };
-  return (
+
+  return (      
     <div className="container">
       <Typography variant="h4" gutterBottom>
-        <br></br>
-        Your Matches
+        Likes Received
       </Typography>
       {userData.length > 0 ? (
         <Grid container spacing={4}>
           {userData.map((user, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-               <ButtonBase
+                 <ButtonBase
                 onClick={() => handleCardClick(user.email)}
                 style={{ display: 'block', textAlign: 'initial' }}
               >
@@ -118,21 +99,15 @@ function ShowMatches() {
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                  {user.username}, {user.age}
+                    {user.username}, {user.age}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     GPA: {user.gpa}
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button
-                    size="small"
-                    onClick={(e) => handleClick(user.email, e)}
-                    className="btn btn-outline-primary border w-100"
-                  >
-                    Unmatch
-                  </Button>
-                  <ToastContainer />
+                  {/*<Button size="small">Like</Button>*/}
+                  {/*<Button size="small">Dislike</Button>*/}
                 </CardActions>
               </Card>
               </ButtonBase>
@@ -141,7 +116,7 @@ function ShowMatches() {
         </Grid>
       ) : (
         <Typography variant="h5" textAlign="center" marginTop={5}>
-          You have no matches
+          You have no likes
         </Typography>
       )}
       <div className="mb-3">
@@ -157,4 +132,4 @@ function ShowMatches() {
   );
 }
 
-export default ShowMatches;
+export default ShowPeopleLikedYou;

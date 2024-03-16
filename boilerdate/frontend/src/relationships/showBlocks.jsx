@@ -2,32 +2,25 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import ButtonBase from "@mui/material/ButtonBase"; 
+import ButtonBase from "@mui/material/ButtonBase";
 // imports for card components
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Box from "@mui/material/Box";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 
-function ShowPeopleLikedYou() {
-  
+function ShowBlocks() {
   // required for keeping login status
   const { state } = useLocation();
   const { email } = state || {};
   const navigate = useNavigate();
 
-  console.log(email);
-
-  const [receivedLikesList, setreceivedLikesList] = useState([]);
+  const [blocksList, setBlocksList] = useState([]);
   const [userData, setUserData] = useState("");
 
   useEffect(() => {
@@ -36,29 +29,25 @@ function ShowPeopleLikedYou() {
     }
   });
 
+  // get list of blocks
   useEffect(() => {
     axios
-      .post("http://localhost:3001/fetchlikes", { email })
+      .post("http://localhost:3001/fetchblocks", { email })
       .then((res) => {
-        console.log(res.data.receivedlikes.emails);
-        setreceivedLikesList(res.data.receivedlikes.emails);
+        setBlocksList(res.data.emails);
       })
-      .catch((err) => {
-        toast.error("Failed to fetch the users you liked!");
-        console.error("fetch failed for liked users");
+      .catch(() => {
+        toast.error("Failed to fetch your blocks!");
+        console.error("fetch failed for blocks");
       });
   }, [email]);
 
   useEffect(() => {
-    if (receivedLikesList.length > 0) {
+    if (blocksList.length > 0) {
       axios
-        .post("http://localhost:3001/fetchusernames", {
-          emails: receivedLikesList,
-        })
+        .post("http://localhost:3001/fetchusernames", { emails: blocksList })
         .then((res) => {
           // restructure userData to array
-
-        
           setUserData(
             Object.entries(res.data).map(([username, { email, gpa, age }]) => ({
               username,
@@ -68,58 +57,52 @@ function ShowPeopleLikedYou() {
             }))
           );
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error("Failed to fetch usernames and GPAs!");
         });
     }
-
-
-  }, [receivedLikesList]);
+  }, [blocksList]);
 
   const handleCardClick = (userEmail) => {
-    navigate("/profilecard", { state: { email: userEmail } });
-    
+    navigate("/showpeoplelikedyou/profilecard", { state: { email: userEmail } });
   };
 
-  return (      
+  return (
     <div className="container">
       <Typography variant="h4" gutterBottom>
-        Likes Received
+        <br></br>
+        Blocked Users
       </Typography>
       {userData.length > 0 ? (
         <Grid container spacing={4}>
           {userData.map((user, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-                 <ButtonBase
+              <ButtonBase
                 onClick={() => handleCardClick(user.email)}
-                style={{ display: 'block', textAlign: 'initial' }}
+                style={{ display: "block", textAlign: "initial" }}
               >
-              <Card sx={{ maxWidth: 160 }}>
-                <CardMedia
-                  sx={{ height: 130 }}
-                  image={`http://localhost:3001/image/${user.email}`}
-                  title={user.username}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {user.username}, {user.age}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    GPA: {user.gpa}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  {/*<Button size="small">Like</Button>*/}
-                  {/*<Button size="small">Dislike</Button>*/}
-                </CardActions>
-              </Card>
+                <Card sx={{ maxWidth: 160 }}>
+                  <CardMedia
+                    sx={{ height: 130 }}
+                    image={`http://localhost:3001/image/${user.email}`}
+                    title={user.username}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {user.username}, {user.age}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      GPA: {user.gpa}
+                    </Typography>
+                  </CardContent>
+                </Card>
               </ButtonBase>
             </Grid>
           ))}
         </Grid>
       ) : (
         <Typography variant="h5" textAlign="center" marginTop={5}>
-          You have no likes
+          You have no blocked users
         </Typography>
       )}
       <div className="mb-3">
@@ -135,4 +118,4 @@ function ShowPeopleLikedYou() {
   );
 }
 
-export default ShowPeopleLikedYou;
+export default ShowBlocks;

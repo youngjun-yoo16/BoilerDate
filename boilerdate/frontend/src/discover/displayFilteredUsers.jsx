@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Container } from "react-bootstrap";
-import { ToastContainer, toast } from "react-toastify";
-import Carousel from "react-bootstrap/Carousel";
+import { toast } from "react-toastify";
 import TinderCard from "react-tinder-card";
 import "./displayFilteredUser.css";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import HandleUserLikesAndDislikes from "./HandleLikesDislikes";
+import HandleUserLikesAndDislikes from "./HandleLikesDislikes.js";
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import BlockIcon from "@mui/icons-material/Block";
 import ReportIcon from "@mui/icons-material/Report";
