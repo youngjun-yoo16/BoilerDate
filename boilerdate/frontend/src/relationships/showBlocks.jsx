@@ -64,7 +64,9 @@ function ShowBlocks() {
   }, [blocksList]);
 
   const handleCardClick = (userEmail) => {
-    navigate("/showpeoplelikedyou/profilecard", { state: { email: userEmail } });
+    navigate("/showpeoplelikedyou/profilecard", {
+      state: { email: userEmail },
+    });
   };
 
   return (
@@ -108,10 +110,10 @@ function ShowBlocks() {
       <div className="mb-3">
         <input
           type="button"
-          value="Home"
-          name="home"
+          value="Back"
+          name="back"
           className="btn btn-outline-dark border w-100"
-          onClick={() => navigate("/home", { state: { email: email } })}
+          onClick={() => navigate("/showpages", { state: { email: email } })}
         />
       </div>
     </div>
