@@ -16,6 +16,8 @@ import axios from "axios";
 import CardProfile from "./CardProfile.jsx";
 import Block from "./HandleBlock.js";
 import Report from "./HandleReport.js";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 function DisplayFilteredUsers() {
   const [showCardProfile, setShowCardProfile] = useState(false);
@@ -111,6 +113,26 @@ function DisplayFilteredUsers() {
     await childRefs[newIndex].current.restoreCard();
   };
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleBlock = (e) => {
+    console.log("blocking");
+    handleShow();
+  };
+
+  const actualBlock = async (e) => {
+    handleClose();
+    setShowCardProfile(false);
+    if (canSwipe && currentIndex < peoples.length) {
+      await childRefs[currentIndex].current.swipe("left");
+      const emailToBlock = peoples[currentIndex].email;
+      console.log("blocked!!!");
+      Block(email, emailToBlock);
+    }
+  };
+
   const swipe = async (buttonType) => {
     setShowCardProfile(false);
 
@@ -151,7 +173,8 @@ function DisplayFilteredUsers() {
       if (canSwipe && currentIndex < peoples.length) {
         await childRefs[currentIndex].current.swipe("left");
         const emailToBlock = peoples[currentIndex].email;
-        Block(email, emailToBlock);
+        console.log("blocked!!!");
+        //Block(email, emailToBlock);
       }
     } else if (buttonType === "report") {
       console.log("report");
@@ -248,7 +271,8 @@ function DisplayFilteredUsers() {
             className="favorite_button"
           />
         </IconButton>
-        <IconButton onClick={() => swipe("block")}>
+        {/*} <IconButton onClick={() => swipe("block")}>*/}
+        <IconButton onClick={() => handleBlock()}>
           <BlockIcon
             sx={{ color: "black" }}
             fontSize="large"
@@ -256,6 +280,28 @@ function DisplayFilteredUsers() {
           />
         </IconButton>
       </div>
+
+      <form onSubmit={actualBlock}>
+        <div className="mb-3">
+          <Modal show={show} onHide={handleClose} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirmation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to block this user? This action cannot be
+              undone.
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button type="submit" variant="danger" onClick={actualBlock}>
+                Block
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      </form>
     </div>
   );
 }
