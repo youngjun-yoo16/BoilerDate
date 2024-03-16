@@ -73,7 +73,7 @@ function ShowYourLikes() {
   }, [likesList]);
 
   const handleCardClick = (userEmail) => {
-    navigate("/profilecard", { state: { email: userEmail } });
+    navigate("/showpeoplelikedyou/profilecard", { state: { email: userEmail } });
     
   };
 
