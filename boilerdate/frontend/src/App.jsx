@@ -46,7 +46,7 @@ import Notifications from "./settings/Notifications";
 import ShowMatches from "./relationships/showMatches";
 import ShowYourLikes from "./relationships/showYourLikes";
 import ShowPeopleLikedYou from "./relationships/showPeopleLikedYou";
-import Privacy from "./Privacy";
+import Privacy from "./settings/Privacy";
 import ProfileSettings from "./settings/ProfileSettings";
 import CardProfilePeopleLiked from "./relationships/CardProfilePeopleLiked";
 import Significant from "./settings/Significant";

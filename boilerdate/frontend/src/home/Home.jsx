@@ -25,6 +25,7 @@ function Home() {
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25">
         <h2>Home</h2>
+        <br />
         <div className="mb-3">
           <input
             type="button"
