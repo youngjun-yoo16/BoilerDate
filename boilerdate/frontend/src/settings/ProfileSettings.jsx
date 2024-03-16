@@ -255,6 +255,18 @@ function ProfileSettings() {
         <div className="mb-3">
           <input
             type="button"
+            value="Significant Feature"
+            name="significant feature"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/significant", { state: { email: email } })
+            }
+          />
+        </div>
+
+        <div className="mb-3">
+          <input
+            type="button"
             value="Back"
             name="back"
             className="btn btn-outline-primary border w-100"

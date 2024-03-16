@@ -108,6 +108,17 @@ function ProfilePage() {
         </div>
 
         <div className="card">
+          <div class="card-header">Check this out!</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              {/* TODO: display the filename and let download be clickable*/}
+              {/* TODO: make sure it doesnt display if there is none*/}
+              File: {convertHeight(profile.height)}
+            </li>
+          </ul>
+        </div>
+
+        <div className="card">
           <div class="card-header">Basics</div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
