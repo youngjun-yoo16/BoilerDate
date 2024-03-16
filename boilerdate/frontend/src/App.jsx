@@ -49,6 +49,7 @@ import ShowYourDislikes from "./showldm/showYourDislikes";
 import ShowPeopleLikedYou from "./showldm/showPeopleLikedYou";
 import Privacy from "./Privacy";
 import ProfileSettings from "./settings/ProfileSettings";
+import CardProfilePeopleLiked from "./showldm/CardProfilePeopleLiked";
 
 const App = () => {
   return (
@@ -122,6 +123,7 @@ const App = () => {
           ></Route>
           <Route path="/settings/privacy" element={<Privacy />}></Route>
           <Route path="/settings/profile" element={<ProfileSettings />}></Route>
+          <Route path="/showpeoplelikedyou/profilecard" element={<CardProfilePeopleLiked/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
