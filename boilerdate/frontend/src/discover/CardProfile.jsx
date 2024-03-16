@@ -75,6 +75,7 @@ const navigate = useNavigate();
         </div>
         )}
         
+        {person.bio && (
         <div class="card">
           <div class="card-body">
             <blockquote class="blockquote mb-0">
@@ -87,6 +88,7 @@ const navigate = useNavigate();
             </blockquote>
           </div>
         </div>
+        )}
           
         <div className="card">
           <div class="card-header">Basics</div>
