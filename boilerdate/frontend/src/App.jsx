@@ -39,19 +39,19 @@ import Gender from "./settings/Gender";
 import Birthday from "./settings/Birthday";
 import UpdatePassword from "./login/UpdatePassword";
 import SetupBio from "./profile/Bio";
-import DisplayFilteredUsers from "./discover/displayFilteredUsers";
+import DisplayFilteredUsers from "./discover/DisplayFilteredUsers";
 import Filter from "./Filter";
 import DeleteAccount from "./settings/DeleteAccount";
 import Notifications from "./settings/Notifications";
-import ShowMatches from "./relationships/showMatches";
-import ShowYourLikes from "./relationships/showYourLikes";
-import ShowPeopleLikedYou from "./relationships/showPeopleLikedYou";
+import ShowMatches from "./relationships/ShowMatches";
+import ShowYourLikes from "./relationships/ShowYourLikes";
+import ShowPeopleLikedYou from "./relationships/ShowPeopleLikedYou";
 import Privacy from "./settings/Privacy";
 import ProfileSettings from "./settings/ProfileSettings";
 import CardProfilePeopleLiked from "./relationships/CardProfilePeopleLiked";
 import Significant from "./settings/Significant";
-import ShowBlocks from "./relationships/showBlocks";
 import ShowPages from "./relationships/ShowPages";
+import ShowBlocks from "./relationships/ShowBlocks";
 
 const App = () => {
   return (

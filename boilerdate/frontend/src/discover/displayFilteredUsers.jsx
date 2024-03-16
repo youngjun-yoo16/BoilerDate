@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import TinderCard from "react-tinder-card";
-import "./displayFilteredUser.css";
+import "./DisplayFilteredUser.css";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
