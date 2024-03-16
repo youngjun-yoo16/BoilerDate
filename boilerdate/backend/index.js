@@ -537,6 +537,21 @@ app.post("/block", async (req, res) => {
   }
 });
 
+app.post("/report", async (req, res) => {
+  try {
+    const { email, target } = req.body;
+
+    await BlockModel.findOneAndUpdate(
+      { email: email },
+      { $addToSet: { "reports.emails": target } },
+      { upsert: true }
+    );
+    console.log("email: " + email + " | target: " + target);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.post("/updateGPA", async (req, res) => {
   try {
     const { email, gpa } = req.body;
@@ -988,13 +1003,19 @@ app.post("/fetchFilteredUsers", async (req, res) => {
         const element = blockedEmails.emails[index];
         blocks.push(element);
       }
-      //console.log("blocked users: " + blocks);
+      const reportedEmails = blockedUsers.reports;
+      console.log("blocked users: " + blocks);
+      for (let index = 0; index < reportedEmails.emails.length; index++) {
+        const element = reportedEmails.emails[index];
+        blocks.push(element);
+      }
+      console.log("blocked + reported users: " + blocks);
 
       let finalFilter = [];
       for (let index = 0; index < filteredUsers.length; index++) {
         const element = filteredUsers[index].email;
         if (blocks.includes(element)) {
-          console.log("blocked!!!");
+          console.log("removed");
         } else {
           finalFilter.push(filteredUsers[index]);
         }

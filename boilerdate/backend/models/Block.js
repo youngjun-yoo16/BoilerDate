@@ -5,6 +5,9 @@ const BlockSchema = new mongoose.Schema({
   blocks: {
     emails: [String],
   },
+  reports: {
+    emails: [String],
+  },
 });
 
 const BlockModel = mongoose.model("block", BlockSchema);
