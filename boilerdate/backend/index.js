@@ -458,6 +458,7 @@ app.post("/fetchusernames", async (req, res) => {
     const profiles = await ProfileModel.find({ email: { $in: emails } });
     let userData = {};
     usernames.forEach((user) => {
+      // doing another search
       const profile = profiles.find((profile) => profile.email === user.email);
       const username = `${user.firstName} ${user.lastName}`;
       const dob = user.dob;
