@@ -32,7 +32,7 @@ function DeleteAccount() {
       })
       .then((result) => {
         console.log(result);
-        navigate("/settings", { state: { email: email } });
+        navigate("/", { state: { email: email } });
       })
       .catch((err) => console.log(err));
   };
