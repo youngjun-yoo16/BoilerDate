@@ -57,12 +57,14 @@ function ShowPeopleLikedYou() {
         })
         .then((res) => {
           // restructure userData to array
+
+        
           setUserData(
-            Object.entries(res.data).map(([username, { email, gpa, dob }]) => ({
+            Object.entries(res.data).map(([username, { email, gpa, age }]) => ({
               username,
               email,
               gpa,
-              dob,
+              age,
             }))
           );
         })
@@ -70,6 +72,8 @@ function ShowPeopleLikedYou() {
           toast.error("Failed to fetch usernames and GPAs!");
         });
     }
+
+
   }, [receivedLikesList]);
 
   const handleCardClick = (userEmail) => {
@@ -98,7 +102,7 @@ function ShowPeopleLikedYou() {
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    {user.username}
+                    {user.username}, {user.age}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     GPA: {user.gpa}

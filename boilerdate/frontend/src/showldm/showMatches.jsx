@@ -54,10 +54,11 @@ function ShowMatches() {
         .then((res) => {
           // restructure userData to array
           setUserData(
-            Object.entries(res.data).map(([username, { email, gpa }]) => ({
+            Object.entries(res.data).map(([username, { email, gpa, age }]) => ({
               username,
               email,
               gpa,
+              age,
             }))
           );
         })
@@ -69,6 +70,7 @@ function ShowMatches() {
 
   async function handleClick(emailToRemove, e) {
     e.preventDefault();
+    e.stopPropagation(); 
     try {
       const response = await axios.post(
         "http://localhost:3001/deleteUnmatched",
@@ -116,7 +118,7 @@ function ShowMatches() {
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    {user.username}
+                  {user.username}, {user.age}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     GPA: {user.gpa}
