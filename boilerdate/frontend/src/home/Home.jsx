@@ -36,22 +36,13 @@ function Home() {
           />
         </div>
 
+      
         <p></p>
         <div className="mb-3">
           <input
             type="button"
-            value="Profile"
-            name="profile"
-            className="btn btn-outline-primary border w-100"
-            onClick={() => navigate("/profile", { state: { email: email } })}
-          />
-        </div>
-        <p></p>
-        <div className="mb-3">
-          <input
-            type="button"
-            value="Filter"
-            name="filter"
+            value="Discovery Filter"
+            name="Discovery Filter"
             className="btn btn-outline-primary border w-100"
             onClick={() => navigate("/filter", { state: { email: email } })}
           />
@@ -60,12 +51,22 @@ function Home() {
         <div className="mb-3">
           <input
             type="button"
-            value="Relationships"
-            name="relationships"
+            value="My Relationships"
+            name="My Relationships"
             className="btn btn-outline-primary border w-100"
             onClick={() =>
               navigate("/relationships", { state: { email: email } })
             }
+          />
+        </div>
+        <p></p>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="My Profile"
+            name="My Profile"
+            className="btn btn-outline-primary border w-100"
+            onClick={() => navigate("/profile", { state: { email: email } })}
           />
         </div>
 
