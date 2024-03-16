@@ -42,16 +42,15 @@
   position: fixed;
   top: 5px;
   right: 9px;
- 
-    z-index: 1000; /* Adjust the value as needed */
-  
+
+  z-index: 1000; /* Adjust the value as needed */
 }
 .main_text {
   position: fixed;
-  
-left: 10px;
- 
-    z-index: 1000;
+
+  left: 10px;
+
+  z-index: 1000;
 }
 
 .close_button {
@@ -72,4 +71,14 @@ left: 10px;
 .mb-4 {
   position: fixed;
   top: 25px;
+}
+
+.report_button {
+  position: fixed;
+  top: 13px;
+  left: 13px;
+  background-color: white;
+  border-radius: 10px;
+
+  z-index: 1000; /* Adjust the value as needed */
 }
