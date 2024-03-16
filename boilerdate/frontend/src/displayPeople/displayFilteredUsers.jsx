@@ -11,9 +11,11 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import HandleUserLikesAndDislikes from "./HandleLikesDislikes";
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import BlockIcon from "@mui/icons-material/Block";
+import ReportIcon from "@mui/icons-material/Report";
 import axios from "axios";
 import CardProfile from "./CardProfile.jsx";
 import Block from "./HandleBlock.js";
+import Report from "./HandleReport.js";
 
 function DisplayFilteredUsers() {
   const [showCardProfile, setShowCardProfile] = useState(false);
@@ -151,6 +153,13 @@ function DisplayFilteredUsers() {
         const emailToBlock = peoples[currentIndex].email;
         Block(email, emailToBlock);
       }
+    } else if (buttonType === "report") {
+      console.log("report");
+      if (canSwipe && currentIndex < peoples.length) {
+        await childRefs[currentIndex].current.swipe("left");
+        const emailToReport = peoples[currentIndex].email;
+        Report(email, emailToReport);
+      }
     }
   };
 
@@ -205,6 +214,15 @@ function DisplayFilteredUsers() {
                   sx={{ color: "grey" }}
                   fontSize="large"
                   className="arrow_button"
+                />
+              </IconButton>
+            </div>
+            <div className="swipeButton">
+              <IconButton onClick={() => swipe("report")}>
+                <ReportIcon
+                  sx={{ color: "black" }}
+                  fontSize="large"
+                  className="report_button"
                 />
               </IconButton>
             </div>
