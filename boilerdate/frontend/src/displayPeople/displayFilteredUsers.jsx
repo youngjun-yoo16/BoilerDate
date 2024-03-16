@@ -96,7 +96,7 @@ function DisplayFilteredUsers() {
     updateCurrentIndex(index - 1);
   };
 
-  const outOfFrame = (name, idx) => { 
+  const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
@@ -110,7 +110,7 @@ function DisplayFilteredUsers() {
 
   const swipe = async (buttonType) => {
     setShowCardProfile(false);
- 
+
     //console.log(peoples[currentIndex].email)
     if (buttonType === "like") {
       if (canSwipe && currentIndex < peoples.length) {
@@ -145,9 +145,11 @@ function DisplayFilteredUsers() {
       // HandleUserLikesAndDislikes(temp_email, peoples[0].email, false);
       //HandleUserLikesAndDislikes(temp_email, peoples[1].email, false);
     } else if (buttonType === "block") {
-      await childRefs[currentIndex].current.swipe("left");
-      const emailToBlock = peoples[currentIndex].email;
-      Block(email, emailToBlock);
+      if (canSwipe && currentIndex < peoples.length) {
+        await childRefs[currentIndex].current.swipe("left");
+        const emailToBlock = peoples[currentIndex].email;
+        Block(email, emailToBlock);
+      }
     }
   };
 
@@ -166,15 +168,15 @@ function DisplayFilteredUsers() {
 
   return (
     <div className="tinderCard_container">
-           <div className="mb-4">
-          <input
-            type="button"
-            value="Home"
-            name="home"
-            className="btn btn-outline-dark border w-100"
-            onClick={() => navigate("/home", { state: { email: email } })}
-          />
-        </div>
+      <div className="mb-4">
+        <input
+          type="button"
+          value="Home"
+          name="home"
+          className="btn btn-outline-dark border w-100"
+          onClick={() => navigate("/home", { state: { email: email } })}
+        />
+      </div>
 
       {peoples.map((person, index) => (
         <TinderCard
@@ -192,11 +194,10 @@ function DisplayFilteredUsers() {
               backgroundImage: "url(" + person.imageUrl + ")",
             }}
           >
-           
             <h3 className="main_text">
               {person.firstName} {person.age}{" "}
             </h3>
-           
+
             <div className="arrowButton">
               <IconButton onClick={() => handleSubmit("arrow")}>
                 <ArrowCircleDownIcon
@@ -236,9 +237,6 @@ function DisplayFilteredUsers() {
           />
         </IconButton>
       </div>
-      
-
-   
     </div>
   );
 }

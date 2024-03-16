@@ -954,27 +954,37 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     let filteredUsers = await Promise.all(filteredUsersPromises);
     filteredUsers = filteredUsers.filter((user) => user); // Remove nulls
 
+    // Step 4: Filter out blocked users
     const blockedUsers = await BlockModel.findOne({ email: email });
-    let blockedEmails = blockedUsers.blocks;
-    //console.log(blockedUsers.blocks);
-    let blocks = [];
-    console.log(blockedEmails);
-    console.log(blockedUsers.blocks.length);
-    for (let index = 0; index < blocks.length; index++) {
-      const element = blockedEmails[index];
-      blocks.push(element);
-      console.log(element);
+    //console.log(blockedUsers);
+    if (blockedUsers) {
+      console.log("blocked users exist");
+
+      const blockedEmails = blockedUsers.blocks;
+      let blocks = [];
+      for (let index = 0; index < blockedEmails.emails.length; index++) {
+        const element = blockedEmails.emails[index];
+        blocks.push(element);
+      }
+      console.log("blocked users: " + blocks);
+
+      let finalFilter = [];
+      for (let index = 0; index < filteredUsers.length; index++) {
+        const element = filteredUsers[index].email;
+        if (blocks.includes(element)) {
+          console.log("blocked!!!");
+        } else {
+          finalFilter.push(filteredUsers[index]);
+        }
+        console.log("element: " + element);
+      }
+
+      console.log(finalFilter.length);
+      //console.log(finalFilter);
+      res.json(finalFilter);
+    } else {
+      res.json(filteredUsers);
     }
-    console.log(blockedEmails);
-
-    /*let afterBlock = blockedUsers.filter(
-      (notBlocked) => notBlocked.email !== email
-    );*/
-
-    //console.log(filteredUsers);
-    //console.log(filteredUsers.email);
-
-    res.json(filteredUsers);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
