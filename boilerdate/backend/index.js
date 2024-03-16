@@ -449,7 +449,21 @@ app.post("/fetchlikes", async (req, res) => {
   }
 });
 
-//app.post("/fetch");
+app.post("/fetchblocks", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const document = await BlockModel.findOne({ email: email }, "blocks");
+
+    if (document) {
+      res.json(document.blocks);
+    } else {
+      res.status(404).json({ message: "Document not found" });
+    }
+  } catch (error) {
+    console.error("Failed to fetch blocks:", error);
+    res.status(500).json({ error: "Failed to fetch blocks" });
+  }
+});
 
 app.post("/fetchusernames", async (req, res) => {
   try {
@@ -463,8 +477,8 @@ app.post("/fetchusernames", async (req, res) => {
       const username = `${user.firstName} ${user.lastName}`;
       const dob = user.dob;
       const dateDiff = Date.now() - new Date(dob).getTime();
-    const objAge = new Date(dateDiff);
-    const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
+      const objAge = new Date(dateDiff);
+      const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
       userData[username] = {
         email: user.email,
         gpa: profile.gpa,
