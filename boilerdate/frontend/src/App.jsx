@@ -116,7 +116,7 @@ const App = () => {
           <Route path="/settings/delete" element={<DeleteAccount />}></Route>
           <Route path="/showmatches" element={<ShowMatches />}></Route>
           <Route path="/showyourlikes" element={<ShowYourLikes />}></Route>
-<Route path="/showblocks" element={<ShowBlocks />}></Route>
+          <Route path="/showblocks" element={<ShowBlocks />}></Route>
           <Route
             path="/showpeoplelikedyou"
             element={<ShowPeopleLikedYou />}

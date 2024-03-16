@@ -108,9 +108,7 @@ function Home() {
             value="Blocked Users"
             name="Matches"
             className="btn btn-outline-primary border w-100"
-            onClick={() =>
-              navigate("/showblocks", { state: { email: email } })
-            }
+            onClick={() => navigate("/showblocks", { state: { email: email } })}
           />
         </div>
         <p></p>
