@@ -99,9 +99,7 @@ function ShowPeopleLikedYou() {
                     <Typography gutterBottom variant="h5" component="div">
                       {user.username}, {user.age}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      GPA: {user.gpa}
-                    </Typography>
+                 
                   </CardContent>
                   <CardActions>
                     {/*<Button size="small">Like</Button>*/}
