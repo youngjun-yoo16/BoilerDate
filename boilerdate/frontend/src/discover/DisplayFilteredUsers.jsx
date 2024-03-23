@@ -20,58 +20,51 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 function DisplayFilteredUsers() {
+  const [dislikedUserEmails, setDislikedUserEmails] = useState([]);
   const [showCardProfile, setShowCardProfile] = useState(false);
   const { state } = useLocation();
   const { email } = state || {};
   const navigate = useNavigate();
-
-  // array of users
-  // will be getting from the database later and store it here
-
-  /*
-  const [check, setCheck] = useState(1);
-  const [peoples, setPeople] = useState([
-    {
-      email: "hi@purdue.edu",
-      firstName: "hi",
-      major: "CS",
-      age: "21",
-      imageUrl: `https://media.gettyimages.com/photos/amazon-ceo-jeff-bezos-founder-of-space-venture-blue-origin-and-owner-picture-id1036094130?k=6&m=1036094130&s=612x612&w=0&h=3tKtZs6_SIXFZ2sdRUB4LjAf_GlfCMekP2Morwkt5EM=`,
-    },
-    {
-      email: "hello@purdue.edu",
-      firstName: "hello",
-      major: "DS",
-      age: "20",
-      imageUrl: `https://media.gettyimages.com/photos/of-tesla-and-space-x-elon-musk-attends-the-2015-vanity-fair-oscar-picture-id464172224?k=6&m=464172224&s=612x612&w=0&h=M9Wf9-mcTJBLRWKFhAX_QGVAPXogzxyvZeCiIV5O3pw=`,
-    },
-  ]);
-  
-*/
-const [likedUsers, setLikedUsers] = useState([]);
+const [dislikedUserIndices, setDislikedUserIndices] = useState([]);
+const [dislikedUsers, setDislikedUsers] = useState([]);
   const [peoples, setPeople] = useState([]);
   const [currentIndex, setCurrentIndex] = useState();
   const [lastDirection, setLastDirecton] = useState();
   const [childRefs, setChildRefs] = useState([]);
-  const [likedUser, setLikedUser] = useState();
   const currentIndexRef = useRef();
 
   
   const resetCards = () => {
+
+    const newPeoples = peoples.filter((person) =>
+    dislikedUsers.some((dislikedUser) => dislikedUser.email === person.email)
+  ); 
+
+    setPeople(newPeoples);
+
     // Reset the currentIndex to the last card
-    setCurrentIndex(peoples.length - 1);
-    currentIndexRef.current = peoples.length - 1;
-  
-    setLikedUsers([]);
+    setCurrentIndex(newPeoples.length - 1);
+    currentIndexRef.current = newPeoples.length - 1;
 
     // Programmatically restore each card
+    
+    newPeoples.forEach((_, index) => {
+      if (childRefs[index].current) {
+        childRefs[index].current.restoreCard();
+      }
+    });
+    
+
+    /*
     childRefs.forEach((ref) => {
       if (ref.current) {
         ref.current.restoreCard();
       }
     });
+    */
 
    
+    setDislikedUsers([]);
   };
   
 
@@ -101,16 +94,6 @@ const [likedUsers, setLikedUsers] = useState([]);
 
   
 
-
- 
-
-  console.log(peoples.length);
-
-  //const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
-  // const [lastDirection, setLastDirecton] = useState();
-
-  console.log(childRefs);
-
   const updateCurrentIndex = (val) => {
     setCurrentIndex(val);
     currentIndexRef.current = val;
@@ -120,11 +103,15 @@ const [likedUsers, setLikedUsers] = useState([]);
 
   const canSwipe = currentIndex >= 0;
 
-  const swiped = (direction, nameToDelete, index) => {
+  const swiped = (direction, person, index) => {
     setLastDirecton(direction);
     const newIndex = index - 1;
     updateCurrentIndex(newIndex);
-  
+    
+    if (direction === "left") {
+      setDislikedUsers((prevUsers) => [...prevUsers, person]);
+    }
+    
     // Check if it's the last card
     if (newIndex < 0) {
       resetCards();
@@ -133,7 +120,10 @@ const [likedUsers, setLikedUsers] = useState([]);
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
-    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
+    if (currentIndexRef.current >= idx && childRefs[idx] && childRefs[idx].current) {
+      childRefs[idx].current.restoreCard();
+    }
+    
   };
 
   const goBack = async () => {
@@ -191,7 +181,7 @@ const [likedUsers, setLikedUsers] = useState([]);
     if (buttonType === "like") {
       if (canSwipe && currentIndex < peoples.length) {
         const likedUserEmail = peoples[currentIndex].email;
-        setLikedUsers((prevLikedUsers) => [...prevLikedUsers, likedUserEmail]);
+
         
 
         try {
@@ -207,9 +197,7 @@ const [likedUsers, setLikedUsers] = useState([]);
         } catch (err) {
           console.error("Failed to send a notification email.");
         }
-        setLikedUser(peoples[currentIndex].email);
-
-        console.log(likedUser);
+      
 
         await childRefs[currentIndex].current.swipe("right"); // Swipe the card!
         console.log(peoples[currentIndex].email);
@@ -259,12 +247,12 @@ const [likedUsers, setLikedUsers] = useState([]);
       
         <TinderCard
           flickOnSwipe={false}
-          key={person.firstName}
+          key={person.email}
           ref={childRefs[index]}
           className="swipe"
           preventSwipe={[`up`, `down`]}
-          onSwipe={(dir) => swiped(dir, person.firstName, index)}
-          onCardLeftScreen={() => outOfFrame(person.firstName, index)}
+          onSwipe={(dir) => swiped(dir, person, index)}
+          onCardLeftScreen={() => outOfFrame(person.email, index)}
         >
           <div
             className="card filter"
