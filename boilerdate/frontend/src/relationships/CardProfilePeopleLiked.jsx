@@ -37,6 +37,52 @@ function CardProfilePeopleLiked() {
   };
   const imageUrl = `http://localhost:3001/image/${email}`;
 
+/*
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/fetchUser",
+          { email }
+        );
+        
+        console.log(response.data);
+      } catch (error) {
+        toast.error("Failed to fetch profile data");
+        console.error("Error fetching profile:", error);
+      }
+    };
+    fetchData();
+  }, [email]);
+  */
+  
+  /*
+  useEffect(() => {
+    axios
+      .post("http://localhost:3001/fetchUser", { email })
+      .then((response) => {
+        console.log(response.data);
+
+        let crrDob = new Date(response.data.user.dob);
+        let dateDiff = Date.now() - crrDob.getTime();
+        let objAge = new Date(dateDiff);
+        const age = Math.abs(objAge.getUTCFullYear() - 1970);
+        console.log(age);
+        setAges(age);
+
+        setfName(response.data.user.firstName);
+        setlName(response.data.user.lastName);
+        setProfile(response.data.profile);
+        setInterests(response.data.profile.interests);
+        setLifestyles(response.data.profile.lifestyle);
+      })
+      .catch((error) => {
+        toast.error("Failed to fetch profile data");
+        console.error("Error fetching profile:", error);
+      });
+  }, []); // eslint-disable-line
+  */
+  
   useEffect(() => {
     axios
       .post("http://localhost:3001/fetchProfile", { email })
@@ -61,6 +107,7 @@ function CardProfilePeopleLiked() {
         console.error("Error fetching profile:", error);
       });
   }, []); // eslint-disable-line
+
 
   const convertHeight = (heightInInches) => {
     const feet = Math.floor(heightInInches / 12);
