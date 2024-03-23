@@ -119,7 +119,8 @@ app.post("/fetchUser", async (req, res) => {
 
     const filteredUserProfilesByPrivacySettings =
       await filterUsersByPrivacySettings(filteredUsers);
-    //console.log(filteredUserProfilesByPrivacySettings);
+
+    console.log(filteredUserProfilesByPrivacySettings)
     res.json(filteredUserProfilesByPrivacySettings);
   } catch (error) {
     console.error("Error fetching user data:", error);
