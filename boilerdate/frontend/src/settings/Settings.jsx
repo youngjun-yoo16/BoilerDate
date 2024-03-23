@@ -6,6 +6,9 @@ import {
   faCog,
   faTrash,
   faBell,
+  faEdit,
+  faLock,
+  faKey,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Settings() {
@@ -30,15 +33,15 @@ function Settings() {
         <br />
 
         <div className="mb-3">
-          <input
+          <button
             type="button"
-            value="Profile"
-            name="profile"
             className="btn btn-outline-dark border w-100"
             onClick={() =>
               navigate("/settings/profile", { state: { email: email } })
             }
-          />
+          >
+            <FontAwesomeIcon icon={faEdit} /> Profile
+          </button>
         </div>
 
         <div className="mb-3">
@@ -54,27 +57,27 @@ function Settings() {
         </div>
 
         <div className="mb-3">
-          <input
+          <button
             type="button"
-            value="Privacy"
-            name="privacy"
             className="btn btn-outline-dark border w-100"
             onClick={() =>
               navigate("/settings/privacy", { state: { email: email } })
             }
-          />
+          >
+            <FontAwesomeIcon icon={faLock} /> Privacy
+          </button>
         </div>
 
         <div className="mb-3">
-          <input
+          <button
             type="button"
-            value="Password"
-            name="password"
             className="btn btn-outline-dark border w-100"
             onClick={() =>
               navigate("/updatePassword", { state: { email: email } })
             }
-          />
+          >
+            <FontAwesomeIcon icon={faKey} /> Password
+          </button>
         </div>
 
         <div className="mb-3">

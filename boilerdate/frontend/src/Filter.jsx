@@ -226,7 +226,7 @@ function Filter() {
       <div className="bg-white p-3 rounded w-75">
         <h2>
           <FontAwesomeIcon icon={faSliders} />
-          &nbsp; Filter
+          &nbsp;Filter
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-2">

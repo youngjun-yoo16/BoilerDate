@@ -99,6 +99,7 @@ function CardProfilePeopleLiked() {
   }, []); // eslint-disable-line
   */
   
+  /*
   useEffect(() => {
     axios
       .post("http://localhost:3001/fetchProfile", { email })
@@ -123,7 +124,7 @@ function CardProfilePeopleLiked() {
         console.error("Error fetching profile:", error);
       });
   }, []); // eslint-disable-line
-
+*/
 
   const convertHeight = (heightInInches) => {
     const feet = Math.floor(heightInInches / 12);

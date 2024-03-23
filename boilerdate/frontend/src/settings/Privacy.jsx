@@ -8,6 +8,8 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import "./Privacy.css";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 function Privacy() {
   const [gpa, setGpa] = useState("yes");
@@ -66,7 +68,10 @@ function Privacy() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-50">
-        <h2>Privacy Settings</h2>
+        <h2>
+          <FontAwesomeIcon icon={faLock} />
+          &nbsp;Privacy Settings
+        </h2>
         <span>
           Select "yes" if you would like others to see the respective category
           when viewing your profile, or "no" if otherwise.
