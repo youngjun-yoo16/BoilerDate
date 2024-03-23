@@ -59,7 +59,7 @@ function UpdatePhoto() {
       if (response.data.success) {
         toast.success("Photo uploaded successfully!");
         await sleep(1200);
-        navigate("/interests", { state: { email: email } });
+        navigate("/settings/profile", { state: { email: email } });
       } else {
         toast.error("Error: server issue");
       }
@@ -96,9 +96,25 @@ function UpdatePhoto() {
             onChange={handleFileChange}
             ref={inputFileRef}
           />
-          <button type="submit" className="btn btn-primary">
-            Upload
-          </button>
+
+          <div className="row">
+            <div className="col">
+              <button
+                type="button"
+                className="btn btn-outline-secondary border w-100"
+                onClick={() =>
+                  navigate("/settings/profile", { state: { email: email } })
+                }
+              >
+                Back
+              </button>
+            </div>
+            <div className="col">
+              <button type="submit" className="btn btn-primary w-100">
+                Update
+              </button>
+            </div>
+          </div>
         </form>
         <ToastContainer />
       </div>

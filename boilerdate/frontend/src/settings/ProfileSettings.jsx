@@ -255,6 +255,18 @@ function ProfileSettings() {
         <div className="mb-3">
           <input
             type="button"
+            value="Photo"
+            name="photo"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/settings/photo", { state: { email: email } })
+            }
+          />
+        </div>
+
+        <div className="mb-3">
+          <input
+            type="button"
             value="Significant Feature"
             name="significant feature"
             className="btn btn-outline-dark border w-100"
