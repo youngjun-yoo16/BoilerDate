@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome, faCog, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function Settings() {
   const { state } = useLocation();
@@ -17,7 +19,9 @@ function Settings() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100 overflow-auto">
       <div className="bg-white p-3 rounded w-25">
-        <h2>Settings</h2>
+        <h2>
+          <FontAwesomeIcon icon={faCog} /> Settings
+        </h2>
         <br />
 
         <div className="mb-3">
@@ -69,25 +73,32 @@ function Settings() {
         </div>
 
         <div className="mb-3">
-          <input
+          <button
             type="button"
-            value="Delete Account"
-            name="delete"
             className="btn btn-outline-danger border w-100"
             onClick={() =>
               navigate("/settings/delete", { state: { email: email } })
             }
-          />
+          >
+            <FontAwesomeIcon icon={faTrash} /> Delete Account
+          </button>
         </div>
 
         <div className="mb-3">
-          <input
+          {/*<input
             type="button"
             value="Home"
             name="home"
             className="btn btn-outline-primary border w-100"
             onClick={() => navigate("/home", { state: { email: email } })}
-          />
+          />*/}
+          <button
+            type="button"
+            className="btn btn-outline-primary w-100"
+            onClick={() => navigate("/home", { state: { email: email } })}
+          >
+            <FontAwesomeIcon icon={faHome} /> Home
+          </button>
         </div>
       </div>
     </div>

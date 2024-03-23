@@ -87,7 +87,7 @@ function Gender() {
                 type="button"
                 className="btn btn-outline-secondary w-100"
                 onClick={() =>
-                  navigate("/settings", { state: { email: email } })
+                  navigate("/settings/profile", { state: { email: email } })
                 }
               >
                 Back
