@@ -7,6 +7,7 @@ import {
   faBan,
   faLongArrowAltRight,
   faLongArrowAltLeft,
+  faHandHoldingHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 
@@ -26,7 +27,10 @@ function ShowPages() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100 overflow-auto">
       <div className="bg-white p-3 rounded w-25">
-        <h2>Relationships</h2>
+        <h2>
+          <FontAwesomeIcon icon={faHandHoldingHeart} />
+          &nbsp;Relationships
+        </h2>
         <br />
 
         <div className="mb-3">
