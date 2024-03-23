@@ -604,6 +604,9 @@ app.post("/block", async (req, res) => {
       { $addToSet: { "blocks.emails": target } },
       { upsert: true }
     );
+
+    await filterUsersByBlockedAndReported(email, target);
+
     console.log("email: " + email + " | target: " + target);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -1153,6 +1156,7 @@ async function filterProfilesByBlockedAndReported(userProfiles, myEmail) {
 }
 
 async function filterUsersByBlockedAndReported(email, users) {
+  console.log("Blocked: ", users)
   if (users == null) {
     return;
   }
