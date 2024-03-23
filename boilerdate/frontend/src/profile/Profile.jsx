@@ -71,9 +71,17 @@ function ProfilePage() {
   };
 
   const handleDownload = async () => {
+    let downloadUrl;
     try {
-      //http://localhost:3001/significant/lee3546@purdue.edu
-      const downloadUrl = `http://localhost:3001/significant/${email}`;
+      const response = await fetch(
+        `http://localhost:3001/checkPdfExists/${email}`
+      );
+      const data = await response.json();
+      if (data.exists) {
+        downloadUrl = `http://localhost:3001/significant/${email}`;
+      } else {
+        downloadUrl = `http://localhost:3001/significant/temp`;
+      }
       window.location.href = downloadUrl;
     } catch (error) {
       console.error(error);
@@ -120,13 +128,13 @@ function ProfilePage() {
         </div>
 
         <div className="card">
-          <div className="card-header">Please click the text</div>
+          <div className="card-header">Please click the button</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
               <button onClick={handleDownload} className="btn btn-primary">
                 I believe this shows me well
               </button>
-              {/* TODO: make sure it doesnt display if there is none*/}
+              {/* if there is nothing uploaded, default file is downloaded*/}
             </li>
           </ul>
         </div>

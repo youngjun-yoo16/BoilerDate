@@ -378,27 +378,33 @@ app.post("/uploadPDFfile", upload.single("pdfFile"), async (req, res) => {
   temp_pdf_file_path = path.join(__dirname, "/uploads/", req.file.filename);
 
   // define object to upload
-  const obj = {
-    name: req.file.filename,
-    email: req.body.email,
-    pdfFile: {
-      data: fs.readFileSync(temp_pdf_file_path),
-      contentType: req.file.mimetype,
-    },
-  };
+  try {
+    await PdfModel.findOneAndDelete({ email: req.body.email });
 
-  // insert pdf file to mongodb and return success true
-  await PdfModel.create(obj)
-    .then(() => {
-      res.status(200).json({
-        success: true,
-        message: "pdf file upload completed",
+    const obj = {
+      name: req.file.filename,
+      email: req.body.email,
+      pdfFile: {
+        data: fs.readFileSync(temp_pdf_file_path),
+        contentType: "application/pdf",
+      },
+    };
+
+    // insert pdf file to mongodb and return success true
+    await PdfModel.create(obj)
+      .then(() => {
+        res.status(200).json({
+          success: true,
+          message: "pdf file upload completed",
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send(err);
       });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send(err);
-    });
+  } catch (error) {
+    console.error(error);
+  }
 
   // delete uploaded file in temp folder
   fs.unlink(temp_pdf_file_path, (err) => {
@@ -424,11 +430,25 @@ app.get("/significant/:email", async (req, res) => {
 
     // send back, prompting user to download the file
     res.setHeader("Content-Disposition", "attachment; filename=" + pdf.name);
-    res.contentType(pdf.pdfFile.contentType);
-    res.send(pdf.pdfFile);
+    res.contentType("application/pdf");
+    res.send(pdf.pdfFile.data);
   } catch (error) {
     console.error(error);
     res.status(500).send("GET pdfFile failed");
+  }
+});
+
+app.get("/checkPdfExists/:email", async (req, res) => {
+  try {
+    const pdf = await PdfModel.findOne({ email: req.params.email });
+    if (pdf && pdf.pdfFile && pdf.pdfFile.data) {
+      // simply confirm if the pdf file exists or not
+      res.json({ exists: true });
+    } else {
+      res.json({ exists: false });
+    }
+  } catch (error) {
+    console.error(error);
   }
 });
 
