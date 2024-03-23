@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faCog } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faCog, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function Settings() {
   const { state } = useLocation();
@@ -73,15 +73,15 @@ function Settings() {
         </div>
 
         <div className="mb-3">
-          <input
+          <button
             type="button"
-            value="Delete Account"
-            name="delete"
             className="btn btn-outline-danger border w-100"
             onClick={() =>
               navigate("/settings/delete", { state: { email: email } })
             }
-          />
+          >
+            <FontAwesomeIcon icon={faTrash} /> Delete Account
+          </button>
         </div>
 
         <div className="mb-3">

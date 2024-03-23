@@ -813,7 +813,7 @@ function Filter() {
             <div className="col">
               <button
                 type="button"
-                className="btn btn-outline-secondary w-100"
+                className="btn btn-outline-secondary border w-100"
                 onClick={() => navigate("/home", { state: { email: email } })}
               >
                 Back
