@@ -20,6 +20,7 @@ function ProfilePage() {
 
   const { state } = useLocation();
   const { email } = state || {};
+
   const navigate = useNavigate();
 
   console.log(email);
@@ -55,7 +56,7 @@ function ProfilePage() {
         toast.error("Failed to fetch profile data");
         console.error("Error fetching profile:", error);
       });
-  }, []); // eslint-disable-line
+  }, [email]);
 
   const convertHeight = (heightInInches) => {
     const feet = Math.floor(heightInInches / 12);
@@ -69,26 +70,9 @@ function ProfilePage() {
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(`/significant/${email}`);
-
-      if (!response.ok) {
-        throw new Error("PDF file fetch failed");
-      }
-
-      // create a temporary tag and trigger downlaod
-      const blob = await response.blob();
-      const downloadUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-
-      // Set the downloadable filename to the following text
-      link.setAttribute("download", "You will be surprised!");
-      document.body.appendChild(link);
-
-      // manually click the link
-      link.click();
-      link.parentNode.removeChild(link);
-      window.URL.revokeObjectURL(downloadUrl);
+      //http://localhost:3001/significant/lee3546@purdue.edu
+      const downloadUrl = `http://localhost:3001/significant/${email}`;
+      window.location.href = downloadUrl;
     } catch (error) {
       console.error(error);
     }
@@ -112,19 +96,19 @@ function ProfilePage() {
       </h1>
       <form onSubmit={handleSubmit}>
         <div className="card">
-          <div class="card-header">Looking for</div>
-          <ul class="list-group list-group-flush">
+          <div className="card-header">Looking for</div>
+          <ul className="list-group list-group-flush">
             <li className="list-group-item custom-font-style">
               {profile.relationship}
             </li>
           </ul>
         </div>
 
-        <div class="card">
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
+        <div className="card">
+          <div className="card-body">
+            <blockquote className="blockquote mb-0">
               <p>{profile.bio}</p>
-              <footer class="blockquote-footer">
+              <footer className="blockquote-footer">
                 <cite title="Source Title">
                   {fName} {lName}
                 </cite>
@@ -134,48 +118,51 @@ function ProfilePage() {
         </div>
 
         <div className="card">
-          <div class="card-header">Check this out!</div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              {/* TODO: display the filename and let download be clickable; change click this to filename*/}
-              <button onClick={handleDownload}>Click this!</button>
+          <div className="card-header">Please click the text</div>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">
+              <button onClick={handleDownload} className="btn btn-primary">
+                I believe this shows me well
+              </button>
               {/* TODO: make sure it doesnt display if there is none*/}
             </li>
           </ul>
         </div>
 
         <div className="card">
-          <div class="card-header">Basics</div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
+          <div className="card-header">Basics</div>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">
               Height: {convertHeight(profile.height)}
             </li>
-            <li class="list-group-item">
+            <li className="list-group-item">
               Personality Type: {profile.personality}
             </li>
-            <li class="list-group-item">Citizenship: {profile.citizenship}</li>
+            <li className="list-group-item">
+              Citizenship: {profile.citizenship}
+            </li>
           </ul>
         </div>
 
         <div className="card">
-          <div class="card-header">Academics & Career</div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Major: {profile.major}</li>
-            <li class="list-group-item">Degree: {profile.degree}</li>
-            <li class="list-group-item">GPA: {profile.gpa}</li>
-            <li class="list-group-item">
+          <div className="card-header">Academics & Career</div>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">Major: {profile.major}</li>
+            <li className="list-group-item">Degree: {profile.degree}</li>
+            <li className="list-group-item">GPA: {profile.gpa}</li>
+            <li className="list-group-item">
               Employment History: {profile.employment_history}
             </li>
-            <li class="list-group-item">Skills: {profile.skills}</li>
-            <li class="list-group-item">
+            <li className="list-group-item">Skills: {profile.skills}</li>
+            <li className="list-group-item">
               Career Goals: {profile.career_goals}
             </li>
           </ul>
         </div>
 
         <div className="card">
-          <div class="card-header">Interests</div>
-          <ul class="list-group list-group-flush">
+          <div className="card-header">Interests</div>
+          <ul className="list-group list-group-flush">
             <div className="selected-containers">
               {interests.map((interest, index) => (
                 <div key={index} className={`interests`}>
@@ -187,45 +174,45 @@ function ProfilePage() {
         </div>
 
         <div className="card">
-          <div class="card-header">Lifestyle</div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
+          <div className="card-header">Lifestyle</div>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">
               Pets
               <div className="selected-containerss">
                 <div className={`interests`}>{lifestyles[0]}</div>
               </div>
             </li>
-            <li class="list-group-item">
+            <li className="list-group-item">
               Drinking
               <div className="selected-containerss">
                 <div className={`interests`}>{lifestyles[1]}</div>
               </div>
             </li>
-            <li class="list-group-item">
+            <li className="list-group-item">
               Smoking
               <div className="selected-containerss">
                 <div className={`interests`}>{lifestyles[2]}</div>
               </div>
             </li>
-            <li class="list-group-item">
+            <li className="list-group-item">
               Workout
               <div className="selected-containerss">
                 <div className={`interests`}>{lifestyles[3]}</div>
               </div>
             </li>
-            <li class="list-group-item">
+            <li className="list-group-item">
               Dietary Preference
               <div className="selected-containerss">
                 <div className={`interests`}>{lifestyles[4]}</div>
               </div>
             </li>
-            <li class="list-group-item">
+            <li className="list-group-item">
               Social Media
               <div className="selected-containerss">
                 <div className={`interests`}>{lifestyles[5]}</div>
               </div>
             </li>
-            <li class="list-group-item">
+            <li className="list-group-item">
               Sleeping Habits
               <div className="selected-containerss">
                 <div className={`interests`}>{lifestyles[6]}</div>
@@ -235,10 +222,10 @@ function ProfilePage() {
         </div>
 
         <div className="card">
-          <div class="card-header">Links</div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">GitHub: {profile.github}</li>
-            <li class="list-group-item">LinkedIn: {profile.linkedin}</li>
+          <div className="card-header">Links</div>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">GitHub: {profile.github}</li>
+            <li className="list-group-item">LinkedIn: {profile.linkedin}</li>
           </ul>
         </div>
 
