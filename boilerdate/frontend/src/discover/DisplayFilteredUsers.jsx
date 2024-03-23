@@ -41,19 +41,20 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
   ); 
 
     setPeople(newPeoples);
-
+   
     // Reset the currentIndex to the last card
     setCurrentIndex(newPeoples.length - 1);
     currentIndexRef.current = newPeoples.length - 1;
 
+    const newChildRefs = newPeoples.map(() => React.createRef());
+  setChildRefs(newChildRefs);
     // Programmatically restore each card
     
-    newPeoples.forEach((_, index) => {
-      if (childRefs[index].current) {
-        childRefs[index].current.restoreCard();
+    newChildRefs.forEach((ref, index) => {
+      if (ref.current) {
+        ref.current.restoreCard();
       }
     });
-    
 
     /*
     childRefs.forEach((ref) => {
@@ -62,7 +63,7 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
       }
     });
     */
-
+   
    
     setDislikedUsers([]);
   };
