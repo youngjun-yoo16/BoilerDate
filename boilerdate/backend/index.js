@@ -330,7 +330,7 @@ app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
   };
 
   // insert photo to mongodb and return success true
-  await ImageModel.create(obj)
+  await ImageModel.findOneAndUpdate(obj)
     .then(() => {
       res.status(200).json({
         success: true,
@@ -490,6 +490,10 @@ app.post("/manageldm", async (req, res) => {
 
       if (isMatch) {
         const type = "match";
+        
+        // Delete the matched user from liked & received liked pages
+        await deleteUsersFromLikedWhenMatched(email, target);
+        await deleteUsersFromLikedWhenMatched(target, email)
 
         // Fetch like and match status for both users in parallel
         const [userStatus, targetStatus] = await Promise.all([
@@ -671,7 +675,7 @@ app.post("/report", async (req, res) => {
 
     await filterUsersByBlockedAndReported(email, targetArray);
     await filterUsersByBlockedAndReported(target, emailArray);
-    
+
     console.log("email: " + email + " | target: " + target);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -1203,6 +1207,21 @@ async function filterProfilesByBlockedAndReported(userProfiles, myEmail) {
   }
 
   return filteredProfiles;
+}
+
+async function deleteUsersFromLikedWhenMatched(email, target) {
+  console.log("Email: " + email)
+  console.log("Target: " + target)
+  await UserLDMModel.findOneAndUpdate(
+    { email: email },
+    {
+      $pull: {
+        "liked.emails": target,
+        "receivedlikes.emails": target,
+      },
+    },
+    { new: true }
+  );
 }
 
 async function filterUsersByBlockedAndReported(email, users) {
