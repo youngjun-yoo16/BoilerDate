@@ -71,7 +71,7 @@ function UpdatePhoto() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-50">
-        <h2>&nbsp;Please upload your photo</h2>
+        <h2>&nbsp;Update photo</h2>
         <form
           onSubmit={handleSubmit}
           className="m-3"

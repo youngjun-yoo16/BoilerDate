@@ -16,7 +16,7 @@ function ProfileSettings() {
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100 overflow-auto">
-      <div className="bg-white p-3 rounded w-25">
+      <div className="bg-white p-3 rounded w-50">
         <h2>Profile Settings</h2>
 
         <div className="row">
@@ -250,6 +250,7 @@ function ProfileSettings() {
               />
             </div>
           </div>
+          <div className="col"></div>
         </div>
 
         <div className="mb-3">
