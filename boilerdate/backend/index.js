@@ -97,8 +97,40 @@ app.post("/fetchUser", async (req, res) => {
     const responseData = user;
     user_ar.push(responseData);
 
+    const emails = user.map((user) => user.email)
+
+    const filteredUsersPromises = emails.map(async (email) => {
+      //userQuery.email = email;
+      const user = await UserModel.findOne({ email: email});
+      if (user) {
+        const dateDiff = Date.now() - new Date(user.dob).getTime();
+        const objAge = new Date(dateDiff);
+        const convertedAge = Math.abs(objAge.getUTCFullYear() - 1970);
+        if (
+          convertedAge >= fp.age[0] &&
+          convertedAge <= fp.age[1] &&
+          (fp.gender === "" || user.gender === fp.gender)
+        ) {
+          const profile = await ProfileModel.findOne({ email: email });
+          if (profile) {
+            return {
+              ...profile.toObject(),
+              age: convertedAge,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              imageUrl: `http://localhost:3001/image/${email}`,
+            }; // Include the calculated age and name
+          }
+        }
+      }
+      return null;
+    });
+
+    let filteredUsers = await Promise.all(filteredUsersPromises);
+    filteredUsers = filteredUsers.filter((user) => user); // Remove nulls
+
     const filteredUserProfilesByPrivacySettings =
-      await filterUsersByPrivacySettings(user_ar);
+      await filterUsersByPrivacySettings(filteredUsers);
     console.log(filteredUserProfilesByPrivacySettings);
     res.json(filteredUserProfilesByPrivacySettings);
   } catch (error) {
