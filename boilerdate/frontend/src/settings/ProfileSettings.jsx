@@ -93,7 +93,9 @@ function ProfileSettings() {
                 }
               />
             </div>
+          </div>
 
+          <div className="col">
             <p></p>
             <div className="mb-3">
               <input
@@ -130,9 +132,7 @@ function ProfileSettings() {
                 }
               />
             </div>
-          </div>
 
-          <div className="col">
             <p></p>
             <div className="mb-3">
               <input
@@ -171,7 +171,8 @@ function ProfileSettings() {
                 }
               />
             </div>
-
+          </div>
+          <div className="col">
             <p></p>
             <div className="mb-3">
               <input
@@ -250,31 +251,35 @@ function ProfileSettings() {
               />
             </div>
           </div>
-          <div className="col"></div>
         </div>
 
-        <div className="mb-3">
-          <input
-            type="button"
-            value="Photo"
-            name="photo"
-            className="btn btn-outline-dark border w-100"
-            onClick={() =>
-              navigate("/settings/photo", { state: { email: email } })
-            }
-          />
-        </div>
-
-        <div className="mb-3">
-          <input
-            type="button"
-            value="Significant Feature"
-            name="significant feature"
-            className="btn btn-outline-dark border w-100"
-            onClick={() =>
-              navigate("/settings/significant", { state: { email: email } })
-            }
-          />
+        <div className="row">
+          <div className="col">
+            <div className="mb-3">
+              <input
+                type="button"
+                value="Photo"
+                name="photo"
+                className="btn btn-outline-dark border w-100"
+                onClick={() =>
+                  navigate("/settings/photo", { state: { email: email } })
+                }
+              />
+            </div>
+          </div>
+          <div className="col">
+            <div className="mb-3">
+              <input
+                type="button"
+                value="Significant Feature"
+                name="significant feature"
+                className="btn btn-outline-dark border w-100"
+                onClick={() =>
+                  navigate("/settings/significant", { state: { email: email } })
+                }
+              />
+            </div>
+          </div>
         </div>
 
         <div className="mb-3">

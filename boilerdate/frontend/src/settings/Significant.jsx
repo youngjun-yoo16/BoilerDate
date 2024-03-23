@@ -89,35 +89,36 @@ function Significant() {
               </button>
               <span className="ms-2">{fileName}</span>
             </div>
+          </div>
 
-            <div className="row mt-2">
-              <div className="col">
-                <input
-                  id="fileInput"
-                  className="d-none"
-                  type="file"
-                  name="image"
-                  accept=".pdf"
-                  onChange={handleFileChange}
-                  ref={inputFileRef}
-                />
-                <button type="submit" className="btn btn-primary">
-                  Upload
-                </button>
-              </div>
+          <br />
+
+          <div className="row">
+            <div className="col">
+              <button
+                type="button"
+                className="btn btn-outline-secondary border w-100"
+                onClick={() =>
+                  navigate("/settings/profile", { state: { email: email } })
+                }
+              >
+                Back
+              </button>
             </div>
-            <div className="row mt-2">
-              <div className="col">
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary"
-                  onClick={() =>
-                    navigate("/settings", { state: { email: email } })
-                  }
-                >
-                  Back
-                </button>
-              </div>
+            <div className="col">
+              <input
+                id="fileInput"
+                className="d-none"
+                type="file"
+                name="image"
+                accept=".pdf"
+                onChange={handleFileChange}
+                ref={inputFileRef}
+              />
+
+              <button type="submit" className="btn btn-primary w-100">
+                Upload
+              </button>
             </div>
           </div>
         </form>
