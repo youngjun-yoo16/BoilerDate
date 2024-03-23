@@ -88,6 +88,28 @@ app.post("/fetchProfile", async (req, res) => {
   }
 });
 
+app.post("/fetchUser", async (req, res) => {
+  try {
+    let user_ar = [];
+    const { email } = req.body;
+    const user = await ProfileModel.findOne({ email: email });
+   
+    const responseData = user;
+    user_ar.push(responseData);
+
+   
+
+    const filteredUserProfilesByPrivacySettings =
+        await filterUsersByPrivacySettings(user_ar);
+        console.log(filteredUserProfilesByPrivacySettings);
+      res.json(filteredUserProfilesByPrivacySettings);
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    res.json({ error: "Failed to fetch user data" });
+  }
+});
+
 app.post("/deleteAccount", async (req, res) => {
   try {
     const { email } = req.body;
@@ -526,6 +548,7 @@ app.post("/fetchblocks", async (req, res) => {
 
 app.post("/fetchusernames", async (req, res) => {
   try {
+    
     const { emails } = req.body;
     const usernames = await UserModel.find({ email: { $in: emails } });
     const profiles = await ProfileModel.find({ email: { $in: emails } });

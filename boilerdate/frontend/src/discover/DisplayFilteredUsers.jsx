@@ -48,13 +48,30 @@ function DisplayFilteredUsers() {
   ]);
   
 */
-
+const [likedUsers, setLikedUsers] = useState([]);
   const [peoples, setPeople] = useState([]);
   const [currentIndex, setCurrentIndex] = useState();
   const [lastDirection, setLastDirecton] = useState();
   const [childRefs, setChildRefs] = useState([]);
   const [likedUser, setLikedUser] = useState();
   const currentIndexRef = useRef();
+
+  
+  const resetCards = async () => {
+    // Reset the currentIndex to the last card
+    setCurrentIndex(peoples.length - 1);
+    currentIndexRef.current = peoples.length - 1;
+    
+ 
+    // Clear the likedUsers array
+    setLikedUsers([]);
+  //  currentIndexRef.current = peoples.length - 1;
+   
+
+    // Programmatically restore each card
+   
+  };
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,6 +97,11 @@ function DisplayFilteredUsers() {
     setChildRefs(peoples.map(() => React.createRef()));
   }, [peoples]);
 
+  
+
+
+ 
+
   console.log(peoples.length);
 
   //const [currentIndex, setCurrentIndex] = useState(peoples.length - 1);
@@ -98,7 +120,13 @@ function DisplayFilteredUsers() {
 
   const swiped = (direction, nameToDelete, index) => {
     setLastDirecton(direction);
-    updateCurrentIndex(index - 1);
+    const newIndex = index - 1;
+    updateCurrentIndex(newIndex);
+  
+    // Check if it's the last card
+    if (newIndex < 0) {
+      resetCards();
+    }
   };
 
   const outOfFrame = (name, idx) => {
@@ -156,9 +184,14 @@ function DisplayFilteredUsers() {
   const swipe = async (buttonType) => {
     setShowCardProfile(false);
 
+  
     //console.log(peoples[currentIndex].email)
     if (buttonType === "like") {
       if (canSwipe && currentIndex < peoples.length) {
+        const likedUserEmail = peoples[currentIndex].email;
+        setLikedUsers((prevLikedUsers) => [...prevLikedUsers, likedUserEmail]);
+        
+
         try {
           const type = "like";
           const emailToSend = peoples[currentIndex].email;
@@ -217,7 +250,11 @@ function DisplayFilteredUsers() {
         </button>
       </div>
 
-      {peoples.map((person, index) => (
+      {peoples
+      
+      .map((person, index) => (
+        
+      
         <TinderCard
           flickOnSwipe={false}
           key={person.firstName}
@@ -258,6 +295,7 @@ function DisplayFilteredUsers() {
           </div>
           {showCardProfile && <CardProfile person={person} />}
         </TinderCard>
+        
       ))}
       <div> </div>
       <div className="swipeButton">
