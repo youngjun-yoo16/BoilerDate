@@ -665,6 +665,13 @@ app.post("/report", async (req, res) => {
       { $addToSet: { "reports.emails": target } },
       { upsert: true }
     );
+
+    const targetArray = [target];
+    const emailArray = [email];
+
+    await filterUsersByBlockedAndReported(email, targetArray);
+    await filterUsersByBlockedAndReported(target, emailArray);
+    
     console.log("email: " + email + " | target: " + target);
   } catch (error) {
     res.status(500).json({ error: error.message });
