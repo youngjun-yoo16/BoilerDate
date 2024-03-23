@@ -605,7 +605,8 @@ app.post("/block", async (req, res) => {
       { upsert: true }
     );
 
-    await filterUsersByBlockedAndReported(email, target);
+    const temp = [target];
+    await filterUsersByBlockedAndReported(email, temp);
 
     console.log("email: " + email + " | target: " + target);
   } catch (error) {
@@ -1156,17 +1157,16 @@ async function filterProfilesByBlockedAndReported(userProfiles, myEmail) {
 }
 
 async function filterUsersByBlockedAndReported(email, users) {
-  console.log("Blocked: ", users)
+  console.log("Blocked: ", users);
   if (users == null) {
     return;
   }
 
-  const results = [];
-
   // Looping through emails of blocked + reported users
   for (const userEmail of users) {
+    console.log(userEmail);
     // Use the $pull operator to directly remove the email from the arrays
-    const result = await UserLDMModel.findOneAndUpdate(
+    await UserLDMModel.findOneAndUpdate(
       { email: userEmail }, // Assuming userEmail is the email of the user document to update
       {
         $pull: {
@@ -1178,8 +1178,6 @@ async function filterUsersByBlockedAndReported(email, users) {
       },
       { new: true }
     );
-
-    results.push(result);
   }
 }
 
