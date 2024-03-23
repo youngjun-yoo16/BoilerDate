@@ -16,6 +16,8 @@ import Block from "./HandleBlock.js";
 import Report from "./HandleReport.js";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 function DisplayFilteredUsers() {
   const [showCardProfile, setShowCardProfile] = useState(false);
@@ -239,13 +241,13 @@ const [likedUsers, setLikedUsers] = useState([]);
   return (
     <div className="tinderCard_container">
       <div className="mb-4">
-        <input
+        <button
           type="button"
-          value="Home"
-          name="home"
-          className="btn btn-outline-dark border w-100"
+          className="btn btn-outline-primary w-100"
           onClick={() => navigate("/home", { state: { email: email } })}
-        />
+        >
+          <FontAwesomeIcon icon={faHome} /> Home
+        </button>
       </div>
 
       {peoples
@@ -291,9 +293,7 @@ const [likedUsers, setLikedUsers] = useState([]);
               </IconButton>
             </div>
           </div>
-          {showCardProfile && (
-            <CardProfile person={person} />
-          )}
+          {showCardProfile && <CardProfile person={person} />}
         </TinderCard>
         
       ))}

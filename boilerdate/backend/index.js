@@ -627,6 +627,9 @@ app.post("/block", async (req, res) => {
       { $addToSet: { "blocks.emails": target } },
       { upsert: true }
     );
+
+    await filterUsersByBlockedAndReported(email, target);
+
     console.log("email: " + email + " | target: " + target);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -1118,15 +1121,32 @@ app.post("/fetchFilteredUsers", async (req, res) => {
         //console.log("element: " + element);
       }
 
-      console.log(finalFilter.length);
+      //console.log(finalFilter.length);
       //console.log(finalFilter);
+
+      // Further filter user profiles that haven't blocked or reported me
+      const filteredProfiles = await filterProfilesByBlockedAndReported(
+        finalFilter,
+        email
+      );
+
+      // Delete my email from blocked & reported users' like/dislike/matches model
+      await filterUsersByBlockedAndReported(email, blocks);
+
       const filteredUserProfilesByPrivacySettings =
-        await filterUsersByPrivacySettings(finalFilter);
+        await filterUsersByPrivacySettings(filteredProfiles);
 
       res.json(filteredUserProfilesByPrivacySettings);
     } else {
+      //console.log(filteredUsers)
+      // Further filter user profiles that haven't blocked or reported me
+      const filteredProfiles = await filterProfilesByBlockedAndReported(
+        filteredUsers,
+        email
+      );
+      //console.log(filteredProfiles)
       const filteredUserProfilesByPrivacySettings =
-        await filterUsersByPrivacySettings(filteredUsers);
+        await filterUsersByPrivacySettings(filteredProfiles);
 
       res.json(filteredUserProfilesByPrivacySettings);
     }
@@ -1134,6 +1154,57 @@ app.post("/fetchFilteredUsers", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+async function filterProfilesByBlockedAndReported(userProfiles, myEmail) {
+  const filteredProfiles = [];
+
+  for (const profile of userProfiles) {
+    const blockEntry = await BlockModel.findOne({ email: profile.email });
+
+    if (blockEntry) {
+      const isBlocked = blockEntry.blocks.emails.includes(myEmail);
+      const isReported = blockEntry.reports.emails.includes(myEmail);
+
+      if (!isBlocked && !isReported) {
+        // If myEmail is not found in the blocks or reports, add the profile to the result
+        filteredProfiles.push(profile);
+      }
+    } else {
+      // If there's no block entry for the profile, it means they haven't blocked or reported anyone, so include them
+      filteredProfiles.push(profile);
+    }
+  }
+
+  return filteredProfiles;
+}
+
+async function filterUsersByBlockedAndReported(email, users) {
+  console.log("Blocked: ", users)
+  if (users == null) {
+    return;
+  }
+
+  const results = [];
+
+  // Looping through emails of blocked + reported users
+  for (const userEmail of users) {
+    // Use the $pull operator to directly remove the email from the arrays
+    const result = await UserLDMModel.findOneAndUpdate(
+      { email: userEmail }, // Assuming userEmail is the email of the user document to update
+      {
+        $pull: {
+          "disliked.emails": email,
+          "liked.emails": email,
+          "matches.emails": email,
+          "receivedlikes.emails": email,
+        },
+      },
+      { new: true }
+    );
+
+    results.push(result);
+  }
+}
 
 async function filterUsersByPrivacySettings(users) {
   const filteredProfiles = [];

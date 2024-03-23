@@ -13,6 +13,8 @@ import "./Filter.css";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSliders } from "@fortawesome/free-solid-svg-icons";
 
 function valuetext(value) {
   return `${value}°C`;
@@ -222,7 +224,10 @@ function Filter() {
       className="d-flex justify-content-center align-items-center bg-secondary"
     >
       <div className="bg-white p-3 rounded w-75">
-        <h2>Filter</h2>
+        <h2>
+          <FontAwesomeIcon icon={faSliders} />
+          &nbsp; Filter
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-2">
             <FormControl>
@@ -813,7 +818,7 @@ function Filter() {
             <div className="col">
               <button
                 type="button"
-                className="btn btn-outline-secondary w-100"
+                className="btn btn-outline-secondary border w-100"
                 onClick={() => navigate("/home", { state: { email: email } })}
               >
                 Back
