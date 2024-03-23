@@ -19,6 +19,23 @@ const navigate = useNavigate();
 
 
   const imageUrl = `http://localhost:3001/image/${person.email}`;
+  const handleDownload = async () => {
+    let downloadUrl;
+    try {
+      const response = await fetch(
+        `http://localhost:3001/checkPdfExists/${person.email}`
+      );
+      const data = await response.json();
+      if (data.exists) {
+        downloadUrl = `http://localhost:3001/significant/${person.email}`;
+      } else {
+        downloadUrl = `http://localhost:3001/significant/temp`;
+      }
+      window.location.href = downloadUrl;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
   /*
@@ -89,6 +106,18 @@ const navigate = useNavigate();
           </div>
         </div>
         )}
+
+          <div className="card">
+          <div className="card-header">Please click the button</div>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">
+              <button onClick={handleDownload} className="btn btn-primary">
+                I believe this shows me well
+              </button>
+              {/* if there is nothing uploaded, default file is downloaded*/}
+            </li>
+          </ul>
+        </div>
           
         <div className="card">
           <div class="card-header">Basics</div>
