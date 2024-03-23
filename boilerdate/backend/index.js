@@ -330,7 +330,7 @@ app.post("/uploadPhoto", upload.single("image"), async (req, res) => {
   };
 
   // insert photo to mongodb and return success true
-  await ImageModel.create(obj)
+  await ImageModel.findOneAndUpdate(obj)
     .then(() => {
       res.status(200).json({
         success: true,
@@ -671,7 +671,7 @@ app.post("/report", async (req, res) => {
 
     await filterUsersByBlockedAndReported(email, targetArray);
     await filterUsersByBlockedAndReported(target, emailArray);
-    
+
     console.log("email: " + email + " | target: " + target);
   } catch (error) {
     res.status(500).json({ error: error.message });
