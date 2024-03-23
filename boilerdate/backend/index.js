@@ -93,17 +93,14 @@ app.post("/fetchUser", async (req, res) => {
     let user_ar = [];
     const { email } = req.body;
     const user = await ProfileModel.findOne({ email: email });
-   
+
     const responseData = user;
     user_ar.push(responseData);
 
-   
-
     const filteredUserProfilesByPrivacySettings =
-        await filterUsersByPrivacySettings(user_ar);
-        console.log(filteredUserProfilesByPrivacySettings);
-      res.json(filteredUserProfilesByPrivacySettings);
-
+      await filterUsersByPrivacySettings(user_ar);
+    console.log(filteredUserProfilesByPrivacySettings);
+    res.json(filteredUserProfilesByPrivacySettings);
   } catch (error) {
     console.error("Error fetching user data:", error);
     res.json({ error: "Failed to fetch user data" });
@@ -548,7 +545,6 @@ app.post("/fetchblocks", async (req, res) => {
 
 app.post("/fetchusernames", async (req, res) => {
   try {
-    
     const { emails } = req.body;
     const usernames = await UserModel.find({ email: { $in: emails } });
     const profiles = await ProfileModel.find({ email: { $in: emails } });
@@ -628,8 +624,11 @@ app.post("/block", async (req, res) => {
       { upsert: true }
     );
 
-    const temp = [target];
-    await filterUsersByBlockedAndReported(email, temp);
+    const targetArray = [target];
+    const emailArray = [email];
+
+    await filterUsersByBlockedAndReported(email, targetArray);
+    await filterUsersByBlockedAndReported(target, emailArray);
 
     console.log("email: " + email + " | target: " + target);
   } catch (error) {
