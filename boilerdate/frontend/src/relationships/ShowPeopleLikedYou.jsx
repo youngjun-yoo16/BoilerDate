@@ -14,6 +14,9 @@ import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faLongArrowAltLeft } from "@fortawesome/free-solid-svg-icons";
 
 function ShowPeopleLikedYou() {
   // required for keeping login status
@@ -79,7 +82,8 @@ function ShowPeopleLikedYou() {
     <div className="container">
       <br />
       <Typography variant="h4" gutterBottom>
-        Likes Received
+        <FontAwesomeIcon icon={faHeart} />{" "}
+        <FontAwesomeIcon icon={faLongArrowAltLeft} /> Likes Received
       </Typography>
       {userData.length > 0 ? (
         <Grid container spacing={4}>
@@ -99,7 +103,6 @@ function ShowPeopleLikedYou() {
                     <Typography gutterBottom variant="h5" component="div">
                       {user.username}, {user.age}
                     </Typography>
-                 
                   </CardContent>
                   <CardActions>
                     {/*<Button size="small">Like</Button>*/}

@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 function ProfileSettings() {
   const { state } = useLocation();
@@ -17,7 +19,9 @@ function ProfileSettings() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100 overflow-auto">
       <div className="bg-white p-3 rounded w-50">
-        <h2>Profile Settings</h2>
+        <h2>
+          <FontAwesomeIcon icon={faEdit} /> Profile Settings
+        </h2>
 
         <div className="row">
           <div className="col">
@@ -287,7 +291,7 @@ function ProfileSettings() {
             type="button"
             value="Back"
             name="back"
-            className="btn btn-outline-primary border w-100"
+            className="btn btn-outline-primary w-100"
             onClick={() => navigate("/settings", { state: { email: email } })}
           />
         </div>

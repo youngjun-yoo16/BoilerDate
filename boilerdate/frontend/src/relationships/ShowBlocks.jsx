@@ -13,6 +13,8 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBan } from "@fortawesome/free-solid-svg-icons";
 
 function ShowBlocks() {
   // required for keeping login status
@@ -73,7 +75,7 @@ function ShowBlocks() {
     <div className="container">
       <br />
       <Typography variant="h4" gutterBottom>
-        Blocked Users
+        <FontAwesomeIcon icon={faBan} /> Blocked Users
       </Typography>
       {userData.length > 0 ? (
         <Grid container spacing={4}>
@@ -93,7 +95,6 @@ function ShowBlocks() {
                     <Typography gutterBottom variant="h5" component="div">
                       {user.username}, {user.age}
                     </Typography>
-                    
                   </CardContent>
                 </Card>
               </ButtonBase>

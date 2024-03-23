@@ -15,6 +15,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 function ShowMatches() {
   // required for keeping login status
@@ -101,7 +103,7 @@ function ShowMatches() {
     <div className="container">
       <br />
       <Typography variant="h4" gutterBottom>
-        Your Matches
+        <FontAwesomeIcon icon={faHeart} /> Your Matches
       </Typography>
       {userData.length > 0 ? (
         <Grid container spacing={4}>
@@ -121,7 +123,6 @@ function ShowMatches() {
                     <Typography gutterBottom variant="h5" component="div">
                       {user.username}, {user.age}
                     </Typography>
-                    
                   </CardContent>
                   <CardActions>
                     <Button
