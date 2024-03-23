@@ -172,19 +172,28 @@ app.post("/privacy", async (req, res) => {
     } = req.body;
     console.log(email);
 
-    await PrivacyModel.findOne({ email: email }).then((privacy) => {
-      if (privacy) {
-        PrivacyModel.deleteOne({ email: email });
-        /*PrivacyModel.deleteOne({ email: email }).then((result) => {
-          console.log(result);
-        });*/
-        console.log("privacy deleted");
-      } else {
-        console.log("privacy does not exist");
-      }
-    });
-
-    await PrivacyModel.create(req.body)
+    await PrivacyModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          gpa: gpa,
+          major: major,
+          degree: degree,
+          interests: interests,
+          lifestyle: lifestyle,
+          height: height,
+          personality: personality,
+          relationship: relationship,
+          citizenship: citizenship,
+          skills: skills,
+          employment: employment,
+          career: career,
+          github: github,
+          linkedin: linkedin,
+        },
+      },
+      { upsert: true, new: true }
+    )
       .then((setupinfo) => res.json(setupinfo))
       .catch((err) => res.json(err));
   } catch (error) {
