@@ -490,6 +490,10 @@ app.post("/manageldm", async (req, res) => {
 
       if (isMatch) {
         const type = "match";
+        
+        // Delete the matched user from liked & received liked pages
+        await deleteUsersFromLikedWhenMatched(email, target);
+        await deleteUsersFromLikedWhenMatched(target, email)
 
         // Fetch like and match status for both users in parallel
         const [userStatus, targetStatus] = await Promise.all([
@@ -1203,6 +1207,21 @@ async function filterProfilesByBlockedAndReported(userProfiles, myEmail) {
   }
 
   return filteredProfiles;
+}
+
+async function deleteUsersFromLikedWhenMatched(email, target) {
+  console.log("Email: " + email)
+  console.log("Target: " + target)
+  await UserLDMModel.findOneAndUpdate(
+    { email: email },
+    {
+      $pull: {
+        "liked.emails": target,
+        "receivedlikes.emails": target,
+      },
+    },
+    { new: true }
+  );
 }
 
 async function filterUsersByBlockedAndReported(email, users) {
