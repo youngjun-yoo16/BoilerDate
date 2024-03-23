@@ -169,7 +169,8 @@ function CardProfilePeopleLiked() {
             </li>
           </ul>
         </div>
-
+          
+        {(person[0].height || person[0].personality || person[0].citizenship) && (
         <div className="card">
           <div class="card-header">Basics</div>
           <ul class="list-group list-group-flush">
@@ -188,7 +189,9 @@ function CardProfilePeopleLiked() {
             )}
           </ul>
         </div>
-
+      )}
+        
+        {(person[0].major || person[0].degree || person[0].gpa || person[0].employment_history || person[0].skills || person[0].career_goals) && (
         <div className="card">
           <div class="card-header">Academics & Career</div>
           <ul class="list-group list-group-flush">
@@ -216,6 +219,7 @@ function CardProfilePeopleLiked() {
             )}
           </ul>
         </div>
+        )}
 
         {person[0].interests && (
         <div className="card">
@@ -282,7 +286,7 @@ function CardProfilePeopleLiked() {
         </div>
         )}
 
-<div className="card">
+        {(person[0].github || person[0].linkedin) && ( <div className="card">
           <div class="card-header">Links</div>
           <ul class="list-group list-group-flush">
             {person[0].github && (
@@ -293,6 +297,7 @@ function CardProfilePeopleLiked() {
             )}
           </ul>
         </div>
+        )}
 
         <ToastContainer />
         <div className="mb-3">
