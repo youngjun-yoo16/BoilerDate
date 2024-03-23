@@ -8,6 +8,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 function ProfilePage() {
   const [fName, setfName] = useState("");
@@ -231,13 +233,13 @@ function ProfilePage() {
 
         <ToastContainer />
         <div className="mb-3">
-          <input
+          <button
             type="button"
-            value="Home"
-            name="home"
-            className="btn btn-outline-dark border w-100"
+            className="btn btn-outline-primary w-100"
             onClick={() => navigate("/home", { state: { email: email } })}
-          />
+          >
+            <FontAwesomeIcon icon={faHome} /> Home
+          </button>
         </div>
       </form>
     </div>
