@@ -55,7 +55,6 @@ function CardProfilePeopleLiked() {
     }
   };
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -72,7 +71,6 @@ function CardProfilePeopleLiked() {
     };
     fetchData();
   }, [email]);
-  
   
   /*
   useEffect(() => {
