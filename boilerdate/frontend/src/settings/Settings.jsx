@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faCog, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faCog,
+  faTrash,
+  faBell,
+} from "@fortawesome/free-solid-svg-icons";
 
 function Settings() {
   const { state } = useLocation();
@@ -37,15 +42,15 @@ function Settings() {
         </div>
 
         <div className="mb-3">
-          <input
+          <button
             type="button"
-            value="Notifications"
-            name="notifications"
             className="btn btn-outline-dark border w-100"
             onClick={() =>
               navigate("/updateNotifications", { state: { email: email } })
             }
-          />
+          >
+            <FontAwesomeIcon icon={faTrash} /> Notifications
+          </button>
         </div>
 
         <div className="mb-3">
