@@ -49,7 +49,7 @@ function Settings() {
               navigate("/updateNotifications", { state: { email: email } })
             }
           >
-            <FontAwesomeIcon icon={faTrash} /> Notifications
+            <FontAwesomeIcon icon={faBell} /> Notifications
           </button>
         </div>
 

@@ -57,18 +57,20 @@ const [likedUsers, setLikedUsers] = useState([]);
   const currentIndexRef = useRef();
 
   
-  const resetCards = async () => {
+  const resetCards = () => {
     // Reset the currentIndex to the last card
     setCurrentIndex(peoples.length - 1);
     currentIndexRef.current = peoples.length - 1;
-    
- 
-    // Clear the likedUsers array
+  
     setLikedUsers([]);
-  //  currentIndexRef.current = peoples.length - 1;
-   
 
     // Programmatically restore each card
+    childRefs.forEach((ref) => {
+      if (ref.current) {
+        ref.current.restoreCard();
+      }
+    });
+
    
   };
   

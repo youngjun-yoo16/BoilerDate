@@ -52,6 +52,7 @@ import CardProfilePeopleLiked from "./relationships/CardProfilePeopleLiked";
 import Significant from "./settings/Significant";
 import ShowPages from "./relationships/ShowPages";
 import ShowBlocks from "./relationships/ShowBlocks";
+import UpdatePhoto from "./settings/UploadPhoto";
 
 const App = () => {
   return (
@@ -111,6 +112,7 @@ const App = () => {
           <Route path="/settings/gender" element={<Gender />}></Route>
           <Route path="/settings/birthday" element={<Birthday />}></Route>
           <Route path="/settings/significant" element={<Significant />}></Route>
+          <Route path="/settings/photo" element={<UpdatePhoto />}></Route>
           <Route path="/discover" element={<DisplayFilteredUsers />}></Route>
           <Route path="/filter" element={<Filter />}></Route>
           <Route path="/settings/delete" element={<DeleteAccount />}></Route>
