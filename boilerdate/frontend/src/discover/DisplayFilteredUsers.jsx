@@ -61,7 +61,7 @@ const [likedUsers, setLikedUsers] = useState([]);
     // Reset the currentIndex to the last card
     setCurrentIndex(peoples.length - 1);
     currentIndexRef.current = peoples.length - 1;
- 
+  
     setLikedUsers([]);
 
     // Programmatically restore each card
