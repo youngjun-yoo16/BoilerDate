@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome, faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
   const navigate = useNavigate();
@@ -24,7 +26,9 @@ function Home() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25 border border-primary">
-        <h2>Home</h2>
+        <h2>
+          <FontAwesomeIcon icon={faHome} /> Home
+        </h2>
         <br />
         <div className="mb-3">
           <input
@@ -35,8 +39,6 @@ function Home() {
             onClick={() => navigate("/discover", { state: { email: email } })}
           />
         </div>
-
-      
         <p></p>
         <div className="mb-3">
           <input
@@ -69,29 +71,40 @@ function Home() {
             onClick={() => navigate("/profile", { state: { email: email } })}
           />
         </div>
-
         <p></p>
         <div className="mb-3">
-          <input
+          {/*<input
             type="button"
             value="Settings"
             name="settings"
             className="btn btn-outline-secondary border w-100"
             onClick={() => navigate("/settings", { state: { email: email } })}
-          />
+          />*/}
+          <button
+            type="button"
+            className="btn btn-outline-secondary border w-100"
+            onClick={() => navigate("/settings", { state: { email: email } })}
+          >
+            <FontAwesomeIcon icon={faCog} /> Settings
+          </button>
         </div>
-
         <p></p>
         <div className="mb-3">
-          <input
+          {/*<input
             type="button"
             value="Logout"
             name="profile"
             className="btn btn-outline-danger border w-100"
             onClick={handleLogout}
-          />
+        />*/}
+          <button
+            type="button"
+            className="btn btn-outline-danger border w-100"
+            onClick={handleLogout}
+          >
+            <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+          </button>
         </div>
-
         <ToastContainer />
       </div>
     </div>
