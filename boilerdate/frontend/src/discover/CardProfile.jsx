@@ -118,7 +118,8 @@ const navigate = useNavigate();
             </li>
           </ul>
         </div>
-          
+        
+        {(person.height || person.personality || person.citizenship) && (
         <div className="card">
           <div class="card-header">Basics</div>
           <ul class="list-group list-group-flush">
@@ -137,7 +138,9 @@ const navigate = useNavigate();
             )}
           </ul>
         </div>
+        )}
 
+{(person.major || person.degree || person.gpa || person.employment_history || person.skills || person.career_goals) && (
         <div className="card">
           <div class="card-header">Academics & Career</div>
           <ul class="list-group list-group-flush">
@@ -165,6 +168,7 @@ const navigate = useNavigate();
             )}
           </ul>
         </div>
+        )}
         
         {person.interests && (
         <div className="card">
@@ -231,7 +235,7 @@ const navigate = useNavigate();
         </div>
         )}
 
-        <div className="card">
+    {(person.github || person.linkedin) && ( <div className="card">
           <div class="card-header">Links</div>
           <ul class="list-group list-group-flush">
             {person.github && (
@@ -242,6 +246,7 @@ const navigate = useNavigate();
             )}
           </ul>
         </div>
+    )}
 
         <ToastContainer />
       

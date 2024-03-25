@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 function CardProfilePeopleLiked() {
+  const [person, setPerson] = useState([]);
   const [fName, setfName] = useState("");
   const [lName, setlName] = useState("");
   const [profile, setProfile] = useState([]);
@@ -55,6 +56,7 @@ function CardProfilePeopleLiked() {
     }
   };
 
+  /*
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -64,6 +66,9 @@ function CardProfilePeopleLiked() {
         );
         
         console.log(response.data);
+        setPerson(response.data); 
+
+       // console.log(person[0].age);
       } catch (error) {
         toast.error("Failed to fetch profile data");
         console.error("Error fetching profile:", error);
@@ -71,60 +76,25 @@ function CardProfilePeopleLiked() {
     };
     fetchData();
   }, [email]);
+  */
+
   
-  /*
+  
   useEffect(() => {
     axios
       .post("http://localhost:3001/fetchUser", { email })
       .then((response) => {
-        console.log(response.data);
-
-        let crrDob = new Date(response.data.user.dob);
-        let dateDiff = Date.now() - crrDob.getTime();
-        let objAge = new Date(dateDiff);
-        const age = Math.abs(objAge.getUTCFullYear() - 1970);
-        console.log(age);
-        setAges(age);
-
-        setfName(response.data.user.firstName);
-        setlName(response.data.user.lastName);
-        setProfile(response.data.profile);
-        setInterests(response.data.profile.interests);
-        setLifestyles(response.data.profile.lifestyle);
+        console.log(response.data[0].firstName);
+        setPerson(response.data); 
+        setfName(response.data[0].firstName);
+     
       })
       .catch((error) => {
         toast.error("Failed to fetch profile data");
         console.error("Error fetching profile:", error);
       });
-  }, []); // eslint-disable-line
-  */
-  
-  /*
-  useEffect(() => {
-    axios
-      .post("http://localhost:3001/fetchProfile", { email })
-      .then((response) => {
-        console.log(response.data);
+  }, [email]);
 
-        let crrDob = new Date(response.data.user.dob);
-        let dateDiff = Date.now() - crrDob.getTime();
-        let objAge = new Date(dateDiff);
-        const age = Math.abs(objAge.getUTCFullYear() - 1970);
-        console.log(age);
-        setAges(age);
-
-        setfName(response.data.user.firstName);
-        setlName(response.data.user.lastName);
-        setProfile(response.data.profile);
-        setInterests(response.data.profile.interests);
-        setLifestyles(response.data.profile.lifestyle);
-      })
-      .catch((error) => {
-        toast.error("Failed to fetch profile data");
-        console.error("Error fetching profile:", error);
-      });
-  }, []); // eslint-disable-line
-*/
 
   const convertHeight = (heightInInches) => {
     const feet = Math.floor(heightInInches / 12);
@@ -136,8 +106,12 @@ function CardProfilePeopleLiked() {
     e.preventDefault();
   };
 
+
+
   return (
-    <div className="container">
+     <div className="container">
+      {person[0] && (
+        <>
       <Carousel data-bs-theme="dark">
         <Carousel.Item>
           <img className="d-block w-100" src={imageUrl} alt="First slide" />
@@ -150,33 +124,41 @@ function CardProfilePeopleLiked() {
         </Carousel.Item>
       </Carousel>
 
+
+
       <h1 className="header-text">
-        {fName} {lName}, {ages}
+      {person[0].firstName} {person[0].lastName}, {person[0].age}
       </h1>
+
       <form onSubmit={handleSubmit}>
+
+      {person[0].relationship && (
         <div className="card">
           <div class="card-header">Looking for</div>
           <ul class="list-group list-group-flush">
             <li className="list-group-item custom-font-style">
-              {profile.relationship}
+              {person[0].relationship}
             </li>
           </ul>
         </div>
+        )}
 
+        {person[0].bio && (
         <div class="card">
           <div class="card-body">
             <blockquote class="blockquote mb-0">
-              <p>{profile.bio}</p>
+              <p>{person[0].bio}</p>
               <footer class="blockquote-footer">
                 <cite title="Source Title">
-                  {fName} {lName}
+                  {person[0].firstName} {person[0].lastName}
                 </cite>
               </footer>
             </blockquote>
           </div>
         </div>
+        )}
 
-        <div className="card">
+          <div className="card">
           <div className="card-header">Please click the button</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
@@ -187,41 +169,64 @@ function CardProfilePeopleLiked() {
             </li>
           </ul>
         </div>
-
+          
+        {(person[0].height || person[0].personality || person[0].citizenship) && (
         <div className="card">
           <div class="card-header">Basics</div>
           <ul class="list-group list-group-flush">
+            {person[0].height && (
             <li class="list-group-item">
-              Height: {convertHeight(profile.height)}
+              Height: {convertHeight(person[0].height)}
             </li>
+            )}
+            {person[0].personality && (
             <li class="list-group-item">
-              Personality Type: {profile.personality}
+              Personality Type: {person[0].personality}
             </li>
-            <li class="list-group-item">Citizenship: {profile.citizenship}</li>
+            )}
+            {person[0].citizenship && (
+            <li class="list-group-item">Citizenship: {person[0].citizenship}</li>
+            )}
           </ul>
         </div>
-
+      )}
+        
+        {(person[0].major || person[0].degree || person[0].gpa || person[0].employment_history || person[0].skills || person[0].career_goals) && (
         <div className="card">
           <div class="card-header">Academics & Career</div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Major: {profile.major}</li>
-            <li class="list-group-item">Degree: {profile.degree}</li>
-            <li class="list-group-item">GPA: {profile.gpa}</li>
+            {person[0].major && (
+            <li class="list-group-item">Major: {person[0].major}</li>
+            )}
+            {person[0].degree && (
+            <li class="list-group-item">Degree: {person[0].degree}</li>
+            )}
+            {person[0].gpa && (
+            <li class="list-group-item">GPA: {person[0].gpa}</li>
+            )}
+            {person[0].employment_history && (
             <li class="list-group-item">
-              Employment History: {profile.employment_history}
+              Employment History: {person[0].employment_history}
             </li>
-            <li class="list-group-item">Skills: {profile.skills}</li>
+            )}
+            {person[0].skills && (
+            <li class="list-group-item">Skills: {person[0].skills}</li>
+            )}
+            {person[0].career_goals && (
             <li class="list-group-item">
-              Career Goals: {profile.career_goals}
+              Career Goals: {person[0].career_goals}
             </li>
+            )}
           </ul>
         </div>
+        )}
 
+        {person[0].interests && (
         <div className="card">
           <div class="card-header">Interests</div>
           <ul class="list-group list-group-flush">
             <div className="selected-containers">
-              {interests.map((interest, index) => (
+              {person[0].interests.map((interest, index) => (
                 <div key={index} className={`interests`}>
                   {interest}
                 </div>
@@ -229,62 +234,70 @@ function CardProfilePeopleLiked() {
             </div>
           </ul>
         </div>
+        )}
 
+{person[0].lifestyle && (
         <div className="card">
           <div class="card-header">Lifestyle</div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
               Pets
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[0]}</div>
+                <div className={`interests`}>{person[0].lifestyle[0]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Drinking
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[1]}</div>
+                <div className={`interests`}>{person[0].lifestyle[1]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Smoking
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[2]}</div>
+                <div className={`interests`}>{person[0].lifestyle[2]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Workout
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[3]}</div>
+                <div className={`interests`}>{person[0].lifestyle[3]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Dietary Preference
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[4]}</div>
+                <div className={`interests`}>{person[0].lifestyle[4]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Social Media
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[5]}</div>
+                <div className={`interests`}>{person[0].lifestyle[5]}</div>
               </div>
             </li>
             <li class="list-group-item">
               Sleeping Habits
               <div className="selected-containerss">
-                <div className={`interests`}>{lifestyles[6]}</div>
+                <div className={`interests`}>{person[0].lifestyle[6]}</div>
               </div>
             </li>
           </ul>
         </div>
+        )}
 
-        <div className="card">
+        {(person[0].github || person[0].linkedin) && ( <div className="card">
           <div class="card-header">Links</div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">GitHub: {profile.github}</li>
-            <li class="list-group-item">LinkedIn: {profile.linkedin}</li>
+            {person[0].github && (
+            <li class="list-group-item">GitHub: {person[0].github}</li>
+            )}
+            {person[0].linkedin && (
+            <li class="list-group-item">LinkedIn: {person[0].linkedin}</li>
+            )}
           </ul>
         </div>
+        )}
 
         <ToastContainer />
         <div className="mb-3">
@@ -297,8 +310,16 @@ function CardProfilePeopleLiked() {
           />
         </div>
       </form>
+      </>
+      )}
     </div>
+    
   );
+
+
+
+
+  
 }
 
 export default CardProfilePeopleLiked;
