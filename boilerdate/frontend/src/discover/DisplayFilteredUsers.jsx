@@ -20,6 +20,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 function DisplayFilteredUsers() {
+  const [currentProfileIndex, setCurrentProfileIndex] = useState(null);
+  const [isResetting, setIsResetting] = useState(false);
   const [dislikedUserEmails, setDislikedUserEmails] = useState([]);
   const [showCardProfile, setShowCardProfile] = useState(false);
   const { state } = useLocation();
@@ -36,34 +38,25 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
   
   const resetCards = () => {
 
-    const newPeoples = peoples.filter((person) =>
-    dislikedUsers.some((dislikedUser) => dislikedUser.email === person.email)
-  ); 
 
-    setPeople(newPeoples);
    
     // Reset the currentIndex to the last card
-    setCurrentIndex(newPeoples.length - 1);
-    currentIndexRef.current = newPeoples.length - 1;
-
-    const newChildRefs = newPeoples.map(() => React.createRef());
-  setChildRefs(newChildRefs);
+    setCurrentIndex(peoples.length - 1);
+    currentIndexRef.current = peoples.length - 1;
+    
+    //setChildRefs(peoples.map(() => React.createRef()));
     // Programmatically restore each card
     
-    newChildRefs.forEach((ref, index) => {
-      if (ref.current) {
-        ref.current.restoreCard();
-      }
-    });
+ 
 
-    /*
+    
     childRefs.forEach((ref) => {
       if (ref.current) {
         ref.current.restoreCard();
       }
     });
-    */
-   
+    
+
    
     setDislikedUsers([]);
   };
@@ -87,10 +80,12 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
   }, [email]);
 
   useEffect(() => {
+   // if(!isResetting) {
     console.log(peoples); // Log after peoples is updated
     setCurrentIndex(peoples.length - 1); // Update currentIndex based on the new length of peoples
     currentIndexRef.current = peoples.length - 1;
     setChildRefs(peoples.map(() => React.createRef()));
+   // }
   }, [peoples]);
 
   
@@ -216,9 +211,11 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
     }
   };
 
-  const handleSubmit = (e) => {
-    if (e === "arrow") {
-      setShowCardProfile((prev) => !prev);
+  const handleSubmit = (index) => {
+    if (currentProfileIndex === index) {
+      setCurrentProfileIndex(null); // Hide the profile if it's already shown
+    } else {
+      setCurrentProfileIndex(index); // Show the profile for the current card
     }
   };
 
@@ -266,7 +263,7 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
             </h3>
 
             <div className="arrowButton">
-              <IconButton onClick={() => handleSubmit("arrow")}>
+              <IconButton onClick={() => handleSubmit(index)}>
                 <ArrowCircleDownIcon
                   sx={{ color: "grey" }}
                   fontSize="large"
@@ -284,7 +281,7 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
               </IconButton>
             </div>
           </div>
-          {showCardProfile && <CardProfile person={person} />}
+          {currentProfileIndex === index && <CardProfile person={person} />}
         </TinderCard>
         
       ))}
