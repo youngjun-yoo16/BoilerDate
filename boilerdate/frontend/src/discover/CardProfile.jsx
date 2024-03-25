@@ -140,7 +140,7 @@ const navigate = useNavigate();
         </div>
         )}
 
-{(person.major || person.degree || person.gpa || person.employment_history || person.skills || person.career_goals) && (
+{(person.major || person.degree || person.gpa || person.employment || person.skills || person.career) && (
         <div className="card">
           <div class="card-header">Academics & Career</div>
           <ul class="list-group list-group-flush">
@@ -153,17 +153,17 @@ const navigate = useNavigate();
             {person.gpa && (
             <li class="list-group-item">GPA: {person.gpa}</li>
             )}
-            {person.employment_history && (
+            {person.employment && (
             <li class="list-group-item">
-              Employment History: {person.employment_history}
+              Employment History: {person.employment}
             </li>
             )}
             {person.skills && (
             <li class="list-group-item">Skills: {person.skills}</li>
             )}
-            {person.career_goals && (
+            {person.career && (
             <li class="list-group-item">
-              Career Goals: {person.career_goals}
+              Career Goals: {person.career}
             </li>
             )}
           </ul>
