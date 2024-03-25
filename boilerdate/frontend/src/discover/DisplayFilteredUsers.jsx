@@ -112,6 +112,7 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
     if (newIndex < 0) {
       resetCards();
     }
+    setCurrentProfileIndex(null);
   };
 
   const outOfFrame = (name, idx) => {
