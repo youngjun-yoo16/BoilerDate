@@ -1298,6 +1298,9 @@ async function filterUsersByPrivacySettings(users) {
         // If the key exists in privacy settings
         if (privacySettings.hasOwnProperty(key)) {
           // Include the field with its original value if set to 'yes', or null if set to 'no'
+          filteredUser[key] = privacySettings[key] === "no" ? null : user[key];
+        } else {
+          // If the privacy setting for a key is not defined, retain the original value
           if (key === "employment_history") {
             filteredUser[key] =
               privacySettings["employment"] === "no" ? null : user[key];
@@ -1305,12 +1308,8 @@ async function filterUsersByPrivacySettings(users) {
             filteredUser[key] =
               privacySettings["career"] === "no" ? null : user[key];
           } else {
-            filteredUser[key] =
-              privacySettings[key] === "no" ? null : user[key];
+            filteredUser[key] = user[key];
           }
-        } else {
-          // If the privacy setting for a key is not defined, retain the original value
-          filteredUser[key] = user[key];
         }
       }
     } else {
