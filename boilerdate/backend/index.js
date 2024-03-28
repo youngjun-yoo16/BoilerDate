@@ -120,7 +120,7 @@ app.post("/fetchUser", async (req, res) => {
     const filteredUserProfilesByPrivacySettings =
       await filterUsersByPrivacySettings(filteredUsers);
 
-    console.log(filteredUserProfilesByPrivacySettings)
+    console.log(filteredUserProfilesByPrivacySettings);
     res.json(filteredUserProfilesByPrivacySettings);
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -142,6 +142,7 @@ app.post("/deleteAccount", async (req, res) => {
       NotificationModel.deleteOne({ email }),
       ImageModel.deleteOne({ email }),
       BlockModel.deleteOne({ email }),
+      PdfModel.deleteOne({ email }),
     ]);
 
     res.status(200).json({
