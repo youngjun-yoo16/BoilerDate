@@ -38,7 +38,6 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
   
   const resetCards = () => {
 
-
    
     // Reset the currentIndex to the last card
     setCurrentIndex(peoples.length - 1);
@@ -360,3 +359,5 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
 }
 
 export default DisplayFilteredUsers;
+
+
