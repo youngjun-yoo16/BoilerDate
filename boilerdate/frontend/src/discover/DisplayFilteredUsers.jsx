@@ -35,7 +35,7 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
   const [childRefs, setChildRefs] = useState([]);
   const currentIndexRef = useRef();
 
-  
+  /*
   const resetCards = () => {
 
    
@@ -54,12 +54,12 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
         ref.current.restoreCard();
       }
     });
-    
+   
 
    
     setDislikedUsers([]);
   };
-  
+  */
 
   useEffect(() => {
     const fetchData = async () => {
@@ -108,9 +108,11 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
     }
     
     // Check if it's the last card
+    /*
     if (newIndex < 0) {
       resetCards();
     }
+    */
     setCurrentProfileIndex(null);
   };
 
