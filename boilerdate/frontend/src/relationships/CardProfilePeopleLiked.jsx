@@ -80,13 +80,8 @@ function CardProfilePeopleLiked() {
     axios
       .post("http://localhost:3001/fetchUser", { email })
       .then((response) => {
-<<<<<<< HEAD
-        console.log(response.data);
-        setPerson(response.data); 
-=======
         console.log(response.data[0].firstName);
         setPerson(response.data);
->>>>>>> 5db2d3cc46bce6b46e4ad1bcee3b597878cf9a8a
         setfName(response.data[0].firstName);
       })
       .catch((error) => {
@@ -131,118 +126,108 @@ function CardProfilePeopleLiked() {
               </div>
             )}
 
-      <h1 className="header-text">
-      {person[0].firstName} {person[0].lastName}, {person[0].age}
-      </h1>
-
-      <form onSubmit={handleSubmit}>
-
-      {person[0].relationship && (
-        <div className="card">
-          <div class="card-header">Looking for</div>
-          <ul class="list-group list-group-flush">
-            <li className="list-group-item custom-font-style">
-              {person[0].relationship}
-            </li>
-          </ul>
-        </div>
-        )}
-
-        {person[0].bio && (
-        <div class="card">
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>{person[0].bio}</p>
-              <footer class="blockquote-footer">
-                <cite title="Source Title">
-                  {person[0].firstName} {person[0].lastName}
-                </cite>
-              </footer>
-            </blockquote>
-          </div>
-        </div>
-        )}
-
-          <div className="card">
-          <div className="card-header">My Significant Feature</div>
-          <ul className="list-group list-group-flush">
-            <li className="list-group-item">
-              <button onClick={handleDownload} className="btn btn-primary">
-                Click Me!
-              </button>
-              {/* if there is nothing uploaded, default file is downloaded*/}
-            </li>
-          </ul>
-        </div>
-          
-        {(person[0].height || person[0].personality || person[0].citizenship) && (
-        <div className="card">
-          <div class="card-header">Basics</div>
-          <ul class="list-group list-group-flush">
-            {person[0].height && (
-            <li class="list-group-item">
-              Height: {convertHeight(person[0].height)}
-            </li>
-            )}
-            {person[0].personality && (
-            <li class="list-group-item">
-              Personality Type: {person[0].personality}
-            </li>
-            )}
-            {person[0].citizenship && (
-            <li class="list-group-item">Citizenship: {person[0].citizenship}</li>
-            )}
-          </ul>
-        </div>
-      )}
-        
-        {(person[0].major || person[0].degree || person[0].gpa || person[0].employment_history || person[0].skills || person[0].career_goals) && (
-        <div className="card">
-          <div class="card-header">Academics & Career</div>
-          <ul class="list-group list-group-flush">
-            {person[0].major && (
-            <li class="list-group-item">Major: {person[0].major}</li>
-            )}
-            {person[0].degree && (
-            <li class="list-group-item">Degree: {person[0].degree}</li>
-            )}
-            {person[0].gpa && (
-            <li class="list-group-item">GPA: {person[0].gpa}</li>
-            )}
-            {person[0].employment_history && (
-            <li class="list-group-item">
-              Employment History: {person[0].employment_history}
-            </li>
-            )}
-            {person[0].skills && (
-            <li class="list-group-item">Skills: {person[0].skills}</li>
-            )}
-            {person[0].career_goals && (
-            <li class="list-group-item">
-              Career Goals: {person[0].career_goals}
-            </li>
-            )}
-          </ul>
-        </div>
-        )}
-
-        
-{person[0].interests && (
-          <div className="card">
-            <div class="card-header">Interests</div>
-            <ul class="list-group list-group-flush">
-              <div className="selected-containers">
-                {person[0].interests.map((interest, index) => (
-                  <div key={index} className={`interests`}>
-                    {interest}
-                  </div>
-                ))}
+            {person[0].bio && (
+              <div class="card">
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <p>{person[0].bio}</p>
+                    <footer class="blockquote-footer">
+                      <cite title="Source Title">
+                        {person[0].firstName} {person[0].lastName}
+                      </cite>
+                    </footer>
+                  </blockquote>
+                </div>
               </div>
-            </ul>
-          </div>
-        )}
+            )}
 
-            
+            <div className="card">
+              <div className="card-header">My Significant Feature</div>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">
+                  <button onClick={handleDownload} className="btn btn-primary">
+                    Click Me!
+                  </button>
+                  {/* if there is nothing uploaded, default file is downloaded*/}
+                </li>
+              </ul>
+            </div>
+
+            {(person[0].height ||
+              person[0].personality ||
+              person[0].citizenship) && (
+              <div className="card">
+                <div class="card-header">Basics</div>
+                <ul class="list-group list-group-flush">
+                  {person[0].height && (
+                    <li class="list-group-item">
+                      Height: {convertHeight(person[0].height)}
+                    </li>
+                  )}
+                  {person[0].personality && (
+                    <li class="list-group-item">
+                      Personality Type: {person[0].personality}
+                    </li>
+                  )}
+                  {person[0].citizenship && (
+                    <li class="list-group-item">
+                      Citizenship: {person[0].citizenship}
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
+
+            {(person[0].major ||
+              person[0].degree ||
+              person[0].gpa ||
+              person[0].employment_history ||
+              person[0].skills ||
+              person[0].career_goals) && (
+              <div className="card">
+                <div class="card-header">Academics & Career</div>
+                <ul class="list-group list-group-flush">
+                  {person[0].major && (
+                    <li class="list-group-item">Major: {person[0].major}</li>
+                  )}
+                  {person[0].degree && (
+                    <li class="list-group-item">Degree: {person[0].degree}</li>
+                  )}
+                  {person[0].gpa && (
+                    <li class="list-group-item">GPA: {person[0].gpa}</li>
+                  )}
+                  {person[0].employment_history && (
+                    <li class="list-group-item">
+                      Employment History: {person[0].employment_history}
+                    </li>
+                  )}
+                  {person[0].skills && (
+                    <li class="list-group-item">Skills: {person[0].skills}</li>
+                  )}
+                  {person[0].career_goals && (
+                    <li class="list-group-item">
+                      Career Goals: {person[0].career_goals}
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
+
+            {person[0].interests && (
+              <div className="card">
+                <div class="card-header">Interests</div>
+                <ul class="list-group list-group-flush">
+                  <div className="selected-containers">
+                    {person[0].interests.map((interest, index) => (
+                      <div key={index} className={`interests`}>
+                        {interest}
+                      </div>
+                    ))}
+                  </div>
+                </ul>
+              </div>
+            )}
+
             {person[0].lifestyle && (
               <div className="card">
                 <div class="card-header">Lifestyle</div>
