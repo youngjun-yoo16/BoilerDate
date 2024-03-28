@@ -154,11 +154,11 @@ function CardProfilePeopleLiked() {
         )}
 
           <div className="card">
-          <div className="card-header">Please click the button</div>
+          <div className="card-header">My Significant Feature</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
               <button onClick={handleDownload} className="btn btn-primary">
-                I believe this shows me well
+                Click Me!
               </button>
               {/* if there is nothing uploaded, default file is downloaded*/}
             </li>
