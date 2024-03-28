@@ -9,14 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-function CardProfile({person}) {
-
-//const { state } = useLocation();
- //const { email } = state || {};
-const navigate = useNavigate();
-
-
-
+function CardProfile({ person }) {
+  //const { state } = useLocation();
+  //const { email } = state || {};
+  const navigate = useNavigate();
 
   const imageUrl = `http://localhost:3001/image/${person.email}`;
   const handleDownload = async () => {
@@ -36,7 +32,6 @@ const navigate = useNavigate();
       console.error(error);
     }
   };
-
 
   /*
   useEffect(() => {
@@ -63,7 +58,7 @@ const navigate = useNavigate();
         console.error("Error fetching profile:", error);
       });
   }, [email]); // eslint-disable-line
-*/ 
+*/
 
   const convertHeight = (heightInInches) => {
     const feet = Math.floor(heightInInches / 12);
@@ -77,37 +72,34 @@ const navigate = useNavigate();
 
   return (
     <div className="container">
-      
-     
       <form onSubmit={handleSubmit}>
-
         {person.relationship && (
-        <div className="card">
-          <div class="card-header">Looking for</div>
-          <ul class="list-group list-group-flush">
-            <li className="list-group-item custom-font-style">
-              {person.relationship}
-            </li>
-          </ul>
-        </div>
-        )}
-        
-        {person.bio && (
-        <div class="card">
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>{person.bio}</p>
-              <footer class="blockquote-footer">
-                <cite title="Source Title">
-                  {person.firstName} {person.lastName}
-                </cite>
-              </footer>
-            </blockquote>
+          <div className="card">
+            <div class="card-header">Looking for</div>
+            <ul class="list-group list-group-flush">
+              <li className="list-group-item custom-font-style">
+                {person.relationship}
+              </li>
+            </ul>
           </div>
-        </div>
         )}
 
-          <div className="card">
+        {person.bio && (
+          <div class="card">
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p>{person.bio}</p>
+                <footer class="blockquote-footer">
+                  <cite title="Source Title">
+                    {person.firstName} {person.lastName}
+                  </cite>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+        )}
+
+        <div className="card">
           <div className="card-header">My Significant Feature</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
@@ -118,138 +110,141 @@ const navigate = useNavigate();
             </li>
           </ul>
         </div>
-        
+
         {(person.height || person.personality || person.citizenship) && (
-        <div className="card">
-          <div class="card-header">Basics</div>
-          <ul class="list-group list-group-flush">
-            {person.height && (
-            <li class="list-group-item">
-              Height: {convertHeight(person.height)}
-            </li>
-            )}
-            {person.personality && (
-            <li class="list-group-item">
-              Personality Type: {person.personality}
-            </li>
-            )}
-            {person.citizenship && (
-            <li class="list-group-item">Citizenship: {person.citizenship}</li>
-            )}
-          </ul>
-        </div>
+          <div className="card">
+            <div class="card-header">Basics</div>
+            <ul class="list-group list-group-flush">
+              {person.height && (
+                <li class="list-group-item">
+                  Height: {convertHeight(person.height)}
+                </li>
+              )}
+              {person.personality && (
+                <li class="list-group-item">
+                  Personality Type: {person.personality}
+                </li>
+              )}
+              {person.citizenship && (
+                <li class="list-group-item">
+                  Citizenship: {person.citizenship}
+                </li>
+              )}
+            </ul>
+          </div>
         )}
 
-{(person.major || person.degree || person.gpa || person.employment || person.skills || person.career) && (
-        <div className="card">
-          <div class="card-header">Academics & Career</div>
-          <ul class="list-group list-group-flush">
-            {person.major && (
-            <li class="list-group-item">Major: {person.major}</li>
-            )}
-            {person.degree && (
-            <li class="list-group-item">Degree: {person.degree}</li>
-            )}
-            {person.gpa && (
-            <li class="list-group-item">GPA: {person.gpa}</li>
-            )}
-            {person.employment && (
-            <li class="list-group-item">
-              Employment History: {person.employment}
-            </li>
-            )}
-            {person.skills && (
-            <li class="list-group-item">Skills: {person.skills}</li>
-            )}
-            {person.career && (
-            <li class="list-group-item">
-              Career Goals: {person.career}
-            </li>
-            )}
-          </ul>
-        </div>
+        {(person.major ||
+          person.degree ||
+          person.gpa ||
+          person.employment ||
+          person.skills ||
+          person.career) && (
+          <div className="card">
+            <div class="card-header">Academics & Career</div>
+            <ul class="list-group list-group-flush">
+              {person.major && (
+                <li class="list-group-item">Major: {person.major}</li>
+              )}
+              {person.degree && (
+                <li class="list-group-item">Degree: {person.degree}</li>
+              )}
+              {person.gpa && <li class="list-group-item">GPA: {person.gpa}</li>}
+              {person.employment && (
+                <li class="list-group-item">
+                  Employment History: {person.employment}
+                </li>
+              )}
+              {person.skills && (
+                <li class="list-group-item">Skills: {person.skills}</li>
+              )}
+              {person.career && (
+                <li class="list-group-item">Career Goals: {person.career}</li>
+              )}
+            </ul>
+          </div>
         )}
-        
+
         {person.interests && (
-        <div className="card">
-          <div class="card-header">Interests</div>
-          <ul class="list-group list-group-flush">
-            <div className="selected-containers">
-              {person.interests.map((interest, index) => (
-                <div key={index} className={`interests`}>
-                  {interest}
-                </div>
-              ))}
-            </div>
-          </ul>
-        </div>
+          <div className="card">
+            <div class="card-header">Interests</div>
+            <ul class="list-group list-group-flush">
+              <div className="selected-containers">
+                {person.interests.map((interest, index) => (
+                  <div key={index} className={`interests`}>
+                    {interest}
+                  </div>
+                ))}
+              </div>
+            </ul>
+          </div>
         )}
 
         {person.lifestyle && (
-        <div className="card">
-          <div class="card-header">Lifestyle</div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              Pets
-              <div className="selected-containerss">
-                <div className={`interests`}>{person.lifestyle[0]}</div>
-              </div>
-            </li>
-            <li class="list-group-item">
-              Drinking
-              <div className="selected-containerss">
-                <div className={`interests`}>{person.lifestyle[1]}</div>
-              </div>
-            </li>
-            <li class="list-group-item">
-              Smoking
-              <div className="selected-containerss">
-                <div className={`interests`}>{person.lifestyle[2]}</div>
-              </div>
-            </li>
-            <li class="list-group-item">
-              Workout
-              <div className="selected-containerss">
-                <div className={`interests`}>{person.lifestyle[3]}</div>
-              </div>
-            </li>
-            <li class="list-group-item">
-              Dietary Preference
-              <div className="selected-containerss">
-                <div className={`interests`}>{person.lifestyle[4]}</div>
-              </div>
-            </li>
-            <li class="list-group-item">
-              Social Media
-              <div className="selected-containerss">
-                <div className={`interests`}>{person.lifestyle[5]}</div>
-              </div>
-            </li>
-            <li class="list-group-item">
-              Sleeping Habits
-              <div className="selected-containerss">
-                <div className={`interests`}>{person.lifestyle[6]}</div>
-              </div>
-            </li>
-          </ul>
-        </div>
+          <div className="card">
+            <div class="card-header">Lifestyle</div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                Pets
+                <div className="selected-containerss">
+                  <div className={`interests`}>{person.lifestyle[0]}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                Drinking
+                <div className="selected-containerss">
+                  <div className={`interests`}>{person.lifestyle[1]}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                Smoking
+                <div className="selected-containerss">
+                  <div className={`interests`}>{person.lifestyle[2]}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                Workout
+                <div className="selected-containerss">
+                  <div className={`interests`}>{person.lifestyle[3]}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                Dietary Preference
+                <div className="selected-containerss">
+                  <div className={`interests`}>{person.lifestyle[4]}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                Social Media
+                <div className="selected-containerss">
+                  <div className={`interests`}>{person.lifestyle[5]}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                Sleeping Habits
+                <div className="selected-containerss">
+                  <div className={`interests`}>{person.lifestyle[6]}</div>
+                </div>
+              </li>
+            </ul>
+          </div>
         )}
 
-    {(person.github || person.linkedin) && ( <div className="card">
-          <div class="card-header">Links</div>
-          <ul class="list-group list-group-flush">
-            {person.github && (
-            <li class="list-group-item">GitHub: {person.github}</li>
-            )}
-            {person.linkedin && (
-            <li class="list-group-item">LinkedIn: {person.linkedin}</li>
-            )}
-          </ul>
-        </div>
-    )}
+        {(person.github || person.linkedin) && (
+          <div className="card">
+            <div class="card-header">Links</div>
+            <ul class="list-group list-group-flush">
+              {person.github && (
+                <li class="list-group-item">GitHub: {person.github}</li>
+              )}
+              {person.linkedin && (
+                <li class="list-group-item">LinkedIn: {person.linkedin}</li>
+              )}
+            </ul>
+          </div>
+        )}
 
         <ToastContainer />
-      
       </form>
     </div>
   );
