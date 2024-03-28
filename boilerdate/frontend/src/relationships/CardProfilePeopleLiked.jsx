@@ -116,12 +116,7 @@ function CardProfilePeopleLiked() {
         <Carousel.Item>
           <img className="d-block w-100" src={imageUrl} alt="First slide" />
         </Carousel.Item>
-        <Carousel.Item>
-          <img className="d-block w-100" src={imageUrl} alt="Second slide" />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className="d-block w-100" src={imageUrl} alt="Third slide" />
-        </Carousel.Item>
+        
       </Carousel>
 
 
