@@ -1183,11 +1183,7 @@ app.post("/fetchFilteredUsers", async (req, res) => {
         } else {
           finalFilter.push(filteredUsers[index]);
         }
-        //console.log("element: " + element);
       }
-
-      //console.log(finalFilter.length);
-      //console.log(finalFilter);
 
       // Further filter user profiles that haven't blocked or reported me
       const filteredProfiles = await filterProfilesByBlockedAndReported(
@@ -1203,13 +1199,11 @@ app.post("/fetchFilteredUsers", async (req, res) => {
 
       res.json(filteredUserProfilesByPrivacySettings);
     } else {
-      //console.log(filteredUsers)
       // Further filter user profiles that haven't blocked or reported me
       const filteredProfiles = await filterProfilesByBlockedAndReported(
         filteredUsers,
         email
       );
-      //console.log(filteredProfiles)
       const filteredUserProfilesByPrivacySettings =
         await filterUsersByPrivacySettings(filteredProfiles);
 
@@ -1244,8 +1238,6 @@ async function filterProfilesByBlockedAndReported(userProfiles, myEmail) {
 }
 
 async function deleteUsersFromLikedWhenMatched(email, target) {
-  console.log("Email: " + email);
-  console.log("Target: " + target);
   await UserLDMModel.findOneAndUpdate(
     { email: email },
     {
@@ -1259,7 +1251,6 @@ async function deleteUsersFromLikedWhenMatched(email, target) {
 }
 
 async function filterUsersByBlockedAndReported(email, users) {
-  console.log("Blocked: ", users);
   if (users == null) {
     return;
   }
