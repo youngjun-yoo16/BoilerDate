@@ -134,34 +134,37 @@ function CardProfile({ person }) {
           </div>
         )}
 
-{(person.major || person.degree || person.gpa || person.employment_history || person.skills || person.career_goals) && (
-        <div className="card">
-          <div class="card-header">Academics & Career</div>
-          <ul class="list-group list-group-flush">
-            {person.major && (
-            <li class="list-group-item">Major: {person.major}</li>
-            )}
-            {person.degree && (
-            <li class="list-group-item">Degree: {person.degree}</li>
-            )}
-            {person.gpa && (
-            <li class="list-group-item">GPA: {person.gpa}</li>
-            )}
-            {person.employment_history && (
-            <li class="list-group-item">
-              Employment History: {person.employment_history}
-            </li>
-            )}
-            {person.skills && (
-            <li class="list-group-item">Skills: {person.skills}</li>
-            )}
-            {person.career_goals && (
-            <li class="list-group-item">
-              Career Goals: {person.career_goals}
-            </li>
-            )}
-          </ul>
-        </div>
+        {(person.major ||
+          person.degree ||
+          person.gpa ||
+          person.employment_history ||
+          person.skills ||
+          person.career_goals) && (
+          <div className="card">
+            <div class="card-header">Academics & Career</div>
+            <ul class="list-group list-group-flush">
+              {person.major && (
+                <li class="list-group-item">Major: {person.major}</li>
+              )}
+              {person.degree && (
+                <li class="list-group-item">Degree: {person.degree}</li>
+              )}
+              {person.gpa && <li class="list-group-item">GPA: {person.gpa}</li>}
+              {person.employment_history && (
+                <li class="list-group-item">
+                  Employment History: {person.employment_history}
+                </li>
+              )}
+              {person.skills && (
+                <li class="list-group-item">Skills: {person.skills}</li>
+              )}
+              {person.career_goals && (
+                <li class="list-group-item">
+                  Career Goals: {person.career_goals}
+                </li>
+              )}
+            </ul>
+          </div>
         )}
 
         {person.interests && (
