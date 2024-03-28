@@ -84,7 +84,7 @@ function CardProfilePeopleLiked() {
     axios
       .post("http://localhost:3001/fetchUser", { email })
       .then((response) => {
-        console.log(response.data[0].firstName);
+        console.log(response.data);
         setPerson(response.data); 
         setfName(response.data[0].firstName);
      
@@ -186,7 +186,7 @@ function CardProfilePeopleLiked() {
         </div>
       )}
         
-        {(person[0].major || person[0].degree || person[0].gpa || person[0].employment || person[0].skills || person[0].career) && (
+        {(person[0].major || person[0].degree || person[0].gpa || person[0].employment_history || person[0].skills || person[0].career_goals) && (
         <div className="card">
           <div class="card-header">Academics & Career</div>
           <ul class="list-group list-group-flush">
@@ -199,17 +199,17 @@ function CardProfilePeopleLiked() {
             {person[0].gpa && (
             <li class="list-group-item">GPA: {person[0].gpa}</li>
             )}
-            {person[0].employment && (
+            {person[0].employment_history && (
             <li class="list-group-item">
-              Employment History: {person[0].employment}
+              Employment History: {person[0].employment_history}
             </li>
             )}
             {person[0].skills && (
             <li class="list-group-item">Skills: {person[0].skills}</li>
             )}
-            {person[0].career && (
+            {person[0].career_goals && (
             <li class="list-group-item">
-              Career Goals: {person[0].career}
+              Career Goals: {person[0].career_goals}
             </li>
             )}
           </ul>
