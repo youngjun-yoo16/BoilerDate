@@ -81,6 +81,7 @@ function CardProfilePeopleLiked() {
       .post("http://localhost:3001/fetchUser", { email })
       .then((response) => {
         console.log(response.data[0].firstName);
+        console.log(response.data);
         setPerson(response.data);
         setfName(response.data[0].firstName);
       })
