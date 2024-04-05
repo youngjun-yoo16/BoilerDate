@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const axios = require("axios");
 const mongoose = require("mongoose");
 const UserModel = require("./models/User");
 const CodeModel = require("./models/Code");
@@ -525,6 +526,45 @@ app.post("/manageldm", async (req, res) => {
       if (isMatch) {
         const type = "match";
 
+        const targetInfo = await UserModel.findOne({ email: target });
+
+        const matchedUserData = {
+          username: targetInfo.firstName + "_" + targetInfo.lastName,
+          secret: targetInfo.firstName,
+          email: target,
+          first_name: targetInfo.firstName,
+          last_name: targetInfo.lastName,
+        };
+
+        const config = {
+          method: "post",
+          url: "https://api.chatengine.io/users/",
+          headers: {
+            "PRIVATE-KEY": '{{2cf88b7a-e935-438e-8fef-5b51503c737a}}',
+          },
+          data: matchedUserData,
+        };
+
+        axios(config)
+        .then((response) => {
+          console.log(response.data)
+          //res.json(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+          res
+            .status(400)
+            .json({ message: "An error occurred", error: error.toString() });
+        });
+        /*axios
+          .post("http://localhost:3001/create-user", matchedUserData)
+          .then((result) => {
+            console.log(result);
+          })
+          .catcj((error) => {
+            console.log(error);
+          });*/
+
         // Delete the matched user from liked & received liked pages
         await deleteUsersFromLikedWhenMatched(email, target);
         await deleteUsersFromLikedWhenMatched(target, email);
@@ -571,6 +611,33 @@ app.post("/manageldm", async (req, res) => {
     console.error(error);
     res.status(500).json({ error: error.message });
   }
+});
+
+// Endpoint to trigger the Axios request
+app.post("/create-user", (req, res) => {
+  const { matchedUserData } = req.body;
+
+  // Axios config
+  const config = {
+    method: "post",
+    url: "https://api.chatengine.io/users/",
+    headers: {
+      "PRIVATE-KEY": '{{2cf88b7a-e935-438e-8fef-5b51503c737a}}',
+    },
+    data: matchedUserData,
+  };
+
+  // Making the Axios request
+  axios(config)
+    .then((response) => {
+      res.json(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: "An error occurred", error: error.toString() });
+    });
 });
 
 app.post("/fetchlikes", async (req, res) => {
