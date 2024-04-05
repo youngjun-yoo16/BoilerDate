@@ -696,11 +696,11 @@ app.post("/block", async (req, res) => {
 
 app.post("/report", async (req, res) => {
   try {
-    const { email, target } = req.body;
+    const { email, target, reason } = req.body;
 
     await BlockModel.findOneAndUpdate(
       { email: email },
-      { $addToSet: { "reports.emails": target } },
+      { $addToSet: { "reports.emails": target, "reports.reasonings": reason } },
       { upsert: true }
     );
 

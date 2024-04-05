@@ -7,6 +7,7 @@ const BlockSchema = new mongoose.Schema({
   },
   reports: {
     emails: [String],
+    reasonings: [String],
   },
 });
 
