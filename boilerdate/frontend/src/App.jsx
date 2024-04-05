@@ -53,6 +53,7 @@ import Significant from "./settings/Significant";
 import ShowPages from "./relationships/ShowPages";
 import ShowBlocks from "./relationships/ShowBlocks";
 import UpdatePhoto from "./settings/UploadPhoto";
+import Message from "./Message";
 
 const App = () => {
   return (

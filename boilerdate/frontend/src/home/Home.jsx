@@ -11,6 +11,7 @@ import {
   faSliders,
   faUserAlt,
   faHandHoldingHeart,
+  faMessage,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
