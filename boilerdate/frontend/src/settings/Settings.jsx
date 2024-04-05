@@ -49,7 +49,7 @@ function Settings() {
             type="button"
             className="btn btn-outline-dark border w-100"
             onClick={() =>
-              navigate("/updateNotifications", { state: { email: email } })
+              navigate("/notificationList", { state: { email: email } })
             }
           >
             <FontAwesomeIcon icon={faBell} /> Notifications

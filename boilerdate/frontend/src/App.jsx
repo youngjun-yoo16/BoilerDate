@@ -55,6 +55,8 @@ import ShowBlocks from "./relationships/ShowBlocks";
 import UpdatePhoto from "./settings/UploadPhoto";
 import Chat from "./chat/Chat";
 
+import NotificationList from "./settings/NotificationList";
+
 const App = () => {
   return (
     <div>
@@ -79,6 +81,11 @@ const App = () => {
           <Route
             path="/updateNotifications"
             element={<Notifications />}
+          ></Route>
+
+          <Route
+            path="/notificationList"
+            element={<NotificationList />}
           ></Route>
           <Route path="/customizable" element={<Customizable />}></Route>
           <Route path="/bio" element={<SetupBio />}></Route>
