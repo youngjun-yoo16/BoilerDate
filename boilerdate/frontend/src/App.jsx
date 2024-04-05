@@ -53,6 +53,7 @@ import Significant from "./settings/Significant";
 import ShowPages from "./relationships/ShowPages";
 import ShowBlocks from "./relationships/ShowBlocks";
 import UpdatePhoto from "./settings/UploadPhoto";
+import Chat from "./chat/Chat";
 
 const App = () => {
   return (
@@ -130,6 +131,7 @@ const App = () => {
             element={<CardProfilePeopleLiked />}
           ></Route>
           <Route path="/relationships" element={<ShowPages />}></Route>
+          <Route path="/chat" element={<Chat />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
