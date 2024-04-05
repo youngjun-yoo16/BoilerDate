@@ -11,6 +11,7 @@ import {
   faSliders,
   faUserAlt,
   faHandHoldingHeart,
+  faComment
 } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
@@ -67,6 +68,18 @@ function Home() {
             }
           >
             <FontAwesomeIcon icon={faHandHoldingHeart} /> My Relationships
+          </button>
+        </div>
+        <p></p>
+        <div className="mb-3">
+          <button
+            type="button"
+            className="btn btn-outline-primary border w-100"
+            onClick={() =>
+              navigate("/chat", { state: { email: email } })
+            }
+          >
+            <FontAwesomeIcon icon={faComment} /> My Chat
           </button>
         </div>
         <p></p>

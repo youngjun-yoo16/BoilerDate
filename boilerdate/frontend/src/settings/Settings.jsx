@@ -9,6 +9,7 @@ import {
   faEdit,
   faLock,
   faKey,
+  faLightbulb,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Settings() {
@@ -49,7 +50,7 @@ function Settings() {
             type="button"
             className="btn btn-outline-dark border w-100"
             onClick={() =>
-              navigate("/updateNotifications", { state: { email: email } })
+              navigate("/notificationList", { state: { email: email } })
             }
           >
             <FontAwesomeIcon icon={faBell} /> Notifications
@@ -77,6 +78,18 @@ function Settings() {
             }
           >
             <FontAwesomeIcon icon={faKey} /> Password
+          </button>
+        </div>
+
+        <div className="mb-3">
+          <button
+            type="button"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/submitFeedback", { state: { email: email } })
+            }
+          >
+            <FontAwesomeIcon icon={faLightbulb} /> Feedback
           </button>
         </div>
 
