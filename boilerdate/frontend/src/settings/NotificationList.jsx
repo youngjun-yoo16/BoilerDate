@@ -5,7 +5,11 @@ import {
   faHome,
   faHeart,
   faBan,
+  faEnvelope,
+  faCommentSms,
+  faCommentAlt,
   faLongArrowAltRight,
+  faBell,
   faLongArrowAltLeft,
   faHandHoldingHeart,
 } from "@fortawesome/free-solid-svg-icons";
@@ -28,7 +32,7 @@ function NotificationList() {
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100 overflow-auto">
       <div className="bg-white p-3 rounded w-25">
         <h2>
-          <FontAwesomeIcon icon={faHandHoldingHeart} />
+          <FontAwesomeIcon icon={faBell} />
           &nbsp;Notifications
         </h2>
         <br />
@@ -38,10 +42,10 @@ function NotificationList() {
             type="button"
             className="btn btn-outline-primary border w-100"
             onClick={() =>
-              navigate("/showmatches", { state: { email: email } })
+              navigate("/updateNotifications", { state: { email: email } })
             }
           >
-            <FontAwesomeIcon icon={faHeart} /> Email
+            <FontAwesomeIcon icon={faEnvelope} /> Email
           </button>
         </div>
         <p></p>
@@ -50,11 +54,11 @@ function NotificationList() {
             type="button"
             className="btn btn-outline-dark border w-100"
             onClick={() =>
-              navigate("/showyourlikes", { state: { email: email } })
+              navigate("/updateNotificationsText", { state: { email: email } })
             }
           >
-            <FontAwesomeIcon icon={faLongArrowAltRight} />{" "}
-            <FontAwesomeIcon icon={farHeart} /> Text
+    
+            <FontAwesomeIcon icon={faCommentAlt} /> Text
           </button>
         </div>
         <p></p>

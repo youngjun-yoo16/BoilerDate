@@ -57,6 +57,7 @@ import Chat from "./chat/Chat";
 import Feedback from "./settings/Feedback";
 
 import NotificationList from "./settings/NotificationList";
+import NotificationText from "./settings/NotificationText";
 
 const App = () => {
   return (
@@ -83,7 +84,10 @@ const App = () => {
             path="/updateNotifications"
             element={<Notifications />}
           ></Route>
-
+          <Route
+            path="/updateNotificationsText"
+            element={<NotificationText />}
+          ></Route>
           <Route
             path="/notificationList"
             element={<NotificationList />}
