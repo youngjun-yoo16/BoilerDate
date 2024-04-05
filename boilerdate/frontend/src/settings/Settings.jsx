@@ -9,6 +9,7 @@ import {
   faEdit,
   faLock,
   faKey,
+  faLightbulb,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Settings() {
@@ -88,7 +89,7 @@ function Settings() {
               navigate("/submitFeedback", { state: { email: email } })
             }
           >
-            <FontAwesomeIcon icon={faKey} /> Feedback
+            <FontAwesomeIcon icon={faLightbulb} /> Feedback
           </button>
         </div>
 
