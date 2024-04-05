@@ -18,6 +18,7 @@ function Feedback() {
   const { state } = useLocation();
   const { email } = state || {};
   const [rating, setRating] = React.useState(0);
+  const [text, setText] = React.useState("");
 
   const navigate = useNavigate();
 
@@ -27,6 +28,8 @@ function Feedback() {
     if (email === undefined) {
       navigate(-1);
     }
+    console.log(text);
+    console.log("ahwatat");
   });
 
   const handleSubmit = (e) => {};
@@ -56,6 +59,10 @@ function Feedback() {
               placeholder="Placeholder"
               multiline
               variant="filled"
+              value={text}
+              onChange={(event, newText) => {
+                setText(newText);
+              }}
             />
           </Box>
 
