@@ -54,6 +54,7 @@ import ShowPages from "./relationships/ShowPages";
 import ShowBlocks from "./relationships/ShowBlocks";
 import UpdatePhoto from "./settings/UploadPhoto";
 import Chat from "./chat/Chat";
+import Feedback from "./settings/Feedback";
 
 import NotificationList from "./settings/NotificationList";
 
@@ -139,6 +140,7 @@ const App = () => {
           ></Route>
           <Route path="/relationships" element={<ShowPages />}></Route>
           <Route path="/chat" element={<Chat />}></Route>
+          <Route path="/submitfeedback" element={<Feedback />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

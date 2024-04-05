@@ -83,6 +83,18 @@ function Settings() {
         <div className="mb-3">
           <button
             type="button"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/submitFeedback", { state: { email: email } })
+            }
+          >
+            <FontAwesomeIcon icon={faKey} /> Feedback
+          </button>
+        </div>
+
+        <div className="mb-3">
+          <button
+            type="button"
             className="btn btn-outline-danger border w-100"
             onClick={() =>
               navigate("/settings/delete", { state: { email: email } })
