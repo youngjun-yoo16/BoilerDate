@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
-
+import { ChatEngine } from 'react-chat-engine'
 
 function Chat() {
     
@@ -28,8 +28,13 @@ function Chat() {
     });
   
 
-    //chat ui
-
+    return (
+      <ChatEngine
+        publicKey={'abc439ce-2427-47df-b650-8a22f618970a'}
+        userName={'BoilerDate'}
+        userSecret={'boilerdate'}
+      />
+    )
   }
   
   export default Chat;
