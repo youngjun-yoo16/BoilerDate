@@ -23,6 +23,7 @@ const NotificationModel = require("./models/Notification");
 const PrivacyModel = require("./models/Privacy");
 const BlockModel = require("./models/BlockReport");
 const PdfModel = require("./models/PdfFile");
+const IssueModel = require("./models/Issue");
 
 const app = express();
 app.use(express.json());
@@ -540,22 +541,22 @@ app.post("/manageldm", async (req, res) => {
           method: "post",
           url: "https://api.chatengine.io/users/",
           headers: {
-            "PRIVATE-KEY": '{{2cf88b7a-e935-438e-8fef-5b51503c737a}}',
+            "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
           },
           data: matchedUserData,
         };
 
         axios(config)
-        .then((response) => {
-          console.log(response.data)
-          //res.json(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-          res
-            .status(400)
-            .json({ message: "An error occurred", error: error.toString() });
-        });
+          .then((response) => {
+            console.log(response.data);
+            //res.json(response.data);
+          })
+          .catch((error) => {
+            console.error(error);
+            res
+              .status(400)
+              .json({ message: "An error occurred", error: error.toString() });
+          });
         /*axios
           .post("http://localhost:3001/create-user", matchedUserData)
           .then((result) => {
@@ -622,7 +623,7 @@ app.post("/create-user", (req, res) => {
     method: "post",
     url: "https://api.chatengine.io/users/",
     headers: {
-      "PRIVATE-KEY": '{{2cf88b7a-e935-438e-8fef-5b51503c737a}}',
+      "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
     },
     data: matchedUserData,
   };
@@ -1380,3 +1381,27 @@ async function filterUsersByPrivacySettings(users) {
   }
   return filteredProfiles;
 }
+
+app.post("/issues", async (req, res) => {
+  try {
+    const { email, issue } = req.body;
+    await IssueModel.findOneAndUpdate(
+      { email: email },
+      { $addToSet: { issue: issue } },
+      { upsert: true }
+    )
+      .then(() => {
+        console.log("issue reported");
+        res.status(200).json({
+          success: true,
+          message: "issue reported",
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send(err);
+      });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
