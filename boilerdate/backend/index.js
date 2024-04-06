@@ -287,7 +287,7 @@ app.post("/updatePremiumStatus", async (req, res) => {
     }
 
     // check if newSwipeNum qualifies for premium status
-    if (newSwipeNum > 10) {
+    if (newSwipeNum > 9) {
       isPremium = true;
     }
 
@@ -297,7 +297,7 @@ app.post("/updatePremiumStatus", async (req, res) => {
       {
         $set: {
           swipes: newSwipeNum,
-          premium: isPremium,
+          premium_condition: isPremium,
         },
       },
       { new: true, upsert: true }
@@ -524,7 +524,7 @@ app.get("/premium/:email", async (req, res) => {
 
     if (premiumStatus) {
       // true is sent
-      res.json({ premium: premiumStatus.premium });
+      res.json({ premium: premiumStatus.premium_condition });
     } else {
       console.log("No premium status available");
       res.status(404).json({

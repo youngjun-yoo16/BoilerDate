@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +16,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import axios from "axios";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 function Home() {
   const navigate = useNavigate();
@@ -52,6 +54,20 @@ function Home() {
     e.preventDefault();
     navigate("/");
     await toast.success("Logout Success!");
+  };
+
+  const [showUpgrade, setShowUpgrade] = useState(false);
+  const handleCloseUpgrade = () => setShowUpgrade(false);
+  const handleShowUpgrade = () => setShowUpgrade(true);
+
+  const handleBlock = (e) => {
+    handleShowUpgrade();
+  };
+
+  const actualUpgrade = async (e) => {
+    handleCloseUpgrade();
+
+    // actual upgrade functionality
   };
 
   return (
@@ -129,12 +145,33 @@ function Home() {
               <button
                 type="button"
                 className="btn btn-primary border w-100"
-                onClick={() =>
-                  navigate("/settings", { state: { email: email } })
-                }
+                onClick={() => handleBlock()}
               >
                 <FontAwesomeIcon icon={faStar} /> Upgrade to premium
               </button>
+
+              <Modal show={showUpgrade} onHide={handleCloseUpgrade} centered>
+                <Modal.Header closeButton>
+                  <Modal.Title>Congratulations!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  You can now upgrade your account to premium! Premium accounts
+                  can boost their visibility and have higher chances of finding
+                  a match!
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleCloseUpgrade}>
+                    Close
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="danger"
+                    onClick={actualUpgrade}
+                  >
+                    Upgrade
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </div>
           ) : (
             <p></p>

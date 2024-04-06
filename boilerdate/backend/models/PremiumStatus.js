@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const PremiumStatusSchema = new mongoose.Schema({
   email: String,
   swipes: String,
-  premium: Boolean,
+  premium_condition: Boolean,
+  premium_status: Boolean,
 });
 
 const PremiumStatusModel = mongoose.model(
