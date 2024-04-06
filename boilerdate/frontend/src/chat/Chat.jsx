@@ -5,94 +5,114 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
-import { ChatEngine, getOrCreateChat } from "react-chat-engine";
+import { ChatEngine } from "react-chat-engine";
 
 function Chat() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [userSecret, setUserSecret] = useState("");
   const [username, setUsername] = useState("");
+  const [matchesList, setMatchesList] = useState([]);
 
+  // Fetch user details
   useEffect(() => {
-    const { email } = state || {};
-    if (!email) {
+    if (!state?.email) {
       navigate(-1);
       return;
     }
 
-    // Define async function inside useEffect
-    const fetchData = async () => {
+    const usersConfig = {
+      method: "get",
+      url: `https://api.chatengine.io/users/`,
+      headers: {
+        "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
+      },
+    };
+
+    const fetchUserDetails = async () => {
       try {
-        // Get list of matches
-        const matchesResponse = await axios.post(
-          "http://localhost:3001/fetchmatches",
-          { email }
-        );
-        const matchesList = matchesResponse.data.matches.emails;
-        console.log(matchesList);
-        // User config to get the username and secret
-        const usersConfig = {
-          method: "get",
-          url: `https://api.chatengine.io/users/`,
-          headers: {
-            "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
-          },
-        };
-        
-
         const usersResponse = await axios(usersConfig);
-        const users = usersResponse.data;
-
-        users.forEach((user) => {
-          if (user.email === email) {
-            setUsername(user.username);
-            setUserSecret(user.first_name); // Assuming first_name is used as secret
-          }
-        });
-
-        const userConfig = {
-          method: "put",
-          url: `https://api.chatengine.io/chats/`,
-          headers: {
-            "Project-ID": "{{abc439ce-2427-47df-b650-8a22f618970a}}",
-            "User-Name": username,
-            "User-Secret": userSecret,
-          },
-        };
-
-        for (const match of matchesList) {
-          const profileResponse = await axios.post(
-            "http://localhost:3001/fetchProfile",
-            { email: match }
-          );
-          const body = {
-            usernames: [
-              profileResponse.data.user.firstName +
-                "_" +
-                profileResponse.data.user.lastName,
-            ],
-            is_direct_chat: true,
-          };
-          await axios({
-            ...userConfig, 
-            method: "put",
-            data: body,
-          });
+        const user = usersResponse.data.find(
+          (user) => user.email === state.email
+        );
+        if (user) {
+          setUsername(user.username);
+          setUserSecret(user.first_name); // Assuming first_name is used as the secret
+        } else {
+          console.error("User not found");
         }
       } catch (error) {
-        console.error("Failed to fetch data", error);
+        console.error("Failed to fetch user details", error);
       }
     };
 
-    fetchData();
-  }, [navigate, state, userSecret, username]);
+    fetchUserDetails();
+  }, [state, navigate]);
 
-  return (
+  // Fetch matches list
+  useEffect(() => {
+    if (!state?.email) return;
+
+    const fetchMatches = async () => {
+      try {
+        const matchesResponse = await axios.post(
+          "http://localhost:3001/fetchmatches",
+          { email: state.email }
+        );
+        const matches = matchesResponse.data.matches.emails;
+        setMatchesList(matches);
+      } catch (error) {
+        console.error("Failed to fetch matches", error);
+      }
+    };
+
+    fetchMatches();
+  }, [state]);
+
+  // Perform chat operations
+  useEffect(() => {
+    if (!username || !userSecret || matchesList.length === 0) return;
+
+    const userConfig = {
+      method: "put",
+      url: `https://api.chatengine.io/chats/`,
+      headers: {
+        "Project-ID": "{{abc439ce-2427-47df-b650-8a22f618970a}}",
+        "User-Name": username,
+        "User-Secret": userSecret,
+      },
+    };
+
+    matchesList.forEach(async (match) => {
+      try {
+        const profileResponse = await axios.post(
+          "http://localhost:3001/fetchProfile",
+          { email: match }
+        );
+        const body = {
+          usernames: [
+            profileResponse.data.user.firstName +
+              "_" +
+              profileResponse.data.user.lastName,
+          ],
+          is_direct_chat: true,
+        };
+        await axios({ ...userConfig, data: body });
+      } catch (error) {
+        console.error("Failed to create chat", error);
+      }
+    });
+  }, [username, userSecret, matchesList]);
+
+  return username && userSecret ? (
     <ChatEngine
-      publicKey={"abc439ce-2427-47df-b650-8a22f618970a"}
-      userName={"Youngjun_Yoo"}
-      userSecret={"Youngjun"}
+      height="100vh"
+      projectID="abc439ce-2427-47df-b650-8a22f618970a"
+      userName={username}
+      userSecret={userSecret}
     />
+  ) : (
+    <div>Loading...</div>
   );
 }
 export default Chat;
