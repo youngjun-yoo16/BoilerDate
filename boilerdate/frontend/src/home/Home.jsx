@@ -157,7 +157,8 @@ function Home() {
                 <Modal.Body>
                   You can now upgrade your account to premium! Premium accounts
                   can boost their visibility and have higher chances of finding
-                  a match!
+                  a match! You may also send your profile to all the other
+                  users!
                 </Modal.Body>
                 <Modal.Footer>
                   <Button variant="secondary" onClick={handleCloseUpgrade}>
@@ -165,7 +166,7 @@ function Home() {
                   </Button>
                   <Button
                     type="submit"
-                    variant="danger"
+                    variant="primary"
                     onClick={actualUpgrade}
                   >
                     Upgrade

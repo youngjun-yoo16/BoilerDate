@@ -526,7 +526,6 @@ app.get("/premium/:email", async (req, res) => {
       // true is sent
       res.json({ premium: premiumStatus.premium_condition });
     } else {
-      console.log("No premium status available");
       res.status(404).json({
         message: "No premium status available for the provided email.",
       });
