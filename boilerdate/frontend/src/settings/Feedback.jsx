@@ -35,7 +35,20 @@ function Feedback() {
     }
   });
 
-  const handleSubmit = (e) => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:3001/feedback", {
+        email,
+        text,
+        rating,
+      })
+      .then((result) => {
+        console.log(result);
+        navigate("/settings", { state: { email: email } });
+      })
+      .catch((err) => console.log(err));
+  };
 
   // feedback ui
   return (
@@ -47,7 +60,7 @@ function Feedback() {
           </legend>
           <input
             required
-            type="feedback"
+            type="text" // Corrected type attribute
             placeholder="Feedback"
             autoComplete="off"
             name="user-feedback"
@@ -57,14 +70,14 @@ function Feedback() {
           <br></br>
 
           <Box>
-            <legend style={fontGroup} htmlFor="feedback">
-              Please provide your feedback below!
+            <legend style={fontGroup} htmlFor="feedback-rating">
+              Please rate our app!
             </legend>
 
             <Rating
               name="simple-controlled"
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
+              value={Number(rating)}
+              onChange={(event, newRating) => setRating(newRating)}
               size="large"
             />
           </Box>

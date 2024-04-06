@@ -23,6 +23,7 @@ const NotificationModel = require("./models/Notification");
 const PrivacyModel = require("./models/Privacy");
 const BlockModel = require("./models/BlockReport");
 const PdfModel = require("./models/PdfFile");
+const UserFeedbackModel = require("./models/Feedback");
 
 const app = express();
 app.use(express.json());
@@ -199,6 +200,39 @@ app.post("/privacy", async (req, res) => {
     )
       .then((setupinfo) => res.json(setupinfo))
       .catch((err) => res.json(err));
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/feedback", async (req, res) => {
+  try {
+    const { email, text, rating } = req.body;
+    console.log(email);
+
+    // find the previous feedback submitted of the user
+    const originalFeedback = await UserFeedbackModel.findOne({ email: email });
+
+    // without removing the original feedback, it appends to the previous one
+    let updatedFeedback = text;
+    if (originalFeedback) {
+      updatedFeedback = originalFeedback.feedback + "\n\n" + text;
+    }
+
+    // rating is updated
+    const newFeedback = await UserFeedbackModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          email: email,
+          rating: rating,
+          feedback: updatedFeedback,
+        },
+      },
+      { new: true, upsert: true }
+    );
+
+    res.status(201).json(newFeedback);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -540,22 +574,22 @@ app.post("/manageldm", async (req, res) => {
           method: "post",
           url: "https://api.chatengine.io/users/",
           headers: {
-            "PRIVATE-KEY": '{{2cf88b7a-e935-438e-8fef-5b51503c737a}}',
+            "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
           },
           data: matchedUserData,
         };
 
         axios(config)
-        .then((response) => {
-          console.log(response.data)
-          //res.json(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-          res
-            .status(400)
-            .json({ message: "An error occurred", error: error.toString() });
-        });
+          .then((response) => {
+            console.log(response.data);
+            //res.json(response.data);
+          })
+          .catch((error) => {
+            console.error(error);
+            res
+              .status(400)
+              .json({ message: "An error occurred", error: error.toString() });
+          });
         /*axios
           .post("http://localhost:3001/create-user", matchedUserData)
           .then((result) => {
@@ -622,7 +656,7 @@ app.post("/create-user", (req, res) => {
     method: "post",
     url: "https://api.chatengine.io/users/",
     headers: {
-      "PRIVATE-KEY": '{{2cf88b7a-e935-438e-8fef-5b51503c737a}}',
+      "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
     },
     data: matchedUserData,
   };
