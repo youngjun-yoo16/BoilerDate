@@ -15,6 +15,7 @@ const {
   verifyEmail,
 } = require("./verification_code");
 const { sendNotificationEmail } = require("./send_notification_email");
+const { sendNotificationText } = require("./send_notification_text");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const path = require("path");
@@ -433,6 +434,43 @@ app.post("/sendNotificationEmail", async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
+app.post("/sendNotificationText", async (req, res) => {
+  try {
+    const { emailToSend, type } = req.body;
+
+    // Fetch like and match status in one go
+    const userStatus = await NotificationModel.findOne(
+      { email: emailToSend },
+      { like: 1, match: 1, _id: 0 }
+    );
+
+    // Determine if an email should be sent based on the type and the respective status
+    const shouldSendEmail =
+      (type === "like" && userStatus.like) ||
+      (type === "match" && userStatus.match);
+
+    if (shouldSendEmail) {
+      //edit 
+      const Number = await PhoneNumberModel.findOne({ email: emailToSend });
+      if(!Number) {
+       console.log("no number");
+        return res.json({ success: true, message: "Doesn't have phone number" });
+      } 
+  
+      const sendTextResult = await sendNotificationText(Number.number, type);
+      if (sendTextResult) {
+        return res.json({ success: true, message: "Sent email successfully!" });
+      }
+    }
+
+    // If email wasn't sent, respond with failure message
+    res.json({ success: false, message: "Failed to send notification text" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

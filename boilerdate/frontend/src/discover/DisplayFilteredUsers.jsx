@@ -231,13 +231,21 @@ function DisplayFilteredUsers() {
           const emailToSend = peoples[currentIndex].email;
           HandleUserLikesAndDislikes(email, emailToSend, true);
           //console.log(peoples[currentIndex].email)
+          
+
           const response = await axios.post(
             "http://localhost:3001/sendNotificationEmail",
             { emailToSend, type }
           );
           console.log(response);
+
+          const responseText = await axios.post(
+            "http://localhost:3001/sendNotificationText",
+            { emailToSend, type }
+          );
+          console.log(responseText);
         } catch (err) {
-          console.error("Failed to send a notification email.");
+          console.error("Failed to send a notification email or text.");
         }
 
         await childRefs[currentIndex].current.swipe("right"); // Swipe the card!
@@ -250,7 +258,9 @@ function DisplayFilteredUsers() {
         await childRefs[currentIndex].current.swipe("left"); // Swipe the card!
         const emailToSend = peoples[currentIndex].email;
         HandleUserLikesAndDislikes(email, emailToSend, false);
-      }
+      } 
+
+
       // HandleUserLikesAndDislikes(temp_email, peoples[0].email, false);
       //HandleUserLikesAndDislikes(temp_email, peoples[1].email, false);
     }
