@@ -30,7 +30,7 @@ function SendEmails() {
       })
       .then((result) => {
         console.log(result);
-        navigate("/settings", { state: { email: email } });
+        navigate("/admin", { state: { email: email } });
       })
       .catch((err) => console.log(err));
   };

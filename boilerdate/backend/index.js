@@ -27,6 +27,7 @@ const UserFeedbackModel = require("./models/Feedback");
 const PremiumStatusModel = require("./models/PremiumStatus");
 const IssueModel = require("./models/Issue");
 const PhoneNumberModel = require("./models/PhoneNumber");
+const { sendUpdateEmail } = require("./SendUpdateEmail");
 
 const app = express();
 app.use(express.json());
@@ -57,7 +58,7 @@ app.post("/signup", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-app.post("/updatePhoneNumber", async(req, res) => {
+app.post("/updatePhoneNumber", async (req, res) => {
   try {
     const { email, phone } = req.body;
     let num = phone;
@@ -69,20 +70,18 @@ app.post("/updatePhoneNumber", async(req, res) => {
       res.json("Phone Number created");
     }
     */
-   
+
     const newPhoneNumber = await PhoneNumberModel.findOneAndUpdate(
       { email: email },
       {
         $set: {
-          number: num
+          number: num,
         },
       },
       { new: true, upsert: true }
     );
 
     res.status(201).json(newPhoneNumber);
-
-  
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
@@ -1581,22 +1580,17 @@ app.post("/issues", async (req, res) => {
 app.post("/sendUpdateEmails", async (req, res) => {
   try {
     const { email, info } = req.body;
+    console.log(info);
 
     // Fetch users with update: true
     const users = await NotificationModel.find({ update: 1 });
     console.log(users);
 
-    // Determine if an email should be sent based on the type and the respective status
-    /*const shouldSendEmail =
-      (type === "like" && userStatus.like) ||
-      (type === "match" && userStatus.match);
-
-    if (shouldSendEmail) {
-      const sendEmailResult = await sendNotificationEmail(emailToSend, type);
-      if (sendEmailResult) {
-        return res.json({ success: true, message: "Sent email successfully!" });
-      }
-    }*/
+    for (let index = 0; index < users.length; index++) {
+      console.log(index + ": " + users[index].email);
+      console.log(info);
+      sendUpdateEmail(users[index].email, info);
+    }
 
     // If email wasn't sent, respond with failure message
     res.json({ success: false, message: "Failed to send notification email" });

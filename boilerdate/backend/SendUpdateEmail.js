@@ -10,6 +10,7 @@ const transporter = nodemailer.createTransport({
 });
 
 async function sendUpdateEmail(email, info) {
+  console.log(info);
   try {
     mailOptions = {
       from: "boilderdate@gmail.com",
@@ -18,8 +19,8 @@ async function sendUpdateEmail(email, info) {
       text: info,
     };
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`${type} notification sent: `, info.response);
+    const result = await transporter.sendMail(mailOptions);
+    console.log(`notification sent: `, result.response);
 
     return true;
   } catch (error) {
@@ -30,5 +31,5 @@ async function sendUpdateEmail(email, info) {
 }
 
 module.exports = {
-  sendNotificationEmail,
+  sendUpdateEmail,
 };
