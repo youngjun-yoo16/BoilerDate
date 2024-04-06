@@ -58,6 +58,8 @@ import Feedback from "./settings/Feedback";
 
 import NotificationList from "./settings/NotificationList";
 import NotificationText from "./settings/NotificationText";
+import Issues from "./settings/Issues";
+import IssueDetails from "./settings/IssueDetails";
 
 const App = () => {
   return (
@@ -145,6 +147,8 @@ const App = () => {
           <Route path="/relationships" element={<ShowPages />}></Route>
           <Route path="/chat" element={<Chat />}></Route>
           <Route path="/submitfeedback" element={<Feedback />}></Route>
+          <Route path="/issues" element={<Issues />}></Route>
+          <Route path="/issues/details" element={<IssueDetails />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

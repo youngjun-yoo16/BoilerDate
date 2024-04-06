@@ -16,6 +16,8 @@ import Block from "./HandleBlock.js";
 import Report from "./HandleReport.js";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
@@ -27,8 +29,8 @@ function DisplayFilteredUsers() {
   const { state } = useLocation();
   const { email } = state || {};
   const navigate = useNavigate();
-const [dislikedUserIndices, setDislikedUserIndices] = useState([]);
-const [dislikedUsers, setDislikedUsers] = useState([]);
+  const [dislikedUserIndices, setDislikedUserIndices] = useState([]);
+  const [dislikedUsers, setDislikedUsers] = useState([]);
   const [peoples, setPeople] = useState([]);
   const [currentIndex, setCurrentIndex] = useState();
   const [lastDirection, setLastDirecton] = useState();
@@ -79,15 +81,13 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
   }, [email]);
 
   useEffect(() => {
-   // if(!isResetting) {
+    // if(!isResetting) {
     console.log(peoples); // Log after peoples is updated
     setCurrentIndex(peoples.length - 1); // Update currentIndex based on the new length of peoples
     currentIndexRef.current = peoples.length - 1;
     setChildRefs(peoples.map(() => React.createRef()));
-   // }
+    // }
   }, [peoples]);
-
-  
 
   const updateCurrentIndex = (val) => {
     setCurrentIndex(val);
@@ -102,11 +102,11 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
     setLastDirecton(direction);
     const newIndex = index - 1;
     updateCurrentIndex(newIndex);
-    
+
     if (direction === "left") {
       setDislikedUsers((prevUsers) => [...prevUsers, person]);
     }
-    
+
     // Check if it's the last card
     /*
     if (newIndex < 0) {
@@ -118,10 +118,13 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
-    if (currentIndexRef.current >= idx && childRefs[idx] && childRefs[idx].current) {
+    if (
+      currentIndexRef.current >= idx &&
+      childRefs[idx] &&
+      childRefs[idx].current
+    ) {
       childRefs[idx].current.restoreCard();
     }
-    
   };
 
   const goBack = async () => {
@@ -163,24 +166,50 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
   const actualReport = async (e) => {
     handleCloseReport();
     setShowCardProfile(false);
-    if (canSwipe && currentIndex < peoples.length) {
+    await setShowWhyReport1(true);
+    /*if (canSwipe && currentIndex < peoples.length) {
       await childRefs[currentIndex].current.swipe("left");
       const emailToReport = peoples[currentIndex].email;
       console.log("reported!!!");
       Report(email, emailToReport);
+    }*/
+  };
+
+  const [category, setCategory] = useState("");
+  const [why, setWhy] = useState("");
+  const [showWhyReport1, setShowWhyReport1] = useState(false);
+  const [showWhyReport2, setShowWhyReport2] = useState(false);
+
+  const whyReport1 = async (e) => {
+    console.log(e);
+    setCategory(e);
+    console.log("why report 1");
+    setShowWhyReport1(false);
+    setShowWhyReport2(true);
+  };
+
+  const whyReport2 = async (e) => {
+    setShowWhyReport2(false);
+    console.log("why report 2");
+    console.log(why);
+    console.log(category);
+
+    if (canSwipe && currentIndex < peoples.length) {
+      await childRefs[currentIndex].current.swipe("left");
+      const emailToReport = peoples[currentIndex].email;
+      console.log("reported!!!");
+      const reason = emailToReport + ": " + category + ": " + why;
+      Report(email, emailToReport, reason);
     }
   };
 
   const swipe = async (buttonType) => {
     setShowCardProfile(false);
 
-  
     //console.log(peoples[currentIndex].email)
     if (buttonType === "like") {
       if (canSwipe && currentIndex < peoples.length) {
         const likedUserEmail = peoples[currentIndex].email;
-
-        
 
         try {
           const type = "like";
@@ -195,7 +224,6 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
         } catch (err) {
           console.error("Failed to send a notification email.");
         }
-      
 
         await childRefs[currentIndex].current.swipe("right"); // Swipe the card!
         console.log(peoples[currentIndex].email);
@@ -240,11 +268,7 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
         </button>
       </div>
 
-      {peoples
-      
-      .map((person, index) => (
-        
-      
+      {peoples.map((person, index) => (
         <TinderCard
           flickOnSwipe={false}
           key={person.email}
@@ -285,7 +309,6 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
           </div>
           {currentProfileIndex === index && <CardProfile person={person} />}
         </TinderCard>
-        
       ))}
       <div> </div>
       <div className="swipeButton">
@@ -356,11 +379,104 @@ const [dislikedUsers, setDislikedUsers] = useState([]);
           </Modal>
         </div>
       </form>
+
+      <form onSubmit={whyReport1}>
+        <div className="mb-3">
+          <Modal
+            show={showWhyReport1}
+            centered
+            backdrop="static"
+            animation={false}
+          >
+            <Modal.Header>
+              <Modal.Title>Why did you report this user?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Button
+                type="submit"
+                variant="primary"
+                onClick={() => {
+                  whyReport1("Inappropriate profile");
+                }}
+              >
+                Inappropriate profile
+              </Button>{" "}
+              <Button
+                type="submit"
+                variant="primary"
+                onClick={() => {
+                  whyReport1("Harrassment");
+                }}
+              >
+                Harrassment
+              </Button>{" "}
+              <Button
+                type="submit"
+                variant="primary"
+                onClick={() => {
+                  whyReport1("Safety concerns");
+                }}
+              >
+                Safety concerns
+              </Button>{" "}
+              <p></p>
+              <Button
+                type="submit"
+                variant="primary"
+                onClick={() => {
+                  whyReport2("Not interested");
+                }}
+              >
+                Not interested
+              </Button>{" "}
+              <Button
+                type="submit"
+                variant="primary"
+                onClick={() => {
+                  whyReport1("Other");
+                }}
+              >
+                Other
+              </Button>{" "}
+            </Modal.Body>
+          </Modal>
+        </div>
+      </form>
+
+      <form onSubmit={whyReport2}>
+        <div className="mb-3">
+          <Modal
+            show={showWhyReport2}
+            centered
+            backdrop="static"
+            animation={false}
+          >
+            <Modal.Header>
+              <Modal.Title>
+                Please give some details about why you reported this user
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <FormControl fullWidth>
+                <TextField
+                  id="outlined-basic"
+                  label="Details"
+                  variant="outlined"
+                  inputProps={{ maxLength: 200 }}
+                  onChange={(e) => setWhy(e.target.value)}
+                />
+              </FormControl>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button type="submit" variant="primary" onClick={whyReport2}>
+                Submit
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      </form>
     </div>
   );
 }
 
 export default DisplayFilteredUsers;
-
-
-

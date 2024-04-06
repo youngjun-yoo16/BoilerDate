@@ -23,7 +23,8 @@ const NotificationModel = require("./models/Notification");
 const PrivacyModel = require("./models/Privacy");
 const BlockModel = require("./models/BlockReport");
 const PdfModel = require("./models/PdfFile");
-const { getMyUsers } = require("react-chat-engine");
+const UserFeedbackModel = require("./models/Feedback");
+const IssueModel = require("./models/Issue");
 
 const app = express();
 app.use(express.json());
@@ -200,6 +201,39 @@ app.post("/privacy", async (req, res) => {
     )
       .then((setupinfo) => res.json(setupinfo))
       .catch((err) => res.json(err));
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/feedback", async (req, res) => {
+  try {
+    const { email, text, rating } = req.body;
+    console.log(email);
+
+    // find the previous feedback submitted of the user
+    const originalFeedback = await UserFeedbackModel.findOne({ email: email });
+
+    // without removing the original feedback, it appends to the previous one
+    let updatedFeedback = text;
+    if (originalFeedback) {
+      updatedFeedback = originalFeedback.feedback + "\n\n" + text;
+    }
+
+    // rating is updated
+    const newFeedback = await UserFeedbackModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          email: email,
+          rating: rating,
+          feedback: updatedFeedback,
+        },
+      },
+      { new: true, upsert: true }
+    );
+
+    res.status(201).json(newFeedback);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -817,11 +851,11 @@ app.post("/block", async (req, res) => {
 
 app.post("/report", async (req, res) => {
   try {
-    const { email, target } = req.body;
+    const { email, target, reason } = req.body;
 
     await BlockModel.findOneAndUpdate(
       { email: email },
-      { $addToSet: { "reports.emails": target } },
+      { $addToSet: { "reports.emails": target, "reports.reasonings": reason } },
       { upsert: true }
     );
 
@@ -1434,3 +1468,27 @@ async function filterUsersByPrivacySettings(users) {
   }
   return filteredProfiles;
 }
+
+app.post("/issues", async (req, res) => {
+  try {
+    const { email, issue } = req.body;
+    await IssueModel.findOneAndUpdate(
+      { email: email },
+      { $addToSet: { issue: issue } },
+      { upsert: true }
+    )
+      .then(() => {
+        console.log("issue reported");
+        res.status(200).json({
+          success: true,
+          message: "issue reported",
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send(err);
+      });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
