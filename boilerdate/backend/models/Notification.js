@@ -4,6 +4,7 @@ const NotificationSchema = new mongoose.Schema({
   email: String,
   like: Boolean,
   match: Boolean,
+  update: Boolean,
 });
 
 const NotificationModel = mongoose.model("notifications", NotificationSchema);

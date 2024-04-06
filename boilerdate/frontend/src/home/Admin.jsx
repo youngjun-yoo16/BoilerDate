@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,14 +12,11 @@ import {
   faUserAlt,
   faHandHoldingHeart,
   faComment,
-  faStar,
+  faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-import axios from "axios";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 
-function Home() {
+function Admin() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { email } = state || {};
@@ -32,42 +29,13 @@ function Home() {
       navigate(-1);
     }
 
-    const fetchPremiumStatus = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3001/premium/${email}`
-        );
-        if (response.data && response.data.premium !== undefined) {
-          setShowPremium(response.data.premium);
-        } else {
-          console.log("Premium status not found or undefined.");
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchPremiumStatus();
-    console.log(showPremium);
-  }, [email, navigate, showPremium]);
+    // if swipes > lets say 10 then set showPremium to true
+  });
 
   const handleLogout = async (e) => {
     e.preventDefault();
     navigate("/");
     await toast.success("Logout Success!");
-  };
-
-  const [showUpgrade, setShowUpgrade] = useState(false);
-  const handleCloseUpgrade = () => setShowUpgrade(false);
-  const handleShowUpgrade = () => setShowUpgrade(true);
-
-  const handleBlock = (e) => {
-    handleShowUpgrade();
-  };
-
-  const actualUpgrade = async (e) => {
-    handleCloseUpgrade();
-
-    // actual upgrade functionality
   };
 
   return (
@@ -77,6 +45,19 @@ function Home() {
           <FontAwesomeIcon icon={faHome} /> Home
         </h2>
         <br />
+        <div className="mb-3">
+          <button
+            type="button"
+            className="btn btn-outline-primary border w-100"
+            onClick={() =>
+              navigate("/admin/sendemails", { state: { email: email } })
+            }
+          >
+            <FontAwesomeIcon icon={faEnvelope} /> Send update emails
+          </button>
+        </div>
+        <p></p>
+
         <div className="mb-3">
           <button
             type="button"
@@ -138,47 +119,6 @@ function Home() {
             <FontAwesomeIcon icon={faCog} /> Settings
           </button>
         </div>
-
-        <div>
-          {showPremium ? (
-            <div className="mb-3">
-              <button
-                type="button"
-                className="btn btn-primary border w-100"
-                onClick={() => handleBlock()}
-              >
-                <FontAwesomeIcon icon={faStar} /> Upgrade to premium
-              </button>
-
-              <Modal show={showUpgrade} onHide={handleCloseUpgrade} centered>
-                <Modal.Header closeButton>
-                  <Modal.Title>Congratulations!</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  You can now upgrade your account to premium! Premium accounts
-                  can boost their visibility and have higher chances of finding
-                  a match! You may also send your profile to all the other
-                  users!
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={handleCloseUpgrade}>
-                    Close
-                  </Button>
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    onClick={actualUpgrade}
-                  >
-                    Upgrade
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            </div>
-          ) : (
-            <p></p>
-          )}
-        </div>
-
         <p></p>
         <div className="mb-3">
           <button
@@ -195,4 +135,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Admin;

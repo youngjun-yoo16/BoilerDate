@@ -28,6 +28,7 @@ const UserFeedbackModel = require("./models/Feedback");
 const PremiumStatusModel = require("./models/PremiumStatus");
 const IssueModel = require("./models/Issue");
 const PhoneNumberModel = require("./models/PhoneNumber");
+const { sendUpdateEmail } = require("./SendUpdateEmail");
 
 const app = express();
 app.use(express.json());
@@ -58,7 +59,7 @@ app.post("/signup", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-app.post("/updatePhoneNumber", async(req, res) => {
+app.post("/updatePhoneNumber", async (req, res) => {
   try {
     const { email, phone } = req.body;
     let num = phone;
@@ -70,20 +71,18 @@ app.post("/updatePhoneNumber", async(req, res) => {
       res.json("Phone Number created");
     }
     */
-   
+
     const newPhoneNumber = await PhoneNumberModel.findOneAndUpdate(
       { email: email },
       {
         $set: {
-          number: num
+          number: num,
         },
       },
       { new: true, upsert: true }
     );
 
     res.status(201).json(newPhoneNumber);
-
-  
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
@@ -289,7 +288,7 @@ app.post("/updatePremiumStatus", async (req, res) => {
     }
 
     // check if newSwipeNum qualifies for premium status
-    if (newSwipeNum > 10) {
+    if (newSwipeNum > 9) {
       isPremium = true;
     }
 
@@ -299,7 +298,7 @@ app.post("/updatePremiumStatus", async (req, res) => {
       {
         $set: {
           swipes: newSwipeNum,
-          premium: isPremium,
+          premium_condition: isPremium,
         },
       },
       { new: true, upsert: true }
@@ -317,7 +316,12 @@ app.post("/login", (req, res) => {
   UserModel.findOne({ email: email }).then((user) => {
     if (user) {
       if (atob(user.password) === password) {
-        res.json("Success");
+        if (email === "lee4049@purdue.edu") {
+          //res.json("Success");
+          res.json("Admin");
+        } else {
+          res.json("Success");
+        }
       } else {
         res.json("Incorrect password");
       }
@@ -544,9 +548,28 @@ app.get("/image/:email", async (req, res) => {
 
     res.contentType(img.img.contentType);
     res.send(img.img.data);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.status(500).send("GET image failed");
+  }
+});
+
+app.get("/premium/:email", async (req, res) => {
+  try {
+    const premiumStatus = await PremiumStatusModel.findOne({
+      email: req.params.email,
+    });
+
+    if (premiumStatus) {
+      // true is sent
+      res.json({ premium: premiumStatus.premium_condition });
+    } else {
+      res.status(404).json({
+        message: "No premium status available for the provided email.",
+      });
+    }
+  } catch (err) {
+    console.error(err);
   }
 });
 
@@ -1222,10 +1245,10 @@ app.post("/updateBirthday", async (req, res) => {
 
 app.post("/updateNotificationSettings", async (req, res) => {
   try {
-    const { email, likePf, matchPf } = req.body;
+    const { email, likePf, matchPf, update } = req.body;
     const result = await NotificationModel.findOneAndUpdate(
       { email: email },
-      { $set: { like: likePf, match: matchPf } },
+      { $set: { like: likePf, match: matchPf, update: update } },
       { upsert: true, new: true } // Ensure to return the updated document
     );
     res.json(result);
@@ -1588,5 +1611,27 @@ app.post("/issues", async (req, res) => {
       });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/sendUpdateEmails", async (req, res) => {
+  try {
+    const { email, info } = req.body;
+    console.log(info);
+
+    // Fetch users with update: true
+    const users = await NotificationModel.find({ update: 1 });
+    //console.log(users);
+
+    for (let index = 0; index < users.length; index++) {
+      //console.log(index + ": " + users[index].email);
+      //console.log(info);
+      sendUpdateEmail(users[index].email, info);
+    }
+
+    // If email wasn't sent, respond with failure message
+    res.json({ success: true, message: "Update emails sent" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
