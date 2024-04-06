@@ -1584,16 +1584,16 @@ app.post("/sendUpdateEmails", async (req, res) => {
 
     // Fetch users with update: true
     const users = await NotificationModel.find({ update: 1 });
-    console.log(users);
+    //console.log(users);
 
     for (let index = 0; index < users.length; index++) {
-      console.log(index + ": " + users[index].email);
-      console.log(info);
+      //console.log(index + ": " + users[index].email);
+      //console.log(info);
       sendUpdateEmail(users[index].email, info);
     }
 
     // If email wasn't sent, respond with failure message
-    res.json({ success: false, message: "Failed to send notification email" });
+    res.json({ success: true, message: "Update emails sent" });
   } catch (err) {
     res.status(500).json({ success: false, message: "Internal server error" });
   }

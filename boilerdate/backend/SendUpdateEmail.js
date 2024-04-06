@@ -10,13 +10,14 @@ const transporter = nodemailer.createTransport({
 });
 
 async function sendUpdateEmail(email, info) {
-  console.log(info);
+  let text = "The following updates have been made in our app:\n";
+  text += info;
   try {
     mailOptions = {
       from: "boilderdate@gmail.com",
       to: email,
       subject: "[BoilerDate] New Updates!",
-      text: info,
+      text: text,
     };
 
     const result = await transporter.sendMail(mailOptions);

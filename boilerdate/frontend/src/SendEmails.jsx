@@ -45,7 +45,7 @@ function SendEmails() {
             <FormControl fullWidth>
               <TextField
                 id="outlined-basic"
-                label="Bio"
+                label="Updates"
                 variant="outlined"
                 inputProps={{ maxLength: 200 }}
                 onChange={(e) => setInfo(e.target.value)}
