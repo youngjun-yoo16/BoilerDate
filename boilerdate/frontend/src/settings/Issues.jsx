@@ -1,13 +1,25 @@
 import { useState, useEffect } from "react";
 import React from "react";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import { useLocation, useNavigate } from "react-router-dom";
+import "../profile/LifestylePage.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+
+const categoryData = [
+  "Profile",
+  "Discover",
+  "Settings",
+  "Filter",
+  "Relationships",
+  "Messages",
+  "Other",
+];
 
 function Issues() {
   const [category, setCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState([]);
 
   const { state } = useLocation();
   const { email } = state || {};
@@ -21,9 +33,23 @@ function Issues() {
     }
   });
 
+  function toggleCategory(category) {
+    if (selectedCategory === category) {
+      setSelectedCategory([]);
+    } else {
+      setSelectedCategory(category);
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(category);
+
+    if (selectedCategory.length === 0) {
+      // Notify the user to select an option for each category
+      toast.info("Please select a category.");
+      return;
+    }
 
     navigate("/issues/details", {
       state: {
@@ -31,46 +57,33 @@ function Issues() {
         category: category,
       },
     });
-
-    /*axios
-      .post("http://localhost:3001/updateGPA", {
-        email,
-        issue,
-      })
-      .then((result) => {
-        console.log(result);
-        navigate("/settings", { state: { email: email } });
-      })
-      .catch((err) => console.log(err));*/
   };
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25">
-        <h2>Report Issues</h2>
-        <br />
+        <h2>
+          <FontAwesomeIcon icon={faCircleExclamation} /> Report Issues
+        </h2>
+        <p></p>
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Issues</InputLabel>
-              <Select
-                required
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={category}
-                label="GPA"
-                onChange={(e) => setCategory(e.target.value)}
+          <div className="selected-container">
+            {categoryData.map((lifestyle, index) => (
+              <div
+                key={index}
+                className={`lifestyle ${
+                  selectedCategory === lifestyle ? "selected" : ""
+                }`}
+                onClick={() => {
+                  toggleCategory(lifestyle);
+                  setCategory(lifestyle);
+                }}
               >
-                <MenuItem value={"Profile"}>Profile</MenuItem>
-                <MenuItem value={"Discover"}>Discover</MenuItem>
-                <MenuItem value={"Settings"}>Settings</MenuItem>
-                <MenuItem value={"Filter"}>Filter</MenuItem>
-                <MenuItem value={"Relationships"}>Relationships</MenuItem>
-                <MenuItem value={"Messages"}>Messages</MenuItem>
-                <MenuItem value={"Other"}>Other</MenuItem>
-              </Select>
-            </FormControl>
+                {lifestyle}
+              </div>
+            ))}
           </div>
+          <ToastContainer />
 
           <br />
           <div className="row">

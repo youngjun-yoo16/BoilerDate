@@ -10,6 +10,7 @@ import {
   faLock,
   faKey,
   faLightbulb,
+  faPhone,
   faCircleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -91,6 +92,18 @@ function Settings() {
             }
           >
             <FontAwesomeIcon icon={faLightbulb} /> Feedback
+          </button>
+        </div>
+
+        <div className="mb-3">
+          <button
+            type="button"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/addnumber", { state: { email: email } })
+            }
+          >
+            <FontAwesomeIcon icon={faPhone} /> Update Phone Number
           </button>
         </div>
 
