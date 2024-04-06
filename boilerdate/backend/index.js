@@ -562,8 +562,9 @@ app.post("/manageldm", async (req, res) => {
         const type = "match";
 
         const targetInfo = await UserModel.findOne({ email: target });
+        const userInfo = await UserModel.findOne({ email: email });
 
-        const matchedUserData = {
+        const targetData = {
           username: targetInfo.firstName + "_" + targetInfo.lastName,
           secret: targetInfo.firstName,
           email: target,
@@ -571,34 +572,86 @@ app.post("/manageldm", async (req, res) => {
           last_name: targetInfo.lastName,
         };
 
-        const config = {
-          method: "post",
-          url: "https://api.chatengine.io/users/",
+        const myData = {
+          username: userInfo.firstName + "_" + userInfo.lastName,
+          secret: userInfo.firstName,
+          email: email,
+          first_name: userInfo.firstName,
+          last_name: userInfo.lastName,
+        };
+
+        const usersConfig = {
+          method: "get",
+          url: `https://api.chatengine.io/users/`,
           headers: {
             "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
           },
-          data: matchedUserData,
         };
 
-        axios(config)
-          .then((response) => {
-            console.log(response.data);
-            //res.json(response.data);
-          })
-          .catch((error) => {
-            console.error(error);
-            res
-              .status(400)
-              .json({ message: "An error occurred", error: error.toString() });
+        let isUserExists = false;
+        let isTargetExists = false;
+
+        await axios(usersConfig).then((response) => {
+          //map response data and check if the user exists
+          //if exists, set boolean to true
+          const users = response.data;
+          //console.log(users);
+          users.map((user) => {
+            if (user.email === email) {
+              isUserExists = true;
+            }
+            if (user.email === target) {
+              isTargetExists = true;
+            }
           });
-        /*axios
-          .post("http://localhost:3001/create-user", matchedUserData)
-          .then((result) => {
-            console.log(result);
-          })
-          .catcj((error) => {
-            console.log(error);
-          });*/
+        })
+        ;
+
+        // If user does not exist, create a new user
+        if (!isUserExists) {
+          const myConfig = {
+            method: "post",
+            url: "https://api.chatengine.io/users/",
+            headers: {
+              "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
+            },
+            data: myData,
+          };
+          axios(myConfig)
+            .then((response) => {
+              console.log(response.data);
+            })
+            .catch((error) => {
+              console.error(error);
+              res.status(400).json({
+                message: "An error occurred",
+                error: error.toString(),
+              });
+            });
+        }
+
+        // If target does not exist, create a new user
+        if (!isTargetExists) {
+          const targetConfig = {
+            method: "post",
+            url: "https://api.chatengine.io/users/",
+            headers: {
+              "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
+            },
+            data: targetData,
+          };
+          axios(targetConfig)
+            .then((response) => {
+              console.log(response.data);
+            })
+            .catch((error) => {
+              console.error(error);
+              res.status(400).json({
+                message: "An error occurred",
+                error: error.toString(),
+              });
+            });
+        }
 
         // Delete the matched user from liked & received liked pages
         await deleteUsersFromLikedWhenMatched(email, target);
