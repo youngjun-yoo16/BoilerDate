@@ -1417,12 +1417,13 @@ async function filterUsersByPrivacySettings(users) {
 }
 
 app.post("/issues", async (req, res) => {
+  const { email, issue } = await req.body;
+  //console.log(email + ": " + issue);
   try {
-    const { email, issue } = req.body;
     await IssueModel.findOneAndUpdate(
       { email: email },
       { $addToSet: { issue: issue } },
-      { upsert: true }
+      { upsert: true, new: true }
     )
       .then(() => {
         console.log("issue reported");

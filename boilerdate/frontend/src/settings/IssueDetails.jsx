@@ -30,23 +30,15 @@ function IssueDetails() {
     e.preventDefault();
     console.log(category);
     const issue = category + ": " + detail;
-    console.log("attempt");
-
-    if (detail == "") {
-      toast.error("Please give some more details!");
-      return;
-    }
-    console.log("attempt");
+    console.log(issue);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3001/issues",
+      const response = await axios.post("http://localhost:3001/issues", {
         email,
-        issue
-      );
+        issue,
+      });
 
       if (response.data.success) {
-        console.log("inside");
         toast.success("Issue reported successfully!");
         await sleep(1200);
         navigate("/settings", { state: { email: email } });
