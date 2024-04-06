@@ -13,6 +13,7 @@ function Chat() {
   const [userSecret, setUserSecret] = useState("");
   const [username, setUsername] = useState("");
   const [matchesList, setMatchesList] = useState([]);
+  const [error, setError] = useState(false);
 
   // Fetch user details
   useEffect(() => {
@@ -39,6 +40,7 @@ function Chat() {
           setUsername(user.username);
           setUserSecret(user.first_name); // Assuming first_name is used as the secret
         } else {
+          setError(true);
           console.error("User not found");
         }
       } catch (error) {
@@ -105,14 +107,30 @@ function Chat() {
   }, [username, userSecret, matchesList]);
 
   return username && userSecret ? (
+    matchesList.length > 0 ? (
+      <ChatEngine
+        height="100vh"
+        projectID="abc439ce-2427-47df-b650-8a22f618970a"
+        userName={username}
+        userSecret={userSecret}
+      />
+    ) : (
+      <ChatEngine
+        height="100vh"
+        projectID="abc439ce-2427-47df-b650-8a22f618970a"
+        userName={"BoilerDate"}
+        userSecret={"boilerdate"}
+      /> // Default screen for no matches
+    )
+  ) : error ? (
     <ChatEngine
       height="100vh"
       projectID="abc439ce-2427-47df-b650-8a22f618970a"
-      userName={username}
-      userSecret={userSecret}
-    />
+      userName={"BoilerDate"}
+      userSecret={"boilerdate"}
+    /> // Default screen for no matches
   ) : (
-    <div>Loading...</div>
+    <div>Loading ...</div>
   );
 }
 export default Chat;
