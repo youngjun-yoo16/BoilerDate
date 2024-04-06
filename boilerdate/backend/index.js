@@ -24,6 +24,7 @@ const PrivacyModel = require("./models/Privacy");
 const BlockModel = require("./models/BlockReport");
 const PdfModel = require("./models/PdfFile");
 const UserFeedbackModel = require("./models/Feedback");
+const PremiumStatusModel = require("./models/PremiumStatus");
 const IssueModel = require("./models/Issue");
 
 const app = express();
@@ -235,6 +236,44 @@ app.post("/feedback", async (req, res) => {
 
     res.status(201).json(newFeedback);
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updatePremiumStatus", async (req, res) => {
+  try {
+    const { email, crrSwipeNum } = req.body;
+
+    let newSwipeNum = crrSwipeNum;
+    let isPremium = false;
+
+    // find the user and update/add swipes
+    const originalSwipeNum = await PremiumStatusModel.findOne({ email: email });
+
+    if (originalSwipeNum) {
+      newSwipeNum += Number(originalSwipeNum.swipes);
+    }
+
+    // check if newSwipeNum qualifies for premium status
+    if (newSwipeNum > 10) {
+      isPremium = true;
+    }
+
+    // update or insert the document with new swipes and possibly premium status
+    const updatedDocument = await PremiumStatusModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          swipes: newSwipeNum,
+          premium: isPremium,
+        },
+      },
+      { new: true, upsert: true }
+    );
+
+    res.status(201).json(updatedDocument);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -604,8 +643,7 @@ app.post("/manageldm", async (req, res) => {
               isTargetExists = true;
             }
           });
-        })
-        ;
+        });
 
         // If user does not exist, create a new user
         if (!isUserExists) {

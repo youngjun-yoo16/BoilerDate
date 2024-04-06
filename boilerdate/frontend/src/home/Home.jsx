@@ -11,19 +11,24 @@ import {
   faSliders,
   faUserAlt,
   faHandHoldingHeart,
-  faComment
+  faComment,
 } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 
 function Home() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { email } = state || {};
+  const [showPremium, setShowPremium] = React.useState(false);
+
   console.log(state);
 
   useEffect(() => {
     if (email === undefined) {
       navigate(-1);
     }
+
+    // if swipes > lets say 10 then set showPremium to true
   });
 
   const handleLogout = async (e) => {
@@ -75,9 +80,7 @@ function Home() {
           <button
             type="button"
             className="btn btn-outline-primary border w-100"
-            onClick={() =>
-              navigate("/chat", { state: { email: email } })
-            }
+            onClick={() => navigate("/chat", { state: { email: email } })}
           >
             <FontAwesomeIcon icon={faComment} /> My Chat
           </button>
