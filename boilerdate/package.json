@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "@react-spring/web": "^9.5.5",
+    "react-input-mask": "^2.0.4",
+    "react-international-phone": "^4.2.6",
     "react-tinder-card": "^1.6.4"
   }
 }

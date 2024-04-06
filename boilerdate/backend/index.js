@@ -26,6 +26,7 @@ const PdfModel = require("./models/PdfFile");
 const UserFeedbackModel = require("./models/Feedback");
 const PremiumStatusModel = require("./models/PremiumStatus");
 const IssueModel = require("./models/Issue");
+const PhoneNumberModel = require("./models/PhoneNumber");
 
 const app = express();
 app.use(express.json());
@@ -54,6 +55,38 @@ app.post("/signup", (req, res) => {
   UserModel.create(req.body)
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
+});
+
+app.post("/updatePhoneNumber", async(req, res) => {
+  try {
+    const { email, phone } = req.body;
+    let num = phone;
+
+    /*
+    const PhoneNumber = await PhoneNumberModel.findOne({ email: email });
+    if(!PhoneNumber) {
+      PhoneNumberModel.create(req.body);
+      res.json("Phone Number created");
+    }
+    */
+   
+    const newPhoneNumber = await PhoneNumberModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          number: num
+        },
+      },
+      { new: true, upsert: true }
+    );
+
+    res.status(201).json(newPhoneNumber);
+
+  
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.post("/signup2", (req, res) => {
@@ -478,9 +511,29 @@ app.get("/image/:email", async (req, res) => {
 
     res.contentType(img.img.contentType);
     res.send(img.img.data);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.status(500).send("GET image failed");
+  }
+});
+
+app.get("/premium/:email", async (req, res) => {
+  try {
+    const premiumStatus = await PremiumStatusModel.findOne({
+      email: req.params.email,
+    });
+
+    if (premiumStatus) {
+      // true is sent
+      res.json({ premium: premiumStatus.premium });
+    } else {
+      console.log("No premium status available");
+      res.status(404).json({
+        message: "No premium status available for the provided email.",
+      });
+    }
+  } catch (err) {
+    console.error(err);
   }
 });
 

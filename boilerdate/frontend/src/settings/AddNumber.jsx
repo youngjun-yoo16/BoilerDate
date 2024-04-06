@@ -24,7 +24,7 @@ import {
   faHandHoldingHeart,
   faPhone
 } from "@fortawesome/free-solid-svg-icons";
-
+import axios from "axios";
 
 function AddNumber() {
   const { state } = useLocation();
@@ -69,7 +69,18 @@ function AddNumber() {
     return;
   }
     */
-   
+
+  axios
+      .post("http://localhost:3001/updatePhoneNumber", {
+        email,
+        phone,
+      })
+      .then((result) => {
+        console.log(result);
+        toast.success("Phone number updated successfully!");
+        
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
