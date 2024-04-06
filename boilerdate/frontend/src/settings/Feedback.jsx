@@ -14,6 +14,11 @@ import TextField from "@mui/material/TextField";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 
+const fontGroup = {
+  fontFamily: "Arial, sans-serif",
+  fontSize: "18px",
+};
+
 function Feedback() {
   const { state } = useLocation();
   const { email } = state || {};
@@ -28,60 +33,55 @@ function Feedback() {
     if (email === undefined) {
       navigate(-1);
     }
-    console.log(text);
-    console.log("ahwatat");
   });
 
-  const handleSubmit = (e) => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:3001/feedback", {
+        email,
+        text,
+        rating,
+      })
+      .then((result) => {
+        console.log(result);
+        navigate("/settings", { state: { email: email } });
+      })
+      .catch((err) => console.log(err));
+  };
 
   // feedback ui
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-50">
-        <h2>
-          {/* Uncomment and use FontAwesomeIcon if needed */}
-          {/* <FontAwesomeIcon icon={faBell} /> Update Notifications */}
-          Please provide your feedback here.
-        </h2>
         <form onSubmit={handleSubmit}>
-          {/* Box for Text Field */}
-          <Box
-            component="form"
-            sx={{
-              "& .MuiTextField-root": { m: 1, width: "80ch" },
-            }}
-            noValidate
+          <legend style={fontGroup} htmlFor="feedback">
+            Please provide your feedback below!
+          </legend>
+          <input
+            required
+            type="text" // Corrected type attribute
+            placeholder="Feedback"
             autoComplete="off"
-          >
-            <TextField
-              id="filled-textarea"
-              label="Your feedback matters!"
-              placeholder="Placeholder"
-              multiline
-              variant="filled"
-              value={text}
-              onChange={(event, newText) => {
-                setText(newText);
-              }}
-            />
-          </Box>
+            name="user-feedback"
+            className="form-control"
+            onChange={(e) => setText(e.target.value)}
+          />
+          <br></br>
 
-          {/* Box for Rating */}
-          <Box
-            sx={{
-              "& > legend": { mt: 3 },
-            }}
-          >
-            <Typography component="legend">Please rate our app!</Typography>
+          <Box>
+            <legend style={fontGroup} htmlFor="feedback-rating">
+              Please rate our app!
+            </legend>
+
             <Rating
               name="simple-controlled"
-              value={rating}
-              onChange={(event, newRating) => {
-                setRating(newRating);
-              }}
+              value={Number(rating)}
+              onChange={(event, newRating) => setRating(newRating)}
               size="large"
             />
           </Box>
+
           <br></br>
           <div className="row">
             <div className="col">
