@@ -110,12 +110,10 @@ function Settings() {
         <div className="mb-3">
           <button
             type="button"
-            className="btn btn-outline-danger border w-100"
-            onClick={() =>
-              navigate("/settings/delete", { state: { email: email } })
-            }
+            className="btn btn-outline-dark border w-100"
+            onClick={() => navigate("/issues", { state: { email: email } })}
           >
-            <FontAwesomeIcon icon={faTrash} /> Delete Account
+            <FontAwesomeIcon icon={faCircleExclamation} /> Issues
           </button>
         </div>
 
