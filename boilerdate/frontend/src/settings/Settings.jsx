@@ -11,6 +11,7 @@ import {
   faKey,
   faLightbulb,
   faPhone,
+  faCircleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Settings() {
@@ -103,6 +104,18 @@ function Settings() {
             }
           >
             <FontAwesomeIcon icon={faPhone} /> Update Phone Number
+          </button>
+        </div>
+
+        <div className="mb-3">
+          <button
+            type="button"
+            className="btn btn-outline-danger border w-100"
+            onClick={() =>
+              navigate("/settings/delete", { state: { email: email } })
+            }
+          >
+            <FontAwesomeIcon icon={faTrash} /> Delete Account
           </button>
         </div>
 

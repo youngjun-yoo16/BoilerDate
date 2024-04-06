@@ -36,6 +36,7 @@ function DisplayFilteredUsers() {
   const [lastDirection, setLastDirecton] = useState();
   const [childRefs, setChildRefs] = useState([]);
   const currentIndexRef = useRef();
+  const [crrSwipeNum, setCrrSwipeNum] = useState(0);
 
   /*
   const resetCards = () => {
@@ -106,6 +107,8 @@ function DisplayFilteredUsers() {
     if (direction === "left") {
       setDislikedUsers((prevUsers) => [...prevUsers, person]);
     }
+
+    //setCrrSwipeNum((crrSwipeNum) => crrSwipeNum + 1);
 
     // Check if it's the last card
     /*
@@ -205,6 +208,18 @@ function DisplayFilteredUsers() {
 
   const swipe = async (buttonType) => {
     setShowCardProfile(false);
+
+    try {
+      setCrrSwipeNum(1);
+      const tempbool = false;
+      const sendSwipes = await axios.post(
+        "http://localhost:3001/updatePremiumStatus",
+        { email, crrSwipeNum, tempbool }
+      );
+    } catch (err) {
+      console.log(crrSwipeNum);
+      console.error(err);
+    }
 
     //console.log(peoples[currentIndex].email)
     if (buttonType === "like") {

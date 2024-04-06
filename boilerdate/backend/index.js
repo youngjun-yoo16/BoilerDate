@@ -23,6 +23,9 @@ const NotificationModel = require("./models/Notification");
 const PrivacyModel = require("./models/Privacy");
 const BlockModel = require("./models/BlockReport");
 const PdfModel = require("./models/PdfFile");
+const UserFeedbackModel = require("./models/Feedback");
+const PremiumStatusModel = require("./models/PremiumStatus");
+const IssueModel = require("./models/Issue");
 
 const app = express();
 app.use(express.json());
@@ -200,6 +203,77 @@ app.post("/privacy", async (req, res) => {
       .then((setupinfo) => res.json(setupinfo))
       .catch((err) => res.json(err));
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/feedback", async (req, res) => {
+  try {
+    const { email, text, rating } = req.body;
+    console.log(email);
+
+    // find the previous feedback submitted of the user
+    const originalFeedback = await UserFeedbackModel.findOne({ email: email });
+
+    // without removing the original feedback, it appends to the previous one
+    let updatedFeedback = text;
+    if (originalFeedback) {
+      updatedFeedback = originalFeedback.feedback + "\n\n" + text;
+    }
+
+    // rating is updated
+    const newFeedback = await UserFeedbackModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          email: email,
+          rating: rating,
+          feedback: updatedFeedback,
+        },
+      },
+      { new: true, upsert: true }
+    );
+
+    res.status(201).json(newFeedback);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updatePremiumStatus", async (req, res) => {
+  try {
+    const { email, crrSwipeNum } = req.body;
+
+    let newSwipeNum = crrSwipeNum;
+    let isPremium = false;
+
+    // find the user and update/add swipes
+    const originalSwipeNum = await PremiumStatusModel.findOne({ email: email });
+
+    if (originalSwipeNum) {
+      newSwipeNum += Number(originalSwipeNum.swipes);
+    }
+
+    // check if newSwipeNum qualifies for premium status
+    if (newSwipeNum > 10) {
+      isPremium = true;
+    }
+
+    // update or insert the document with new swipes and possibly premium status
+    const updatedDocument = await PremiumStatusModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          swipes: newSwipeNum,
+          premium: isPremium,
+        },
+      },
+      { new: true, upsert: true }
+    );
+
+    res.status(201).json(updatedDocument);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -527,8 +601,9 @@ app.post("/manageldm", async (req, res) => {
         const type = "match";
 
         const targetInfo = await UserModel.findOne({ email: target });
+        const userInfo = await UserModel.findOne({ email: email });
 
-        const matchedUserData = {
+        const targetData = {
           username: targetInfo.firstName + "_" + targetInfo.lastName,
           secret: targetInfo.firstName,
           email: target,
@@ -536,34 +611,85 @@ app.post("/manageldm", async (req, res) => {
           last_name: targetInfo.lastName,
         };
 
-        const config = {
-          method: "post",
-          url: "https://api.chatengine.io/users/",
-          headers: {
-            "PRIVATE-KEY": '{{2cf88b7a-e935-438e-8fef-5b51503c737a}}',
-          },
-          data: matchedUserData,
+        const myData = {
+          username: userInfo.firstName + "_" + userInfo.lastName,
+          secret: userInfo.firstName,
+          email: email,
+          first_name: userInfo.firstName,
+          last_name: userInfo.lastName,
         };
 
-        axios(config)
-        .then((response) => {
-          console.log(response.data)
-          //res.json(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-          res
-            .status(400)
-            .json({ message: "An error occurred", error: error.toString() });
+        const usersConfig = {
+          method: "get",
+          url: `https://api.chatengine.io/users/`,
+          headers: {
+            "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
+          },
+        };
+
+        let isUserExists = false;
+        let isTargetExists = false;
+
+        await axios(usersConfig).then((response) => {
+          //map response data and check if the user exists
+          //if exists, set boolean to true
+          const users = response.data;
+          //console.log(users);
+          users.map((user) => {
+            if (user.email === email) {
+              isUserExists = true;
+            }
+            if (user.email === target) {
+              isTargetExists = true;
+            }
+          });
         });
-        /*axios
-          .post("http://localhost:3001/create-user", matchedUserData)
-          .then((result) => {
-            console.log(result);
-          })
-          .catcj((error) => {
-            console.log(error);
-          });*/
+
+        // If user does not exist, create a new user
+        if (!isUserExists) {
+          const myConfig = {
+            method: "post",
+            url: "https://api.chatengine.io/users/",
+            headers: {
+              "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
+            },
+            data: myData,
+          };
+          axios(myConfig)
+            .then((response) => {
+              console.log(response.data);
+            })
+            .catch((error) => {
+              console.error(error);
+              res.status(400).json({
+                message: "An error occurred",
+                error: error.toString(),
+              });
+            });
+        }
+
+        // If target does not exist, create a new user
+        if (!isTargetExists) {
+          const targetConfig = {
+            method: "post",
+            url: "https://api.chatengine.io/users/",
+            headers: {
+              "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
+            },
+            data: targetData,
+          };
+          axios(targetConfig)
+            .then((response) => {
+              console.log(response.data);
+            })
+            .catch((error) => {
+              console.error(error);
+              res.status(400).json({
+                message: "An error occurred",
+                error: error.toString(),
+              });
+            });
+        }
 
         // Delete the matched user from liked & received liked pages
         await deleteUsersFromLikedWhenMatched(email, target);
@@ -622,7 +748,7 @@ app.post("/create-user", (req, res) => {
     method: "post",
     url: "https://api.chatengine.io/users/",
     headers: {
-      "PRIVATE-KEY": '{{2cf88b7a-e935-438e-8fef-5b51503c737a}}',
+      "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
     },
     data: matchedUserData,
   };
@@ -1380,3 +1506,28 @@ async function filterUsersByPrivacySettings(users) {
   }
   return filteredProfiles;
 }
+
+app.post("/issues", async (req, res) => {
+  const { email, issue } = await req.body;
+  //console.log(email + ": " + issue);
+  try {
+    await IssueModel.findOneAndUpdate(
+      { email: email },
+      { $addToSet: { issue: issue } },
+      { upsert: true, new: true }
+    )
+      .then(() => {
+        console.log("issue reported");
+        res.status(200).json({
+          success: true,
+          message: "issue reported",
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send(err);
+      });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
