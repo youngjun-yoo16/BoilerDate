@@ -30,7 +30,7 @@ function SendEmails() {
       })
       .then((result) => {
         console.log(result);
-        navigate("/settings", { state: { email: email } });
+        navigate("/admin", { state: { email: email } });
       })
       .catch((err) => console.log(err));
   };
@@ -45,7 +45,7 @@ function SendEmails() {
             <FormControl fullWidth>
               <TextField
                 id="outlined-basic"
-                label="Bio"
+                label="Updates"
                 variant="outlined"
                 inputProps={{ maxLength: 200 }}
                 onChange={(e) => setInfo(e.target.value)}
