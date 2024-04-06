@@ -6,6 +6,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -53,7 +55,9 @@ function IssueDetails() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-50">
-        <h2>Report Issues</h2>
+        <h2>
+          <FontAwesomeIcon icon={faCircleExclamation} /> Report Issues
+        </h2>
         <p></p>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
