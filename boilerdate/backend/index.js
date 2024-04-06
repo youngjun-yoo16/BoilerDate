@@ -506,9 +506,29 @@ app.get("/image/:email", async (req, res) => {
 
     res.contentType(img.img.contentType);
     res.send(img.img.data);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.status(500).send("GET image failed");
+  }
+});
+
+app.get("/premium/:email", async (req, res) => {
+  try {
+    const premiumStatus = await PremiumStatusModel.findOne({
+      email: req.params.email,
+    });
+
+    if (premiumStatus) {
+      // true is sent
+      res.json({ premium: premiumStatus.premium });
+    } else {
+      console.log("No premium status available");
+      res.status(404).json({
+        message: "No premium status available for the provided email.",
+      });
+    }
+  } catch (err) {
+    console.error(err);
   }
 });
 

@@ -12,8 +12,10 @@ import {
   faUserAlt,
   faHandHoldingHeart,
   faComment,
+  faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
+import axios from "axios";
 
 function Home() {
   const navigate = useNavigate();
@@ -28,8 +30,23 @@ function Home() {
       navigate(-1);
     }
 
-    // if swipes > lets say 10 then set showPremium to true
-  });
+    const fetchPremiumStatus = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/premium/${email}`
+        );
+        if (response.data && response.data.premium !== undefined) {
+          setShowPremium(response.data.premium);
+        } else {
+          console.log("Premium status not found or undefined.");
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchPremiumStatus();
+    console.log(showPremium);
+  }, [email, navigate, showPremium]);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -105,6 +122,25 @@ function Home() {
             <FontAwesomeIcon icon={faCog} /> Settings
           </button>
         </div>
+
+        <div>
+          {showPremium ? (
+            <div className="mb-3">
+              <button
+                type="button"
+                className="btn btn-primary border w-100"
+                onClick={() =>
+                  navigate("/settings", { state: { email: email } })
+                }
+              >
+                <FontAwesomeIcon icon={faStar} /> Upgrade to premium
+              </button>
+            </div>
+          ) : (
+            <p></p>
+          )}
+        </div>
+
         <p></p>
         <div className="mb-3">
           <button
