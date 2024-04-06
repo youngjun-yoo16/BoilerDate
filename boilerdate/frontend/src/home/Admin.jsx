@@ -12,12 +12,11 @@ import {
   faUserAlt,
   faHandHoldingHeart,
   faComment,
-  faStar,
+  faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-import axios from "axios";
 
-function Home() {
+function Admin() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { email } = state || {};
@@ -30,23 +29,8 @@ function Home() {
       navigate(-1);
     }
 
-    const fetchPremiumStatus = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3001/premium/${email}`
-        );
-        if (response.data && response.data.premium !== undefined) {
-          setShowPremium(response.data.premium);
-        } else {
-          console.log("Premium status not found or undefined.");
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchPremiumStatus();
-    console.log(showPremium);
-  }, [email, navigate, showPremium]);
+    // if swipes > lets say 10 then set showPremium to true
+  });
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -61,6 +45,19 @@ function Home() {
           <FontAwesomeIcon icon={faHome} /> Home
         </h2>
         <br />
+        <div className="mb-3">
+          <button
+            type="button"
+            className="btn btn-outline-primary border w-100"
+            onClick={() =>
+              navigate("/admin/sendemails", { state: { email: email } })
+            }
+          >
+            <FontAwesomeIcon icon={faEnvelope} /> Send update emails
+          </button>
+        </div>
+        <p></p>
+
         <div className="mb-3">
           <button
             type="button"
@@ -122,25 +119,6 @@ function Home() {
             <FontAwesomeIcon icon={faCog} /> Settings
           </button>
         </div>
-
-        <div>
-          {showPremium ? (
-            <div className="mb-3">
-              <button
-                type="button"
-                className="btn btn-primary border w-100"
-                onClick={() =>
-                  navigate("/settings", { state: { email: email } })
-                }
-              >
-                <FontAwesomeIcon icon={faStar} /> Upgrade to premium
-              </button>
-            </div>
-          ) : (
-            <p></p>
-          )}
-        </div>
-
         <p></p>
         <div className="mb-3">
           <button
@@ -157,4 +135,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Admin;

@@ -58,9 +58,11 @@ import Feedback from "./settings/Feedback";
 
 import NotificationList from "./settings/NotificationList";
 import NotificationText from "./settings/NotificationText";
-import AddNumber from "./settings/AddNumber"
+import AddNumber from "./settings/AddNumber";
 import Issues from "./settings/Issues";
 import IssueDetails from "./settings/IssueDetails";
+import Admin from "./home/Admin";
+import SendEmails from "./SendEmails";
 
 const App = () => {
   return (
@@ -151,6 +153,8 @@ const App = () => {
           <Route path="/addnumber" element={<AddNumber />}></Route>
           <Route path="/issues" element={<Issues />}></Route>
           <Route path="/issues/details" element={<IssueDetails />}></Route>
+          <Route path="/admin" element={<Admin />}></Route>
+          <Route path="/admin/sendemails" element={<SendEmails />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

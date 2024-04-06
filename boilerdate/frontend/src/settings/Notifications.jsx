@@ -12,6 +12,7 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 function Notifications() {
   const [likePf, setLikePf] = useState("");
   const [matchPf, setmatchPf] = useState("");
+  const [update, setUpdate] = useState("");
 
   const { state } = useLocation();
   const { email } = state || {};
@@ -32,6 +33,7 @@ function Notifications() {
         email,
         likePf,
         matchPf,
+        update,
       })
       .then((result) => {
         console.log(result);
@@ -74,6 +76,23 @@ function Notifications() {
                 value={matchPf}
                 label="match"
                 onChange={(e) => setmatchPf(e.target.value)}
+              >
+                <MenuItem value={true}>Yes</MenuItem>
+                <MenuItem value={false}>No</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+          <div className="mb-3">
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">App Updates</InputLabel>
+              <Select
+                required
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={update}
+                label="match"
+                onChange={(e) => setUpdate(e.target.value)}
               >
                 <MenuItem value={true}>Yes</MenuItem>
                 <MenuItem value={false}>No</MenuItem>
