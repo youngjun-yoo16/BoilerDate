@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const UserFeedbackSchema = new mongoose.Schema({
   email: String,
   feedback: String,
-  rating: Number,
+  rating: String,
 });
 
 const UserFeedbackModel = mongoose.model(
