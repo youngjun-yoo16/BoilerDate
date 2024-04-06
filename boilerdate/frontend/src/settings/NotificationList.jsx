@@ -3,17 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
-  faHeart,
-  faBan,
   faEnvelope,
-  faCommentSms,
   faCommentAlt,
-  faLongArrowAltRight,
   faBell,
-  faLongArrowAltLeft,
-  faHandHoldingHeart,
 } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 
 function NotificationList() {
   const { state } = useLocation();
@@ -57,7 +50,6 @@ function NotificationList() {
               navigate("/updateNotificationsText", { state: { email: email } })
             }
           >
-    
             <FontAwesomeIcon icon={faCommentAlt} /> Text
           </button>
         </div>

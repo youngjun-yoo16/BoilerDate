@@ -283,7 +283,12 @@ app.post("/login", (req, res) => {
   UserModel.findOne({ email: email }).then((user) => {
     if (user) {
       if (atob(user.password) === password) {
-        res.json("Success");
+        if (email === "lee4049@purdue.edu") {
+          //res.json("Success");
+          res.json("Admin");
+        } else {
+          res.json("Success");
+        }
       } else {
         res.json("Incorrect password");
       }
@@ -1151,10 +1156,10 @@ app.post("/updateBirthday", async (req, res) => {
 
 app.post("/updateNotificationSettings", async (req, res) => {
   try {
-    const { email, likePf, matchPf } = req.body;
+    const { email, likePf, matchPf, update } = req.body;
     const result = await NotificationModel.findOneAndUpdate(
       { email: email },
-      { $set: { like: likePf, match: matchPf } },
+      { $set: { like: likePf, match: matchPf, update: update } },
       { upsert: true, new: true } // Ensure to return the updated document
     );
     res.json(result);
@@ -1517,5 +1522,32 @@ app.post("/issues", async (req, res) => {
       });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/sendUpdateEmails", async (req, res) => {
+  try {
+    const { email, info } = req.body;
+
+    // Fetch users with update: true
+    const users = await NotificationModel.find({ update: 1 });
+    console.log(users);
+
+    // Determine if an email should be sent based on the type and the respective status
+    /*const shouldSendEmail =
+      (type === "like" && userStatus.like) ||
+      (type === "match" && userStatus.match);
+
+    if (shouldSendEmail) {
+      const sendEmailResult = await sendNotificationEmail(emailToSend, type);
+      if (sendEmailResult) {
+        return res.json({ success: true, message: "Sent email successfully!" });
+      }
+    }*/
+
+    // If email wasn't sent, respond with failure message
+    res.json({ success: false, message: "Failed to send notification email" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
