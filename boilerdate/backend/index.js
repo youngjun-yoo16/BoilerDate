@@ -604,8 +604,7 @@ app.post("/manageldm", async (req, res) => {
               isTargetExists = true;
             }
           });
-        })
-        ;
+        });
 
         // If user does not exist, create a new user
         if (!isUserExists) {
@@ -701,33 +700,6 @@ app.post("/manageldm", async (req, res) => {
   }
 });
 
-// Endpoint to trigger the Axios request
-app.post("/create-user", (req, res) => {
-  const { matchedUserData } = req.body;
-
-  // Axios config
-  const config = {
-    method: "post",
-    url: "https://api.chatengine.io/users/",
-    headers: {
-      "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
-    },
-    data: matchedUserData,
-  };
-
-  // Making the Axios request
-  axios(config)
-    .then((response) => {
-      res.json(response.data);
-    })
-    .catch((error) => {
-      console.error(error);
-      res
-        .status(500)
-        .json({ message: "An error occurred", error: error.toString() });
-    });
-});
-
 app.post("/fetchlikes", async (req, res) => {
   try {
     const { email } = req.body;
@@ -780,6 +752,21 @@ app.post("/fetchusernames", async (req, res) => {
   } catch (error) {
     console.error("Error fetching the username and gpa ", error);
     res.json({ error: "Failed to fetch username and gpa from db" });
+  }
+});
+
+app.post("/fetchmatches", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const matchedUsers = await UserLDMModel.findOne(
+      { email: email },
+      { "matches.emails": 1, _id: 0 }
+    );
+    res.json(matchedUsers);
+    console.log("list of matches for this user is sent");
+  } catch (error) {
+    console.error("Error fetching the list of matches:", error);
+    res.json({ error: "Failed to fetch matches" });
   }
 });
 
