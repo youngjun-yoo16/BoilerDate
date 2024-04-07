@@ -1,12 +1,11 @@
-
-import React from 'react';
+import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { PhoneInput } from 'react-international-phone';
-import 'react-international-phone/style.css';
-import { PhoneNumberUtil } from 'google-libphonenumber';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
+import { PhoneNumberUtil } from "google-libphonenumber";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,7 +21,7 @@ import {
   faBell,
   faLongArrowAltLeft,
   faHandHoldingHeart,
-  faPhone
+  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
@@ -40,17 +39,15 @@ function AddNumber() {
     }
   });
 
-
-
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(phone);
     const usPhoneRegex = /^\+1[2-9]\d{2}[2-9]\d{2}\d{4}$/;
     if (!usPhoneRegex.test(phone)) {
-        toast.info("Please enter the number in correct format");
-     // alert('Please enter a valid US phone number.');
+      toast.info("Please enter the number in correct format");
+      // alert('Please enter a valid US phone number.');
       return;
     }
     /*
@@ -70,7 +67,7 @@ function AddNumber() {
   }
     */
 
-  axios
+    axios
       .post("http://localhost:3001/updatePhoneNumber", {
         email,
         phone,
@@ -78,7 +75,7 @@ function AddNumber() {
       .then((result) => {
         console.log(result);
         toast.success("Phone number updated successfully!");
-        
+        navigate("/settings", { state: { email: email } });
       })
       .catch((err) => console.log(err));
   };
@@ -92,15 +89,11 @@ function AddNumber() {
         </h2>
         <br />
         <form onSubmit={handleSubmit}>
-        <div>
-        <PhoneInput
-        
-        value={phone}
-        onChange={setPhone}
-      />
-        </div>
-        <br />
-        <ToastContainer />
+          <div>
+            <PhoneInput value={phone} onChange={setPhone} />
+          </div>
+          <br />
+          <ToastContainer />
           <div className="row">
             <div className="col">
               <button
