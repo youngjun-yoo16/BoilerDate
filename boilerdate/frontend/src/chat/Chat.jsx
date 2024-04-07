@@ -8,11 +8,10 @@ import { useLocation } from "react-router-dom";
 import { ChatEngine } from "react-chat-engine";
 
 function Chat() {
-  const { state } = useLocation();
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [userSecret, setUserSecret] = useState("");
   const [username, setUsername] = useState("");
-  const [matchesList, setMatchesList] = useState([]);
   const [error, setError] = useState(false);
 
   // Fetch user details
@@ -51,77 +50,13 @@ function Chat() {
     fetchUserDetails();
   }, [state, navigate]);
 
-  // Fetch matches list
-  useEffect(() => {
-    if (!state?.email) return;
-
-    const fetchMatches = async () => {
-      try {
-        const matchesResponse = await axios.post(
-          "http://localhost:3001/fetchmatches",
-          { email: state.email }
-        );
-        const matches = matchesResponse.data.matches.emails;
-        setMatchesList(matches);
-      } catch (error) {
-        console.error("Failed to fetch matches", error);
-      }
-    };
-
-    fetchMatches();
-  }, [state]);
-
-  // Perform chat operations
-  useEffect(() => {
-    if (!username || !userSecret || matchesList.length === 0) return;
-
-    const userConfig = {
-      method: "put",
-      url: `https://api.chatengine.io/chats/`,
-      headers: {
-        "Project-ID": "{{abc439ce-2427-47df-b650-8a22f618970a}}",
-        "User-Name": username,
-        "User-Secret": userSecret,
-      },
-    };
-
-    matchesList.forEach(async (match) => {
-      try {
-        const profileResponse = await axios.post(
-          "http://localhost:3001/fetchProfile",
-          { email: match }
-        );
-        const body = {
-          usernames: [
-            profileResponse.data.user.firstName +
-              "_" +
-              profileResponse.data.user.lastName,
-          ],
-          is_direct_chat: true,
-        };
-        await axios({ ...userConfig, data: body });
-      } catch (error) {
-        console.error("Failed to create chat", error);
-      }
-    });
-  }, [username, userSecret, matchesList]);
-
   return username && userSecret ? (
-    matchesList.length > 0 ? (
-      <ChatEngine
-        height="100vh"
-        projectID="abc439ce-2427-47df-b650-8a22f618970a"
-        userName={username}
-        userSecret={userSecret}
-      />
-    ) : (
-      <ChatEngine
-        height="100vh"
-        projectID="abc439ce-2427-47df-b650-8a22f618970a"
-        userName={"BoilerDate"}
-        userSecret={"boilerdate"}
-      /> // Default screen for no matches
-    )
+    <ChatEngine
+      height="100vh"
+      projectID="abc439ce-2427-47df-b650-8a22f618970a"
+      userName={username}
+      userSecret={userSecret}
+    />
   ) : error ? (
     <ChatEngine
       height="100vh"
@@ -133,4 +68,5 @@ function Chat() {
     <div>Loading ...</div>
   );
 }
+
 export default Chat;

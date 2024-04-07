@@ -28,7 +28,7 @@ function NotificationText() {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/updateNotificationSettings", {
+      .post("http://localhost:3001/updateTextNotificationSettings", {
         email,
         likePf,
         matchPf,
