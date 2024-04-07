@@ -273,12 +273,12 @@ app.post("/feedback", async (req, res) => {
   }
 });
 
-app.post("/updatePremiumStatus", async (req, res) => {
+app.post("/updatePremiumCondition", async (req, res) => {
   try {
     const { email, crrSwipeNum } = req.body;
 
     let newSwipeNum = crrSwipeNum;
-    let isPremium = false;
+    let canBePremium = false;
 
     // find the user and update/add swipes
     const originalSwipeNum = await PremiumStatusModel.findOne({ email: email });
@@ -289,25 +289,44 @@ app.post("/updatePremiumStatus", async (req, res) => {
 
     // check if newSwipeNum qualifies for premium status
     if (newSwipeNum > 9) {
-      isPremium = true;
+      canBePremium = true;
     }
 
-    // update or insert the document with new swipes and possibly premium status
-    const updatedDocument = await PremiumStatusModel.findOneAndUpdate(
+    // update or insert the document with new swipes and premium status
+    const updatedDoc = await PremiumStatusModel.findOneAndUpdate(
       { email: email },
       {
         $set: {
           swipes: newSwipeNum,
-          premium_condition: isPremium,
+          premium_condition: canBePremium,
         },
       },
       { new: true, upsert: true }
     );
 
-    res.status(201).json(updatedDocument);
+    res.status(201).json(updatedDoc);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/upgradeToPremium", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const updatePremiumStatus = await PremiumStatusModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          premium_status: true,
+        },
+      },
+      { new: true }
+    );
+    res.status(201).json(updatePremiumStatus);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -420,15 +439,16 @@ app.post("/sendNotificationEmail", async (req, res) => {
       { like: 1, match: 1, _id: 0 }
     );
 
-    { email: emailToSend }
+    {
+      email: emailToSend;
+    }
     // Determine if an email should be sent based on the type and the respective status
     const shouldSendEmail =
       (type === "like" && userStatus.like) ||
       (type === "match" && userStatus.match);
 
     if (shouldSendEmail) {
-      
-      console.log({emailToSend});
+      console.log({ emailToSend });
       const sendEmailResult = await sendNotificationEmail(emailToSend, type);
       if (sendEmailResult) {
         return res.json({ success: true, message: "Sent email successfully!" });
@@ -445,7 +465,6 @@ app.post("/sendNotificationEmail", async (req, res) => {
 app.post("/sendNotificationText", async (req, res) => {
   try {
     const { emailToSend, type } = req.body;
-    
 
     // Fetch like and match status in one go
     const userStatus = await NotificationModel.findOne(
@@ -459,14 +478,17 @@ app.post("/sendNotificationText", async (req, res) => {
       (type === "match" && userStatus.match);
 
     if (shouldSendEmail) {
-      //edit 
-      console.log({emailToSend});
+      //edit
+      console.log({ emailToSend });
       const Number = await PhoneNumberModel.findOne({ email: emailToSend });
-      if(!Number) {
-       console.log("no number");
-        return res.json({ success: true, message: "Doesn't have phone number" });
-      } 
-  
+      if (!Number) {
+        console.log("no number");
+        return res.json({
+          success: true,
+          message: "Doesn't have phone number",
+        });
+      }
+
       const sendTextResult = await sendNotificationText(Number.number, type);
       if (sendTextResult) {
         return res.json({ success: true, message: "Sent email successfully!" });
@@ -479,7 +501,6 @@ app.post("/sendNotificationText", async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
-
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -560,6 +581,7 @@ app.get("/image/:email", async (req, res) => {
 });
 
 app.get("/premium/:email", async (req, res) => {
+  // this actually fetches premium_condition
   try {
     const premiumStatus = await PremiumStatusModel.findOne({
       email: req.params.email,
