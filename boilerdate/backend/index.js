@@ -1901,14 +1901,15 @@ app.get("/premiumTrue/:email", async (req, res) => {
     });
 
     if (user == null) {
-      res.json("NNo premium status available for the provided email.");
+      res.json("No premium status available for the provided email.");
     } else if (user.premium_status) {
       // true is sent
       res.json("true");
     } else {
-      res.status(404).json({
+      /*res.status(404).json({
         message: "No premium status available for the provided email.",
-      });
+      });*/
+      res.json("No premium status available for the provided email.");
     }
   } catch (err) {
     console.error(err);

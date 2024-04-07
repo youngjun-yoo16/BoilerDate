@@ -52,120 +52,114 @@ function Settings() {
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100 overflow-auto">
-      <div className="bg-white p-3 rounded w-25">
+      <div className="bg-white p-3 rounded w-50">
         <h2>
           <FontAwesomeIcon icon={faCog} /> Settings
         </h2>
         <br />
-
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-dark border w-100"
-            onClick={() =>
-              navigate("/settings/profile", { state: { email: email } })
-            }
-          >
-            <FontAwesomeIcon icon={faEdit} /> Profile
-          </button>
-        </div>
-
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-dark border w-100"
-            onClick={() =>
-              navigate("/notificationList", { state: { email: email } })
-            }
-          >
-            <FontAwesomeIcon icon={faBell} /> Notifications
-          </button>
-        </div>
-
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-dark border w-100"
-            onClick={() =>
-              navigate("/settings/privacy", { state: { email: email } })
-            }
-          >
-            <FontAwesomeIcon icon={faLock} /> Privacy
-          </button>
-        </div>
-
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-dark border w-100"
-            onClick={() =>
-              navigate("/updatePassword", { state: { email: email } })
-            }
-          >
-            <FontAwesomeIcon icon={faKey} /> Password
-          </button>
-        </div>
-
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-dark border w-100"
-            onClick={() =>
-              navigate("/submitFeedback", { state: { email: email } })
-            }
-          >
-            <FontAwesomeIcon icon={faLightbulb} /> Feedback
-          </button>
-        </div>
-
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-dark border w-100"
-            onClick={() => navigate("/addnumber", { state: { email: email } })}
-          >
-            <FontAwesomeIcon icon={faPhone} /> Update Phone Number
-          </button>
-        </div>
-
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-dark border w-100"
-            onClick={() => navigate("/issues", { state: { email: email } })}
-          >
-            <FontAwesomeIcon icon={faCircleExclamation} /> Issues
-          </button>
-        </div>
-
-        {/*<div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-dark border w-100"
-            onClick={() =>
-              navigate("/premiumSend", { state: { email: email } })
-            }
-          >
-            <FontAwesomeIcon icon={faStar} /> Premium
-          </button>
-          </div>*/}
-
-        <div>
-          {showPremium ? (
+        <div className="row">
+          <div className="col">
             <div className="mb-3">
               <button
                 type="button"
                 className="btn btn-outline-dark border w-100"
                 onClick={() =>
-                  navigate("/premiumSend", { state: { email: email } })
+                  navigate("/settings/profile", { state: { email: email } })
                 }
               >
-                <FontAwesomeIcon icon={faStar} /> Premium
+                <FontAwesomeIcon icon={faEdit} /> Profile
               </button>
             </div>
-          ) : (
-            <p></p>
-          )}
+
+            <div className="mb-3">
+              <button
+                type="button"
+                className="btn btn-outline-dark border w-100"
+                onClick={() =>
+                  navigate("/notificationList", { state: { email: email } })
+                }
+              >
+                <FontAwesomeIcon icon={faBell} /> Notifications
+              </button>
+            </div>
+
+            <div className="mb-3">
+              <button
+                type="button"
+                className="btn btn-outline-dark border w-100"
+                onClick={() =>
+                  navigate("/settings/privacy", { state: { email: email } })
+                }
+              >
+                <FontAwesomeIcon icon={faLock} /> Privacy
+              </button>
+            </div>
+
+            <div className="mb-3">
+              <button
+                type="button"
+                className="btn btn-outline-dark border w-100"
+                onClick={() =>
+                  navigate("/updatePassword", { state: { email: email } })
+                }
+              >
+                <FontAwesomeIcon icon={faKey} /> Password
+              </button>
+            </div>
+          </div>
+          <div className="col">
+            <div className="mb-3">
+              <button
+                type="button"
+                className="btn btn-outline-dark border w-100"
+                onClick={() =>
+                  navigate("/submitFeedback", { state: { email: email } })
+                }
+              >
+                <FontAwesomeIcon icon={faLightbulb} /> Feedback
+              </button>
+            </div>
+
+            <div className="mb-3">
+              <button
+                type="button"
+                className="btn btn-outline-dark border w-100"
+                onClick={() =>
+                  navigate("/addnumber", { state: { email: email } })
+                }
+              >
+                <FontAwesomeIcon icon={faPhone} /> Update Phone Number
+              </button>
+            </div>
+
+            <div className="mb-3">
+              <button
+                type="button"
+                className="btn btn-outline-dark border w-100"
+                onClick={() => navigate("/issues", { state: { email: email } })}
+              >
+                <FontAwesomeIcon icon={faCircleExclamation} /> Issues
+              </button>
+            </div>
+
+            <div>
+              {showPremium ? (
+                <div className="mb-3">
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark border w-100"
+                    onClick={() =>
+                      navigate("/premiumSend", { state: { email: email } })
+                    }
+                  >
+                    <FontAwesomeIcon icon={faStar} /> Premium
+                  </button>
+                </div>
+              ) : (
+                <p></p>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="mb-3">
