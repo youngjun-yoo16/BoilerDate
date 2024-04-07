@@ -21,6 +21,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const NotificationModel = require("./models/Notification");
+const NotificationTextModel = require("./models/NotificationText");
 const PrivacyModel = require("./models/Privacy");
 const BlockModel = require("./models/BlockReport");
 const PdfModel = require("./models/PdfFile");
@@ -178,6 +179,7 @@ app.post("/deleteAccount", async (req, res) => {
       PrivacyModel.deleteOne({ email }),
       UserLDMModel.deleteOne({ email }),
       NotificationModel.deleteOne({ email }),
+      NotificationTextModel.deleteOne({ email }),
       ImageModel.deleteOne({ email }),
       BlockModel.deleteOne({ email }),
       PdfModel.deleteOne({ email }),
@@ -485,7 +487,7 @@ app.post("/sendNotificationText", async (req, res) => {
     const { emailToSend, type } = req.body;
 
     // Fetch like and match status in one go
-    const userStatus = await NotificationModel.findOne(
+    const userStatus = await NotificationTextModel.findOne(
       { email: emailToSend },
       { like: 1, match: 1, _id: 0 }
     );
@@ -853,6 +855,47 @@ app.post("/manageldm", async (req, res) => {
         if (shouldSendEmailToTarget) {
           await sendNotificationEmail(target, type);
         }
+
+           // Fetch like and match status for both users in parallel
+        const [userStatusT, targetStatusT] = await Promise.all([
+          NotificationTextModel.findOne({ email: email }, { match: 1, _id: 0 }),
+          NotificationTextModel.findOne({ email: target }, { match: 1, _id: 0 }),
+        ]);
+
+        // Determine if an email should be sent to each user based on the match status
+        const shouldSendEmailToUserT = userStatusT && userStatusT.match;
+        const shouldSendEmailToTargetT = targetStatusT && targetStatusT.match;
+
+        // Send email to the user if their match status is true
+        if (shouldSendEmailToUserT) {
+          const Number = await PhoneNumberModel.findOne({ email: email});
+          if(Number) {
+            await sendNotificationText(Number.number, type);
+          }
+          
+        }
+
+        // Send email to the target if their match status is true
+        if (shouldSendEmailToTargetT) {
+          const Number = await PhoneNumberModel.findOne({ email: target});
+          if(Number) {
+            await sendNotificationEmail(Number.number, type);
+          }
+          
+        }
+
+        /*
+        const Number = await PhoneNumberModel.findOne({ email: emailToSend });
+        if(!Number) {
+         console.log("no number");
+          return res.json({ success: true, message: "Doesn't have phone number" });
+        } 
+    
+        const sendTextResult = await sendNotificationText(Number.number, type);
+        if (sendTextResult) {
+          return res.json({ success: true, message: "Sent email successfully!" });
+        }
+        */
 
         // update the current user
         await UserLDMModel.updateOne(
@@ -1368,6 +1411,20 @@ app.post("/updateNotificationSettings", async (req, res) => {
   try {
     const { email, likePf, matchPf, update } = req.body;
     const result = await NotificationModel.findOneAndUpdate(
+      { email: email },
+      { $set: { like: likePf, match: matchPf, update: update } },
+      { upsert: true, new: true } // Ensure to return the updated document
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/updateTextNotificationSettings", async (req, res) => {
+  try {
+    const { email, likePf, matchPf, update } = req.body;
+    const result = await NotificationTextModel.findOneAndUpdate(
       { email: email },
       { $set: { like: likePf, match: matchPf, update: update } },
       { upsert: true, new: true } // Ensure to return the updated document
