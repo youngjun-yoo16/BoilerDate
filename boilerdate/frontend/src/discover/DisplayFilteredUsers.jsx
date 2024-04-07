@@ -21,6 +21,7 @@ import TextField from "@mui/material/TextField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
+
 function DisplayFilteredUsers() {
   const [currentProfileIndex, setCurrentProfileIndex] = useState(null);
   const [isResetting, setIsResetting] = useState(false);
@@ -37,6 +38,23 @@ function DisplayFilteredUsers() {
   const [childRefs, setChildRefs] = useState([]);
   const currentIndexRef = useRef();
   const [crrSwipeNum, setCrrSwipeNum] = useState(0);
+
+  const swipeCountKey = `swipeCount_${email}`; 
+
+  const [swipeCount, setSwipeCount] = useState(0);
+ 
+  useEffect(() => {
+    // Initialize swipe count from localStorage
+   // localStorage.clear();
+    const storedSwipeCount = parseInt(localStorage.getItem(swipeCountKey) || '0', 10);
+   
+    setSwipeCount(storedSwipeCount);
+  }, [swipeCountKey]);
+
+  const updateSwipeCount = (newCount) => {
+    setSwipeCount(newCount);
+    localStorage.setItem(swipeCountKey, newCount.toString());
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -183,6 +201,7 @@ function DisplayFilteredUsers() {
   const swipe = async (buttonType) => {
     setShowCardProfile(false);
 
+    /*
     try {
       setCrrSwipeNum(1);
       const tempbool = false;
@@ -194,6 +213,22 @@ function DisplayFilteredUsers() {
       console.log(crrSwipeNum);
       console.error(err);
     }
+    */
+
+    const newSwipeCount = swipeCount + 1;
+    updateSwipeCount(newSwipeCount);
+    console.log(newSwipeCount);
+
+    if (newSwipeCount === 10) { // Call updatePremiumCondition every 10 swipes
+      try {
+        
+        await axios.post("http://localhost:3001/updatePremiumCondition", { email});
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+
 
     if (
       canSwipe &&
