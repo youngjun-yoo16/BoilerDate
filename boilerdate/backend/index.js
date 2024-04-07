@@ -420,15 +420,16 @@ app.post("/sendNotificationEmail", async (req, res) => {
       { like: 1, match: 1, _id: 0 }
     );
 
-    { email: emailToSend }
+    {
+      email: emailToSend;
+    }
     // Determine if an email should be sent based on the type and the respective status
     const shouldSendEmail =
       (type === "like" && userStatus.like) ||
       (type === "match" && userStatus.match);
 
     if (shouldSendEmail) {
-      
-      console.log({emailToSend});
+      console.log({ emailToSend });
       const sendEmailResult = await sendNotificationEmail(emailToSend, type);
       if (sendEmailResult) {
         return res.json({ success: true, message: "Sent email successfully!" });
@@ -445,7 +446,6 @@ app.post("/sendNotificationEmail", async (req, res) => {
 app.post("/sendNotificationText", async (req, res) => {
   try {
     const { emailToSend, type } = req.body;
-    
 
     // Fetch like and match status in one go
     const userStatus = await NotificationModel.findOne(
@@ -459,8 +459,8 @@ app.post("/sendNotificationText", async (req, res) => {
       (type === "match" && userStatus.match);
 
     if (shouldSendEmail) {
-      //edit 
-      console.log({emailToSend});
+      //edit
+      console.log({ emailToSend });
       const Number = await PhoneNumberModel.findOne({ email: emailToSend });
       if (!Number) {
         console.log("no number");
@@ -792,6 +792,27 @@ app.post("/manageldm", async (req, res) => {
             });
         }
 
+        // Create a chat between the two users
+        let username = userInfo.firstName + "_" + userInfo.lastName;
+        let userSecret = userInfo.firstName;
+
+        const userChatConfig = {
+          method: "put",
+          url: `https://api.chatengine.io/chats/`,
+          headers: {
+            "Project-ID": "{{abc439ce-2427-47df-b650-8a22f618970a}}",
+            "User-Name": username,
+            "User-Secret": userSecret,
+          },
+        };
+
+        const body = {
+          usernames: [targetInfo.firstName + "_" + targetInfo.lastName],
+          is_direct_chat: true,
+        };
+
+        await axios({ ...userChatConfig, data: body });
+
         // Delete the matched user from liked & received liked pages
         await deleteUsersFromLikedWhenMatched(email, target);
         await deleteUsersFromLikedWhenMatched(target, email);
@@ -936,7 +957,6 @@ app.post("/deleteUnmatched", async (req, res) => {
       targetResponse.data.user.firstName +
       "_" +
       targetResponse.data.user.lastName;
-    const targetSecret = targetResponse.data.user.firstName;
 
     const header = {
       "Project-ID": "{{abc439ce-2427-47df-b650-8a22f618970a}}",
