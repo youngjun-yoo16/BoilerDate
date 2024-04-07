@@ -420,12 +420,15 @@ app.post("/sendNotificationEmail", async (req, res) => {
       { like: 1, match: 1, _id: 0 }
     );
 
+    { email: emailToSend }
     // Determine if an email should be sent based on the type and the respective status
     const shouldSendEmail =
       (type === "like" && userStatus.like) ||
       (type === "match" && userStatus.match);
 
     if (shouldSendEmail) {
+      
+      console.log({emailToSend});
       const sendEmailResult = await sendNotificationEmail(emailToSend, type);
       if (sendEmailResult) {
         return res.json({ success: true, message: "Sent email successfully!" });
@@ -442,6 +445,7 @@ app.post("/sendNotificationEmail", async (req, res) => {
 app.post("/sendNotificationText", async (req, res) => {
   try {
     const { emailToSend, type } = req.body;
+    
 
     // Fetch like and match status in one go
     const userStatus = await NotificationModel.findOne(
@@ -456,6 +460,7 @@ app.post("/sendNotificationText", async (req, res) => {
 
     if (shouldSendEmail) {
       //edit 
+      console.log({emailToSend});
       const Number = await PhoneNumberModel.findOne({ email: emailToSend });
       if(!Number) {
        console.log("no number");

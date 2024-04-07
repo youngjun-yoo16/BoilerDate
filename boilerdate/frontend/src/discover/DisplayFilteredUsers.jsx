@@ -238,12 +238,13 @@ function DisplayFilteredUsers() {
             { emailToSend, type }
           );
           console.log(response);
-
+          
           const responseText = await axios.post(
             "http://localhost:3001/sendNotificationText",
             { emailToSend, type }
           );
           console.log(responseText);
+          
         } catch (err) {
           console.error("Failed to send a notification email or text.");
         }
