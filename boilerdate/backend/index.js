@@ -877,10 +877,13 @@ app.post("/manageldm", async (req, res) => {
           await sendNotificationEmail(target, type);
         }
 
-           // Fetch like and match status for both users in parallel
+        // Fetch like and match status for both users in parallel
         const [userStatusT, targetStatusT] = await Promise.all([
           NotificationTextModel.findOne({ email: email }, { match: 1, _id: 0 }),
-          NotificationTextModel.findOne({ email: target }, { match: 1, _id: 0 }),
+          NotificationTextModel.findOne(
+            { email: target },
+            { match: 1, _id: 0 }
+          ),
         ]);
 
         // Determine if an email should be sent to each user based on the match status
@@ -889,20 +892,18 @@ app.post("/manageldm", async (req, res) => {
 
         // Send email to the user if their match status is true
         if (shouldSendEmailToUserT) {
-          const Number = await PhoneNumberModel.findOne({ email: email});
-          if(Number) {
+          const Number = await PhoneNumberModel.findOne({ email: email });
+          if (Number) {
             await sendNotificationText(Number.number, type);
           }
-          
         }
 
         // Send email to the target if their match status is true
         if (shouldSendEmailToTargetT) {
-          const Number = await PhoneNumberModel.findOne({ email: target});
-          if(Number) {
+          const Number = await PhoneNumberModel.findOne({ email: target });
+          if (Number) {
             await sendNotificationEmail(Number.number, type);
           }
-          
         }
 
         /*
@@ -1060,11 +1061,8 @@ app.post("/deleteUnmatched", async (req, res) => {
           person.person.username.includes(targetName)
         ) &&
           chat.admin.username.includes(myName)) ||
-        chat.people.map(
-          (person) =>
-            person.person.username.includes(myName) &&
-            chat.admin.username.includes(targetName)
-        )
+        (chat.people.map((person) => person.person.username.includes(myName)) &&
+          chat.admin.username.includes(targetName))
       ) {
         chatID = chat.id;
       }
