@@ -38,32 +38,6 @@ function DisplayFilteredUsers() {
   const currentIndexRef = useRef();
   const [crrSwipeNum, setCrrSwipeNum] = useState(0);
 
-  /*
-  const resetCards = () => {
-
-   
-    // Reset the currentIndex to the last card
-    setCurrentIndex(peoples.length - 1);
-    currentIndexRef.current = peoples.length - 1;
-    
-    //setChildRefs(peoples.map(() => React.createRef()));
-    // Programmatically restore each card
-    
- 
-
-    
-    childRefs.forEach((ref) => {
-      if (ref.current) {
-        ref.current.restoreCard();
-      }
-    });
-   
-
-   
-    setDislikedUsers([]);
-  };
-  */
-
   useEffect(() => {
     const fetchData = async () => {
       try {

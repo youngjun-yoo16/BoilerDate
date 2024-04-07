@@ -329,7 +329,7 @@ app.post("/upgradeToPremium", async (req, res) => {
     res.status(201).json(updatePremiumStatus);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: err.message });
+    //res.status(500).json({ error: err.message });
   }
 });
 
@@ -339,9 +339,9 @@ app.post("/fetchIfPremium", async (req, res) => {
     const fetchPremiumStatus = await PremiumStatusModel.findOne({
       email: email,
     });
-    if (!fetchPremiumStatus) {
-      return res.status(500).json({ message: "User not found." });
-    }
+    //if (!fetchPremiumStatus) {
+    //return res.status(500).json({ message: "User not found." });
+    //}
 
     res.status(200).json(fetchPremiumStatus);
   } catch (err) {
@@ -879,10 +879,13 @@ app.post("/manageldm", async (req, res) => {
           await sendNotificationEmail(target, type);
         }
 
-           // Fetch like and match status for both users in parallel
+        // Fetch like and match status for both users in parallel
         const [userStatusT, targetStatusT] = await Promise.all([
           NotificationTextModel.findOne({ email: email }, { match: 1, _id: 0 }),
-          NotificationTextModel.findOne({ email: target }, { match: 1, _id: 0 }),
+          NotificationTextModel.findOne(
+            { email: target },
+            { match: 1, _id: 0 }
+          ),
         ]);
 
         // Determine if an email should be sent to each user based on the match status
@@ -891,20 +894,18 @@ app.post("/manageldm", async (req, res) => {
 
         // Send email to the user if their match status is true
         if (shouldSendEmailToUserT) {
-          const Number = await PhoneNumberModel.findOne({ email: email});
-          if(Number) {
+          const Number = await PhoneNumberModel.findOne({ email: email });
+          if (Number) {
             await sendNotificationText(Number.number, type);
           }
-          
         }
 
         // Send email to the target if their match status is true
         if (shouldSendEmailToTargetT) {
-          const Number = await PhoneNumberModel.findOne({ email: target});
-          if(Number) {
+          const Number = await PhoneNumberModel.findOne({ email: target });
+          if (Number) {
             await sendNotificationEmail(Number.number, type);
           }
-          
         }
 
         /*
