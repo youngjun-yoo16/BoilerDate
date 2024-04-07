@@ -276,6 +276,7 @@ app.post("/feedback", async (req, res) => {
   }
 });
 
+/*
 app.post("/updatePremiumCondition", async (req, res) => {
   try {
     const { email, crrSwipeNum } = req.body;
@@ -313,6 +314,34 @@ app.post("/updatePremiumCondition", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+*/
+
+app.post("/updatePremiumCondition", async (req, res) => {
+  try {
+    const { email} = req.body;
+
+  
+    let canBePremium = true;
+
+
+    // update or insert the document with new swipes and premium status
+    const updatedDoc = await PremiumStatusModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          premium_condition: canBePremium,
+        },
+      },
+      { new: true, upsert: true }
+    );
+
+    res.status(201).json(updatedDoc);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 app.post("/upgradeToPremium", async (req, res) => {
   try {
@@ -904,7 +933,7 @@ app.post("/manageldm", async (req, res) => {
         if (shouldSendEmailToTargetT) {
           const Number = await PhoneNumberModel.findOne({ email: target });
           if (Number) {
-            await sendNotificationEmail(Number.number, type);
+            await sendNotificationText(Number.number, type);
           }
         }
 
@@ -1898,13 +1927,48 @@ app.get("/premiumTrue/:email", async (req, res) => {
     });
 
     if (user == null) {
-      res.json("NNo premium status available for the provided email.");
+      res.json("No premium status available for the provided email.");
     } else if (user.premium_status) {
       // true is sent
       res.json("true");
     } else {
-      res.status(404).json({
+      /*res.status(404).json({
         message: "No premium status available for the provided email.",
+      });*/
+      res.json("No premium status available for the provided email.");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchPrivacy/:email", async (req, res) => {
+  try {
+    const user = await PrivacyModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No privacy status");
+    } else {
+      //console.log("gpa: " + user.gpa);
+      res.json({
+        success: true,
+        gpa: user.gpa,
+        major: user.major,
+        degree: user.degree,
+        interests: user.interests,
+        lifestyle: user.lifestyle,
+        height: user.height,
+        personality: user.personality,
+        relationship: user.relationship,
+        citizenship: user.citizenship,
+        skills: user.skills,
+        employment: user.employment,
+        career: user.career,
+        github: user.github,
+        linkedin: user.linkedin,
       });
     }
   } catch (err) {
