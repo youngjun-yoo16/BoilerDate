@@ -46,7 +46,8 @@ function Home() {
           console.log("Premium condition not found or undefined.");
         }
       } catch (err) {
-        console.error(err);
+        //console.error(err);
+        console.log("Premium condition not found or undefined");
       }
     };
 

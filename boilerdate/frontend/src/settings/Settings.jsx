@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,11 +14,14 @@ import {
   faCircleExclamation,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 function Settings() {
   const { state } = useLocation();
   const { email } = state || {};
   console.log(email);
+
+  const [showPremium, setShowPremium] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,7 +29,26 @@ function Settings() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchPremiumStatus = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/premiumTrue/${email}`
+        );
+        // if premium_condition is true, show the button
+        if (response.data === "true") {
+          setShowPremium(true);
+        } else {
+          console.log("Premium condition not found or undefined.");
+        }
+      } catch (err) {
+        //console.error(err);
+        console.log("Premium condition not found or undefined.");
+      }
+    };
+    fetchPremiumStatus();
+    console.log(showPremium);
+  }, [email, navigate, showPremium]);
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100 overflow-auto">
@@ -116,7 +138,7 @@ function Settings() {
           </button>
         </div>
 
-        <div className="mb-3">
+        {/*<div className="mb-3">
           <button
             type="button"
             className="btn btn-outline-dark border w-100"
@@ -126,6 +148,24 @@ function Settings() {
           >
             <FontAwesomeIcon icon={faStar} /> Premium
           </button>
+          </div>*/}
+
+        <div>
+          {showPremium ? (
+            <div className="mb-3">
+              <button
+                type="button"
+                className="btn btn-outline-dark border w-100"
+                onClick={() =>
+                  navigate("/premiumSend", { state: { email: email } })
+                }
+              >
+                <FontAwesomeIcon icon={faStar} /> Premium
+              </button>
+            </div>
+          ) : (
+            <p></p>
+          )}
         </div>
 
         <div className="mb-3">

@@ -329,7 +329,7 @@ app.post("/upgradeToPremium", async (req, res) => {
     res.status(201).json(updatePremiumStatus);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: err.message });
+    //res.status(500).json({ error: err.message });
   }
 });
 
@@ -339,9 +339,9 @@ app.post("/fetchIfPremium", async (req, res) => {
     const fetchPremiumStatus = await PremiumStatusModel.findOne({
       email: email,
     });
-    if (!fetchPremiumStatus) {
-      return res.status(500).json({ message: "User not found." });
-    }
+    //if (!fetchPremiumStatus) {
+    //return res.status(500).json({ message: "User not found." });
+    //}
 
     res.status(200).json(fetchPremiumStatus);
   } catch (err) {
@@ -607,7 +607,9 @@ app.get("/premium/:email", async (req, res) => {
       email: req.params.email,
     });
 
-    if (premiumStatus) {
+    if (premiumStatus == null) {
+      res.json("NNo premium status available for the provided email.");
+    } else if (premiumStatus) {
       // true is sent
       res.json({ premium: premiumStatus.premium_condition });
     } else {
@@ -1885,5 +1887,27 @@ app.post("/premiumSend", async (req, res) => {
     res.json({ success: true, message: "Premium profile emails sent" });
   } catch (err) {
     res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+app.get("/premiumTrue/:email", async (req, res) => {
+  // this actually fetches premium_condition
+  try {
+    const user = await PremiumStatusModel.findOne({
+      email: req.params.email,
+    });
+
+    if (user == null) {
+      res.json("NNo premium status available for the provided email.");
+    } else if (user.premium_status) {
+      // true is sent
+      res.json("true");
+    } else {
+      res.status(404).json({
+        message: "No premium status available for the provided email.",
+      });
+    }
+  } catch (err) {
+    console.error(err);
   }
 });
