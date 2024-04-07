@@ -1063,11 +1063,8 @@ app.post("/deleteUnmatched", async (req, res) => {
           person.person.username.includes(targetName)
         ) &&
           chat.admin.username.includes(myName)) ||
-        chat.people.map(
-          (person) =>
-            person.person.username.includes(myName) &&
-            chat.admin.username.includes(targetName)
-        )
+        (chat.people.map((person) => person.person.username.includes(myName)) &&
+          chat.admin.username.includes(targetName))
       ) {
         chatID = chat.id;
       }
