@@ -12,6 +12,7 @@ import {
   faLightbulb,
   faPhone,
   faCircleExclamation,
+  faStar,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Settings() {
@@ -99,9 +100,7 @@ function Settings() {
           <button
             type="button"
             className="btn btn-outline-dark border w-100"
-            onClick={() =>
-              navigate("/addnumber", { state: { email: email } })
-            }
+            onClick={() => navigate("/addnumber", { state: { email: email } })}
           >
             <FontAwesomeIcon icon={faPhone} /> Update Phone Number
           </button>
@@ -114,6 +113,18 @@ function Settings() {
             onClick={() => navigate("/issues", { state: { email: email } })}
           >
             <FontAwesomeIcon icon={faCircleExclamation} /> Issues
+          </button>
+        </div>
+
+        <div className="mb-3">
+          <button
+            type="button"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/premiumSend", { state: { email: email } })
+            }
+          >
+            <FontAwesomeIcon icon={faStar} /> Premium
           </button>
         </div>
 

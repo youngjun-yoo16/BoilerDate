@@ -213,7 +213,7 @@ function DisplayFilteredUsers() {
       setCrrSwipeNum(1);
       const tempbool = false;
       const sendSwipes = await axios.post(
-        "http://localhost:3001/updatePremiumStatus",
+        "http://localhost:3001/updatePremiumCondition",
         { email, crrSwipeNum, tempbool }
       );
     } catch (err) {
@@ -221,27 +221,38 @@ function DisplayFilteredUsers() {
       console.error(err);
     }
 
-    if (canSwipe && currentIndex < peoples.length && childRefs[currentIndex] && childRefs[currentIndex].current) {
+    if (
+      canSwipe &&
+      currentIndex < peoples.length &&
+      childRefs[currentIndex] &&
+      childRefs[currentIndex].current
+    ) {
       const person = peoples[currentIndex];
       const emailToSend = person.email;
-  
+
       if (buttonType === "like") {
         HandleUserLikesAndDislikes(email, emailToSend, true);
-  
+
         try {
           const type = "like";
-          const response = await axios.post("http://localhost:3001/sendNotificationEmail", { emailToSend, type });
+          const response = await axios.post(
+            "http://localhost:3001/sendNotificationEmail",
+            { emailToSend, type }
+          );
         } catch (err) {
           console.error("Failed to send a notification email:", err);
         }
-  
+
         try {
           const type = "like";
-          const responseText = await axios.post("http://localhost:3001/sendNotificationText", { emailToSend, type });
+          const responseText = await axios.post(
+            "http://localhost:3001/sendNotificationText",
+            { emailToSend, type }
+          );
         } catch (err) {
           console.error("Failed to send a notification text:", err);
         }
-  
+
         await childRefs[currentIndex].current.swipe("right");
       } else if (buttonType === "dislike") {
         HandleUserLikesAndDislikes(email, emailToSend, false);

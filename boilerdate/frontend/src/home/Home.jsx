@@ -24,6 +24,7 @@ function Home() {
   const { state } = useLocation();
   const { email } = state || {};
   const [showPremium, setShowPremium] = React.useState(false);
+  const [showPremiumFlag, setShowPremiumFlag] = React.useState(true);
 
   console.log(state);
 
@@ -32,21 +33,47 @@ function Home() {
       navigate(-1);
     }
 
+    // fetch the premium condition of user
     const fetchPremiumStatus = async () => {
       try {
         const response = await axios.get(
           `http://localhost:3001/premium/${email}`
         );
+        // if premium_condition is true, show the button
         if (response.data && response.data.premium !== undefined) {
           setShowPremium(response.data.premium);
         } else {
-          console.log("Premium status not found or undefined.");
+          console.log("Premium condition not found or undefined.");
         }
       } catch (err) {
         console.error(err);
       }
     };
+
+    // send request to check if the account is completely premium
+    const fetchIfPremium = async () => {
+      try {
+        axios
+          .post("http://localhost:3001/fetchIfPremium", {
+            email,
+          })
+          .then((result) => {
+            // get if premium and set show prem flag to false
+            if (result.data && result.data.premium_status !== undefined) {
+              setShowPremiumFlag(false);
+            }
+          });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    // button appears when the condition is first met
+    // and only disappears when upgraded to premium
+    // if premium once, button never appears
+    // there is no logic that handles the case when premium status is false
     fetchPremiumStatus();
+    fetchIfPremium();
     console.log(showPremium);
   }, [email, navigate, showPremium]);
 
@@ -67,7 +94,18 @@ function Home() {
   const actualUpgrade = async (e) => {
     handleCloseUpgrade();
 
-    // actual upgrade functionality
+    // send request to update the premium status
+    axios
+      .post("http://localhost:3001/upgradeToPremium", {
+        email,
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => console.log(err));
+
+    // after upgrade, force to refresh
+    window.location.reload();
   };
 
   return (
@@ -140,7 +178,7 @@ function Home() {
         </div>
 
         <div>
-          {showPremium ? (
+          {showPremium && showPremiumFlag ? (
             <div className="mb-3">
               <button
                 type="button"
