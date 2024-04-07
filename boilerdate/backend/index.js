@@ -276,6 +276,7 @@ app.post("/feedback", async (req, res) => {
   }
 });
 
+/*
 app.post("/updatePremiumCondition", async (req, res) => {
   try {
     const { email, crrSwipeNum } = req.body;
@@ -313,6 +314,34 @@ app.post("/updatePremiumCondition", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+*/
+
+app.post("/updatePremiumCondition", async (req, res) => {
+  try {
+    const { email} = req.body;
+
+  
+    let canBePremium = true;
+
+
+    // update or insert the document with new swipes and premium status
+    const updatedDoc = await PremiumStatusModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          premium_condition: canBePremium,
+        },
+      },
+      { new: true, upsert: true }
+    );
+
+    res.status(201).json(updatedDoc);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 app.post("/upgradeToPremium", async (req, res) => {
   try {
