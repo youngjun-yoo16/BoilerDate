@@ -1946,3 +1946,48 @@ app.get("/fetchPrivacy/:email", async (req, res) => {
     console.error(err);
   }
 });
+
+app.get("/fetchNotif/:email", async (req, res) => {
+  try {
+    const user = await NotificationModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No notif status");
+    } else {
+      //console.log("update: " + user.update);
+      res.json({
+        success: true,
+        likePf: user.like,
+        matchPf: user.match,
+        update: user.update,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchTextNotif/:email", async (req, res) => {
+  try {
+    const user = await NotificationTextModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No notif status");
+    } else {
+      //console.log("update: " + user.update);
+      res.json({
+        success: true,
+        likePf: user.like,
+        matchPf: user.match,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});

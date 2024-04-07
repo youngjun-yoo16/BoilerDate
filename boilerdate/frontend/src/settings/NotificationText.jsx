@@ -11,7 +11,7 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 
 function NotificationText() {
   const [likePf, setLikePf] = useState("");
-  const [matchPf, setmatchPf] = useState("");
+  const [matchPf, setMatchPf] = useState("");
 
   const { state } = useLocation();
   const { email } = state || {};
@@ -22,7 +22,31 @@ function NotificationText() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchNotifs = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchTextNotif/${email}`
+        );
+
+        if (response.data === "No notif status") {
+          console.log("No previous notification settings.");
+          return;
+        }
+        if (response.data.success) {
+          //console.log("success");
+          setLikePf(response.data.likePf);
+          setMatchPf(response.data.matchPf);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching privacy settings.");
+      }
+    };
+
+    fetchNotifs();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +59,7 @@ function NotificationText() {
       })
       .then((result) => {
         console.log(result);
-        navigate("/settings", { state: { email: email } });
+        navigate("/notificationList", { state: { email: email } });
       })
       .catch((err) => console.log(err));
   };
@@ -73,7 +97,7 @@ function NotificationText() {
                 id="demo-simple-select"
                 value={matchPf}
                 label="match"
-                onChange={(e) => setmatchPf(e.target.value)}
+                onChange={(e) => setMatchPf(e.target.value)}
               >
                 <MenuItem value={true}>Yes</MenuItem>
                 <MenuItem value={false}>No</MenuItem>
@@ -88,7 +112,7 @@ function NotificationText() {
                 type="button"
                 className="btn btn-outline-secondary border w-100"
                 onClick={() =>
-                  navigate("/settings", { state: { email: email } })
+                  navigate("/notificationList", { state: { email: email } })
                 }
               >
                 Back

@@ -58,10 +58,10 @@ function NotificationList() {
         <div className="mb-3">
           <button
             type="button"
-            className="btn btn-outline-primary w-100"
-            onClick={() => navigate("/home", { state: { email: email } })}
+            className="btn btn-outline-secondary border w-100"
+            onClick={() => navigate("/settings", { state: { email: email } })}
           >
-            <FontAwesomeIcon icon={faHome} /> Home
+            Back
           </button>
         </div>
       </div>

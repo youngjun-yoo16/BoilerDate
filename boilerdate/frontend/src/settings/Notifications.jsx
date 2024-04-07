@@ -11,7 +11,7 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 
 function Notifications() {
   const [likePf, setLikePf] = useState("");
-  const [matchPf, setmatchPf] = useState("");
+  const [matchPf, setMatchPf] = useState("");
   const [update, setUpdate] = useState("");
 
   const { state } = useLocation();
@@ -23,7 +23,35 @@ function Notifications() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchNotifs = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchNotif/${email}`
+        );
+
+        if (response.data === "No notif status") {
+          console.log("No previous notification settings.");
+          return;
+        }
+        if (response.data.success) {
+          //console.log("success");
+          /*console.log("like: " + response.data.likePf);
+          console.log("match: " + response.data.matchPf);
+          console.log("update: " + response.data.update);*/
+          setLikePf(response.data.likePf);
+          setMatchPf(response.data.matchPf);
+          setUpdate(response.data.update);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching privacy settings.");
+      }
+    };
+
+    fetchNotifs();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,7 +65,7 @@ function Notifications() {
       })
       .then((result) => {
         console.log(result);
-        navigate("/settings", { state: { email: email } });
+        navigate("/notificationList", { state: { email: email } });
       })
       .catch((err) => console.log(err));
   };
@@ -75,7 +103,7 @@ function Notifications() {
                 id="demo-simple-select"
                 value={matchPf}
                 label="match"
-                onChange={(e) => setmatchPf(e.target.value)}
+                onChange={(e) => setMatchPf(e.target.value)}
               >
                 <MenuItem value={true}>Yes</MenuItem>
                 <MenuItem value={false}>No</MenuItem>
@@ -91,7 +119,7 @@ function Notifications() {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={update}
-                label="match"
+                label="update"
                 onChange={(e) => setUpdate(e.target.value)}
               >
                 <MenuItem value={true}>Yes</MenuItem>
@@ -107,7 +135,7 @@ function Notifications() {
                 type="button"
                 className="btn btn-outline-secondary border w-100"
                 onClick={() =>
-                  navigate("/settings", { state: { email: email } })
+                  navigate("/notificationList", { state: { email: email } })
                 }
               >
                 Back
