@@ -116,15 +116,19 @@ function Chat() {
       />
     ) : (
       <ChatEngine
+        height="100vh"
+        projectID="abc439ce-2427-47df-b650-8a22f618970a"
+        userName={"BoilerDate"}
+        userSecret={"boilerdate"}
+      /> // Default screen for no matches
+    )
+  ) : error ? (
+    <ChatEngine
       height="100vh"
       projectID="abc439ce-2427-47df-b650-8a22f618970a"
       userName={"BoilerDate"}
       userSecret={"boilerdate"}
-    /> // Default screen for no matches
-      
-    )
-  ) : error ? (
-    <div>No user ...</div> // Default screen for no user
+    /> // Default screen for no user
   ) : (
     <div>Loading ...</div>
   );

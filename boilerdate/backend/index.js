@@ -455,13 +455,16 @@ app.post("/sendNotificationText", async (req, res) => {
       (type === "match" && userStatus.match);
 
     if (shouldSendEmail) {
-      //edit 
+      //edit
       const Number = await PhoneNumberModel.findOne({ email: emailToSend });
-      if(!Number) {
-       console.log("no number");
-        return res.json({ success: true, message: "Doesn't have phone number" });
-      } 
-  
+      if (!Number) {
+        console.log("no number");
+        return res.json({
+          success: true,
+          message: "Doesn't have phone number",
+        });
+      }
+
       const sendTextResult = await sendNotificationText(Number.number, type);
       if (sendTextResult) {
         return res.json({ success: true, message: "Sent email successfully!" });
@@ -474,7 +477,6 @@ app.post("/sendNotificationText", async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
-
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -906,6 +908,82 @@ app.post("/fetchmatches", async (req, res) => {
 app.post("/deleteUnmatched", async (req, res) => {
   try {
     const { email, emailToRemove } = req.body;
+
+    // Get my profile information
+    const profileResponse = await axios.post(
+      "http://localhost:3001/fetchProfile",
+      { email: email }
+    );
+
+    // Get the target's profile information
+    const targetResponse = await axios.post(
+      "http://localhost:3001/fetchProfile",
+      { email: emailToRemove }
+    );
+
+    const myName =
+      profileResponse.data.user.firstName +
+      "_" +
+      profileResponse.data.user.lastName;
+    const mySecret = profileResponse.data.user.firstName;
+
+    const targetName =
+      targetResponse.data.user.firstName +
+      "_" +
+      targetResponse.data.user.lastName;
+    const targetSecret = targetResponse.data.user.firstName;
+
+    const header = {
+      "Project-ID": "{{abc439ce-2427-47df-b650-8a22f618970a}}",
+      "User-Name": myName,
+      "User-Secret": mySecret,
+    };
+
+    const myChats = await axios.get("https://api.chatengine.io/chats/", {
+      headers: header,
+    });
+
+    const myChatsData = myChats.data;
+
+    let chatID = null;
+
+    // Find the chat ID that corresponds to the target user
+    myChatsData.map((chat) => {
+      if (
+        (chat.people.map((person) =>
+          person.person.username.includes(targetName)
+        ) &&
+          chat.admin.username.includes(myName)) ||
+        chat.people.map(
+          (person) =>
+            person.person.username.includes(myName) &&
+            chat.admin.username.includes(targetName)
+        )
+      ) {
+        chatID = chat.id;
+      }
+    });
+
+    // If chat ID is found, delete the chat
+    if (chatID) {
+      const deleteChatConfig = {
+        method: "delete",
+        url: `https://api.chatengine.io/chats/${chatID}/`,
+        headers: header,
+      };
+
+      await axios(deleteChatConfig)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+          res.status(400).json({
+            message: "An error occurred",
+            error: error.toString(),
+          });
+        });
+    }
 
     // First operation: Remove emailToRemove from email's document
     const result1 = await UserLDMModel.updateOne(
