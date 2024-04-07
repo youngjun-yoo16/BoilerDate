@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -36,7 +36,46 @@ function Privacy() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchPrivacy = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchPrivacy/${email}`
+        );
+        //console.log(response.data.gpa);
+
+        if (response.data === "No privacy status") {
+          console.log("No previous privacy settings.");
+          return;
+        }
+        if (response.data.success) {
+          //console.log("success");
+          setGpa(response.data.gpa);
+          setMajor(response.data.major);
+          setDegree(response.data.degree);
+          setInterests(response.data.interests);
+          setLifestyle(response.data.lifestyle);
+          setHeight(response.data.height);
+          setPersonality(response.data.personality);
+          setRelationship(response.data.relationship);
+          setCitizenship(response.data.citizenship);
+          setSkills(response.data.skills);
+          setEmployment(response.data.employment);
+          setCareer(response.data.career);
+          setGithub(response.data.github);
+          setLinkedin(response.data.linkedin);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        //console.error(err);
+        console.log("Error fetching privacy settings.");
+      }
+    };
+
+    fetchPrivacy();
+    //console.log("gpa:" + gpa);
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -87,6 +126,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={gpa}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -116,6 +156,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={major}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -146,6 +187,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={degree}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -176,6 +218,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={interests}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -206,6 +249,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={lifestyle}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -236,6 +280,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={height}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -266,6 +311,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={personality}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -297,6 +343,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={relationship}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -326,6 +373,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={citizenship}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -356,6 +404,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={skills}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -386,6 +435,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={employment}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -416,6 +466,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={career}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -446,6 +497,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={github}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
@@ -476,6 +528,7 @@ function Privacy() {
                     <FormControl>
                       <RadioGroup
                         row
+                        value={linkedin}
                         aria-labelledby="privacy-radio-buttons"
                         name="row-radio-buttons-group"
                       >
