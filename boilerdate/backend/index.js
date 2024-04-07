@@ -904,7 +904,7 @@ app.post("/manageldm", async (req, res) => {
         if (shouldSendEmailToTargetT) {
           const Number = await PhoneNumberModel.findOne({ email: target });
           if (Number) {
-            await sendNotificationEmail(Number.number, type);
+            await sendNotificationText(Number.number, type);
           }
         }
 
