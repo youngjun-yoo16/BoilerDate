@@ -37,10 +37,11 @@ function Home() {
         const response = await axios.get(
           `http://localhost:3001/premium/${email}`
         );
+        // if premium_condition is true, show the button
         if (response.data && response.data.premium !== undefined) {
           setShowPremium(response.data.premium);
         } else {
-          console.log("Premium status not found or undefined.");
+          console.log("Premium condition not found or undefined.");
         }
       } catch (err) {
         console.error(err);
@@ -67,7 +68,15 @@ function Home() {
   const actualUpgrade = async (e) => {
     handleCloseUpgrade();
 
-    // actual upgrade functionality
+    // send request to update the premium status
+    axios
+      .post("http://localhost:3001/upgradeToPremium", {
+        email,
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (

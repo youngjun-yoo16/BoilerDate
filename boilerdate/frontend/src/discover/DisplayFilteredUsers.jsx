@@ -213,7 +213,7 @@ function DisplayFilteredUsers() {
       setCrrSwipeNum(1);
       const tempbool = false;
       const sendSwipes = await axios.post(
-        "http://localhost:3001/updatePremiumStatus",
+        "http://localhost:3001/updatePremiumCondition",
         { email, crrSwipeNum, tempbool }
       );
     } catch (err) {
@@ -221,49 +221,43 @@ function DisplayFilteredUsers() {
       console.error(err);
     }
 
-    //console.log(peoples[currentIndex].email)
-    if (buttonType === "like") {
-      if (canSwipe && currentIndex < peoples.length) {
-        const likedUserEmail = peoples[currentIndex].email;
+    if (
+      canSwipe &&
+      currentIndex < peoples.length &&
+      childRefs[currentIndex] &&
+      childRefs[currentIndex].current
+    ) {
+      const person = peoples[currentIndex];
+      const emailToSend = person.email;
+
+      if (buttonType === "like") {
+        HandleUserLikesAndDislikes(email, emailToSend, true);
 
         try {
           const type = "like";
-          const emailToSend = peoples[currentIndex].email;
-          HandleUserLikesAndDislikes(email, emailToSend, true);
-          //console.log(peoples[currentIndex].email)
-          
-
           const response = await axios.post(
             "http://localhost:3001/sendNotificationEmail",
             { emailToSend, type }
           );
-          console.log(response);
-          
+        } catch (err) {
+          console.error("Failed to send a notification email:", err);
+        }
+
+        try {
+          const type = "like";
           const responseText = await axios.post(
             "http://localhost:3001/sendNotificationText",
             { emailToSend, type }
           );
-          console.log(responseText);
-          
         } catch (err) {
-          console.error("Failed to send a notification email or text.");
+          console.error("Failed to send a notification text:", err);
         }
 
-        await childRefs[currentIndex].current.swipe("right"); // Swipe the card!
-        console.log(peoples[currentIndex].email);
-      }
-      //HandleUserLikesAndDislikes(temp_email, peoples[0].email, true);
-      // HandleUserLikesAndDislikes(temp_email, peoples[1].email, true);
-    } else if (buttonType === "dislike") {
-      if (canSwipe && currentIndex < peoples.length) {
-        await childRefs[currentIndex].current.swipe("left"); // Swipe the card!
-        const emailToSend = peoples[currentIndex].email;
+        await childRefs[currentIndex].current.swipe("right");
+      } else if (buttonType === "dislike") {
         HandleUserLikesAndDislikes(email, emailToSend, false);
-      } 
-
-
-      // HandleUserLikesAndDislikes(temp_email, peoples[0].email, false);
-      //HandleUserLikesAndDislikes(temp_email, peoples[1].email, false);
+        await childRefs[currentIndex].current.swipe("left");
+      }
     }
   };
 

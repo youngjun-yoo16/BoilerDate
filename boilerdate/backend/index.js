@@ -274,12 +274,12 @@ app.post("/feedback", async (req, res) => {
   }
 });
 
-app.post("/updatePremiumStatus", async (req, res) => {
+app.post("/updatePremiumCondition", async (req, res) => {
   try {
     const { email, crrSwipeNum } = req.body;
 
     let newSwipeNum = crrSwipeNum;
-    let isPremium = false;
+    let canBePremium = false;
 
     // find the user and update/add swipes
     const originalSwipeNum = await PremiumStatusModel.findOne({ email: email });
@@ -290,25 +290,44 @@ app.post("/updatePremiumStatus", async (req, res) => {
 
     // check if newSwipeNum qualifies for premium status
     if (newSwipeNum > 9) {
-      isPremium = true;
+      canBePremium = true;
     }
 
-    // update or insert the document with new swipes and possibly premium status
-    const updatedDocument = await PremiumStatusModel.findOneAndUpdate(
+    // update or insert the document with new swipes and premium status
+    const updatedDoc = await PremiumStatusModel.findOneAndUpdate(
       { email: email },
       {
         $set: {
           swipes: newSwipeNum,
-          premium_condition: isPremium,
+          premium_condition: canBePremium,
         },
       },
       { new: true, upsert: true }
     );
 
-    res.status(201).json(updatedDocument);
+    res.status(201).json(updatedDoc);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/upgradeToPremium", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const updatePremiumStatus = await PremiumStatusModel.findOneAndUpdate(
+      { email: email },
+      {
+        $set: {
+          premium_status: true,
+        },
+      },
+      { new: true }
+    );
+    res.status(201).json(updatePremiumStatus);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -563,6 +582,7 @@ app.get("/image/:email", async (req, res) => {
 });
 
 app.get("/premium/:email", async (req, res) => {
+  // this actually fetches premium_condition
   try {
     const premiumStatus = await PremiumStatusModel.findOne({
       email: req.params.email,
@@ -914,6 +934,82 @@ app.post("/fetchmatches", async (req, res) => {
 app.post("/deleteUnmatched", async (req, res) => {
   try {
     const { email, emailToRemove } = req.body;
+
+    // Get my profile information
+    const profileResponse = await axios.post(
+      "http://localhost:3001/fetchProfile",
+      { email: email }
+    );
+
+    // Get the target's profile information
+    const targetResponse = await axios.post(
+      "http://localhost:3001/fetchProfile",
+      { email: emailToRemove }
+    );
+
+    const myName =
+      profileResponse.data.user.firstName +
+      "_" +
+      profileResponse.data.user.lastName;
+    const mySecret = profileResponse.data.user.firstName;
+
+    const targetName =
+      targetResponse.data.user.firstName +
+      "_" +
+      targetResponse.data.user.lastName;
+    const targetSecret = targetResponse.data.user.firstName;
+
+    const header = {
+      "Project-ID": "{{abc439ce-2427-47df-b650-8a22f618970a}}",
+      "User-Name": myName,
+      "User-Secret": mySecret,
+    };
+
+    const myChats = await axios.get("https://api.chatengine.io/chats/", {
+      headers: header,
+    });
+
+    const myChatsData = myChats.data;
+
+    let chatID = null;
+
+    // Find the chat ID that corresponds to the target user
+    myChatsData.map((chat) => {
+      if (
+        (chat.people.map((person) =>
+          person.person.username.includes(targetName)
+        ) &&
+          chat.admin.username.includes(myName)) ||
+        chat.people.map(
+          (person) =>
+            person.person.username.includes(myName) &&
+            chat.admin.username.includes(targetName)
+        )
+      ) {
+        chatID = chat.id;
+      }
+    });
+
+    // If chat ID is found, delete the chat
+    if (chatID) {
+      const deleteChatConfig = {
+        method: "delete",
+        url: `https://api.chatengine.io/chats/${chatID}/`,
+        headers: header,
+      };
+
+      await axios(deleteChatConfig)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+          res.status(400).json({
+            message: "An error occurred",
+            error: error.toString(),
+          });
+        });
+    }
 
     // First operation: Remove emailToRemove from email's document
     const result1 = await UserLDMModel.updateOne(
