@@ -1941,3 +1941,37 @@ app.get("/premiumTrue/:email", async (req, res) => {
     console.error(err);
   }
 });
+
+app.get("/fetchPrivacy/:email", async (req, res) => {
+  try {
+    const user = await PrivacyModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No privacy status");
+    } else {
+      //console.log("gpa: " + user.gpa);
+      res.json({
+        success: true,
+        gpa: user.gpa,
+        major: user.major,
+        degree: user.degree,
+        interests: user.interests,
+        lifestyle: user.lifestyle,
+        height: user.height,
+        personality: user.personality,
+        relationship: user.relationship,
+        citizenship: user.citizenship,
+        skills: user.skills,
+        employment: user.employment,
+        career: user.career,
+        github: user.github,
+        linkedin: user.linkedin,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
