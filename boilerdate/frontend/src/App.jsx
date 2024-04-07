@@ -63,6 +63,7 @@ import Issues from "./settings/Issues";
 import IssueDetails from "./settings/IssueDetails";
 import Admin from "./home/Admin";
 import SendEmails from "./SendEmails";
+import PremiumSend from "./premium/PremiumSend";
 
 const App = () => {
   return (
@@ -155,6 +156,7 @@ const App = () => {
           <Route path="/issues/details" element={<IssueDetails />}></Route>
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/admin/sendemails" element={<SendEmails />}></Route>
+          <Route path="/premiumSend" element={<PremiumSend />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

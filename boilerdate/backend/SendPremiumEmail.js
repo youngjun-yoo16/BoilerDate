@@ -9,14 +9,18 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendUpdateEmail(email, info) {
-  let text = "The following updates have been made in our app:\n\t";
-  text += info;
+async function sendPremiumEmail(email, name, age, gender, interests) {
+  let text = "Login to our app to be matched with someone like this:\n\n";
+  text += "\tName: " + name + "\n";
+  text += "\tAge: " + age + "\n";
+  text += "\tGender: " + gender + "\n";
+  text += "\tInterests: " + interests + "\n";
+
   try {
     mailOptions = {
       from: "boilderdate@gmail.com",
       to: email,
-      subject: "[BoilerDate] New Updates!",
+      subject: "[BoilerDate] Attention!",
       text: text,
     };
 
@@ -32,5 +36,5 @@ async function sendUpdateEmail(email, info) {
 }
 
 module.exports = {
-  sendUpdateEmail,
+  sendPremiumEmail,
 };

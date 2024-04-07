@@ -29,6 +29,7 @@ const PremiumStatusModel = require("./models/PremiumStatus");
 const IssueModel = require("./models/Issue");
 const PhoneNumberModel = require("./models/PhoneNumber");
 const { sendUpdateEmail } = require("./SendUpdateEmail");
+const { sendPremiumEmail } = require("./SendPremiumEmail");
 
 const app = express();
 app.use(express.json());
@@ -420,15 +421,16 @@ app.post("/sendNotificationEmail", async (req, res) => {
       { like: 1, match: 1, _id: 0 }
     );
 
-    { email: emailToSend }
+    {
+      email: emailToSend;
+    }
     // Determine if an email should be sent based on the type and the respective status
     const shouldSendEmail =
       (type === "like" && userStatus.like) ||
       (type === "match" && userStatus.match);
 
     if (shouldSendEmail) {
-      
-      console.log({emailToSend});
+      console.log({ emailToSend });
       const sendEmailResult = await sendNotificationEmail(emailToSend, type);
       if (sendEmailResult) {
         return res.json({ success: true, message: "Sent email successfully!" });
@@ -445,7 +447,6 @@ app.post("/sendNotificationEmail", async (req, res) => {
 app.post("/sendNotificationText", async (req, res) => {
   try {
     const { emailToSend, type } = req.body;
-    
 
     // Fetch like and match status in one go
     const userStatus = await NotificationModel.findOne(
@@ -459,14 +460,17 @@ app.post("/sendNotificationText", async (req, res) => {
       (type === "match" && userStatus.match);
 
     if (shouldSendEmail) {
-      //edit 
-      console.log({emailToSend});
+      //edit
+      console.log({ emailToSend });
       const Number = await PhoneNumberModel.findOne({ email: emailToSend });
-      if(!Number) {
-       console.log("no number");
-        return res.json({ success: true, message: "Doesn't have phone number" });
-      } 
-  
+      if (!Number) {
+        console.log("no number");
+        return res.json({
+          success: true,
+          message: "Doesn't have phone number",
+        });
+      }
+
       const sendTextResult = await sendNotificationText(Number.number, type);
       if (sendTextResult) {
         return res.json({ success: true, message: "Sent email successfully!" });
@@ -479,7 +483,6 @@ app.post("/sendNotificationText", async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
-
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -1636,6 +1639,62 @@ app.post("/sendUpdateEmails", async (req, res) => {
 
     // If email wasn't sent, respond with failure message
     res.json({ success: true, message: "Update emails sent" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+app.post("/premiumSend", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Fetch users with update: true
+    const users = await NotificationModel.find({ update: 1 });
+
+    // Filter out the user itself if included
+    let filteredUsers = users.filter((users) => users.email !== email);
+
+    // Get user's name, age, gender, and interests
+    const user = await UserModel.findOne({ email: email });
+
+    const first = user.firstName;
+    const last = user.lastName;
+    const name = first + " " + last;
+    console.log(name);
+
+    const dateDiff = Date.now() - new Date(user.dob).getTime();
+    const objAge = new Date(dateDiff);
+    const age = Math.abs(objAge.getUTCFullYear() - 1970);
+    console.log(age);
+
+    const gender = user.gender;
+    console.log(gender);
+
+    const userInterests = await ProfileModel.findOne({ email: email });
+    const tempInterests = userInterests.interests;
+    console.log(tempInterests);
+    let interests = "";
+    for (let index = 0; index < tempInterests.length; index++) {
+      if (index != tempInterests.length - 1) {
+        interests += tempInterests[index] + ", ";
+      } else {
+        interests += tempInterests[index];
+      }
+    }
+    console.log(interests);
+
+    for (let index = 0; index < filteredUsers.length; index++) {
+      console.log(index + ": " + filteredUsers[index].email);
+      sendPremiumEmail(
+        filteredUsers[index].email,
+        name,
+        age,
+        gender,
+        interests
+      );
+    }
+
+    res.json({ success: true, message: "Premium profile emails sent" });
   } catch (err) {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
