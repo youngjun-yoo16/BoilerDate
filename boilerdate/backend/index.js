@@ -331,6 +331,23 @@ app.post("/upgradeToPremium", async (req, res) => {
   }
 });
 
+app.post("/fetchIfPremium", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const fetchPremiumStatus = await PremiumStatusModel.findOne({
+      email: email,
+    });
+    if (!fetchPremiumStatus) {
+      return res.status(500).json({ message: "User not found." });
+    }
+
+    res.status(200).json(fetchPremiumStatus);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
   UserModel.findOne({ email: email }).then((user) => {
