@@ -40,14 +40,27 @@ function ProfilePage() {
   ];
 
   const [selectedFontIndex, setSelectedFontIndex] = useState(0);
+  const fontStorageKey = `selectedFontIndex-${email}`;
 
   const handleFontChange = () => {
     setSelectedFontIndex((prevIndex) => {
       const nextIndex = (prevIndex + 1) % fontOptions.length;
       document.documentElement.style.setProperty('--main-font-family', fontOptions[nextIndex].fontFamily);
+      localStorage.setItem(fontStorageKey, nextIndex.toString());
       return nextIndex;
     });
   };
+  
+  useEffect(() => {
+  
+    const savedSelectedFontIndex = localStorage.getItem(fontStorageKey);
+    if (savedSelectedFontIndex) {
+      const index = parseInt(savedSelectedFontIndex, 10);
+      setSelectedFontIndex(index);
+      
+      document.documentElement.style.setProperty('--main-font-family', fontOptions[index].fontFamily);
+    }
+  }, [email]);
 
   const colorClasses = [
     "text-bg-primary",
