@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { faFont } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
@@ -26,6 +27,67 @@ function ProfilePage() {
   const navigate = useNavigate();
 
   console.log(email);
+
+  const fontOptions = [
+    { fontFamily: 'Arial, sans-serif' },
+    { fontFamily: 'Roboto, sans-serif' },
+    { fontFamily: 'Open Sans, sans-serif' },
+    { fontFamily: 'Montserrat, sans-serif' },
+    { fontFamily: 'Source Sans Pro, sans-serif' },
+    { fontFamily: 'Helvetica, sans-serif' },
+    { fontFamily: 'Poppins, sans-serif' },
+    { fontFamily: 'Raleway, sans-serif' },
+  ];
+
+  const [selectedFontIndex, setSelectedFontIndex] = useState(0);
+
+  const handleFontChange = () => {
+    setSelectedFontIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % fontOptions.length;
+      document.documentElement.style.setProperty('--main-font-family', fontOptions[nextIndex].fontFamily);
+      return nextIndex;
+    });
+  };
+
+  const colorClasses = [
+    "text-bg-primary",
+    "text-bg-secondary",
+    "text-bg-success",
+    "text-bg-danger",
+    "text-bg-warning",
+    "text-bg-info",
+    "text-bg-light",
+    "text-bg-dark",
+  ];
+
+  const [selectedCards, setSelectedCards] = useState({});
+  const uniqueLocalStorageKey = `selectedCards-${email}`;
+
+  useEffect(() => {
+    // Load selectedCards from local storage when the component mounts
+    const savedSelectedCards = JSON.parse(localStorage.getItem(uniqueLocalStorageKey));
+    if (savedSelectedCards) {
+      setSelectedCards(savedSelectedCards);
+    }
+  }, [email]);
+
+  const handleCardClick = (cardName) => {
+    setSelectedCards((prevSelectedCards) => {
+      const currentColorClass = prevSelectedCards[cardName] || "";
+      const currentColorIndex = colorClasses.indexOf(currentColorClass);
+      const nextColorIndex = (currentColorIndex + 1) % colorClasses.length;
+      const updatedSelectedCards = {
+        ...prevSelectedCards,
+        [cardName]: colorClasses[nextColorIndex],
+      };
+
+      // Save updatedSelectedCards to local storage using the unique key
+      localStorage.setItem(uniqueLocalStorageKey, JSON.stringify(updatedSelectedCards));
+
+      return updatedSelectedCards;
+    });
+  };
+
 
   useEffect(() => {
     if (email === undefined) {
@@ -89,6 +151,17 @@ function ProfilePage() {
   };
   return (
     <div className="container">
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+        `}
+      </style>
       <Carousel data-bs-theme="dark">
         <Carousel.Item>
           <img className="d-block w-100" src={imageUrl} alt="First slide" />
@@ -99,7 +172,11 @@ function ProfilePage() {
         {fName} {lName}, {ages}
       </h1>
       <form onSubmit={handleSubmit}>
-        <div className="card">
+      <div
+        className={`card ${selectedCards["LookingFor"] || ""} mb-3`}
+      
+        onClick={() => handleCardClick("LookingFor")}
+      >
           <div className="card-header">Looking for</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item custom-font-style">
@@ -108,7 +185,11 @@ function ProfilePage() {
           </ul>
         </div>
 
-        <div className="card">
+        <div
+        className={`card ${selectedCards["quote"] || ""} mb-3`}
+      
+        onClick={() => handleCardClick("quote")}
+      >
           <div className="card-body">
             <blockquote className="blockquote mb-0">
               <p>{profile.bio}</p>
@@ -121,7 +202,11 @@ function ProfilePage() {
           </div>
         </div>
 
-        <div className="card">
+        <div
+        className={`card ${selectedCards["feature"] || ""} mb-3`}
+      
+        onClick={() => handleCardClick("feature")}
+      >
           <div className="card-header">My Significant Feature</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
@@ -133,7 +218,11 @@ function ProfilePage() {
           </ul>
         </div>
 
-        <div className="card">
+        <div
+        className={`card ${selectedCards["Basics"] || ""} mb-3`}
+      
+        onClick={() => handleCardClick("Basics")}
+      >
           <div className="card-header">Basics</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
@@ -148,7 +237,11 @@ function ProfilePage() {
           </ul>
         </div>
 
-        <div className="card">
+        <div
+        className={`card ${selectedCards["academics"] || ""} mb-3`}
+      
+        onClick={() => handleCardClick("academics")}
+      >
           <div className="card-header">Academics & Career</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">Major: {profile.major}</li>
@@ -164,9 +257,14 @@ function ProfilePage() {
           </ul>
         </div>
 
-        <div className="card">
+        <div
+        className={`card ${selectedCards["interests"] || ""} mb-3`}
+      
+        onClick={() => handleCardClick("interests")}
+      >
           <div className="card-header">Interests</div>
           <ul className="list-group list-group-flush">
+          <li className="list-group-item">
             <div className="selected-containers">
               {interests.map((interest, index) => (
                 <div key={index} className={`interests`}>
@@ -174,10 +272,15 @@ function ProfilePage() {
                 </div>
               ))}
             </div>
+            </li>
           </ul>
         </div>
 
-        <div className="card">
+        <div
+        className={`card ${selectedCards["lifestyle"] || ""} mb-3`}
+      
+        onClick={() => handleCardClick("lifestyle")}
+      >
           <div className="card-header">Lifestyle</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
@@ -225,7 +328,11 @@ function ProfilePage() {
           </ul>
         </div>
 
-        <div className="card">
+        <div
+        className={`card ${selectedCards["links"] || ""} mb-3`}
+      
+        onClick={() => handleCardClick("links")}
+      >
           <div className="card-header">Links</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">GitHub: {profile.github}</li>
@@ -233,7 +340,19 @@ function ProfilePage() {
           </ul>
         </div>
 
+
+        
         <ToastContainer />
+        <div className="mb-3">
+          <button
+            type="button"
+            className="btn btn-outline-primary w-100"
+            onClick={handleFontChange} 
+          >
+            <FontAwesomeIcon icon={faFont} /> Change Font
+          </button> 
+          </div>
+
         <div className="mb-3">
           <button
             type="button"
@@ -241,9 +360,14 @@ function ProfilePage() {
             onClick={() => navigate("/home", { state: { email: email } })}
           >
             <FontAwesomeIcon icon={faHome} /> Home
-          </button>
+          </button>     
+
         </div>
+
+     
       </form>
+
+     
     </div>
   );
 }

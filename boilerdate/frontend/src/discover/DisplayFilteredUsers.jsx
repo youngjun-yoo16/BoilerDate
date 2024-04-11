@@ -21,7 +21,6 @@ import TextField from "@mui/material/TextField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
-
 function DisplayFilteredUsers() {
   const [currentProfileIndex, setCurrentProfileIndex] = useState(null);
   const [isResetting, setIsResetting] = useState(false);
@@ -39,15 +38,20 @@ function DisplayFilteredUsers() {
   const currentIndexRef = useRef();
   const [crrSwipeNum, setCrrSwipeNum] = useState(0);
 
-  const swipeCountKey = `swipeCount_${email}`; 
+  const updatePerformed = useRef(false);
+
+  const swipeCountKey = `swipeCount_${email}`;
 
   const [swipeCount, setSwipeCount] = useState(0);
- 
+
   useEffect(() => {
     // Initialize swipe count from localStorage
-   // localStorage.clear();
-    const storedSwipeCount = parseInt(localStorage.getItem(swipeCountKey) || '0', 10);
-   
+ // localStorage.clear();
+    const storedSwipeCount = parseInt(
+      localStorage.getItem(swipeCountKey) || "0",
+      10
+    );
+
     setSwipeCount(storedSwipeCount);
   }, [swipeCountKey]);
 
@@ -64,18 +68,74 @@ function DisplayFilteredUsers() {
           { email }
         );
         setPeople(response.data);
-        console.log(response.data);
+        updatePerformed.current = false;
+        //console.log(response.data);
       } catch (error) {
         toast.error("Failed to fetch profile data");
         console.error("Error fetching profile:", error);
       }
     };
-    fetchData();
+    if (!updatePerformed.current) {
+      fetchData();
+    }
+    //fetchData();
   }, [email]);
 
   useEffect(() => {
+    const fetchAndReorderUsersByPremiumStatus = async () => {
+      // only if the original people is ever updated.
+      if (peoples.length === 0 || updatePerformed.current) {
+        // if no people just drop it
+        return;
+      }
+
+      const premiumStatusPromises = peoples.map((person) =>
+        axios
+          .post("http://localhost:3001/fetchIfPremium", { email: person.email })
+          .then((response) => ({
+            ...person,
+            // premium status is always true if it was ever set to true
+            isPremium: Boolean(response.data && response.data.premium_status),
+          }))
+          .catch((error) => {
+            console.error("Error fetching premium status:", error);
+            return { ...person, isPremium: false };
+          })
+      );
+
+      Promise.all(premiumStatusPromises).then((updatedPeoples) => {
+        let new_people = [];
+
+        // ensure each duplicated docs have their unique key inserted
+        updatedPeoples.forEach((person) => {
+          if (person.isPremium) {
+            // expand each person with ... and create a field of unique key
+            new_people.push({
+              ...person,
+              uniqueKey: `premium_${person.originalIndex}_1`,
+            });
+            new_people.push({
+              ...person,
+              uniqueKey: `premium_${person.originalIndex}_2`,
+            });
+          } else {
+            new_people.unshift({
+              ...person,
+              uniqueKey: `nonpremium_${person.originalIndex}`,
+            });
+          }
+        });
+
+        setPeople(new_people);
+        updatePerformed.current = true;
+      });
+    };
+
+    fetchAndReorderUsersByPremiumStatus();
+  }, [peoples, email]);
+
+  useEffect(() => {
     // if(!isResetting) {
-    console.log(peoples); // Log after peoples is updated
     setCurrentIndex(peoples.length - 1); // Update currentIndex based on the new length of peoples
     currentIndexRef.current = peoples.length - 1;
     setChildRefs(peoples.map(() => React.createRef()));
@@ -219,16 +279,16 @@ function DisplayFilteredUsers() {
     updateSwipeCount(newSwipeCount);
     console.log(newSwipeCount);
 
-    if (newSwipeCount === 10) { // Call updatePremiumCondition every 10 swipes
+    if (newSwipeCount === 10) {
+      // Call updatePremiumCondition every 10 swipes
       try {
-        
-        await axios.post("http://localhost:3001/updatePremiumCondition", { email});
+        await axios.post("http://localhost:3001/updatePremiumCondition", {
+          email,
+        });
       } catch (err) {
         console.error(err);
       }
     }
-
-
 
     if (
       canSwipe &&
@@ -300,7 +360,7 @@ function DisplayFilteredUsers() {
       {peoples.map((person, index) => (
         <TinderCard
           flickOnSwipe={false}
-          key={person.email}
+          key={person.key}
           ref={childRefs[index]}
           className="swipe"
           preventSwipe={[`up`, `down`]}

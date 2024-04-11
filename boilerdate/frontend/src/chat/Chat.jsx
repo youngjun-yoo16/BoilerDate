@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import { ChatEngine } from "react-chat-engine";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 function Chat() {
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ function Chat() {
         );
         if (user) {
           setUsername(user.username);
-          setUserSecret(user.first_name); // Assuming first_name is used as the secret
+          setUserSecret(user.first_name);
         } else {
           setError(true);
           console.error("User not found");
@@ -50,50 +52,57 @@ function Chat() {
     fetchUserDetails();
   }, [state, navigate]);
 
-  /*const componentDidMount = async (chatid) => {
-    console.log(chatid)
-    const reloadCount = sessionStorage.getItem("reloadCount");
-    const header = {
-      "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
-      "User-Name": username,
-      "User-Secret": userSecret,
-    };
-    const latestMessage = await axios({
-      method: "get",
-      url: `https://api.chatengine.io/chats/${chatid}/messages/latest/1/`,
-      headers: header,
-    });
-
-    const latestMessageData = latestMessage.data;
-
-    if (latestMessageData.text !== window.localStorage.getItem("latestMessage")) {
-      window.localStorage.setItem("latestMessage", latestMessageData.text);
+  useEffect(() => {
+    const interval = setInterval(() => {
       window.location.reload();
-    }
+    }, 9000);
 
-    if (reloadCount < 1) {
-      sessionStorage.setItem("reloadCount", String(reloadCount + 1));
-      window.location.reload();
-    } else {
-      sessionStorage.removeItem("reloadCount");
-    }
-  };*/
+    return () => clearInterval(interval);
+  }, []);
 
   return username && userSecret ? (
-    <ChatEngine
-      height="100vh"
-      projectID="abc439ce-2427-47df-b650-8a22f618970a"
-      userName={username}
-      userSecret={userSecret}
-      timezoneOffset={-4}
-    />
+    <>
+      <ChatEngine
+        height="90vh"
+        projectID={'abc439ce-2427-47df-b650-8a22f618970a'}
+        userName={username}
+        userSecret={userSecret}
+        onNewMessage={(chatid, message) => {
+          console.log(chatid);
+          console.log(message);
+        }}
+      />
+      <br />
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button
+          type="button"
+          className="btn btn-outline-primary w-50"
+          onClick={() => navigate("/home", { state: { email: state?.email } })}
+        >
+          <FontAwesomeIcon icon={faHome} /> Home
+        </button>
+      </div>
+      <br />
+    </>
   ) : error ? (
-    <ChatEngine
-      height="100vh"
-      projectID="abc439ce-2427-47df-b650-8a22f618970a"
-      userName={"BoilerDate"}
-      userSecret={"boilerdate"}
-    /> // Default screen for no user
+    <>
+      <ChatEngine
+        height="100vh"
+        projectID={'abc439ce-2427-47df-b650-8a22f618970a'}
+        userName={"BoilerDate"}
+        userSecret={"boilerdate"}
+      />{" "}
+      {/* Default screen for no user */}
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button
+          type="button"
+          className="btn btn-outline-primary w-50"
+          onClick={() => navigate("/home", { state: { email: state?.email } })}
+        >
+          <FontAwesomeIcon icon={faHome} /> Home
+        </button>
+      </div>
+    </>
   ) : (
     <div>Loading ...</div>
   );

@@ -28,6 +28,7 @@
     "react-bootstrap": "^2.10.1",
     "react-bootstrap-validation": "^0.1.11",
     "react-chat-engine": "^1.11.28",
+    "react-chat-engine-pretty": "^0.1.8",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.2",
     "react-international-phone": "^4.2.6",

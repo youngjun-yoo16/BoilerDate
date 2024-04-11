@@ -13,6 +13,7 @@ function Notifications() {
   const [likePf, setLikePf] = useState("");
   const [matchPf, setMatchPf] = useState("");
   const [update, setUpdate] = useState("");
+  const [messagePf, setMessagePf] = useState("");
 
   const { state } = useLocation();
   const { email } = state || {};
@@ -42,6 +43,7 @@ function Notifications() {
           setLikePf(response.data.likePf);
           setMatchPf(response.data.matchPf);
           setUpdate(response.data.update);
+          setMessagePf(response.data.messagePf);
         } else {
           console.log("not success");
         }
@@ -62,6 +64,7 @@ function Notifications() {
         likePf,
         matchPf,
         update,
+        messagePf,
       })
       .then((result) => {
         console.log(result);
@@ -110,7 +113,6 @@ function Notifications() {
               </Select>
             </FormControl>
           </div>
-
           <div className="mb-3">
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">App Updates</InputLabel>
@@ -121,6 +123,22 @@ function Notifications() {
                 value={update}
                 label="update"
                 onChange={(e) => setUpdate(e.target.value)}
+              >
+                <MenuItem value={true}>Yes</MenuItem>
+                <MenuItem value={false}>No</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <div className="mb-3">
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">New Message</InputLabel>
+              <Select
+                required
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={messagePf}
+                label="message"
+                onChange={(e) => setMessagePf(e.target.value)}
               >
                 <MenuItem value={true}>Yes</MenuItem>
                 <MenuItem value={false}>No</MenuItem>

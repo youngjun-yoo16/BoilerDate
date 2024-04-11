@@ -5,6 +5,7 @@ const NotificationSchema = new mongoose.Schema({
   like: Boolean,
   match: Boolean,
   update: Boolean,
+  message: Boolean,
 });
 
 const NotificationModel = mongoose.model("notifications", NotificationSchema);

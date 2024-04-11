@@ -1,11 +1,29 @@
 /* InterestsPage.css */
+
+:root {
+  --main-font-family: Arial, sans-serif;
+}
+
+.header-text, .card-header, .list-group-item {
+  font-family: var(--main-font-family);
+}
+
 .container {
   max-width: 600px;
   margin: 0 auto;
 }
 
+.background-selector button {
+  width: 50px; /* Thumbnail size */
+  height: 50px;
+  background-size: cover;
+  border: none;
+  margin: 5px;
+  cursor: pointer;
+}
+
 .header-text {
-  font-family: Arial, sans-serif; /* Set font family for header text */
+  
   font-weight: 540;
   font-size: 35px; 
   padding-top: 5px;
@@ -29,7 +47,7 @@
 }
 
 .subheader-text {
-  font-family: Arial, sans-serif; /* Set font family for header text */
+  font-family: var(--main-font-family);
   font-weight: 300;
   font-size: 19px; 
   padding-top: 15px;
@@ -37,7 +55,7 @@
 
 
 .subsubheader-text {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: var(--main-font-family);
   font-weight: 300;
   font-size: 14.5px; 
   padding-top: 0px;
@@ -91,7 +109,7 @@
 
 
 .relationship {
-  font-family: Arial, sans-serif;
+  font-family: var(--main-font-family);
   font-weight: 540;
   font-size: 25px; 
   margin-top: -5px;
@@ -99,7 +117,7 @@
 }
 
 .height {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: var(--main-font-family);
   font-size: 16px; 
   
   margin-top: -5px;
