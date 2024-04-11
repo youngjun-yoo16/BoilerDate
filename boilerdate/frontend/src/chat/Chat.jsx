@@ -52,6 +52,14 @@ function Chat() {
     fetchUserDetails();
   }, [state, navigate]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      window.location.reload();
+    }, 9000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   /*const componentDidMount = async (chatid) => {
     console.log(chatid)
     const reloadCount = sessionStorage.getItem("reloadCount");
@@ -94,7 +102,7 @@ function Chat() {
         }}
       />
       <br />
-      <div  style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <button
           type="button"
           className="btn btn-outline-primary w-50"
@@ -114,7 +122,7 @@ function Chat() {
         userSecret={"boilerdate"}
       />{" "}
       {/* Default screen for no user */}
-      <div  style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <button
           type="button"
           className="btn btn-outline-primary w-50"
