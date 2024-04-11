@@ -136,7 +136,38 @@ function UpdateInterests() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchInterests = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchInterests/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          console.log(response.data.interests);
+          console.log(response.data.interests.length);
+          for (let index = 0; index < response.data.interests.length; index++) {
+            let element = response.data.interests[index];
+            console.log(element);
+            toggleInterest(element);
+          }
+
+          //setBio(response.data.bio);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchInterests();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

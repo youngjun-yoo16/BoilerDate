@@ -2252,10 +2252,17 @@ app.get("/fetchSkills/:email", async (req, res) => {
     if (user == null) {
       res.json("No user");
     } else {
-      res.json({
-        success: true,
-        skills: user.skills,
-      });
+      if (user.skills === "N/A") {
+        res.json({
+          success: true,
+          skills: "",
+        });
+      } else {
+        res.json({
+          success: true,
+          skills: user.skills,
+        });
+      }
     }
   } catch (err) {
     console.error(err);
@@ -2272,10 +2279,17 @@ app.get("/fetchEmployment/:email", async (req, res) => {
     if (user == null) {
       res.json("No user");
     } else {
-      res.json({
-        success: true,
-        employment_history: user.employment_history,
-      });
+      if (user.employment_history === "N/A") {
+        res.json({
+          success: true,
+          employment_history: "",
+        });
+      } else {
+        res.json({
+          success: true,
+          employment_history: user.employment_history,
+        });
+      }
     }
   } catch (err) {
     console.error(err);
@@ -2292,10 +2306,17 @@ app.get("/fetchCareer/:email", async (req, res) => {
     if (user == null) {
       res.json("No user");
     } else {
-      res.json({
-        success: true,
-        career_goals: user.career_goals,
-      });
+      if (user.career_goals === "N/A") {
+        res.json({
+          success: true,
+          career_goals: "",
+        });
+      } else {
+        res.json({
+          success: true,
+          career_goals: user.career_goals,
+        });
+      }
     }
   } catch (err) {
     console.error(err);
@@ -2312,10 +2333,17 @@ app.get("/fetchGithub/:email", async (req, res) => {
     if (user == null) {
       res.json("No user");
     } else {
-      res.json({
-        success: true,
-        github: user.github,
-      });
+      if (user.github === "N/A") {
+        res.json({
+          success: true,
+          github: "",
+        });
+      } else {
+        res.json({
+          success: true,
+          github: user.github,
+        });
+      }
     }
   } catch (err) {
     console.error(err);
@@ -2332,10 +2360,17 @@ app.get("/fetchLinkedin/:email", async (req, res) => {
     if (user == null) {
       res.json("No user");
     } else {
-      res.json({
-        success: true,
-        linkedin: user.linkedin,
-      });
+      if (user.linkedin === "N/A") {
+        res.json({
+          success: true,
+          linkedin: "",
+        });
+      } else {
+        res.json({
+          success: true,
+          linkedin: user.linkedin,
+        });
+      }
     }
   } catch (err) {
     console.error(err);
@@ -2355,6 +2390,26 @@ app.get("/fetchBio/:email", async (req, res) => {
       res.json({
         success: true,
         bio: user.bio,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchInterests/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        interests: user.interests,
       });
     }
   } catch (err) {
