@@ -365,9 +365,6 @@ app.post("/fetchIfPremium", async (req, res) => {
     const fetchPremiumStatus = await PremiumStatusModel.findOne({
       email: email,
     });
-    //if (!fetchPremiumStatus) {
-    //return res.status(500).json({ message: "User not found." });
-    //}
 
     res.status(200).json(fetchPremiumStatus);
   } catch (err) {
