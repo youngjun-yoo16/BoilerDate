@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { faFont } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
@@ -26,6 +27,27 @@ function ProfilePage() {
   const navigate = useNavigate();
 
   console.log(email);
+
+  const fontOptions = [
+    { fontFamily: 'Arial, sans-serif' },
+    { fontFamily: 'Roboto, sans-serif' },
+    { fontFamily: 'Open Sans, sans-serif' },
+    { fontFamily: 'Montserrat, sans-serif' },
+    { fontFamily: 'Source Sans Pro, sans-serif' },
+    { fontFamily: 'Helvetica, sans-serif' },
+    { fontFamily: 'Poppins, sans-serif' },
+    { fontFamily: 'Raleway, sans-serif' },
+  ];
+
+  const [selectedFontIndex, setSelectedFontIndex] = useState(0);
+
+  const handleFontChange = () => {
+    setSelectedFontIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % fontOptions.length;
+      document.documentElement.style.setProperty('--main-font-family', fontOptions[nextIndex].fontFamily);
+      return nextIndex;
+    });
+  };
 
   const colorClasses = [
     "text-bg-primary",
@@ -129,6 +151,17 @@ function ProfilePage() {
   };
   return (
     <div className="container">
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+        `}
+      </style>
       <Carousel data-bs-theme="dark">
         <Carousel.Item>
           <img className="d-block w-100" src={imageUrl} alt="First slide" />
@@ -310,7 +343,15 @@ function ProfilePage() {
 
         
         <ToastContainer />
-
+        <div className="mb-3">
+          <button
+            type="button"
+            className="btn btn-outline-primary w-100"
+            onClick={handleFontChange} 
+          >
+            <FontAwesomeIcon icon={faFont} /> Change Font
+          </button> 
+          </div>
 
         <div className="mb-3">
           <button
