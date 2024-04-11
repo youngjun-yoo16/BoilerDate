@@ -789,7 +789,7 @@ app.post("/manageldm", async (req, res) => {
           method: "get",
           url: `https://api.chatengine.io/users/`,
           headers: {
-            "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
+            "PRIVATE-KEY": process.env.PRIVATE_KEY,
           },
         };
 
@@ -817,7 +817,7 @@ app.post("/manageldm", async (req, res) => {
             method: "post",
             url: "https://api.chatengine.io/users/",
             headers: {
-              "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
+              "PRIVATE-KEY": process.env.PRIVATE_KEY,
             },
             data: myData,
           };
@@ -840,7 +840,7 @@ app.post("/manageldm", async (req, res) => {
             method: "post",
             url: "https://api.chatengine.io/users/",
             headers: {
-              "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
+              "PRIVATE-KEY": process.env.PRIVATE_KEY,
             },
             data: targetData,
           };
@@ -865,7 +865,7 @@ app.post("/manageldm", async (req, res) => {
           method: "put",
           url: `https://api.chatengine.io/chats/`,
           headers: {
-            "Project-ID": "{{abc439ce-2427-47df-b650-8a22f618970a}}",
+            "Project-ID": process.env.PROJECT_ID,
             "User-Name": username,
             "User-Secret": userSecret,
           },
@@ -1066,7 +1066,7 @@ app.post("/deleteUnmatched", async (req, res) => {
       targetResponse.data.user.lastName;
 
     const header = {
-      "Project-ID": "{{abc439ce-2427-47df-b650-8a22f618970a}}",
+      "Project-ID": process.env.PROJECT_ID,
       "User-Name": myName,
       "User-Secret": mySecret,
     };
@@ -1455,7 +1455,14 @@ app.post("/updateNotificationSettings", async (req, res) => {
     const { email, likePf, matchPf, update, messagePf } = req.body;
     const result = await NotificationModel.findOneAndUpdate(
       { email: email },
-      { $set: { like: likePf, match: matchPf, update: update, message: messagePf } },
+      {
+        $set: {
+          like: likePf,
+          match: matchPf,
+          update: update,
+          message: messagePf,
+        },
+      },
       { upsert: true, new: true } // Ensure to return the updated document
     );
     res.json(result);

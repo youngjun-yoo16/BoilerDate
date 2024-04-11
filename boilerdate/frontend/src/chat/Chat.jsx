@@ -64,7 +64,7 @@ function Chat() {
     <>
       <ChatEngine
         height="90vh"
-        projectID="abc439ce-2427-47df-b650-8a22f618970a"
+        projectID={'abc439ce-2427-47df-b650-8a22f618970a'}
         userName={username}
         userSecret={userSecret}
         onNewMessage={(chatid, message) => {
@@ -88,7 +88,7 @@ function Chat() {
     <>
       <ChatEngine
         height="100vh"
-        projectID="abc439ce-2427-47df-b650-8a22f618970a"
+        projectID={'abc439ce-2427-47df-b650-8a22f618970a'}
         userName={"BoilerDate"}
         userSecret={"boilerdate"}
       />{" "}
