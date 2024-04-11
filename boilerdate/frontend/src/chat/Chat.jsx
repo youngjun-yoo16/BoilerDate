@@ -39,7 +39,7 @@ function Chat() {
         );
         if (user) {
           setUsername(user.username);
-          setUserSecret(user.first_name); // Assuming first_name is used as the secret
+          setUserSecret(user.first_name);
         } else {
           setError(true);
           console.error("User not found");
@@ -59,35 +59,6 @@ function Chat() {
 
     return () => clearInterval(interval);
   }, []);
-
-  /*const componentDidMount = async (chatid) => {
-    console.log(chatid)
-    const reloadCount = sessionStorage.getItem("reloadCount");
-    const header = {
-      "PRIVATE-KEY": "{{2cf88b7a-e935-438e-8fef-5b51503c737a}}",
-      "User-Name": username,
-      "User-Secret": userSecret,
-    };
-    const latestMessage = await axios({
-      method: "get",
-      url: `https://api.chatengine.io/chats/${chatid}/messages/latest/1/`,
-      headers: header,
-    });
-
-    const latestMessageData = latestMessage.data;
-
-    if (latestMessageData.text !== window.localStorage.getItem("latestMessage")) {
-      window.localStorage.setItem("latestMessage", latestMessageData.text);
-      window.location.reload();
-    }
-
-    if (reloadCount < 1) {
-      sessionStorage.setItem("reloadCount", String(reloadCount + 1));
-      window.location.reload();
-    } else {
-      sessionStorage.removeItem("reloadCount");
-    }
-  };*/
 
   return username && userSecret ? (
     <>
