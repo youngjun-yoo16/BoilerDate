@@ -1452,10 +1452,10 @@ app.post("/updateBirthday", async (req, res) => {
 
 app.post("/updateNotificationSettings", async (req, res) => {
   try {
-    const { email, likePf, matchPf, update } = req.body;
+    const { email, likePf, matchPf, update, messagePf } = req.body;
     const result = await NotificationModel.findOneAndUpdate(
       { email: email },
-      { $set: { like: likePf, match: matchPf, update: update } },
+      { $set: { like: likePf, match: matchPf, update: update, message: messagePf } },
       { upsert: true, new: true } // Ensure to return the updated document
     );
     res.json(result);
