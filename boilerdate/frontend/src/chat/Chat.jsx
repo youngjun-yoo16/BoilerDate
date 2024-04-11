@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import { ChatEngine } from "react-chat-engine";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 function Chat() {
   const navigate = useNavigate();
@@ -80,20 +82,48 @@ function Chat() {
   };*/
 
   return username && userSecret ? (
-    <ChatEngine
-      height="100vh"
-      projectID="abc439ce-2427-47df-b650-8a22f618970a"
-      userName={username}
-      userSecret={userSecret}
-      timezoneOffset={-4}
-    />
+    <>
+      <ChatEngine
+        height="90vh"
+        projectID="abc439ce-2427-47df-b650-8a22f618970a"
+        userName={username}
+        userSecret={userSecret}
+        onNewMessage={(chatid, message) => {
+          console.log(chatid);
+          console.log(message);
+        }}
+      />
+      <br />
+      <div  style={{ display: 'flex', justifyContent: 'center' }}>
+        <button
+          type="button"
+          className="btn btn-outline-primary w-50"
+          onClick={() => navigate("/home", { state: { email: state?.email } })}
+        >
+          <FontAwesomeIcon icon={faHome} /> Home
+        </button>
+      </div>
+      <br />
+    </>
   ) : error ? (
-    <ChatEngine
-      height="100vh"
-      projectID="abc439ce-2427-47df-b650-8a22f618970a"
-      userName={"BoilerDate"}
-      userSecret={"boilerdate"}
-    /> // Default screen for no user
+    <>
+      <ChatEngine
+        height="100vh"
+        projectID="abc439ce-2427-47df-b650-8a22f618970a"
+        userName={"BoilerDate"}
+        userSecret={"boilerdate"}
+      />{" "}
+      {/* Default screen for no user */}
+      <div  style={{ display: 'flex', justifyContent: 'center' }}>
+        <button
+          type="button"
+          className="btn btn-outline-primary w-50"
+          onClick={() => navigate("/home", { state: { email: state?.email } })}
+        >
+          <FontAwesomeIcon icon={faHome} /> Home
+        </button>
+      </div>
+    </>
   ) : (
     <div>Loading ...</div>
   );
