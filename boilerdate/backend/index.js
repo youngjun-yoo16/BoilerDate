@@ -1986,6 +1986,7 @@ app.get("/fetchNotif/:email", async (req, res) => {
         likePf: user.like,
         matchPf: user.match,
         update: user.update,
+        messagePf: user.message,
       });
     }
   } catch (err) {

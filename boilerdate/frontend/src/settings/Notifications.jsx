@@ -43,6 +43,7 @@ function Notifications() {
           setLikePf(response.data.likePf);
           setMatchPf(response.data.matchPf);
           setUpdate(response.data.update);
+          setMessagePf(response.data.messagePf);
         } else {
           console.log("not success");
         }
