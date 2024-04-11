@@ -29,11 +29,52 @@ function ShowYourLikes() {
   const [likesList, setLikesList] = useState([]);
   const [userData, setUserData] = useState("");
 
+  const colorClasses = [
+    "text-bg-primary",
+    "text-bg-secondary",
+    "text-bg-success",
+    "text-bg-danger",
+    "text-bg-warning",
+    "text-bg-info",
+    "text-bg-light",
+    "text-bg-dark",
+  ];
+
+  const [selectedCards, setSelectedCards] = useState({});
+  const uniqueLocalStorageKey = `selectedCards-${email}`;
+
   useEffect(() => {
     if (email === undefined) {
       navigate(-1);
     }
   });
+
+  useEffect(() => {
+    const savedSelectedCards = JSON.parse(
+      localStorage.getItem(uniqueLocalStorageKey)
+    );
+    if (savedSelectedCards) {
+      setSelectedCards(savedSelectedCards);
+    }
+  }, [email]);
+
+  const handleCardClick = (cardName) => {
+    setSelectedCards((prevSelectdCards) => {
+      const currentColorClass = prevSelectdCards[cardName] || "";
+      const currentColorIndex = colorClasses.indexOf(currentColorClass);
+      const nextColorIndex = (currentColorIndex + 1) % colorClasses.length;
+      const updatedSelectedCards = {
+        ...prevSelectdCards,
+        [cardName]: colorClasses[nextColorIndex],
+      };
+
+      localStorage.setItem(
+        uniqueLocalStorageKey,
+        JSON.stringify(updatedSelectedCards)
+      );
+      return updatedSelectedCards;
+    });
+  };
 
   // get list of likes
   useEffect(() => {
@@ -50,7 +91,6 @@ function ShowYourLikes() {
   }, [email]);
 
   // get profile info and images of each email <- this only finds the info of the crr user
-
   useEffect(() => {
     if (likesList.length > 0) {
       axios
@@ -93,7 +133,7 @@ function ShowYourLikes() {
                 onClick={() => handleCardClick(user.email)}
                 style={{ display: "block", textAlign: "initial" }}
               >
-                <Card sx={{ maxWidth: 160 }}>
+                <Card sx={{ maxWidth: 180 }}>
                   <CardMedia
                     sx={{ height: 130 }}
                     image={`http://localhost:3001/image/${user.email}`}
@@ -104,10 +144,7 @@ function ShowYourLikes() {
                       {user.username}, {user.age}
                     </Typography>
                   </CardContent>
-                  <CardActions>
-                    {/*<Button size="small">Like</Button>*/}
-                    {/*<Button size="small">Dislike</Button>*/}
-                  </CardActions>
+                  <CardActions></CardActions>
                 </Card>
               </ButtonBase>
             </Grid>
@@ -119,6 +156,18 @@ function ShowYourLikes() {
         </Typography>
       )}
       <br />
+      <div className="mb-3">
+        <input
+          type="button"
+          value="Change BackGround Color"
+          name="change bg color"
+          className="btn btn-primary border w-100"
+          //onClick={() =>
+          // navigate("/relationships", { state: { email: email } })
+          //}
+        />
+      </div>
+
       <div className="mb-3">
         <input
           type="button"
