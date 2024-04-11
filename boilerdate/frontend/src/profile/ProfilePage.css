@@ -4,6 +4,15 @@
   margin: 0 auto;
 }
 
+.background-selector button {
+  width: 50px; /* Thumbnail size */
+  height: 50px;
+  background-size: cover;
+  border: none;
+  margin: 5px;
+  cursor: pointer;
+}
+
 .header-text {
   font-family: Arial, sans-serif; /* Set font family for header text */
   font-weight: 540;
