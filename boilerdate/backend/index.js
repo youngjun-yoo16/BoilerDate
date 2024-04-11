@@ -318,11 +318,9 @@ app.post("/updatePremiumCondition", async (req, res) => {
 
 app.post("/updatePremiumCondition", async (req, res) => {
   try {
-    const { email} = req.body;
+    const { email } = req.body;
 
-  
     let canBePremium = true;
-
 
     // update or insert the document with new swipes and premium status
     const updatedDoc = await PremiumStatusModel.findOneAndUpdate(
@@ -341,7 +339,6 @@ app.post("/updatePremiumCondition", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
 
 app.post("/upgradeToPremium", async (req, res) => {
   try {
@@ -2014,6 +2011,40 @@ app.get("/fetchTextNotif/:email", async (req, res) => {
         success: true,
         likePf: user.like,
         matchPf: user.match,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchFilter/:email", async (req, res) => {
+  try {
+    const u = await FilterModel.findOne({
+      email: req.params.email,
+    });
+    console.log(u);
+
+    const user = u.filter_preferences;
+    console.log(user);
+
+    if (user == null) {
+      res.json("No privacy status");
+    } else {
+      //console.log("gpa: " + user.gpa);
+      res.json({
+        success: true,
+        gpa: user.gpa,
+        gender: user.gender,
+        age: user.age,
+        major: user.major,
+        degree: user.degree,
+        interests: user.interests,
+        lifestyle: user.lifestyle,
+        height: user.height,
+        personality: user.personality,
+        relationship: user.relationship,
+        citizenship: user.citizenship,
       });
     }
   } catch (err) {

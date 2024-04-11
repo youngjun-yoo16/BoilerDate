@@ -156,7 +156,47 @@ function Filter() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchFilter = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchFilter/${email}`
+        );
+
+        if (response.data === "No notif status") {
+          console.log("No previous notification settings.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setGpa(response.data.gpa);
+          setGender(response.data.gender);
+          setAgeRange(response.data.age);
+          setMajor(response.data.major);
+          setDegree(response.data.degree);
+          setInterests(response.data.interests);
+          //setLifestyle(response.data.lifestyle);
+          setPets(response.data.lifestyle[0]);
+          setDrinking(response.data.lifestyle[1]);
+          setSmoking(response.data.lifestyle[2]);
+          setWorkout(response.data.lifestyle[3]);
+          setDiet(response.data.lifestyle[4]);
+          setSocial(response.data.lifestyle[5]);
+          setSleeping(response.data.lifestyle[6]);
+          setHeightRange(response.data.height);
+          setPersonality(response.data.personality);
+          setRelationship(response.data.relationship);
+          setCitizenship(response.data.citizenship);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching privacy settings.");
+      }
+    };
+
+    fetchFilter();
+  }, [email, navigate]);
 
   const handleHeight = (event, newValue) => {
     setHeightRange(newValue);
@@ -233,6 +273,7 @@ function Filter() {
             <FormControl>
               <RadioGroup
                 row
+                value={gender}
                 aria-labelledby="gender-radio-buttons"
                 name="row-radio-buttons-group"
               >
@@ -466,6 +507,7 @@ function Filter() {
                 <FormControl>
                   <RadioGroup
                     row
+                    value={pets}
                     aria-labelledby="pet-radio-buttons"
                     name="row-radio-buttons-group"
                   >
@@ -538,6 +580,7 @@ function Filter() {
                   <FormControl>
                     <RadioGroup
                       row
+                      value={drinking}
                       aria-labelledby="drinking-radio-buttons"
                       name="row-radio-buttons-group"
                     >
@@ -588,6 +631,7 @@ function Filter() {
                 <FormControl>
                   <RadioGroup
                     row
+                    value={smoking}
                     aria-labelledby="smoking-radio-buttons"
                     name="row-radio-buttons-group"
                   >
@@ -637,6 +681,7 @@ function Filter() {
                 <FormControl>
                   <RadioGroup
                     row
+                    value={workout}
                     aria-labelledby="workout-radio-buttons"
                     name="row-radio-buttons-group"
                   >
@@ -679,6 +724,7 @@ function Filter() {
                 <FormControl>
                   <RadioGroup
                     row
+                    value={diet}
                     aria-labelledby="diet-radio-buttons"
                     name="row-radio-buttons-group"
                   >
@@ -742,6 +788,7 @@ function Filter() {
                 <FormControl>
                   <RadioGroup
                     row
+                    value={social}
                     aria-labelledby="social-radio-buttons"
                     name="row-radio-buttons-group"
                   >
@@ -784,6 +831,7 @@ function Filter() {
                 <FormControl>
                   <RadioGroup
                     row
+                    value={sleeping}
                     aria-labelledby="sleeping-radio-buttons"
                     name="row-radio-buttons-group"
                   >
@@ -822,6 +870,34 @@ function Filter() {
                 onClick={() => navigate("/home", { state: { email: email } })}
               >
                 Back
+              </button>
+            </div>
+            <div className="col">
+              <button
+                type="submit"
+                className="btn btn-outline-danger w-100"
+                onClick={() => {
+                  setGpa("");
+                  setGender("");
+                  setAgeRange([18, 99]);
+                  setMajor("");
+                  setDegree("");
+                  setInterests([]);
+                  setLifestyle([]);
+                  setPets("");
+                  setDrinking("");
+                  setSmoking("");
+                  setWorkout("");
+                  setDiet("");
+                  setSocial("");
+                  setSleeping("");
+                  setHeightRange([48, 95]);
+                  setPersonality("");
+                  setRelationship("");
+                  setCitizenship("");
+                }}
+              >
+                Reset
               </button>
             </div>
             <div className="col">
