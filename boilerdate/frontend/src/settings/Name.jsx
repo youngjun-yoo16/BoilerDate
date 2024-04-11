@@ -17,7 +17,31 @@ function Name() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchName = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchName/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setFirstName(response.data.firstName);
+          setLastName(response.data.lastName);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchName();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,8 +70,8 @@ function Name() {
             <p></p>
             <input
               required
+              value={firstName}
               type="firstName"
-              placeholder="Enter your first name"
               autoComplete="off"
               name="firstName"
               className="form-control"
@@ -59,8 +83,8 @@ function Name() {
             <p></p>
             <input
               required
+              value={lastName}
               type="lastName"
-              placeholder="Enter your last name"
               autoComplete="off"
               name="lastName"
               className="form-control"

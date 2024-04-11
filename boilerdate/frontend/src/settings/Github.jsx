@@ -18,7 +18,30 @@ function Github() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchGithub = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchGithub/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setGithub(response.data.github);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchGithub();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +69,7 @@ function Github() {
             <FormControl fullWidth>
               <TextField
                 id="outlined-basic"
+                value={github}
                 label="GitHub"
                 variant="outlined"
                 inputProps={{ maxLength: 60 }}

@@ -18,7 +18,30 @@ function Bio() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchBio = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchBio/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setBio(response.data.bio);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchBio();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +69,7 @@ function Bio() {
             <FormControl fullWidth>
               <TextField
                 id="outlined-basic"
+                value={bio}
                 label="Bio"
                 variant="outlined"
                 inputProps={{ maxLength: 200 }}

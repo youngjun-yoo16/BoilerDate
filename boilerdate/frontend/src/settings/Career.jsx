@@ -18,7 +18,30 @@ function Career() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchCareer = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchCareer/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setCareerGoals(response.data.career_goals);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchCareer();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +69,7 @@ function Career() {
             <FormControl fullWidth>
               <TextField
                 id="outlined-basic"
+                value={career_goals}
                 label="Career goals"
                 variant="outlined"
                 inputProps={{ maxLength: 60 }}

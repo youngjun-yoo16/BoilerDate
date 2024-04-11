@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,6 +12,36 @@ function Height() {
   console.log(email);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1);
+    }
+
+    const fetchHeight = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchHeight/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setFeet(response.data.feet);
+          setInches(response.data.inches);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchHeight();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +76,7 @@ function Height() {
                 <label htmlFor="feet">feet</label>
                 <select
                   className="form-control"
+                  value={feet}
                   id="exampleFormControlSelect1"
                   onChange={(e) => setFeet(e.target.value)}
                 >
@@ -59,6 +90,7 @@ function Height() {
                 <label htmlFor="inches">inches</label>
                 <select
                   className="form-control"
+                  value={inches}
                   id="exampleFormControlSelect1"
                   onChange={(e) => setInches(e.target.value)}
                 >

@@ -163,8 +163,8 @@ function Filter() {
           `http://localhost:3001/fetchFilter/${email}`
         );
 
-        if (response.data === "No notif status") {
-          console.log("No previous notification settings.");
+        if (response.data === "No filter status") {
+          console.log("No previous filter settings.");
           return;
         }
         if (response.data.success) {
@@ -191,7 +191,7 @@ function Filter() {
           console.log("not success");
         }
       } catch (err) {
-        console.log("Error fetching privacy settings.");
+        console.log("Error fetching filter settings.");
       }
     };
 

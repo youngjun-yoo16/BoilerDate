@@ -20,7 +20,30 @@ function Major() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchMajor = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchMajor/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setMajor(response.data.major);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchMajor();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

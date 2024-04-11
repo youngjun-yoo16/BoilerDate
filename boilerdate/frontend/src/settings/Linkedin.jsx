@@ -18,7 +18,30 @@ function Linkedin() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchLinkedin = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchLinkedin/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setLinkedin(response.data.linkedin);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchLinkedin();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +69,7 @@ function Linkedin() {
             <FormControl fullWidth>
               <TextField
                 id="outlined-basic"
+                value={linkedin}
                 label="LinkedIn"
                 variant="outlined"
                 inputProps={{ maxLength: 60 }}

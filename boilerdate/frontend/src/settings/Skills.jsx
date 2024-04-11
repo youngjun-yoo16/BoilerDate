@@ -18,7 +18,30 @@ function Skills() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchSkills = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchSkills/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setSkills(response.data.skills);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchSkills();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +69,7 @@ function Skills() {
             <FormControl fullWidth>
               <TextField
                 id="outlined-basic"
+                value={skills}
                 label="Skills"
                 variant="outlined"
                 inputProps={{ maxLength: 60 }}

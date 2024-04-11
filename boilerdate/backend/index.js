@@ -2023,13 +2023,13 @@ app.get("/fetchFilter/:email", async (req, res) => {
     const u = await FilterModel.findOne({
       email: req.params.email,
     });
-    console.log(u);
+    //console.log(u);
 
     const user = u.filter_preferences;
-    console.log(user);
+    //console.log(user);
 
     if (user == null) {
-      res.json("No privacy status");
+      res.json("No filter status");
     } else {
       //console.log("gpa: " + user.gpa);
       res.json({
@@ -2045,6 +2045,311 @@ app.get("/fetchFilter/:email", async (req, res) => {
         personality: user.personality,
         relationship: user.relationship,
         citizenship: user.citizenship,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchName/:email", async (req, res) => {
+  try {
+    const user = await UserModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchGender/:email", async (req, res) => {
+  try {
+    const user = await UserModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        gender: user.gender,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchGpa/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        gpa: user.gpa,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchMajor/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        major: user.major,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchDegree/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        degree: user.degree,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchHeight/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+    //console.log("feet: " + user.height / 12);
+    //console.log("feet: " + Math.round(user.height / 12));
+    //console.log("inches: " + (user.height % 12));
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        feet: Math.round(user.height / 12),
+        inches: user.height % 12,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchPersonality/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        personality: user.personality,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchRelationship/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        relationship: user.relationship,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchCitizenship/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        citizenship: user.citizenship,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchSkills/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        skills: user.skills,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchEmployment/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        employment_history: user.employment_history,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchCareer/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        career_goals: user.career_goals,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchGithub/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        github: user.github,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchLinkedin/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        linkedin: user.linkedin,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+app.get("/fetchBio/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        bio: user.bio,
       });
     }
   } catch (err) {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -15,6 +15,35 @@ function Personality() {
   console.log(email);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (email === undefined) {
+      navigate(-1);
+    }
+
+    const fetchPersonality = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchPersonality/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setPersonality(response.data.personality);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchPersonality();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

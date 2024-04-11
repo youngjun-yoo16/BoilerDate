@@ -20,7 +20,30 @@ function Gender() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchGender = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchGender/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setGender(response.data.gender);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchGender();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,6 +70,7 @@ function Gender() {
             <FormControl>
               <RadioGroup
                 row
+                value={gender}
                 aria-labelledby="gender-radio-buttons"
                 name="row-radio-buttons-group"
               >

@@ -18,7 +18,30 @@ function Employment() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchEmployment = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchEmployment/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          setEmploymentHistory(response.data.employment_history);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchEmployment();
+  }, [email, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +69,7 @@ function Employment() {
             <FormControl fullWidth>
               <TextField
                 id="outlined-basic"
+                value={employment_history}
                 label="Employment history"
                 variant="outlined"
                 inputProps={{ maxLength: 60 }}
