@@ -378,7 +378,7 @@ app.post("/login", (req, res) => {
   UserModel.findOne({ email: email }).then((user) => {
     if (user) {
       if (atob(user.password) === password) {
-        if (email === "lee4049@purdue.edu") {
+        if (email === "admin@purdue.edu") {
           //res.json("Success");
           res.json("Admin");
         } else {

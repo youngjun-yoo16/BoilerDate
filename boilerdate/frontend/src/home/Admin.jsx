@@ -61,68 +61,6 @@ function Admin() {
         <div className="mb-3">
           <button
             type="button"
-            className="btn btn-outline-primary border w-100"
-            onClick={() => navigate("/discover", { state: { email: email } })}
-          >
-            <FontAwesomeIcon icon={faSearch} /> Discover
-          </button>
-        </div>
-        <p></p>
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-primary border w-100"
-            onClick={() => navigate("/filter", { state: { email: email } })}
-          >
-            <FontAwesomeIcon icon={faSliders} /> Discovery Filter
-          </button>
-        </div>
-        <p></p>
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-primary border w-100"
-            onClick={() =>
-              navigate("/relationships", { state: { email: email } })
-            }
-          >
-            <FontAwesomeIcon icon={faHandHoldingHeart} /> My Relationships
-          </button>
-        </div>
-        <p></p>
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-primary border w-100"
-            onClick={() => navigate("/chat", { state: { email: email } })}
-          >
-            <FontAwesomeIcon icon={faComment} /> My Chat
-          </button>
-        </div>
-        <p></p>
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-primary border w-100"
-            onClick={() => navigate("/profile", { state: { email: email } })}
-          >
-            <FontAwesomeIcon icon={faUserAlt} /> My Profile
-          </button>
-        </div>
-        <p></p>
-        <div className="mb-3">
-          <button
-            type="button"
-            className="btn btn-outline-secondary border w-100"
-            onClick={() => navigate("/settings", { state: { email: email } })}
-          >
-            <FontAwesomeIcon icon={faCog} /> Settings
-          </button>
-        </div>
-        <p></p>
-        <div className="mb-3">
-          <button
-            type="button"
             className="btn btn-outline-danger border w-100"
             onClick={handleLogout}
           >
