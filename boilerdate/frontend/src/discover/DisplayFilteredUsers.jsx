@@ -105,6 +105,7 @@ function DisplayFilteredUsers() {
 
       Promise.all(premiumStatusPromises).then((updatedPeoples) => {
         let new_people = [];
+        let to_be_pushed = [];
 
         // ensure each duplicated docs have their unique key inserted
         updatedPeoples.forEach((person) => {
@@ -114,7 +115,7 @@ function DisplayFilteredUsers() {
               ...person,
               uniqueKey: `premium_${person.originalIndex}_1`,
             });
-            new_people.push({
+            to_be_pushed.push({
               ...person,
               uniqueKey: `premium_${person.originalIndex}_2`,
             });
@@ -126,6 +127,9 @@ function DisplayFilteredUsers() {
           }
         });
 
+        to_be_pushed.forEach((person) => {
+          new_people.unshift(person);
+        });
         setPeople(new_people);
         updatePerformed.current = true;
       });
