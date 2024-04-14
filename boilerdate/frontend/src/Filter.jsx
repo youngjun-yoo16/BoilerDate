@@ -210,28 +210,28 @@ function Filter() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (pets != "") {
+    if (pets != "" && pets != null) {
       //setLifestyle([...lifestyle, pets]);
       lifestyle.push(pets);
       //console.log(pets);
       console.log(lifestyle);
     }
-    if (drinking != "") {
+    if (drinking != "" && drinking != null) {
       lifestyle.push(drinking);
     }
-    if (smoking != "") {
+    if (smoking != "" && smoking != null) {
       lifestyle.push(smoking);
     }
-    if (workout != "") {
+    if (workout != "" && workout != null) {
       lifestyle.push(workout);
     }
-    if (diet != "") {
+    if (diet != "" && diet != null) {
       lifestyle.push(diet);
     }
-    if (social != "") {
+    if (social != "" && social != null) {
       lifestyle.push(social);
     }
-    if (sleeping != "") {
+    if (sleeping != "" && sleeping != null) {
       lifestyle.push(sleeping);
       console.log(lifestyle);
     }

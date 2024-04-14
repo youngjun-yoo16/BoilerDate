@@ -154,7 +154,9 @@ function UpdateInterests() {
           for (let index = 0; index < response.data.interests.length; index++) {
             let element = response.data.interests[index];
             console.log(element);
-            toggleInterest(element);
+            //toggleInterest(element);
+            selectedInterests.filter((item) => item !== element);
+            console.log(selectedInterests);
           }
 
           //setBio(response.data.bio);
