@@ -17,6 +17,7 @@ import Grid from "@mui/material/Grid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
+import "./ShowYourLikes.css";
 
 function ShowYourLikes() {
   // required for keeping login status
@@ -59,6 +60,7 @@ function ShowYourLikes() {
   }, [email]);
 
   const handleButtonClick = (cardName) => {
+    console.log("bg switch");
     setSelectedCards((prevSelectdCards) => {
       const currentColorClass = prevSelectdCards[cardName] || "";
       const currentColorIndex = colorClasses.indexOf(currentColorClass);
@@ -119,66 +121,64 @@ function ShowYourLikes() {
   };
 
   return (
-    <div className="container">
-      <br />
-      <Typography variant="h4" gutterBottom>
-        <FontAwesomeIcon icon={faLongArrowAltRight} />{" "}
-        <FontAwesomeIcon icon={faHeart} /> Likes Sent
-      </Typography>
-      {userData.length > 0 ? (
-        <Grid container spacing={4}>
-          {userData.map((user, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <ButtonBase
-                onClick={() => handleCardClick(user.email)}
-                style={{ display: "block", textAlign: "initial" }}
-              >
-                <Card sx={{ maxWidth: 180 }}>
-                  <CardMedia
-                    sx={{ height: 130 }}
-                    image={`http://localhost:3001/image/${user.email}`}
-                    title={user.username}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {user.username}, {user.age}
-                    </Typography>
-                  </CardContent>
-                  <CardActions></CardActions>
-                </Card>
-              </ButtonBase>
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Typography variant="h5" textAlign="center" marginTop={5}>
-          You didn't like anyone
+    <div className={`fullscreen card ${selectedCards["container"] || ""}`}>
+      <div className="container">
+        <br />
+        <Typography variant="h4" gutterBottom>
+          <FontAwesomeIcon icon={faLongArrowAltRight} />{" "}
+          <FontAwesomeIcon icon={faHeart} /> Likes Sent
         </Typography>
-      )}
-      <br />
-      <div className="mb-3">
-        <input
-          type="button"
-          value="Change BackGround Color"
-          name="change bg color"
-          className="btn btn-primary border w-100"
-          onClick={() => handleButtonClick("backgroundColor")}
-          //onClick={() =>
-          // navigate("/relationships", { state: { email: email } })
-          //}
-        />
-      </div>
-
-      <div className="mb-3">
-        <input
-          type="button"
-          value="Back"
-          name="back"
-          className="btn btn-outline-dark border w-100"
-          onClick={() =>
-            navigate("/relationships", { state: { email: email } })
-          }
-        />
+        {userData.length > 0 ? (
+          <Grid container spacing={4}>
+            {userData.map((user, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <ButtonBase
+                  onClick={() => handleCardClick(user.email)}
+                  style={{ display: "block", textAlign: "initial" }}
+                >
+                  <Card sx={{ maxWidth: 180 }}>
+                    <CardMedia
+                      sx={{ height: 130 }}
+                      image={`http://localhost:3001/image/${user.email}`}
+                      title={user.username}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {user.username}, {user.age}
+                      </Typography>
+                    </CardContent>
+                    <CardActions></CardActions>
+                  </Card>
+                </ButtonBase>
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <Typography variant="h5" textAlign="center" marginTop={5}>
+            You didn't like anyone
+          </Typography>
+        )}
+        <br />
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Change BackGround Color"
+            name="change bg color"
+            className="btn btn-primary border w-100"
+            onClick={() => handleButtonClick("container")}
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Back"
+            name="back"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/relationships", { state: { email: email } })
+            }
+          />
+        </div>
       </div>
     </div>
   );
