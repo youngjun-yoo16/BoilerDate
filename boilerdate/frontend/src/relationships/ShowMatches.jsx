@@ -17,6 +17,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import "./ShowYourLikes.css";
 
 function ShowMatches() {
   // required for keeping login status
@@ -29,11 +30,53 @@ function ShowMatches() {
   const [matchesList, setMatchesList] = useState([]);
   const [userData, setUserData] = useState("");
 
+  const colorClasses = [
+    "text-bg-primary",
+    "text-bg-secondary",
+    "text-bg-success",
+    "text-bg-danger",
+    "text-bg-warning",
+    "text-bg-info",
+    "text-bg-light",
+    "text-bg-dark",
+  ];
+
+  const [selectedCards, setSelectedCards] = useState({});
+  const uniqueLocalStorageKey = `selectedCards-${email}`;
+
   useEffect(() => {
     if (email === undefined) {
       navigate(-1);
     }
   });
+
+  useEffect(() => {
+    const savedSelectedCards = JSON.parse(
+      localStorage.getItem(uniqueLocalStorageKey)
+    );
+    if (savedSelectedCards) {
+      setSelectedCards(savedSelectedCards);
+    }
+  }, [email]);
+
+  const handleButtonClick = (cardName) => {
+    console.log("bg switch");
+    setSelectedCards((prevSelectdCards) => {
+      const currentColorClass = prevSelectdCards[cardName] || "";
+      const currentColorIndex = colorClasses.indexOf(currentColorClass);
+      const nextColorIndex = (currentColorIndex + 1) % colorClasses.length;
+      const updatedSelectedCards = {
+        ...prevSelectdCards,
+        [cardName]: colorClasses[nextColorIndex],
+      };
+
+      localStorage.setItem(
+        uniqueLocalStorageKey,
+        JSON.stringify(updatedSelectedCards)
+      );
+      return updatedSelectedCards;
+    });
+  };
 
   // get list of matches
   useEffect(() => {
@@ -100,61 +143,72 @@ function ShowMatches() {
     });
   };
   return (
-    <div className="container">
-      <br />
-      <Typography variant="h4" gutterBottom>
-        <FontAwesomeIcon icon={faHeart} /> Your Matches
-      </Typography>
-      {userData.length > 0 ? (
-        <Grid container spacing={4}>
-          {userData.map((user, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <ButtonBase
-                onClick={() => handleCardClick(user.email)}
-                style={{ display: "block", textAlign: "initial" }}
-              >
-                <Card sx={{ maxWidth: 160 }}>
-                  <CardMedia
-                    sx={{ height: 130 }}
-                    image={`http://localhost:3001/image/${user.email}`}
-                    title={user.username}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {user.username}, {user.age}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button
-                      size="small"
-                      onClick={(e) => handleClick(user.email, e)}
-                      className="btn btn-outline-primary border w-100"
-                    >
-                      Unmatch
-                    </Button>
-                    <ToastContainer />
-                  </CardActions>
-                </Card>
-              </ButtonBase>
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Typography variant="h5" textAlign="center" marginTop={5}>
-          You have no matches
+    <div className={`fullscreen card ${selectedCards["container"] || ""}`}>
+      <div className="container">
+        <br />
+        <Typography variant="h4" gutterBottom>
+          <FontAwesomeIcon icon={faHeart} /> Your Matches
         </Typography>
-      )}
-      <br />
-      <div className="mb-3">
-        <input
-          type="button"
-          value="Back"
-          name="back"
-          className="btn btn-outline-dark border w-100"
-          onClick={() =>
-            navigate("/relationships", { state: { email: email } })
-          }
-        />
+        {userData.length > 0 ? (
+          <Grid container spacing={4}>
+            {userData.map((user, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <ButtonBase
+                  onClick={() => handleCardClick(user.email)}
+                  style={{ display: "block", textAlign: "initial" }}
+                >
+                  <Card sx={{ maxWidth: 160 }}>
+                    <CardMedia
+                      sx={{ height: 130 }}
+                      image={`http://localhost:3001/image/${user.email}`}
+                      title={user.username}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {user.username}, {user.age}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        size="small"
+                        onClick={(e) => handleClick(user.email, e)}
+                        className="btn btn-outline-primary border w-100"
+                      >
+                        Unmatch
+                      </Button>
+                      <ToastContainer />
+                    </CardActions>
+                  </Card>
+                </ButtonBase>
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <Typography variant="h5" textAlign="center" marginTop={5}>
+            You have no matches
+          </Typography>
+        )}
+        <br />
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Change BackGround Color"
+            name="change bg color"
+            className="btn btn-primary border w-100"
+            onClick={() => handleButtonClick("container")}
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="button"
+            value="Back"
+            name="back"
+            className="btn btn-outline-dark border w-100"
+            onClick={() =>
+              navigate("/relationships", { state: { email: email } })
+            }
+          />
+        </div>
       </div>
     </div>
   );
