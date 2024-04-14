@@ -37,6 +37,16 @@ function Feedback() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!text) {
+      toast.error("Please enter your feedback");
+      return;
+    }
+
+    if (rating <= 0) {
+      toast.error("Please rate our application");
+      return;
+    }
+
     axios
       .post("http://localhost:3001/feedback", {
         email,
@@ -60,7 +70,7 @@ function Feedback() {
           </legend>
           <input
             required
-            type="text" // Corrected type attribute
+            type="text"
             placeholder="Feedback"
             autoComplete="off"
             name="user-feedback"
@@ -75,9 +85,9 @@ function Feedback() {
             </legend>
 
             <Rating
-              name="simple-controlled"
+              name="user-rating"
               value={Number(rating)}
-              onChange={(event, newRating) => setRating(newRating)}
+              onChange={(e, newRating) => setRating(newRating)}
               size="large"
             />
           </Box>
@@ -103,6 +113,7 @@ function Feedback() {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }

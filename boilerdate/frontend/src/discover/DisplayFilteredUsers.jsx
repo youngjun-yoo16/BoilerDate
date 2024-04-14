@@ -46,7 +46,7 @@ function DisplayFilteredUsers() {
 
   useEffect(() => {
     // Initialize swipe count from localStorage
-    // localStorage.clear();
+    //localStorage.clear();
     const storedSwipeCount = parseInt(
       localStorage.getItem(swipeCountKey) || "0",
       10
@@ -58,6 +58,7 @@ function DisplayFilteredUsers() {
   const updateSwipeCount = (newCount) => {
     setSwipeCount(newCount);
     localStorage.setItem(swipeCountKey, newCount.toString());
+    console.log(localStorage);
   };
 
   useEffect(() => {
@@ -127,6 +128,7 @@ function DisplayFilteredUsers() {
           }
         });
 
+        // prepend premium users again
         to_be_pushed.forEach((person) => {
           new_people.unshift(person);
         });
