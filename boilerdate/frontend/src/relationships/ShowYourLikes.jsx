@@ -58,7 +58,7 @@ function ShowYourLikes() {
     }
   }, [email]);
 
-  const handleCardClick = (cardName) => {
+  const handleButtonClick = (cardName) => {
     setSelectedCards((prevSelectdCards) => {
       const currentColorClass = prevSelectdCards[cardName] || "";
       const currentColorIndex = colorClasses.indexOf(currentColorClass);
@@ -162,6 +162,7 @@ function ShowYourLikes() {
           value="Change BackGround Color"
           name="change bg color"
           className="btn btn-primary border w-100"
+          onClick={() => handleButtonClick("backgroundColor")}
           //onClick={() =>
           // navigate("/relationships", { state: { email: email } })
           //}
