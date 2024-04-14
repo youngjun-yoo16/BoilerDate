@@ -61,7 +61,7 @@ function UpdateLifestyle() {
   const [selectedDiet, setSelectedDiet] = useState([]);
   const [selectedSocialmedia, setSelectedSocialmedia] = useState([]);
   const [selectedSleepinghabits, setSelectedSleepinghabits] = useState([]);
-  const [selectedLifestyle] = useState([]);
+  const [selectedLifestyle, setselectedLifestyle] = useState([]);
 
   const { state } = useLocation();
   const { email } = state || {};
@@ -72,7 +72,41 @@ function UpdateLifestyle() {
     if (email === undefined) {
       navigate(-1);
     }
-  });
+
+    const fetchLifestyle = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/fetchLifestyle/${email}`
+        );
+
+        if (response.data === "No user") {
+          console.log("No previous user.");
+          return;
+        }
+        if (response.data.success) {
+          console.log("success");
+          console.log(response.data.lifestyle);
+          console.log(response.data.lifestyle.length);
+
+          togglePet(response.data.lifestyle[0]);
+          toggleDrinking(response.data.lifestyle[1]);
+          toggleSmoking(response.data.lifestyle[2]);
+          toggleWorkout(response.data.lifestyle[3]);
+          toggleDiet(response.data.lifestyle[4]);
+          toggleSocialmedia(response.data.lifestyle[5]);
+          toggleSleep(response.data.lifestyle[6]);
+
+          //setBio(response.data.bio);
+        } else {
+          console.log("not success");
+        }
+      } catch (err) {
+        console.log("Error fetching user.");
+      }
+    };
+
+    fetchLifestyle();
+  }, [email, navigate]);
 
   function togglePet(pet) {
     if (selectedPets === pet) {

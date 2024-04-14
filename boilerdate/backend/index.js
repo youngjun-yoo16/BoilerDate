@@ -2416,3 +2416,23 @@ app.get("/fetchInterests/:email", async (req, res) => {
     console.error(err);
   }
 });
+
+app.get("/fetchLifestyle/:email", async (req, res) => {
+  try {
+    const user = await ProfileModel.findOne({
+      email: req.params.email,
+    });
+    //console.log(user);
+
+    if (user == null) {
+      res.json("No user");
+    } else {
+      res.json({
+        success: true,
+        lifestyle: user.lifestyle,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
