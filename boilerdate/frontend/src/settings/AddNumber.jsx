@@ -2,28 +2,13 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
-import { PhoneNumberUtil } from "google-libphonenumber";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faHeart,
-  faBan,
-  faEnvelope,
-  faCommentSms,
-  faCommentAlt,
-  faLongArrowAltRight,
-  faBell,
-  faLongArrowAltLeft,
-  faHandHoldingHeart,
-  faPhone,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { BASE_URL } from "../services/helper";
 
 function AddNumber() {
   const { state } = useLocation();
@@ -68,7 +53,7 @@ function AddNumber() {
     */
 
     axios
-      .post("http://localhost:3001/updatePhoneNumber", {
+      .post(`${BASE_URL}/updatePhoneNumber`, {
         email,
         phone,
       })

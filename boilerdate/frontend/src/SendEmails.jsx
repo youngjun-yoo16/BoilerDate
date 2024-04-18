@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
+import { BASE_URL } from "./services/helper";
 
 function SendEmails() {
   const [info, setInfo] = useState("");
@@ -24,7 +25,7 @@ function SendEmails() {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/sendUpdateEmails", {
+      .post(`${BASE_URL}/sendUpdateEmails`, {
         email,
         info,
       })

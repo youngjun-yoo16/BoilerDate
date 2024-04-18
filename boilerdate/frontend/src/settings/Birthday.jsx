@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCakeCandles } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Birthday() {
   const [dob, setDob] = useState();
@@ -35,7 +36,7 @@ function Birthday() {
       toast.error("You must be at least 18 years old to use our service!");
     } else {
       axios
-        .post("http://localhost:3001/updateBirthday", {
+        .post(`${BASE_URL}/updateBirthday`, {
           email,
           dob,
         })

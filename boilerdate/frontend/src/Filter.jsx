@@ -15,6 +15,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "./services/helper";
 
 function valuetext(value) {
   return `${value}°C`;
@@ -160,7 +161,7 @@ function Filter() {
     const fetchFilter = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchFilter/${email}`
+          `${BASE_URL}/fetchFilter/${email}`
         );
 
         if (response.data === "No filter status") {
@@ -237,7 +238,7 @@ function Filter() {
     }
 
     axios
-      .post("http://localhost:3001/updateFilterPreferences", {
+      .post(`${BASE_URL}/updateFilterPreferences`, {
         email,
         gender,
         age: ageRange,

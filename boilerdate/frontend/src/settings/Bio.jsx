@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Bio() {
   const [bio, setBio] = useState("");
@@ -24,7 +25,7 @@ function Bio() {
     const fetchBio = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchBio/${email}`
+          `${BASE_URL}/fetchBio/${email}`
         );
 
         if (response.data === "No user") {
@@ -50,7 +51,7 @@ function Bio() {
     console.log(bio);
 
     axios
-      .post("http://localhost:3001/updateBio", {
+      .post(`${BASE_URL}/updateBio`, {
         email,
         bio,
       })
