@@ -6,6 +6,8 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { fa4 } from "@fortawesome/free-solid-svg-icons";
 
 function GPA() {
   const [gpa, setGpa] = useState("");
@@ -64,7 +66,9 @@ function GPA() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25">
-        <h2>Update GPA</h2>
+        <h2>
+          <FontAwesomeIcon icon={fa4} /> Update GPA
+        </h2>
         <br />
         <form onSubmit={handleSubmit}>
           <div className="mb-3">

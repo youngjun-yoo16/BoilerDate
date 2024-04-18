@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import "../profile/LifestylePage.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBed } from "@fortawesome/free-solid-svg-icons";
 
 const petData = [
   "Dog",
@@ -205,7 +207,9 @@ function UpdateLifestyle() {
 
   return (
     <div className="container">
-      <h1 className="header-text">Update Lifestyle</h1>
+      <h1 className="header-text">
+        <FontAwesomeIcon icon={faBed} /> Update Lifestyle
+      </h1>
       <form onSubmit={handleSubmit}>
         <h2 className="subheader-text">Do you have any pets?</h2>
         <div className="selected-container">

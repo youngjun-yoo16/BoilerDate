@@ -6,6 +6,8 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVenusMars } from "@fortawesome/free-solid-svg-icons";
 
 function Gender() {
   const [gender, setGender] = useState("");
@@ -63,7 +65,9 @@ function Gender() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25">
-        <h2>Update Gender</h2>
+        <h2>
+          <FontAwesomeIcon icon={faVenusMars} /> Update Gender
+        </h2>
         <br />
         <form onSubmit={handleSubmit}>
           <div className="mb-3">

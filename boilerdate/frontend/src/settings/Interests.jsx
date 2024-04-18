@@ -6,6 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMapPin } from "@fortawesome/free-solid-svg-icons";
 
 const interestsData = [
   "Travel",
@@ -195,7 +197,9 @@ function UpdateInterests() {
 
   return (
     <div className="container">
-      <h1 className="header-text">Update Interests</h1>
+      <h1 className="header-text">
+        <FontAwesomeIcon icon={faMapPin} /> Update Interests
+      </h1>
       <form onSubmit={handleSubmit}>
         <div className="selectedInterests-container">
           {selectedInterests.map((interest, index) => (

@@ -6,6 +6,8 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMasksTheater } from "@fortawesome/free-solid-svg-icons";
 
 function Personality() {
   const [personality, setPersonality] = useState("");
@@ -64,7 +66,9 @@ function Personality() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25">
-        <h2>Update Personality</h2>
+        <h2>
+          <FontAwesomeIcon icon={faMasksTheater} /> Update Personality
+        </h2>
         <br />
         <form onSubmit={handleSubmit}>
           <div className="mb-3">

@@ -4,6 +4,8 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
 
 function Career() {
   const [career_goals, setCareerGoals] = useState("N/A");
@@ -62,7 +64,9 @@ function Career() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25">
-        <h2>Update Career Goals</h2>
+        <h2>
+          <FontAwesomeIcon icon={faBriefcase} /> Update Career Goals
+        </h2>
         <br />
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
