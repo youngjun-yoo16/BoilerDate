@@ -20,6 +20,7 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../../services/helper.js";
 
 function DisplayFilteredUsers() {
   const [currentProfileIndex, setCurrentProfileIndex] = useState(null);
@@ -65,7 +66,7 @@ function DisplayFilteredUsers() {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3001/fetchFilteredUsers",
+          `${BASE_URL}/fetchFilteredUsers`,
           { email }
         );
         setPeople(response.data);
@@ -92,7 +93,7 @@ function DisplayFilteredUsers() {
 
       const premiumStatusPromises = peoples.map((person) =>
         axios
-          .post("http://localhost:3001/fetchIfPremium", { email: person.email })
+          .post(`${BASE_URL}/fetchIfPremium`, { email: person.email })
           .then((response) => ({
             ...person,
             // premium status is always true if it was ever set to true
@@ -272,7 +273,7 @@ function DisplayFilteredUsers() {
       setCrrSwipeNum(1);
       const tempbool = false;
       const sendSwipes = await axios.post(
-        "http://localhost:3001/updatePremiumCondition",
+        "${BASE_URL}/updatePremiumCondition",
         { email, crrSwipeNum, tempbool }
       );
     } catch (err) {
@@ -288,7 +289,7 @@ function DisplayFilteredUsers() {
     if (newSwipeCount === 10) {
       // Call updatePremiumCondition every 10 swipes
       try {
-        await axios.post("http://localhost:3001/updatePremiumCondition", {
+        await axios.post(`${BASE_URL}/updatePremiumCondition`, {
           email,
         });
       } catch (err) {
@@ -311,7 +312,7 @@ function DisplayFilteredUsers() {
         try {
           const type = "like";
           const response = await axios.post(
-            "http://localhost:3001/sendNotificationEmail",
+            `${BASE_URL}/sendNotificationEmail`,
             { emailToSend, type }
           );
         } catch (err) {
@@ -321,7 +322,7 @@ function DisplayFilteredUsers() {
         try {
           const type = "like";
           const responseText = await axios.post(
-            "http://localhost:3001/sendNotificationText",
+            `${BASE_URL}/sendNotificationText`,
             { emailToSend, type }
           );
         } catch (err) {

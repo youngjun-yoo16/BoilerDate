@@ -1,31 +1,28 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Carousel from "react-bootstrap/Carousel";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CardProfile.css";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
+import { BASE_URL } from "../../services/helper";
 
 function CardProfile({ person }) {
   //const { state } = useLocation();
   //const { email } = state || {};
   const navigate = useNavigate();
 
-  const imageUrl = `http://localhost:3001/image/${person.email}`;
+  const imageUrl = `${BASE_URL}/image/${person.email}`;
   const handleDownload = async () => {
     let downloadUrl;
     try {
       const response = await fetch(
-        `http://localhost:3001/checkPdfExists/${person.email}`
+        `${BASE_URL}/checkPdfExists/${person.email}`
       );
       const data = await response.json();
       if (data.exists) {
-        downloadUrl = `http://localhost:3001/significant/${person.email}`;
+        downloadUrl = `${BASE_URL}/significant/${person.email}`;
       } else {
-        downloadUrl = `http://localhost:3001/significant/temp`;
+        downloadUrl = `${BASE_URL}/significant/temp`;
       }
       window.location.href = downloadUrl;
     } catch (error) {
@@ -36,7 +33,9 @@ function CardProfile({ person }) {
   /*
   useEffect(() => {
     axios
-      .post("http://localhost:3001/fetchProfile", { email })
+      .post("${BASE_URL}
+
+/fetchProfile", { email })
       .then((response) => {
         console.log(response.data);
 

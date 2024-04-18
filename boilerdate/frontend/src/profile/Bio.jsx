@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
+import { BASE_URL } from "../../services/helper";
 
 function SetupBio() {
   const [bio, setBio] = useState("");
@@ -39,7 +40,7 @@ function SetupBio() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/completeProfile", {
+      .post(`${BASE_URL}/completeProfile`, {
         email,
         gpa,
         major,

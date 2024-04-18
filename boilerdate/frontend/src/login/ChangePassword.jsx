@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BASE_URL } from "../../services/helper";
 
 function ChangePassword() {
   const { state } = useLocation();
@@ -67,13 +68,13 @@ function ChangePassword() {
     const encodedPassword = btoa(newPassword);
 
     await axios
-      .post("http://localhost:3001/verify", { tempCode })
+      .post(`${BASE_URL}/verify`, { tempCode })
       .then((result) => {
         if (result.data !== "Verification Success!") {
           toast.error("Incorrect code: verification failed");
         } else {
           axios
-            .post("http://localhost:3001/updatepassword", {
+            .post(`${BASE_URL}/updatepassword`, {
               email,
               encodedPassword,
             })

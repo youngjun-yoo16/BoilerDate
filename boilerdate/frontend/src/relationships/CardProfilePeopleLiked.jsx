@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { BASE_URL } from "../../services/helper";
 
 function CardProfilePeopleLiked() {
   const [person, setPerson] = useState([]);
@@ -34,19 +35,19 @@ function CardProfilePeopleLiked() {
   const goBack = () => {
     navigate(-1);
   };
-  const imageUrl = `http://localhost:3001/image/${email}`;
+  const imageUrl = `${BASE_URL}/image/${email}`;
 
   const handleDownload = async () => {
     let downloadUrl;
     try {
       const response = await fetch(
-        `http://localhost:3001/checkPdfExists/${email}`
+        `${BASE_URL}/checkPdfExists/${email}`
       );
       const data = await response.json();
       if (data.exists) {
-        downloadUrl = `http://localhost:3001/significant/${email}`;
+        downloadUrl = `${BASE_URL}/significant/${email}`;
       } else {
-        downloadUrl = `http://localhost:3001/significant/temp`;
+        downloadUrl = `${BASE_URL}/significant/temp`;
       }
       window.location.href = downloadUrl;
     } catch (error) {
@@ -59,7 +60,7 @@ function CardProfilePeopleLiked() {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3001/fetchUser",
+          "${BASE_URL}/fetchUser",
           { email }
         );
         
@@ -78,7 +79,7 @@ function CardProfilePeopleLiked() {
 
   useEffect(() => {
     axios
-      .post("http://localhost:3001/fetchUser", { email })
+      .post(`${BASE_URL}/fetchUser`, { email })
       .then((response) => {
         console.log(response.data[0].firstName);
         console.log(response.data);

@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faLongArrowAltLeft } from "@fortawesome/free-solid-svg-icons";
 import "./ShowYourLikes.css";
+import { BASE_URL } from "../../services/helper";
 
 function ShowPeopleLikedYou() {
   // required for keeping login status
@@ -80,12 +81,12 @@ function ShowPeopleLikedYou() {
 
   useEffect(() => {
     axios
-      .post("http://localhost:3001/fetchlikes", { email })
+      .post(`${BASE_URL}/fetchlikes`, { email })
       .then((res) => {
         console.log(res.data.receivedlikes.emails);
         setreceivedLikesList(res.data.receivedlikes.emails);
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error("Failed to fetch the users you liked!");
         console.error("fetch failed for liked users");
       });
@@ -94,7 +95,7 @@ function ShowPeopleLikedYou() {
   useEffect(() => {
     if (receivedLikesList.length > 0) {
       axios
-        .post("http://localhost:3001/fetchusernames", {
+        .post(`${BASE_URL}/fetchusernames`, {
           emails: receivedLikesList,
         })
         .then((res) => {
@@ -109,7 +110,7 @@ function ShowPeopleLikedYou() {
             }))
           );
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error("Failed to fetch usernames and GPAs!");
         });
     }
@@ -140,7 +141,7 @@ function ShowPeopleLikedYou() {
                   <Card sx={{ maxWidth: 160 }}>
                     <CardMedia
                       sx={{ height: 130 }}
-                      image={`http://localhost:3001/image/${user.email}`}
+                      image={`${BASE_URL}/image/${user.email}`}
                       title={user.username}
                     />
                     <CardContent>

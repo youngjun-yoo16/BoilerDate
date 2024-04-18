@@ -15,6 +15,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../../services/helper";
 
 function ShowBlocks() {
   // required for keeping login status
@@ -34,7 +35,7 @@ function ShowBlocks() {
   // get list of blocks
   useEffect(() => {
     axios
-      .post("http://localhost:3001/fetchblocks", { email })
+      .post(`${BASE_URL}/fetchblocks`, { email })
       .then((res) => {
         setBlocksList(res.data.emails);
       })
@@ -47,7 +48,7 @@ function ShowBlocks() {
   useEffect(() => {
     if (blocksList.length > 0) {
       axios
-        .post("http://localhost:3001/fetchusernames", { emails: blocksList })
+        .post(`${BASE_URL}/fetchusernames`, { emails: blocksList })
         .then((res) => {
           // restructure userData to array
           setUserData(
@@ -88,7 +89,7 @@ function ShowBlocks() {
                 <Card sx={{ maxWidth: 160 }}>
                   <CardMedia
                     sx={{ height: 130 }}
-                    image={`http://localhost:3001/image/${user.email}`}
+                    image={`${BASE_URL}/image/${user.email}`}
                     title={user.username}
                   />
                   <CardContent>

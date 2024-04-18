@@ -11,6 +11,7 @@ import axios from "axios";
 import { faFont } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../../services/helper";
 
 function ProfilePage() {
   const [fName, setfName] = useState("");
@@ -108,11 +109,11 @@ function ProfilePage() {
     }
   });
 
-  const imageUrl = `http://localhost:3001/image/${email}`;
+  const imageUrl = `${BASE_URL}/image/${email}`;
 
   useEffect(() => {
     axios
-      .post("http://localhost:3001/fetchProfile", { email })
+      .post(`${BASE_URL}/fetchProfile`, { email })
       .then((response) => {
         console.log(response.data);
 
@@ -149,13 +150,13 @@ function ProfilePage() {
     let downloadUrl;
     try {
       const response = await fetch(
-        `http://localhost:3001/checkPdfExists/${email}`
+        `${BASE_URL}/checkPdfExists/${email}`
       );
       const data = await response.json();
       if (data.exists) {
-        downloadUrl = `http://localhost:3001/significant/${email}`;
+        downloadUrl = `${BASE_URL}/significant/${email}`;
       } else {
-        downloadUrl = `http://localhost:3001/significant/temp`;
+        downloadUrl = `${BASE_URL}/significant/temp`;
       }
       window.location.href = downloadUrl;
     } catch (error) {
