@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapPin } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 const interestsData = [
   "Travel",
@@ -142,7 +143,7 @@ function UpdateInterests() {
     const fetchInterests = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchInterests/${email}`
+          `${BASE_URL}/fetchInterests/${email}`
         );
 
         if (response.data === "No user") {
@@ -184,7 +185,7 @@ function UpdateInterests() {
     }
     console.log(selectedInterests);
     axios
-      .post("http://localhost:3001/updateInterests", {
+      .post(`${BASE_URL}/updateInterests`, {
         email,
         selectedInterests,
       })

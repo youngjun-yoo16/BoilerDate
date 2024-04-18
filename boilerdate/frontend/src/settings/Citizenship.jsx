@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEarthAmericas } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Citizenship() {
   const [citizenship, setCitizenship] = useState("");
@@ -26,7 +27,7 @@ function Citizenship() {
     const fetchCitizenship = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchCitizenship/${email}`
+          `${BASE_URL}/fetchCitizenship/${email}`
         );
 
         if (response.data === "No user") {
@@ -52,7 +53,7 @@ function Citizenship() {
     console.log(citizenship);
 
     axios
-      .post("http://localhost:3001/updateCitizenship", {
+      .post(`${BASE_URL}/updateCitizenship`, {
         email,
         citizenship,
       })

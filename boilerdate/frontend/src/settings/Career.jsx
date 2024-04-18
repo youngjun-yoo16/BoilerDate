@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Career() {
   const [career_goals, setCareerGoals] = useState("N/A");
@@ -24,7 +25,7 @@ function Career() {
     const fetchCareer = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchCareer/${email}`
+          `${BASE_URL}/fetchCareer/${email}`
         );
 
         if (response.data === "No user") {
@@ -50,7 +51,7 @@ function Career() {
     console.log(career_goals);
 
     axios
-      .post("http://localhost:3001/updateCareer", {
+      .post(`${BASE_URL}/updateCareer`, {
         email,
         career_goals,
       })

@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fa4 } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function GPA() {
   const [gpa, setGpa] = useState("");
@@ -26,7 +27,7 @@ function GPA() {
     const fetchGpa = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchGpa/${email}`
+          `${BASE_URL}/fetchGpa/${email}`
         );
 
         if (response.data === "No user") {
@@ -52,7 +53,7 @@ function GPA() {
     console.log(gpa);
 
     axios
-      .post("http://localhost:3001/updateGPA", {
+      .post(`${BASE_URL}/updateGPA`, {
         email,
         gpa,
       })

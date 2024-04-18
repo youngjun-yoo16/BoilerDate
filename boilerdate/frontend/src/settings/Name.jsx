@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Name() {
   const [firstName, setFirstName] = useState("");
@@ -23,7 +24,7 @@ function Name() {
     const fetchName = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchName/${email}`
+          `${BASE_URL}/fetchName/${email}`
         );
 
         if (response.data === "No user") {
@@ -49,7 +50,7 @@ function Name() {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/updateName", {
+      .post(`${BASE_URL}/updateName`, {
         email,
         firstName,
         lastName,

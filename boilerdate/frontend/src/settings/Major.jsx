@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDesktop } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Major() {
   const [major, setMajor] = useState("");
@@ -26,7 +27,7 @@ function Major() {
     const fetchMajor = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchMajor/${email}`
+          `${BASE_URL}/fetchMajor/${email}`
         );
 
         if (response.data === "No user") {
@@ -52,7 +53,7 @@ function Major() {
     console.log(major);
 
     axios
-      .post("http://localhost:3001/updateMajor", {
+      .post(`${BASE_URL}/updateMajor`, {
         email,
         major,
       })

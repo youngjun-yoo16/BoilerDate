@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Notifications() {
   const [likePf, setLikePf] = useState("");
@@ -28,7 +29,7 @@ function Notifications() {
     const fetchNotifs = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchNotif/${email}`
+          `${BASE_URL}/fetchNotif/${email}`
         );
 
         if (response.data === "No notif status") {
@@ -59,7 +60,7 @@ function Notifications() {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/updateNotificationSettings", {
+      .post(`${BASE_URL}/updateNotificationSettings`, {
         email,
         likePf,
         matchPf,

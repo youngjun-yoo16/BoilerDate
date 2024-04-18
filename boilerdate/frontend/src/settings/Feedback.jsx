@@ -13,6 +13,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
+import BASE_URL from "../services/helper";
 
 const fontGroup = {
   fontFamily: "Arial, sans-serif",
@@ -48,7 +49,7 @@ function Feedback() {
     }
 
     axios
-      .post("http://localhost:3001/feedback", {
+      .post(`${BASE_URL}/feedback`, {
         email,
         text,
         rating,

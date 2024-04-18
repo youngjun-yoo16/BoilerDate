@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Linkedin() {
   const [linkedin, setLinkedin] = useState("N/A");
@@ -24,7 +25,7 @@ function Linkedin() {
     const fetchLinkedin = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchLinkedin/${email}`
+          `${BASE_URL}/fetchLinkedin/${email}`
         );
 
         if (response.data === "No user") {
@@ -50,7 +51,7 @@ function Linkedin() {
     console.log(linkedin);
 
     axios
-      .post("http://localhost:3001/updateLinkedin", {
+      .post(`${BASE_URL}/updateLinkedin`, {
         email,
         linkedin,
       })
