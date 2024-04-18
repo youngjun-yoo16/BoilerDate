@@ -71,7 +71,6 @@ function DisplayFilteredUsers() {
         );
         setPeople(response.data);
         updatePerformed.current = false;
-        //console.log(response.data);
       } catch (error) {
         toast.error("Failed to fetch profile data");
         console.error("Error fetching profile:", error);
@@ -80,7 +79,6 @@ function DisplayFilteredUsers() {
     if (!updatePerformed.current) {
       fetchData();
     }
-    //fetchData();
   }, [email]);
 
   useEffect(() => {
@@ -142,11 +140,9 @@ function DisplayFilteredUsers() {
   }, [peoples, email]);
 
   useEffect(() => {
-    // if(!isResetting) {
     setCurrentIndex(peoples.length - 1); // Update currentIndex based on the new length of peoples
     currentIndexRef.current = peoples.length - 1;
     setChildRefs(peoples.map(() => React.createRef()));
-    // }
   }, [peoples]);
 
   const updateCurrentIndex = (val) => {
@@ -166,15 +162,6 @@ function DisplayFilteredUsers() {
     if (direction === "left") {
       setDislikedUsers((prevUsers) => [...prevUsers, person]);
     }
-
-    //setCrrSwipeNum((crrSwipeNum) => crrSwipeNum + 1);
-
-    // Check if it's the last card
-    /*
-    if (newIndex < 0) {
-      resetCards();
-    }
-    */
     setCurrentProfileIndex(null);
   };
 
@@ -267,20 +254,6 @@ function DisplayFilteredUsers() {
 
   const swipe = async (buttonType) => {
     setShowCardProfile(false);
-
-    /*
-    try {
-      setCrrSwipeNum(1);
-      const tempbool = false;
-      const sendSwipes = await axios.post(
-        "${BASE_URL}/updatePremiumCondition",
-        { email, crrSwipeNum, tempbool }
-      );
-    } catch (err) {
-      console.log(crrSwipeNum);
-      console.error(err);
-    }
-    */
 
     const newSwipeCount = swipeCount + 1;
     updateSwipeCount(newSwipeCount);
