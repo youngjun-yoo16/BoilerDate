@@ -65,28 +65,6 @@ function CardProfilePeopleLiked() {
     }
   };
 
-  /*
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post(
-          "http://localhost:3001/fetchUser",
-          { email }
-        );
-        
-        console.log(response.data);
-        setPerson(response.data); 
-
-       // console.log(person[0].age);
-      } catch (error) {
-        toast.error("Failed to fetch profile data");
-        console.error("Error fetching profile:", error);
-      }
-    };
-    fetchData();
-  }, [email]);
-  */
-
   useEffect(() => {
     axios
       .post("http://localhost:3001/fetchUser", { email })
