@@ -337,8 +337,13 @@ function Filter() {
                     <MenuItem value={"Computer Science"}>
                       Computer Science
                     </MenuItem>
+                    <MenuItem value={"Data Science"}>Data Science</MenuItem>
                     <MenuItem value={"Engineering"}>Engineering</MenuItem>
                     <MenuItem value={"Math"}>Math</MenuItem>
+                    <MenuItem value={"Physics"}>Physics</MenuItem>
+                    <MenuItem value={"Polytechnic"}>Polytechnic</MenuItem>
+                    <MenuItem value={"Business"}>Business</MenuItem>
+                    <MenuItem value={"Liberal Arts"}>Liberal Arts</MenuItem>
                   </Select>
                 </FormControl>
               </div>
