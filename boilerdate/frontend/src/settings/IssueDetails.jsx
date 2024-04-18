@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -35,7 +36,7 @@ function IssueDetails() {
     console.log(issue);
 
     try {
-      const response = await axios.post("http://localhost:3001/issues", {
+      const response = await axios.post(`${BASE_URL}/issues`, {
         email,
         issue,
       });

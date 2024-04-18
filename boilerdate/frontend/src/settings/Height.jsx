@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPerson } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Height() {
   const [feet, setFeet] = useState(4);
@@ -23,7 +24,7 @@ function Height() {
     const fetchHeight = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchHeight/${email}`
+          `${BASE_URL}/fetchHeight/${email}`
         );
 
         if (response.data === "No user") {
@@ -52,7 +53,7 @@ function Height() {
     console.log(height);
 
     axios
-      .post("http://localhost:3001/updateHeight", {
+      .post(`${BASE_URL}/updateHeight`, {
         email,
         height,
       })

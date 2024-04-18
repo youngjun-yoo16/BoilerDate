@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 const petData = [
   "Dog",
@@ -78,7 +79,7 @@ function UpdateLifestyle() {
     const fetchLifestyle = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchLifestyle/${email}`
+          `${BASE_URL}/fetchLifestyle/${email}`
         );
 
         if (response.data === "No user") {
@@ -194,7 +195,7 @@ function UpdateLifestyle() {
     console.log(selectedLifestyle);
 
     axios
-      .post("http://localhost:3001/updateLifestyle", {
+      .post(`${BASE_URL}/updateLifestyle`, {
         email,
         selectedLifestyle,
       })

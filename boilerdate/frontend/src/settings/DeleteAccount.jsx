@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function DeleteAccount() {
   const [show, setShow] = useState(false);
@@ -29,7 +30,7 @@ function DeleteAccount() {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/deleteAccount", {
+      .post(`${BASE_URL}/deleteAccount`, {
         email,
       })
       .then((result) => {

@@ -8,6 +8,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVenusMars } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Gender() {
   const [gender, setGender] = useState("");
@@ -26,7 +27,7 @@ function Gender() {
     const fetchGender = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchGender/${email}`
+          `${BASE_URL}/fetchGender/${email}`
         );
 
         if (response.data === "No user") {
@@ -51,7 +52,7 @@ function Gender() {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/updateGender", {
+      .post(`${BASE_URL}/updateGender`, {
         email,
         gender,
       })

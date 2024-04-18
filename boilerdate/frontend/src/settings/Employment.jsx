@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Employment() {
   const [employment_history, setEmploymentHistory] = useState("N/A");
@@ -24,7 +25,7 @@ function Employment() {
     const fetchEmployment = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchEmployment/${email}`
+          `${BASE_URL}/fetchEmployment/${email}`
         );
 
         if (response.data === "No user") {
@@ -50,7 +51,7 @@ function Employment() {
     console.log(employment_history);
 
     axios
-      .post("http://localhost:3001/updateEmployment", {
+      .post(`${BASE_URL}/updateEmployment`, {
         email,
         employment_history,
       })

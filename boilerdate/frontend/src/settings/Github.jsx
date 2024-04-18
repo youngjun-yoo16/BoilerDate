@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Github() {
   const [github, setGithub] = useState("N/A");
@@ -24,7 +25,7 @@ function Github() {
     const fetchGithub = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchGithub/${email}`
+          `${BASE_URL}/fetchGithub/${email}`
         );
 
         if (response.data === "No user") {
@@ -50,7 +51,7 @@ function Github() {
     console.log(github);
 
     axios
-      .post("http://localhost:3001/updateGithub", {
+      .post(`${BASE_URL}/updateGithub`, {
         email,
         github,
       })

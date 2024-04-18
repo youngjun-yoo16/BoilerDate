@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGraduationCap } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Degree() {
   const [degree, setDegree] = useState("");
@@ -26,7 +27,7 @@ function Degree() {
     const fetchDegree = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchDegree/${email}`
+          `${BASE_URL}/fetchDegree/${email}`
         );
 
         if (response.data === "No user") {
@@ -52,7 +53,7 @@ function Degree() {
     console.log(degree);
 
     axios
-      .post("http://localhost:3001/updateDegree", {
+      .post(`${BASE_URL}/updateDegree`, {
         email,
         degree,
       })
