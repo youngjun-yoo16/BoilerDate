@@ -46,7 +46,7 @@ function DisplayFilteredUsers() {
 
   useEffect(() => {
     // Initialize swipe count from localStorage
-    //localStorage.clear();
+    localStorage.clear();
     const storedSwipeCount = parseInt(
       localStorage.getItem(swipeCountKey) || "0",
       10
