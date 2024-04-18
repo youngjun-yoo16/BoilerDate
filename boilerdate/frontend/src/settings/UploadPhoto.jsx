@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -53,10 +54,7 @@ function UpdatePhoto() {
     formData.append("email", email);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3001/uploadPhoto",
-        formData
-      );
+      const response = await axios.post(`${BASE_URL}/uploadPhoto`, formData);
 
       if (response.data.success) {
         toast.success("Photo uploaded successfully!");

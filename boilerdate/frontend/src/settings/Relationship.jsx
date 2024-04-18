@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Relationship() {
   const [relationship, setRelationship] = useState("");
@@ -26,7 +27,7 @@ function Relationship() {
     const fetchRelationship = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchRelationship/${email}`
+          `${BASE_URL}/fetchRelationship/${email}`
         );
 
         if (response.data === "No user") {
@@ -52,7 +53,7 @@ function Relationship() {
     console.log(relationship);
 
     axios
-      .post("http://localhost:3001/updateRelationship", {
+      .post(`${BASE_URL}/updateRelationship`, {
         email,
         relationship,
       })

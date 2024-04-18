@@ -10,6 +10,7 @@ import "./Privacy.css";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Privacy() {
   const [gpa, setGpa] = useState("yes");
@@ -39,9 +40,7 @@ function Privacy() {
 
     const fetchPrivacy = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3001/fetchPrivacy/${email}`
-        );
+        const response = await axios.get(`${BASE_URL}/fetchPrivacy/${email}`);
         //console.log(response.data.gpa);
 
         if (response.data === "No privacy status") {
@@ -80,7 +79,7 @@ function Privacy() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/privacy", {
+      .post(`${BASE_URL}/privacy`, {
         email,
         gpa,
         major,

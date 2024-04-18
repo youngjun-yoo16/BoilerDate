@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagicWandSparkles } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Skills() {
   const [skills, setSkills] = useState("N/A");
@@ -23,9 +24,7 @@ function Skills() {
 
     const fetchSkills = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3001/fetchSkills/${email}`
-        );
+        const response = await axios.get(`${BASE_URL}/fetchSkills/${email}`);
 
         if (response.data === "No user") {
           console.log("No previous user.");
@@ -50,7 +49,7 @@ function Skills() {
     console.log(skills);
 
     axios
-      .post("http://localhost:3001/updateSkills", {
+      .post(`${BASE_URL}/updateSkills`, {
         email,
         skills,
       })

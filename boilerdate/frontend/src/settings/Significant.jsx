@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIdBadge } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Significant() {
   //const [github, setGithub] = useState("N/A");
@@ -52,10 +53,7 @@ function Significant() {
     formData.append("email", email);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3001/uploadPDFfile",
-        formData
-      );
+      const response = await axios.post(`${BASE_URL}/uploadPDFfile`, formData);
       if (response.data.success) {
         toast.success("Your file has been successfully uploaded!");
         // do not navigate here; use button to navigate back to setting.

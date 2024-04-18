@@ -15,6 +15,7 @@ import {
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { BASE_URL } from "../services/helper";
 
 function Settings() {
   const { state } = useLocation();
@@ -32,9 +33,7 @@ function Settings() {
 
     const fetchPremiumStatus = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3001/premiumTrue/${email}`
-        );
+        const response = await axios.get(`${BASE_URL}/premiumTrue/${email}`);
         // if premium_condition is true, show the button
         if (response.data === "true") {
           setShowPremium(true);

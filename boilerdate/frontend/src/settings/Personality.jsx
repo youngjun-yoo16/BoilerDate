@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMasksTheater } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../services/helper";
 
 function Personality() {
   const [personality, setPersonality] = useState("");
@@ -26,7 +27,7 @@ function Personality() {
     const fetchPersonality = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/fetchPersonality/${email}`
+          `${BASE_URL}/fetchPersonality/${email}`
         );
 
         if (response.data === "No user") {
@@ -52,7 +53,7 @@ function Personality() {
     console.log(personality);
 
     axios
-      .post("http://localhost:3001/updatePersonality", {
+      .post(`${BASE_URL}/updatePersonality`, {
         email,
         personality,
       })
