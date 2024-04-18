@@ -7,9 +7,19 @@ import "./ProfilePage.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
-import { faFont } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import { 
+  faFont,
+  faMagnifyingGlass,
+  faUser,
+  faHeart,
+  faBook,
+  faShapes,
+  faLink,
+  faShirt
+ } from "@fortawesome/free-solid-svg-icons";
+
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 function ProfilePage() {
@@ -69,7 +79,7 @@ function ProfilePage() {
     "text-bg-danger",
     "text-bg-warning",
     "text-bg-info",
-    "text-bg-light",
+    "text-bg-light", 
     "text-bg-dark",
   ];
 
@@ -176,9 +186,9 @@ function ProfilePage() {
         `}
       </style>
       <Carousel data-bs-theme="dark">
-        <Carousel.Item>
+        
           <img className="d-block w-100" src={imageUrl} alt="First slide" />
-        </Carousel.Item>
+        
       </Carousel>
 
       <h1 className="header-text">
@@ -190,7 +200,7 @@ function ProfilePage() {
       
         onClick={() => handleCardClick("LookingFor")}
       >
-          <div className="card-header">Looking for</div>
+          <div className="card-header"><FontAwesomeIcon icon={faMagnifyingGlass} />  Looking for</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item custom-font-style">
               {profile.relationship}
@@ -220,7 +230,7 @@ function ProfilePage() {
       
         onClick={() => handleCardClick("feature")}
       >
-          <div className="card-header">My Significant Feature</div>
+          <div className="card-header"><FontAwesomeIcon icon={faHeart} />  My Significant Feature</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
               <button onClick={handleDownload} className="btn btn-primary">
@@ -236,7 +246,7 @@ function ProfilePage() {
       
         onClick={() => handleCardClick("Basics")}
       >
-          <div className="card-header">Basics</div>
+          <div className="card-header"><FontAwesomeIcon icon={faUser} /> Basics</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
               Height: {convertHeight(profile.height)}
@@ -255,7 +265,7 @@ function ProfilePage() {
       
         onClick={() => handleCardClick("academics")}
       >
-          <div className="card-header">Academics & Career</div>
+          <div className="card-header"><FontAwesomeIcon icon={faBook} />  Academics & Career</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">Major: {profile.major}</li>
             <li className="list-group-item">Degree: {profile.degree}</li>
@@ -275,7 +285,7 @@ function ProfilePage() {
       
         onClick={() => handleCardClick("interests")}
       >
-          <div className="card-header">Interests</div>
+          <div className="card-header"><FontAwesomeIcon icon={faShapes} />  Interests</div>
           <ul className="list-group list-group-flush">
           <li className="list-group-item">
             <div className="selected-containers">
@@ -294,7 +304,7 @@ function ProfilePage() {
       
         onClick={() => handleCardClick("lifestyle")}
       >
-          <div className="card-header">Lifestyle</div>
+          <div className="card-header"><FontAwesomeIcon icon={faShirt} />  Lifestyle</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
               Pets
@@ -346,7 +356,7 @@ function ProfilePage() {
       
         onClick={() => handleCardClick("links")}
       >
-          <div className="card-header">Links</div>
+          <div className="card-header"><FontAwesomeIcon icon={faLink} />  Links</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">GitHub: {profile.github}</li>
             <li className="list-group-item">LinkedIn: {profile.linkedin}</li>

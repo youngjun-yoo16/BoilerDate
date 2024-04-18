@@ -7,6 +7,17 @@ import "./CardProfilePeopleLiked.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faFont,
+  faMagnifyingGlass,
+  faUser,
+  faHeart,
+  faBook,
+  faShapes,
+  faLink,
+  faShirt
+ } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 function CardProfilePeopleLiked() {
@@ -118,7 +129,7 @@ function CardProfilePeopleLiked() {
           <form onSubmit={handleSubmit}>
             {person[0].relationship && (
               <div className="card">
-                <div class="card-header">Looking for</div>
+                <div class="card-header"><FontAwesomeIcon icon={faMagnifyingGlass} /> Looking for</div>
                 <ul class="list-group list-group-flush">
                   <li className="list-group-item custom-font-style">
                     {person[0].relationship}
@@ -143,7 +154,7 @@ function CardProfilePeopleLiked() {
             )}
 
             <div className="card">
-              <div className="card-header">My Significant Feature</div>
+              <div className="card-header"><FontAwesomeIcon icon={faHeart} /> My Significant Feature</div>
               <ul className="list-group list-group-flush">
                 <li className="list-group-item">
                   <button onClick={handleDownload} className="btn btn-primary">
@@ -158,7 +169,7 @@ function CardProfilePeopleLiked() {
               person[0].personality ||
               person[0].citizenship) && (
               <div className="card">
-                <div class="card-header">Basics</div>
+                <div class="card-header"><FontAwesomeIcon icon={faUser} /> Basics</div>
                 <ul class="list-group list-group-flush">
                   {person[0].height && (
                     <li class="list-group-item">
@@ -186,7 +197,7 @@ function CardProfilePeopleLiked() {
               person[0].skills ||
               person[0].career_goals) && (
               <div className="card">
-                <div class="card-header">Academics & Career</div>
+                <div class="card-header"><FontAwesomeIcon icon={faBook} /> Academics & Career</div>
                 <ul class="list-group list-group-flush">
                   {person[0].major && (
                     <li class="list-group-item">Major: {person[0].major}</li>
@@ -216,7 +227,7 @@ function CardProfilePeopleLiked() {
 
             {person[0].interests && (
               <div className="card">
-                <div class="card-header">Interests</div>
+                <div class="card-header"><FontAwesomeIcon icon={faShapes} /> Interests</div>
                 <ul class="list-group list-group-flush">
                   <div className="selected-containers">
                     {person[0].interests.map((interest, index) => (
@@ -231,7 +242,7 @@ function CardProfilePeopleLiked() {
 
             {person[0].lifestyle && (
               <div className="card">
-                <div class="card-header">Lifestyle</div>
+                <div class="card-header"><FontAwesomeIcon icon={faShirt} /> Lifestyle</div>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">
                     Pets
@@ -295,7 +306,7 @@ function CardProfilePeopleLiked() {
 
             {(person[0].github || person[0].linkedin) && (
               <div className="card">
-                <div class="card-header">Links</div>
+                <div class="card-header"><FontAwesomeIcon icon={faLink} /> Links</div>
                 <ul class="list-group list-group-flush">
                   {person[0].github && (
                     <li class="list-group-item">GitHub: {person[0].github}</li>
