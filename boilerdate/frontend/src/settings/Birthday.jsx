@@ -3,6 +3,8 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 
 function Birthday() {
   const [dob, setDob] = useState();
@@ -48,7 +50,9 @@ function Birthday() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25">
-        <h2>Update Birthday</h2>
+        <h2>
+          <FontAwesomeIcon icon={faCakeCandles} /> Update Birthday
+        </h2>
         <br />
         <form onSubmit={handleSubmit}>
           <div className="mb-3">

@@ -338,6 +338,9 @@ function Filter() {
                       Computer Science
                     </MenuItem>
                     <MenuItem value={"Data Science"}>Data Science</MenuItem>
+                    <MenuItem value={"Artificial Intelligence"}>
+                      Artificial Intelligence
+                    </MenuItem>
                     <MenuItem value={"Engineering"}>Engineering</MenuItem>
                     <MenuItem value={"Math"}>Math</MenuItem>
                     <MenuItem value={"Physics"}>Physics</MenuItem>

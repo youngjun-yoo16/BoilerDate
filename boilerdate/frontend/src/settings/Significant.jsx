@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import React from "react";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faIdBadge } from "@fortawesome/free-solid-svg-icons";
 
 function Significant() {
   //const [github, setGithub] = useState("N/A");
@@ -71,7 +71,8 @@ function Significant() {
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-50">
         <h2>
-          Please upload a PDF file that shows your most significant feature
+          <FontAwesomeIcon icon={faIdBadge} /> Please upload a PDF file that
+          shows your most significant feature
         </h2>
         <form
           onSubmit={handleSubmit}

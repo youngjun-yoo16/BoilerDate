@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
 
 function Name() {
   const [firstName, setFirstName] = useState("");
@@ -62,7 +64,9 @@ function Name() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25">
-        <h2>Update Name</h2>
+        <h2>
+          <FontAwesomeIcon icon={faPencil} /> Update Name
+        </h2>
         <br />
         <form onSubmit={handleSubmit}>
           <div className="mb-3">

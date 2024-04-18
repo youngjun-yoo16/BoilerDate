@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -71,7 +73,9 @@ function UpdatePhoto() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-50">
-        <h2>&nbsp;Update photo</h2>
+        <h2>
+          <FontAwesomeIcon icon={faImage} /> Update photo
+        </h2>
         <form
           onSubmit={handleSubmit}
           className="m-3"

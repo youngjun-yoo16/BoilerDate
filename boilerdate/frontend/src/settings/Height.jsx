@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPerson } from "@fortawesome/free-solid-svg-icons";
 
 function Height() {
   const [feet, setFeet] = useState(4);
@@ -64,7 +66,9 @@ function Height() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25">
-        <h2>Update Height</h2>
+        <h2>
+          <FontAwesomeIcon icon={faPerson} /> Update Height
+        </h2>
         <br />
         <form onSubmit={handleSubmit}>
           <div className="mb-3">

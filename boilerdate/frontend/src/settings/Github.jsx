@@ -4,6 +4,8 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 function Github() {
   const [github, setGithub] = useState("N/A");
@@ -62,7 +64,9 @@ function Github() {
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25">
-        <h2>Update GitHub</h2>
+        <h2>
+          <FontAwesomeIcon icon={faGithub} /> Update GitHub
+        </h2>
         <br />
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
