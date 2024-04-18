@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
-import { BASE_URL } from "../../services/helper";
+import { BASE_URL } from "../services/helper";
 
 function SetupBio() {
   const [bio, setBio] = useState("");

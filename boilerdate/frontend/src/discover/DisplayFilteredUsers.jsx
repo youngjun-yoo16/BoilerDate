@@ -20,7 +20,7 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
-import { BASE_URL } from "../../services/helper.js";
+import { BASE_URL } from "../services/helper.js";
 
 function DisplayFilteredUsers() {
   const [currentProfileIndex, setCurrentProfileIndex] = useState(null);

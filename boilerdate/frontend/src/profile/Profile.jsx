@@ -21,7 +21,7 @@ import {
  } from "@fortawesome/free-solid-svg-icons";
 
 import { faHome } from "@fortawesome/free-solid-svg-icons";
-import { BASE_URL } from "../../services/helper";
+import { BASE_URL } from "../services/helper";
 
 function ProfilePage() {
   const [fName, setfName] = useState("");

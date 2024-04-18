@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
 import "./ShowYourLikes.css";
-import { BASE_URL } from "../../services/helper";
+import { BASE_URL } from "../services/helper";
 
 function ShowYourLikes() {
   // required for keeping login status

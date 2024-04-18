@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BASE_URL } from "../services/helper";
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post("http://localhost:3001/verifyemail", { email })
+      .post(`${BASE_URL}/verifyemail`, { email })
       .then((result) => {
         if (result.data === "Verification Success!") {
           toast.error("Account already exists");
@@ -20,7 +21,7 @@ function Signup() {
             toast.error("Please provide a valid Purdue email address");
           } else {
             axios
-              .post("http://localhost:3001/sendverificationcode", { email })
+              .post(`${BASE_URL}/sendverificationcode`, { email })
               .then(() => {
                 navigate("/verify", { state: { email: email } });
               })

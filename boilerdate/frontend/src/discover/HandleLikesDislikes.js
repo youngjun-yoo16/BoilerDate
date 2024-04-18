@@ -1,6 +1,6 @@
 import axios from "axios";
 //require("dotenv").config()
-import { BASE_URL } from "../../services/helper";
+import { BASE_URL } from "../services/helper";
 
 async function HandleUserLikesAndDislikes(email, target, lod) {
   // user with given email has liked the target email

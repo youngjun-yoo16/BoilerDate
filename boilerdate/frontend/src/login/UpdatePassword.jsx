@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey } from "@fortawesome/free-solid-svg-icons";
-import { BASE_URL } from "../../services/helper";
+import { BASE_URL } from "../services/helper";
 
 function UpdatePassword() {
   const { state } = useLocation();

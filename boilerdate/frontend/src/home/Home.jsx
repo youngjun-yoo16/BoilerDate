@@ -18,7 +18,7 @@ import React from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { BASE_URL } from "../../services/helper";
+import { BASE_URL } from "../services/helper";
 
 function Home() {
   const navigate = useNavigate();

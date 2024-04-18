@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./CardProfile.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BASE_URL } from "../../services/helper";
+import { BASE_URL } from "../services/helper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { 
   faFont,

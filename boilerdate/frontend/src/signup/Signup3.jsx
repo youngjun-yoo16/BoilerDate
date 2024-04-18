@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 // Assuming uploadphoto.jsx is in the same directory
+import { BASE_URL } from "../services/helper";
 
 function Signup3() {
   const [newPassword, setNewPassword] = useState("");
@@ -55,7 +56,7 @@ function Signup3() {
     const password = btoa(newPassword)
 
     axios
-      .post("http://localhost:3001/signup", {
+      .post(`${BASE_URL}/signup`, {
         email,
         password,
         firstName,

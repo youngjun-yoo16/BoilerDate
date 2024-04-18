@@ -6,6 +6,7 @@ import VerificationInput from "react-verification-input";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { BASE_URL } from "../services/helper";
 
 function Verify() {
   const [tempCode, setTempCode] = useState("");
@@ -21,7 +22,7 @@ function Verify() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/sendverificationcode", { email })
+      .post(`${BASE_URL}/sendverificationcode`, { email })
       .then((result) => {
         console.log(result);
       })
@@ -31,7 +32,7 @@ function Verify() {
   const handleVerify = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/verify", { tempCode })
+      .post(`${BASE_URL}/verify`, { tempCode })
       .then((result) => {
         if (result.data === "Verification Success!") {
           console.log(result);

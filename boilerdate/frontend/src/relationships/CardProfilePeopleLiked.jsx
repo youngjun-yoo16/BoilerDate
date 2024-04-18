@@ -19,7 +19,7 @@ import {
   faShirt
  } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { BASE_URL } from "../../services/helper";
+import { BASE_URL } from "../services/helper";
 
 function CardProfilePeopleLiked() {
   const [person, setPerson] = useState([]);

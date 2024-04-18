@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "../../services/helper";
+import { BASE_URL } from "../services/helper";
 
 async function Block(email, target) {
   axios
