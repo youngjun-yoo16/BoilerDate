@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
 import "./ShowYourLikes.css";
+import { BASE_URL } from "../../services/helper";
 
 function ShowYourLikes() {
   // required for keeping login status
@@ -81,7 +82,7 @@ function ShowYourLikes() {
   // get list of likes
   useEffect(() => {
     axios
-      .post("http://localhost:3001/fetchlikes", { email })
+      .post(`${BASE_URL}/fetchlikes`, { email })
       .then((res) => {
         console.log(res.data.liked.emails);
         setLikesList(res.data.liked.emails);
@@ -96,7 +97,7 @@ function ShowYourLikes() {
   useEffect(() => {
     if (likesList.length > 0) {
       axios
-        .post("http://localhost:3001/fetchusernames", { emails: likesList })
+        .post(`${BASE_URL}/fetchusernames`, { emails: likesList })
         .then((res) => {
           // restructure userData to array
           setUserData(
@@ -139,7 +140,7 @@ function ShowYourLikes() {
                   <Card sx={{ maxWidth: 180 }}>
                     <CardMedia
                       sx={{ height: 130 }}
-                      image={`http://localhost:3001/image/${user.email}`}
+                      image={`${BASE_URL}/image/${user.email}`}
                       title={user.username}
                     />
                     <CardContent>

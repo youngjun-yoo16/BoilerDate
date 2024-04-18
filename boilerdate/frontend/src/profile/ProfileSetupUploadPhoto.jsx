@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BASE_URL } from "../../services/helper";
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -52,7 +53,7 @@ function UploadPhoto() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/uploadPhoto",
+        `${BASE_URL}/uploadPhoto`,
         formData
       );
 

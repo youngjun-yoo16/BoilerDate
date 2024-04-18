@@ -18,6 +18,7 @@ import React from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { BASE_URL } from "../../services/helper";
 
 function Home() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ function Home() {
     const fetchPremiumStatus = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/premium/${email}`
+          `${BASE_URL}/premium/${email}`
         );
         // if premium_condition is true, show the button
         if (response.data && response.data.premium !== undefined) {
@@ -55,7 +56,7 @@ function Home() {
     const fetchIfPremium = async () => {
       try {
         axios
-          .post("http://localhost:3001/fetchIfPremium", {
+          .post(`${BASE_URL}/fetchIfPremium`, {
             email,
           })
           .then((result) => {
@@ -97,7 +98,7 @@ function Home() {
 
     // send request to update the premium status
     axios
-      .post("http://localhost:3001/upgradeToPremium", {
+      .post(`${BASE_URL}/upgradeToPremium`, {
         email,
       })
       .then((result) => {

@@ -20,6 +20,7 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../../services/helper.js";
 
 function DisplayFilteredUsers() {
   const [currentProfileIndex, setCurrentProfileIndex] = useState(null);
@@ -46,7 +47,7 @@ function DisplayFilteredUsers() {
 
   useEffect(() => {
     // Initialize swipe count from localStorage
-    //localStorage.clear();
+    localStorage.clear();
     const storedSwipeCount = parseInt(
       localStorage.getItem(swipeCountKey) || "0",
       10
@@ -65,12 +66,11 @@ function DisplayFilteredUsers() {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3001/fetchFilteredUsers",
+          `${BASE_URL}/fetchFilteredUsers`,
           { email }
         );
         setPeople(response.data);
         updatePerformed.current = false;
-        //console.log(response.data);
       } catch (error) {
         toast.error("Failed to fetch profile data");
         console.error("Error fetching profile:", error);
@@ -79,7 +79,6 @@ function DisplayFilteredUsers() {
     if (!updatePerformed.current) {
       fetchData();
     }
-    //fetchData();
   }, [email]);
 
   useEffect(() => {
@@ -92,7 +91,7 @@ function DisplayFilteredUsers() {
 
       const premiumStatusPromises = peoples.map((person) =>
         axios
-          .post("http://localhost:3001/fetchIfPremium", { email: person.email })
+          .post(`${BASE_URL}/fetchIfPremium`, { email: person.email })
           .then((response) => ({
             ...person,
             // premium status is always true if it was ever set to true
@@ -141,11 +140,9 @@ function DisplayFilteredUsers() {
   }, [peoples, email]);
 
   useEffect(() => {
-    // if(!isResetting) {
     setCurrentIndex(peoples.length - 1); // Update currentIndex based on the new length of peoples
     currentIndexRef.current = peoples.length - 1;
     setChildRefs(peoples.map(() => React.createRef()));
-    // }
   }, [peoples]);
 
   const updateCurrentIndex = (val) => {
@@ -165,15 +162,6 @@ function DisplayFilteredUsers() {
     if (direction === "left") {
       setDislikedUsers((prevUsers) => [...prevUsers, person]);
     }
-
-    //setCrrSwipeNum((crrSwipeNum) => crrSwipeNum + 1);
-
-    // Check if it's the last card
-    /*
-    if (newIndex < 0) {
-      resetCards();
-    }
-    */
     setCurrentProfileIndex(null);
   };
 
@@ -267,20 +255,6 @@ function DisplayFilteredUsers() {
   const swipe = async (buttonType) => {
     setShowCardProfile(false);
 
-    /*
-    try {
-      setCrrSwipeNum(1);
-      const tempbool = false;
-      const sendSwipes = await axios.post(
-        "http://localhost:3001/updatePremiumCondition",
-        { email, crrSwipeNum, tempbool }
-      );
-    } catch (err) {
-      console.log(crrSwipeNum);
-      console.error(err);
-    }
-    */
-
     const newSwipeCount = swipeCount + 1;
     updateSwipeCount(newSwipeCount);
     console.log(newSwipeCount);
@@ -288,7 +262,7 @@ function DisplayFilteredUsers() {
     if (newSwipeCount === 10) {
       // Call updatePremiumCondition every 10 swipes
       try {
-        await axios.post("http://localhost:3001/updatePremiumCondition", {
+        await axios.post(`${BASE_URL}/updatePremiumCondition`, {
           email,
         });
       } catch (err) {
@@ -311,7 +285,7 @@ function DisplayFilteredUsers() {
         try {
           const type = "like";
           const response = await axios.post(
-            "http://localhost:3001/sendNotificationEmail",
+            `${BASE_URL}/sendNotificationEmail`,
             { emailToSend, type }
           );
         } catch (err) {
@@ -321,7 +295,7 @@ function DisplayFilteredUsers() {
         try {
           const type = "like";
           const responseText = await axios.post(
-            "http://localhost:3001/sendNotificationText",
+            `${BASE_URL}/sendNotificationText`,
             { emailToSend, type }
           );
         } catch (err) {

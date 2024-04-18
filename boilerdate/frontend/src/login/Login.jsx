@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BASE_URL } from "../../services/helper";
 
 function Login() {
   const flow = true;
@@ -15,7 +16,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/login", { email, password })
+      .post(`${BASE_URL}/login`, { email, password })
       .then((result) => {
         console.log(result);
         if (result.data === "Admin") {

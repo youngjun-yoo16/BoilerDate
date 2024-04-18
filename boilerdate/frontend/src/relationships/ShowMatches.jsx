@@ -18,6 +18,7 @@ import Grid from "@mui/material/Grid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import "./ShowYourLikes.css";
+import { BASE_URL } from "../../services/helper";
 
 function ShowMatches() {
   // required for keeping login status
@@ -81,7 +82,7 @@ function ShowMatches() {
   // get list of matches
   useEffect(() => {
     axios
-      .post("http://localhost:3001/fetchlikes", { email })
+      .post(`${BASE_URL}/fetchlikes`, { email })
       .then((res) => {
         console.log(res.data.matches.emails);
         setMatchesList(res.data.matches.emails);
@@ -95,7 +96,7 @@ function ShowMatches() {
   useEffect(() => {
     if (matchesList.length > 0) {
       axios
-        .post("http://localhost:3001/fetchusernames", { emails: matchesList })
+        .post(`${BASE_URL}/fetchusernames`, { emails: matchesList })
         .then((res) => {
           // restructure userData to array
           setUserData(
@@ -118,7 +119,7 @@ function ShowMatches() {
     e.stopPropagation();
     try {
       const response = await axios.post(
-        "http://localhost:3001/deleteUnmatched",
+        `${BASE_URL}/deleteUnmatched`,
         {
           email: email, // email
           emailToRemove: emailToRemove, // The email of the user to unmatch
@@ -160,7 +161,7 @@ function ShowMatches() {
                   <Card sx={{ maxWidth: 160 }}>
                     <CardMedia
                       sx={{ height: 130 }}
-                      image={`http://localhost:3001/image/${user.email}`}
+                      image={`${BASE_URL}/image/${user.email}`}
                       title={user.username}
                     />
                     <CardContent>

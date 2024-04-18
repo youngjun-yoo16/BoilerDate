@@ -1,31 +1,39 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Carousel from "react-bootstrap/Carousel";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CardProfile.css";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
+import { BASE_URL } from "../../services/helper";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faFont,
+  faMagnifyingGlass,
+  faUser,
+  faHeart,
+  faBook,
+  faShapes,
+  faLink,
+  faShirt
+ } from "@fortawesome/free-solid-svg-icons";
 
 function CardProfile({ person }) {
   //const { state } = useLocation();
   //const { email } = state || {};
   const navigate = useNavigate();
 
-  const imageUrl = `http://localhost:3001/image/${person.email}`;
+  const imageUrl = `${BASE_URL}/image/${person.email}`;
   const handleDownload = async () => {
     let downloadUrl;
     try {
       const response = await fetch(
-        `http://localhost:3001/checkPdfExists/${person.email}`
+        `${BASE_URL}/checkPdfExists/${person.email}`
       );
       const data = await response.json();
       if (data.exists) {
-        downloadUrl = `http://localhost:3001/significant/${person.email}`;
+        downloadUrl = `${BASE_URL}/significant/${person.email}`;
       } else {
-        downloadUrl = `http://localhost:3001/significant/temp`;
+        downloadUrl = `${BASE_URL}/significant/temp`;
       }
       window.location.href = downloadUrl;
     } catch (error) {
@@ -36,7 +44,9 @@ function CardProfile({ person }) {
   /*
   useEffect(() => {
     axios
-      .post("http://localhost:3001/fetchProfile", { email })
+      .post("${BASE_URL}
+
+/fetchProfile", { email })
       .then((response) => {
         console.log(response.data);
 
@@ -75,7 +85,7 @@ function CardProfile({ person }) {
       <form onSubmit={handleSubmit}>
         {person.relationship && (
           <div className="card">
-            <div class="card-header">Looking for</div>
+            <div class="card-header"><FontAwesomeIcon icon={faMagnifyingGlass} />  Looking for</div>
             <ul class="list-group list-group-flush">
               <li className="list-group-item custom-font-style">
                 {person.relationship}
@@ -100,7 +110,7 @@ function CardProfile({ person }) {
         )}
 
         <div className="card">
-          <div className="card-header">My Significant Feature</div>
+          <div className="card-header"><FontAwesomeIcon icon={faHeart} /> My Significant Feature</div>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
               <button onClick={handleDownload} className="btn btn-primary">
@@ -113,7 +123,7 @@ function CardProfile({ person }) {
 
         {(person.height || person.personality || person.citizenship) && (
           <div className="card">
-            <div class="card-header">Basics</div>
+            <div class="card-header"><FontAwesomeIcon icon={faUser} /> Basics</div>
             <ul class="list-group list-group-flush">
               {person.height && (
                 <li class="list-group-item">
@@ -141,7 +151,7 @@ function CardProfile({ person }) {
           person.skills ||
           person.career_goals) && (
           <div className="card">
-            <div class="card-header">Academics & Career</div>
+            <div class="card-header"><FontAwesomeIcon icon={faBook} /> Academics & Career</div>
             <ul class="list-group list-group-flush">
               {person.major && (
                 <li class="list-group-item">Major: {person.major}</li>
@@ -169,7 +179,7 @@ function CardProfile({ person }) {
 
         {person.interests && (
           <div className="card">
-            <div class="card-header">Interests</div>
+            <div class="card-header"><FontAwesomeIcon icon={faShapes} />   Interests</div>
             <ul class="list-group list-group-flush">
               <div className="selected-containers">
                 {person.interests.map((interest, index) => (
@@ -184,7 +194,7 @@ function CardProfile({ person }) {
 
         {person.lifestyle && (
           <div className="card">
-            <div class="card-header">Lifestyle</div>
+            <div class="card-header"><FontAwesomeIcon icon={faShirt} />  Lifestyle</div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 Pets
@@ -234,7 +244,7 @@ function CardProfile({ person }) {
 
         {(person.github || person.linkedin) && (
           <div className="card">
-            <div class="card-header">Links</div>
+            <div class="card-header"><FontAwesomeIcon icon={faLink} />  Links</div>
             <ul class="list-group list-group-flush">
               {person.github && (
                 <li class="list-group-item">GitHub: {person.github}</li>
