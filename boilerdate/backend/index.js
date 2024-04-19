@@ -61,8 +61,8 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-app.get("/", (res) => {
-  res.json("BoilerDate Backend");
+app.get("/", (req, res) => {
+  console.log("Hello World");
 });
 
 app.post("/signup", (req, res) => {
