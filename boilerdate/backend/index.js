@@ -55,6 +55,12 @@ mongoose
     console.log("error connecting to MongoDB:", error.message);
   });
 
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 app.post("/signup", (req, res) => {
   UserModel.create(req.body)
     .then((users) => res.json(users))
@@ -146,7 +152,7 @@ app.post("/fetchUser", async (req, res) => {
             age: convertedAge,
             firstName: user.firstName,
             lastName: user.lastName,
-            imageUrl: `http://localhost:3001/image/${email}`,
+            imageUrl: `${process.env.BASE_URL}/image/${email}`,
           }; // Include the calculated age and name
         }
       }
@@ -724,12 +730,6 @@ app.get("/checkPdfExists/:email", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3001;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
 // liked dislike endpoint; only store data to db and returns nothing
 app.post("/manageldm", async (req, res) => {
   try {
@@ -1044,13 +1044,13 @@ app.post("/deleteUnmatched", async (req, res) => {
 
     // Get my profile information
     const profileResponse = await axios.post(
-      "http://localhost:3001/fetchProfile",
+      `${process.env.BASE_URL}/fetchProfile`,
       { email: email }
     );
 
     // Get the target's profile information
     const targetResponse = await axios.post(
-      "http://localhost:3001/fetchProfile",
+      `${process.env.BASE_URL}/fetchProfile`,
       { email: emailToRemove }
     );
 
@@ -1647,7 +1647,7 @@ app.post("/fetchFilteredUsers", async (req, res) => {
               age: convertedAge,
               firstName: user.firstName,
               lastName: user.lastName,
-              imageUrl: `http://localhost:3001/image/${email}`,
+              imageUrl: `${process.env.BASE_URL}/image/${email}`,
             }; // Include the calculated age and name
           }
         }
