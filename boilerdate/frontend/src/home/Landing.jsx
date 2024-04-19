@@ -29,7 +29,7 @@ function Landing() {
             className="btn btn-outline-dark border w-100"
           >
             <span className="w-52 relative px-5 py-2.5 transition-all ease-in duration-75 rounded-md group-hover:bg-opacity-0">
-              Log in
+              Log innnnnn
             </span>
           </button>
           <br />
