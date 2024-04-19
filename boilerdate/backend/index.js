@@ -62,7 +62,7 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (res) => {
-  res.send("BoilerDate Backend");
+  res.json("BoilerDate Backend");
 });
 
 app.post("/signup", (req, res) => {
