@@ -114,7 +114,7 @@ function Home() {
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
       <div className="bg-white p-3 rounded w-25 border border-primary">
         <h2>
-          <FontAwesomeIcon icon={faHome} /> Deploy Test
+          <FontAwesomeIcon icon={faHome} /> Home
         </h2>
         <br />
         <div className="mb-3">
