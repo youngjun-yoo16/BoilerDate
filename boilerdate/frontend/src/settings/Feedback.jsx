@@ -13,7 +13,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
-import BASE_URL from "../services/helper";
+import { BASE_URL } from "../services/helper";
 
 const fontGroup = {
   fontFamily: "Arial, sans-serif",
