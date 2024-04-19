@@ -61,9 +61,9 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-app.get("/", (req, res) => {
+/*app.get("/", (req, res) => {
   //console.log("Hello World");
-});
+});*/
 
 app.post("/signup", (req, res) => {
   UserModel.create(req.body)
