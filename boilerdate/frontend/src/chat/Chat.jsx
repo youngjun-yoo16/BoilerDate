@@ -67,6 +67,7 @@ function Chat() {
         projectID={'abc439ce-2427-47df-b650-8a22f618970a'}
         userName={username}
         userSecret={userSecret}
+        offset={-4}
         onNewMessage={(chatid, message) => {
           console.log(chatid);
           console.log(message);
