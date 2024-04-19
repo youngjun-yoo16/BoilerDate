@@ -62,7 +62,7 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) => {
-  console.log("Hello World");
+  //console.log("Hello World");
 });
 
 app.post("/signup", (req, res) => {
