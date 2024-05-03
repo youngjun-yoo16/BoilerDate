@@ -40,8 +40,8 @@ Currently, there are many dating apps available, such as Tinder and Bumble. Howe
 
 ####  `Deployment`
 
-- [Render](https://render.com/)
-- [Netlify](https://www.netlify.com/)
+- Backend - [Render](https://render.com/)
+- Frontend - [Netlify](https://www.netlify.com/)
 
 ## Features
 
